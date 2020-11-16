@@ -1,0 +1,42 @@
+{
+  "name": "tutor-tool",
+  "version": "1.0.0",
+  "description": "The new Tutor-Tool for the Informatics Department of the Technical University of Munich",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phresp/tutor-tool.git"
+  },
+  "keywords": [
+    "MERN"
+  ],
+  "author": "Philipp Reindl-Spanner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phresp/tutor-tool/issues"
+  },
+  "homepage": "https://github.com/phresp/tutor-tool#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.14",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "prettier": "^2.1.2",
+    "validator": "^13.1.17"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
