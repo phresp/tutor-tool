@@ -17,11 +17,7 @@ class Landing extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
-                <h1 className="display-3 mb-4">Verleih-Tool</h1>
-                <p>
-                  des Tutorbetriebs der Fakultät für Informatik an der TU
-                  München
-                </p>
+                <h1 className="display-3 mb-4">Tutor-Tool</h1>
                 <hr />
                 <Link to="/register" className="btn btn-lg btn-info mr-2">
                   Registrieren

@@ -34,7 +34,6 @@ router.post("/register", (req, res) => {
       return res.status(400).json(errors);
     } else {
       const newUser = new User({
-        name: req.body.name,
         password: req.body.password,
         email: req.body.email,
       });
@@ -80,8 +79,6 @@ router.post("/login", (req, res) => {
         //User Matched
         const payload = {
           id: user.id,
-          name: user.name,
-          avatar: user.avatar,
         };
         // Sign Token
         jwt.sign(

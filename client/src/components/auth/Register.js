@@ -9,7 +9,6 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
       email: "",
       password: "",
       password2: "",
@@ -39,7 +38,6 @@ class Register extends Component {
   onSubmit(e) {
     e.preventDefault();
     const newUser = {
-      name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2,
@@ -63,27 +61,14 @@ class Register extends Component {
               </p>
               <form noValidate onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="Name"
-                  type="text"
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  name="name"
-                  error={errors.name}
-                />
-
-                <TextFieldGroup
                   placeholder="Email Address"
                   type="email"
                   onChange={this.onChange}
                   value={this.state.email}
                   name="email"
                   error={errors.email}
-                  info={
-                    "This site uses Gravatar so if you want a profile image, use\n" +
-                    "a Gravatar email"
-                  }
+                  info={"Please use your lrz-email"}
                 />
-
                 <TextFieldGroup
                   placeholder="Password"
                   type="password"
