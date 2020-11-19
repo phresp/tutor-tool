@@ -15,13 +15,10 @@ const ProfileSchema = new Schema({
     type: String,
     required: true,
   },
-  sex: {
+  gender: {
     type: String,
   },
   matrikelnummer: {
-    type: String,
-  },
-  fieldofstudy: {
     type: String,
   },
   birthday: {
@@ -29,6 +26,10 @@ const ProfileSchema = new Schema({
     required: true,
   },
   nationality: {
+    type: String,
+    required: true,
+  },
+  nationality2: {
     type: String,
   },
   picture: {
