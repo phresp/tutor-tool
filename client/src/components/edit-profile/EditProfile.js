@@ -4,8 +4,10 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
+import moment from "moment";
 
-import { createProfile } from "../../actions/profileActions";
+import { createProfile, getCurrentProfile } from "../../actions/profileActions";
+import isEmpty from "../../validation/is-empty";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -25,9 +27,43 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.profile.profile) {
+      const profile = nextProps.profile.profile;
+
+      //If profile field doesn't exist, make empty string
+      profile.lastname = !isEmpty(profile.lastname) ? profile.lastname : "";
+      profile.firstname = !isEmpty(profile.firstname) ? profile.firstname : "";
+      profile.gender = !isEmpty(profile.gender) ? profile.gender : "";
+      profile.matrikelnummer = !isEmpty(profile.matrikelnummer)
+        ? profile.matrikelnummer
+        : "";
+      profile.natrionality = !isEmpty(profile.natrionality)
+        ? profile.natrionality
+        : "";
+      profile.nationality2 = !isEmpty(profile.nationality2)
+        ? profile.nationality2
+        : "";
+      profile.birthday = !isEmpty(profile.birthday) ? profile.birthday : "";
+
+      //Set component fields state
+      this.setState({
+        lastname: profile.lastname,
+        firstname: profile.firstname,
+        gender: profile.gender,
+        matrikelnummer: profile.matrikelnummer,
+        nationality: profile.nationality,
+        nationality2: profile.nationality2,
+        birthday: profile.birthday,
+      });
     }
   }
 
@@ -65,7 +101,8 @@ class CreateProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Create Your Profile</h1>
+              <h1 className="display-4 text-center">Edit Your Profile</h1>
+
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
@@ -94,7 +131,7 @@ class CreateProfile extends Component {
                   type={"date"}
                   placeholder="* Birthday"
                   onChange={this.onChange}
-                  value={this.state.birthday}
+                  value={moment.utc(this.state.rückgabe).format("YYYY-MM-DD")}
                   name="birthday"
                   error={errors.birthday}
                 />
@@ -144,6 +181,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createProfile })(
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
   withRouter(CreateProfile)
 );
