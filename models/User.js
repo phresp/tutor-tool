@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  Role: {
+  role: {
     type: String,
     default: "Student",
   },

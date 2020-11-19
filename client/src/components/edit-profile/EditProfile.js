@@ -131,7 +131,7 @@ class CreateProfile extends Component {
                   type={"date"}
                   placeholder="* Birthday"
                   onChange={this.onChange}
-                  value={moment.utc(this.state.rückgabe).format("YYYY-MM-DD")}
+                  value={moment.utc(this.state.birthday).format("YYYY-MM-DD")}
                   name="birthday"
                   error={errors.birthday}
                 />

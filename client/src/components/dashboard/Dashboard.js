@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import ProfileActions from "./ProfileActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
 
@@ -29,8 +31,10 @@ class Dashboard extends Component {
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
           <div>
-            <p className="lead text-muted">Welcome {profile.vorname}</p>
+            <p className="lead text-muted">Welcome {profile.firstname}</p>
             <ProfileActions />
+            <Experience experience={profile.experience} />
+            <Education education={profile.education} />
             <div style={{ marginBottom: "60px" }} />
             <button
               onClick={this.onDeleteClick.bind(this)}
@@ -45,7 +49,6 @@ class Dashboard extends Component {
         // User is logged in but hast no profile
         dashboardContent = (
           <div>
-            <p className="lead text-muted">Welcome {user.name}</p>
             <p>You have not yet setup a profile, please add some info</p>
             <Link to="/create-profile" className="btn btn-lg btn-info">
               Create Profile

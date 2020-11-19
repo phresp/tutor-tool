@@ -33,7 +33,7 @@ module.exports = function validateProfileInput(data) {
     errors.nationality = "Yout Nationality is required";
   }
 
-  if (Validator.isEmpty(data.firstname)) {
+  if (Validator.isEmpty(data.matrikelnummer)) {
     errors.matrikelnummer = "Your Matrikelnummer is required";
   }
 

@@ -79,6 +79,7 @@ router.post("/login", (req, res) => {
         //User Matched
         const payload = {
           id: user.id,
+          role: user.role,
         };
         // Sign Token
         jwt.sign(

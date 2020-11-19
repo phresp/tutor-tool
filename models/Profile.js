@@ -20,6 +20,7 @@ const ProfileSchema = new Schema({
   },
   matrikelnummer: {
     type: String,
+    required: true,
   },
   birthday: {
     type: Date,
@@ -78,7 +79,7 @@ const ProfileSchema = new Schema({
         type: String,
         required: true,
       },
-      edufieldofstudy: {
+      fieldofstudy: {
         type: String,
         required: true,
       },
