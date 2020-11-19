@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
-import ProfileActions from "./ProfileActions";
+import StudentProfileActions from "./StudentProfileActions";
+import AdminProfileActions from "./AdminProfileActions";
 import Experience from "./Experience";
 import Education from "./Education";
 
@@ -29,22 +30,33 @@ class Dashboard extends Component {
     } else {
       //Check if logged in user has profile data
       if (Object.keys(profile).length > 0) {
-        dashboardContent = (
-          <div>
-            <p className="lead text-muted">Welcome {profile.firstname}</p>
-            <ProfileActions />
-            <Experience experience={profile.experience} />
-            <Education education={profile.education} />
-            <div style={{ marginBottom: "60px" }} />
-            <button
-              onClick={this.onDeleteClick.bind(this)}
-              className="btn btn-danger"
-            >
-              {" "}
-              Delete My Account
-            </button>
-          </div>
-        );
+        if (user.role === "Student") {
+          dashboardContent = (
+            <div>
+              <p className="lead text-muted">Welcome {profile.firstname}</p>
+              <StudentProfileActions />
+              <div>
+                <Experience experience={profile.experience} />
+                <Education education={profile.education} />
+              </div>
+              <div style={{ marginBottom: "60px" }} />
+              <button
+                onClick={this.onDeleteClick.bind(this)}
+                className="btn btn-danger"
+              >
+                {" "}
+                Delete My Account
+              </button>
+            </div>
+          );
+        } else {
+          dashboardContent = (
+            <div>
+              <p className="lead text-muted">Welcome {profile.firstname}</p>
+              <AdminProfileActions />
+            </div>
+          );
+        }
       } else {
         // User is logged in but hast no profile
         dashboardContent = (

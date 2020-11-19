@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const ProfileActions = () => {
+const StudentProfileActions = () => {
   return (
     <div className="dash-buttons">
       <Link to="/edit-profile" className="btn btn-light">
@@ -17,4 +17,4 @@ const ProfileActions = () => {
   );
 };
 
-export default ProfileActions;
+export default StudentProfileActions;
