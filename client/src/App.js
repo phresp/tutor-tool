@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import PrivateRoute from "./components/common/PrivateRoute";
+import PrivateAdminRoute from "./components/common/PrivateAdminRoute";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -19,6 +20,7 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
 import AddEducation from "./components/add-credentials/AddEducation";
 import AddExperience from "./components/add-credentials/AddExperience";
+import TutorOverview from "./components/tutor-overview/TutorOverview";
 
 import "./App.css";
 
@@ -80,6 +82,14 @@ class App extends Component {
                   exact
                   path="/add-education"
                   component={AddEducation}
+                />
+              </Switch>
+
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/tutor-overview"
+                  component={TutorOverview}
                 />
               </Switch>
             </div>
