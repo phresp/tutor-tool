@@ -2,6 +2,8 @@
 package-lock.json
 .prettierrc.json
 /client/node_modules
+/config/keys_dev.js
+
 
 # Logs
 logs

@@ -15,7 +15,7 @@ const validateExperienceInput = require("../../validation/experience");
 const validateEducationInput = require("../../validation/education");
 
 // @route   GET /api/profile/test
-// @desc    Tess users route
+// @desc    Test profile route
 // @access  Public
 router.get("/test", (req, res) => res.json({ msg: "Profile Works" }));
 
@@ -42,20 +42,32 @@ router.get(
 
 // @route   GET api/profile/all
 // @desc    Get all Profiles
-// @access  Public
-router.get("/all", (req, res) => {
-  const errors = {};
-  Profile.find()
-    .populate("user", ["email"])
-    .then((profiles) => {
-      if (!profiles) {
-        errors.profile = "There are no profiles";
-        return res.status(404).json(errors);
-      }
-      res.json(profiles);
-    })
-    .catch((err) => res.status(404).json({ profile: "There are no profiles" }));
-});
+// @access  Private
+router.get(
+  "/all",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Check authorization
+    const errors = {};
+    if (!(req.user.role === "Admin" || "Supervisor")) {
+      errors.profile = "Unzureichende Berechtigung";
+      res.status(500).json(errors.profile);
+    }
+
+    Profile.find()
+      .populate("user", ["email"])
+      .then((profiles) => {
+        if (!profiles) {
+          errors.profile = "There are no profiles";
+          return res.status(404).json(errors);
+        }
+        res.json(profiles);
+      })
+      .catch((err) =>
+        res.status(404).json({ profile: "There are no profiles" })
+      );
+  }
+);
 
 // @route   POST /api/profile
 // @desc    Create or Update User Profile
