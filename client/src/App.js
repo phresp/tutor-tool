@@ -21,6 +21,7 @@ import EditProfile from "./components/edit-profile/EditProfile";
 import AddEducation from "./components/add-credentials/AddEducation";
 import AddExperience from "./components/add-credentials/AddExperience";
 import TutorOverview from "./components/tutor-overview/TutorOverview";
+import SemesterOverview from "./components/semester/SemesterOverview";
 
 import "./App.css";
 
@@ -90,6 +91,14 @@ class App extends Component {
                   exact
                   path="/tutor-overview"
                   component={TutorOverview}
+                />
+              </Switch>
+
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/semester-overview"
+                  component={SemesterOverview}
                 />
               </Switch>
             </div>
