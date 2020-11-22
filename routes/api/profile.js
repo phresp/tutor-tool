@@ -49,10 +49,10 @@ router.get(
   (req, res) => {
     //Check authorization
     const errors = {};
-    if (!(req.user.role === "Admin" || "Supervisor")) {
-      errors.profile = "Unzureichende Berechtigung";
-      res.status(500).json(errors.profile);
-    }
+    // if (!(req.user.role === "Admin" || "Supervisor")) {
+    //   errors.profile = "Unzureichende Berechtigung";
+    //   res.status(401).json(errors.profile);
+    // }
 
     Profile.find()
       .populate("user", ["email"])
