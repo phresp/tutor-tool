@@ -1,7 +1,6 @@
 import axios from "axios";
 
-import { GET_SEMESTER } from "./types";
-import { setProfileLoading } from "./profileActions";
+import { GET_SEMESTER, GET_ERRORS } from "./types";
 
 //Get all semester
 export const getSemester = () => (dispatch) => {
@@ -12,6 +11,22 @@ export const getSemester = () => (dispatch) => {
       dispatch({
         type: GET_SEMESTER,
         payload: {},
+      })
+    );
+};
+
+//Create Semester
+export const createSemester = (semesterData, history) => (dispatch) => {
+  console.log(semesterData);
+  axios
+    .post("/api/semester", semesterData)
+    .then((res) => {
+      history.push("/semester-overview");
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
       })
     );
 };

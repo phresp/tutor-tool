@@ -49,7 +49,7 @@ router.get("/:id", (req, res) => {
 });
 
 // @route   POST /api/semester
-// @desc    Create or Update Semester
+// @desc    Create
 // @access  Private
 router.post(
   "/",

@@ -70,8 +70,8 @@ class SemesterOverview extends Component {
           <Link to={"/dashboard"} className={"btn btn-light"}>
             back
           </Link>
-          <h1 className={"diuplay-4"}>Semester Overview</h1>
-          <Link to="/new-semester" className="btn btn-info">
+          <h1 className={"display-4"}>Semester Overview</h1>
+          <Link to="/create-semester" className="btn btn-info">
             <i className="fas fa-user-circle text-primary"></i> New Semester
           </Link>
           <h6></h6>

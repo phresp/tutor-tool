@@ -13,6 +13,9 @@ module.exports = function validateSemesterInput(data) {
   if (Validator.isEmpty(data.name)) {
     errors.name = "Semester field is required";
   }
+  if (!Validator.isLength(data.name, { min: 4, max: 4 })) {
+    errors.name = "Semester Name must be 4 characters";
+  }
   if (Validator.isEmpty(data.from)) {
     errors.from = "From field is required";
   }
