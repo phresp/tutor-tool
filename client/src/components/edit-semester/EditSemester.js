@@ -156,6 +156,7 @@ EditSemester.propTypes = (state) => ({
 const mapStateToProps = (state) => ({
   semester: state.semester,
   errors: state.errors,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { editSemester, getSemesterById })(

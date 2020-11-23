@@ -95,7 +95,6 @@ class App extends Component {
                   component={TutorOverview}
                 />
               </Switch>
-
               <Switch>
                 <PrivateAdminRoute
                   exact
