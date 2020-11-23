@@ -1,15 +1,15 @@
 import axios from "axios";
 
-import { GET_SEMESTER, GET_ERRORS } from "./types";
+import { GET_SEMESTER, GET_ERRORS, GET_SEMESTERS } from "./types";
 
 //Get all semester
-export const getSemester = () => (dispatch) => {
+export const getSemesters = () => (dispatch) => {
   axios
     .get("/api/semester/")
-    .then((res) => dispatch({ type: GET_SEMESTER, payload: res.data }))
+    .then((res) => dispatch({ type: GET_SEMESTERS, payload: res.data }))
     .catch((err) =>
       dispatch({
-        type: GET_SEMESTER,
+        type: GET_SEMESTERS,
         payload: {},
       })
     );

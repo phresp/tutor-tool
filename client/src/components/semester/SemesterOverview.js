@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
-import { getSemester } from "../../actions/semesterActions";
+import { getSemesters } from "../../actions/semesterActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import moment from "moment";
@@ -10,8 +10,8 @@ import moment from "moment";
 const { SearchBar } = Search;
 
 class SemesterOverview extends Component {
-  componentDidMount() {
-    this.props.getSemester();
+  componentWillMount() {
+    this.props.getSemesters();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,8 +21,8 @@ class SemesterOverview extends Component {
   }
 
   render() {
-    const { semester } = this.props.semester;
-    const semArray = semester ? semester : [];
+    const { semesters } = this.props.semester;
+    const semArray = semesters ? semesters : [];
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
@@ -96,7 +96,7 @@ class SemesterOverview extends Component {
 }
 
 SemesterOverview.propTypes = {
-  getSemester: PropTypes.func.isRequired,
+  getSemesters: PropTypes.func.isRequired,
   semester: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -106,6 +106,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getSemester })(
+export default connect(mapStateToProps, { getSemesters })(
   withRouter(SemesterOverview)
 );
