@@ -23,6 +23,7 @@ import AddExperience from "./components/add-credentials/AddExperience";
 import TutorOverview from "./components/tutor-overview/TutorOverview";
 import SemesterOverview from "./components/semester/SemesterOverview";
 import CreateSemester from "./components/create-semester/CreateSemester";
+import EditSemester from "./components/edit-semester/EditSemester";
 
 import "./App.css";
 
@@ -107,6 +108,13 @@ class App extends Component {
                   exact
                   path="/create-semester"
                   component={CreateSemester}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/edit-semester/:id"
+                  component={EditSemester}
                 />
               </Switch>
             </div>

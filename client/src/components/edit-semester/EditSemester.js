@@ -3,10 +3,12 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
+import moment from "moment";
 
-import { createSemester } from "../../actions/semesterActions";
+import { editSemester, getSemesterById } from "../../actions/semesterActions";
+import isEmpty from "../../validation/is-empty";
 
-class CreateSemester extends Component {
+class EditSemester extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,9 +24,34 @@ class CreateSemester extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getSemesterById(this.props.match.params.id);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.semester) {
+      const semester = nextProps.semester.semester;
+
+      //If semester field does not exist make empty string
+      semester.name = !isEmpty(semester.name) ? semester.name : "";
+      semester.from = !isEmpty(semester.from) ? semester.from : "";
+      semester.to = !isEmpty(semester.to) ? semester.to : "";
+      semester.coursefrom = !isEmpty(semester.coursefrom)
+        ? semester.coursefrom
+        : "";
+      semester.courseto = !isEmpty(semester.courseto) ? semester.courseto : "";
+
+      this.setState({
+        name: semester.name,
+        from: semester.from,
+        to: semester.to,
+        coursefrom: semester.coursefrom,
+        courseto: semester.courseto,
+      });
     }
   }
 
@@ -38,7 +65,11 @@ class CreateSemester extends Component {
       courseto: this.state.courseto,
     };
 
-    this.props.createSemester(semesterData, this.props.history);
+    this.props.editSemester(
+      this.props.match.params.id,
+      semesterData,
+      this.props.history
+    );
   }
 
   onChange(e) {
@@ -48,7 +79,7 @@ class CreateSemester extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="createSemester">
+      <div className="editSemester">
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-8 m-auto">
@@ -71,7 +102,7 @@ class CreateSemester extends Component {
                   type={"date"}
                   placeholder="* From"
                   onChange={this.onChange}
-                  value={this.state.from}
+                  value={moment.utc(this.state.from).format("YYYY-MM-DD")}
                   name="from"
                   error={errors.from}
                   info="Semester Start"
@@ -80,7 +111,7 @@ class CreateSemester extends Component {
                   type={"date"}
                   placeholder="* Till"
                   onChange={this.onChange}
-                  value={this.state.to}
+                  value={moment.utc(this.state.to).format("YYYY-MM-DD")}
                   name="to"
                   error={errors.to}
                   info="Semester Till"
@@ -89,7 +120,7 @@ class CreateSemester extends Component {
                   type={"date"}
                   placeholder="* Courses From"
                   onChange={this.onChange}
-                  value={this.state.coursefrom}
+                  value={moment.utc(this.state.coursefrom).format("YYYY-MM-DD")}
                   name="coursefrom"
                   error={errors.coursefrom}
                   info="Semester Courses Start"
@@ -98,7 +129,7 @@ class CreateSemester extends Component {
                   type={"date"}
                   placeholder="* Courses Till"
                   onChange={this.onChange}
-                  value={this.state.courseto}
+                  value={moment.utc(this.state.courseto).format("YYYY-MM-DD")}
                   name="courseto"
                   error={errors.courseto}
                   info="Semester Courses Till"
@@ -117,7 +148,7 @@ class CreateSemester extends Component {
   }
 }
 
-CreateSemester.propTypes = (state) => ({
+EditSemester.propTypes = (state) => ({
   semester: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 });
@@ -127,6 +158,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createSemester })(
-  withRouter(CreateSemester)
+export default connect(mapStateToProps, { editSemester, getSemesterById })(
+  withRouter(EditSemester)
 );

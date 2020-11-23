@@ -26,7 +26,7 @@ class SemesterOverview extends Component {
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
-        <Link to={`/semester/${row._id}`} className="btn btn-info">
+        <Link to={`/edit-semester/${row._id}`} className="btn btn-info">
           Bearbeiten
         </Link>
       );
