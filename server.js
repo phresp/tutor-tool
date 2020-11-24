@@ -7,6 +7,7 @@ const path = require("path");
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const semester = require("./routes/api/semester");
+const metacourse = require("./routes/api/metacourse");
 
 const app = express();
 
@@ -37,6 +38,7 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/semester", semester);
+app.use("/api/metacourse", metacourse);
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {
