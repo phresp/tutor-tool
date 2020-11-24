@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
-import { getSemesters } from "../../actions/semesterActions";
+import { getMetacourses } from "../../actions/metacourseActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import moment from "moment";
 
 const { SearchBar } = Search;
 
-class SemesterOverview extends Component {
+class MetacourseOverview extends Component {
   componentWillMount() {
-    this.props.getSemesters();
+    this.props.getMetacourses();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,12 +21,12 @@ class SemesterOverview extends Component {
   }
 
   render() {
-    const { semesters } = this.props.semester;
-    const semArray = semesters ? semesters : [];
+    const { metacourses } = this.props.metacourse;
+    const metaArray = metacourses ? metacourses : [];
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
-        <Link to={`/edit-semester/${row._id}`} className="btn btn-info">
+        <Link to={`/edit-metacourse/${row._id}`} className="btn btn-info">
           Edit
         </Link>
       );
@@ -39,22 +39,33 @@ class SemesterOverview extends Component {
     const columns = [
       {
         dataField: "name",
-        text: "Semester",
+        text: "Metacourse",
         sort: true,
       },
-      { dataField: "from", text: "From:", sort: true, formatter: dateFormat },
-      { dataField: "to", text: "To:", sort: true, formatter: dateFormat },
       {
-        dataField: "coursefrom",
-        text: "Courses from:",
+        dataField: "scheme",
+        text: "Scheme",
         sort: true,
-        formatter: dateFormat,
       },
       {
-        dataField: "courseto",
-        text: "Courses till:",
+        dataField: "fondsnumber",
+        text: "Fondsnumber",
         sort: true,
-        formatter: dateFormat,
+      },
+      {
+        dataField: "costcentre",
+        text: "Costcentre",
+        sort: true,
+      },
+      {
+        dataField: "abbreviation",
+        text: "Abbreviation:",
+        sort: true,
+      },
+      {
+        dataField: "module",
+        text: "Module",
+        sort: true,
       },
       {
         text: "Edit",
@@ -65,19 +76,19 @@ class SemesterOverview extends Component {
     ];
 
     return (
-      <div className="Semester Overview">
+      <div className="Metacourse Overview">
         <div className="container-fluid">
           <Link to={"/dashboard"} className={"btn btn-light"}>
             back
           </Link>
-          <h1 className={"display-4"}>Semester Overview</h1>
-          <Link to="/create-semester" className="btn btn-info">
-            <i className="fas fa-user-circle text-primary"></i> New Semester
+          <h1 className={"display-4"}>Metacourse Overview</h1>
+          <Link to="/create-metacourse" className="btn btn-info">
+            <i className="fas fa-user-circle text-primary"></i> New Metacourse
           </Link>
           <h6></h6>
           <ToolkitProvider
             keyField="id"
-            data={semArray}
+            data={metaArray}
             columns={columns}
             search
           >
@@ -95,17 +106,17 @@ class SemesterOverview extends Component {
   }
 }
 
-SemesterOverview.propTypes = {
-  getSemesters: PropTypes.func.isRequired,
-  semester: PropTypes.object.isRequired,
+MetacourseOverview.propTypes = {
+  getMetacourses: PropTypes.func.isRequired,
+  metacourse: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  semester: state.semester,
+  metacourse: state.metacourse,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getSemesters })(
-  withRouter(SemesterOverview)
+export default connect(mapStateToProps, { getMetacourses })(
+  withRouter(MetacourseOverview)
 );
