@@ -17,7 +17,7 @@ class Navbar extends Component {
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/dashboard">
-            Übersicht
+            Dashboard
           </Link>
         </li>
         <li className="nav-item">
@@ -36,12 +36,12 @@ class Navbar extends Component {
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/register">
-            Registrieren
+            Register
           </Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/login">
-            Einloggen
+            Login
           </Link>
         </li>
       </ul>
