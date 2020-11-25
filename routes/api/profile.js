@@ -88,7 +88,7 @@ router.post(
     profileFields.user = req.user.id;
     profileFields.lastname = req.body.lastname;
     profileFields.firstname = req.body.firstname;
-    profileFields.sex = req.body.sex;
+    profileFields.gender = req.body.gender;
     profileFields.matrikelnummer = req.body.matrikelnummer;
     profileFields.fieldofstudy = req.body.fieldofstudy;
     profileFields.birthday = req.body.birthday;

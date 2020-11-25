@@ -15,9 +15,20 @@ const ContractSchema = new Schema({
     type: Schema.Types.ObjectID,
     ref: "application",
   },
-  status: {
+  contractstart: {
+    type: Date,
+  },
+  contractend: {
+    type: Date,
+  },
+  hours: {
+    type: Number,
+  },
+  degree: {
     type: String,
-    default: "Applied",
+  },
+  newcontract: {
+    type: String,
   },
   date: {
     type: Date,

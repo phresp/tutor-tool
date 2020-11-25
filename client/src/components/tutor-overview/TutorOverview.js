@@ -23,6 +23,13 @@ class Profiles extends Component {
     //Data for Table
     const entries = profiles ? profiles : [];
 
+    const defaultSorted = [
+      {
+        dataField: "lastname",
+        order: "asc",
+      },
+    ];
+
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
         <Link to={`/profile/${row._id}`} className="btn btn-info">
@@ -92,6 +99,7 @@ class Profiles extends Component {
                 <BootstrapTable
                   {...props.baseProps}
                   pagination={paginationFactory()}
+                  defaultSorted={defaultSorted}
                 />
               </div>
             )}

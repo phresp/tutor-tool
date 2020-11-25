@@ -8,7 +8,7 @@ const CourseSchema = new Schema({
     ref: "metacourse",
   },
   semester: {
-    type: Scheme.Types.ObjectID,
+    type: Schema.Types.ObjectID,
     ref: "semester",
   },
   studentnumber: {
