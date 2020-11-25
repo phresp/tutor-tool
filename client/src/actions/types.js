@@ -8,3 +8,5 @@ export const GET_SEMESTER = "GET_SEMESTER";
 export const GET_SEMESTERS = "GET_SEMESTERS";
 export const GET_METACOURSE = "GET_METACOURSE";
 export const GET_METACOURSES = "GET_METACOURSES";
+export const GET_COURSES = "GET_COURSES";
+export const GET_COURSE = "GET_COURSE";

@@ -23,6 +23,8 @@ router.get(
   (req, res) => {
     const errors = {};
     Course.find()
+      .populate("metacourse", ["name"])
+      .populate("semester", ["name"])
       .then((course) => {
         if (!course) {
           errors.course = "There are no courses";
