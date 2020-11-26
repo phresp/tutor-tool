@@ -5,12 +5,13 @@ import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 
-import { createCourse } from "../../actions/courseActions";
+import { editCourse, getCourseById } from "../../actions/courseActions";
 import { getSemesters } from "../../actions/semesterActions";
 import { getMetacourses } from "../../actions/metacourseActions";
 import { getAdvisors } from "../../actions/profileActions";
+import isEmpty from "../../validation/is-empty";
 
-class CreateCourse extends Component {
+class EditCourse extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,6 +45,7 @@ class CreateCourse extends Component {
     this.props.getMetacourses();
     this.props.getSemesters();
     this.props.getAdvisors();
+    this.props.getCourseById(this.props.match.params.id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,15 +70,75 @@ class CreateCourse extends Component {
         advisors: advisors,
       });
     }
+    if (nextProps.course.course) {
+      const { course } = nextProps.course;
+      course.metacoursediff = !isEmpty(course.metacourse.name)
+        ? course.metacourse.name
+        : "";
+      course.semesterdiff = !isEmpty(course.semester.name)
+        ? course.semester.name
+        : "";
+      course.studentnumber = !isEmpty(course.studentnumber)
+        ? course.studentnumber
+        : "";
+      course.groupnumber = !isEmpty(course.groupnumber)
+        ? course.groupnumber
+        : "";
+      course.tutorialhours = !isEmpty(course.tutorialhours)
+        ? course.tutorialhours
+        : "";
+      course.homework = !isEmpty(course.homework) ? course.homework : "";
+      course.exam = !isEmpty(course.exam) ? course.exam : "";
+      course.groupspertutor = !isEmpty(course.groupspertutor)
+        ? course.groupspertutor
+        : "";
+      course.maxtutornumber = !isEmpty(course.maxtutornumber)
+        ? course.maxtutornumber
+        : "";
+      course.weeklyhourspertutor = !isEmpty(course.weeklyhourspertutor)
+        ? course.weeklyhourspertutor
+        : "";
+      course.overallhours = !isEmpty(course.overallhours)
+        ? course.overallhours
+        : "";
+      course.till = !isEmpty(course.till) ? course.till : "";
+      course.weeks = !isEmpty(course.weeks) ? course.weeks : "";
+      course.requirement = !isEmpty(course.requirement)
+        ? course.requirement
+        : "";
+      course.admin = !isEmpty(course.admin) ? course.admin : "";
+      course.advisor = !isEmpty(course.advisor) ? course.advisor : "";
+
+      this.setState({
+        metacoursediff: course.metacoursediff,
+        semesterdiff: course.semesterdiff,
+        studentnumber: course.studentnumber,
+        groupnumber: course.groupnumber,
+        groupsize: course.groupsize,
+        tutorialhours: course.tutorialhours,
+        homework: course.homework,
+        exam: course.exam,
+        midterm: course.midterm,
+        groupspertutor: course.groupspertutor,
+        maxtutornumber: course.maxtutornumber,
+        weeklyhourspertutor: course.weeklyhourspertutor,
+        overallhours: course.overallhours,
+        till: course.till,
+        weeks: course.weeks,
+        requirement: course.requirement,
+        admin: course.admin,
+        advisor: course.advisor,
+      });
+    }
   }
 
   onSubmit(e) {
     e.preventDefault();
     const courseData = {
-      metacourse: this.state.metacourse,
-      semester: this.state.semester,
+      metacourse: this.state.metacoursediff,
+      semester: this.state.semesterdiff,
       studentnumber: this.state.studentnumber,
-      groupenumber: this.state.groupenumber,
+      groupnumber: this.state.groupnumber,
       groupsize: this.state.groupsize,
       tutorialhours: this.state.tutorialhours,
       homework: this.state.homework,
@@ -93,7 +155,11 @@ class CreateCourse extends Component {
       advisor: this.state.advisor,
     };
 
-    this.props.createCourse(courseData, this.props.history);
+    this.props.editCourse(
+      this.props.match.params.id,
+      courseData,
+      this.props.history
+    );
   }
 
   onChange(e) {
@@ -105,6 +171,7 @@ class CreateCourse extends Component {
     var { semesters } = this.state;
     var { metacourses } = this.state;
     var { advisors } = this.state;
+
     //TODO: Calculation of Overall Hours
     this.state.overallhours = this.state.groupsize * this.state.tutorialhours;
 
@@ -116,6 +183,7 @@ class CreateCourse extends Component {
       return { label: el.name, value: el.name };
     });
     semesterOptions.unshift({ label: "Select Semester", value: "" });
+
     //Select options for metacourse
     if (!metacourses) {
       metacourses = [];
@@ -135,22 +203,22 @@ class CreateCourse extends Component {
     advisorOptions.unshift({ label: "Select Advisor", value: "" });
 
     return (
-      <div className="createCourse">
+      <div className="editCourse">
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to={"/class-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Course Creation</h1>
+              <h1 className="display-4 text-center">Edit Course</h1>
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="inputMetacourse4">Metacourse</label>
+                <label htmlFor="inputMetacourse">Metacourse</label>
                 <SelectListGroup
                   placeholder="Metacourse"
                   onChange={this.onChange}
-                  value={this.state.metacourse}
-                  name="metacourse"
+                  value={this.state.metacoursediff}
+                  name="metacoursediff"
                   error={errors.metacourse}
                   options={metacourseOptions}
                 />
@@ -158,8 +226,8 @@ class CreateCourse extends Component {
                 <SelectListGroup
                   placeholder="Semester"
                   onChange={this.onChange}
-                  value={this.state.semester}
-                  name="semester"
+                  value={this.state.semesterdiff}
+                  name="semesterdiff"
                   error={errors.semester}
                   options={semesterOptions}
                 />
@@ -339,7 +407,7 @@ class CreateCourse extends Component {
   }
 }
 
-CreateCourse.propTypes = (state) => ({
+EditCourse.propTypes = (state) => ({
   semester: PropTypes.object.isRequired,
   course: PropTypes.object.isRequired,
   metacourse: PropTypes.object.isRequired,
@@ -357,8 +425,9 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  createCourse,
+  editCourse,
   getSemesters,
   getMetacourses,
   getAdvisors,
-})(withRouter(CreateCourse));
+  getCourseById,
+})(withRouter(EditCourse));

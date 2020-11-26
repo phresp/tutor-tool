@@ -48,7 +48,7 @@ export const editCourse = (id, courseData, history) => (dispatch) => {
   axios
     .post(`/api/course/${id}`, courseData)
     .then((res) => {
-      history.push("/course-overview");
+      history.push("/class-overview");
     })
     .catch((err) =>
       dispatch({

@@ -14,7 +14,7 @@ const CourseSchema = new Schema({
   studentnumber: {
     type: Number,
   },
-  groupenumber: {
+  groupnumber: {
     type: Number,
   },
   groupsize: {

@@ -58,8 +58,8 @@ class CourseOverview extends Component {
         sort: true,
       },
       {
-        dataField: "Studentnumber",
-        text: "studentnumber",
+        dataField: "studentnumber",
+        text: "Studentnumber",
         sort: true,
       },
       {

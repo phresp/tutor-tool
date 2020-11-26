@@ -29,6 +29,7 @@ import CreateMetacourse from "./components/create-metacourse/CreateMetacourse";
 import EditMetacourse from "./components/edit-metacourse/EditMetacourse";
 import CourseOverview from "./components/course/CourseOverview";
 import CreateCourse from "./components/create-course/CreateCourse";
+import EditCourse from "./components/edit-course/EditCourse";
 
 import "./App.css";
 
@@ -154,6 +155,13 @@ class App extends Component {
                   exact
                   path="/create-course"
                   component={CreateCourse}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/edit-course/:id"
+                  component={EditCourse}
                 />
               </Switch>
             </div>

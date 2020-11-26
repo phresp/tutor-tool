@@ -1,3 +1,5 @@
+const isEmpty = require("../../validation/is-empty");
+
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
@@ -40,9 +42,13 @@ router.get(
 // @desc    Get Course by id
 // @access  Private
 router.get("/:id", (req, res) => {
+  console.log(req.params.id);
   const errors = {};
   Course.findOne({ _id: req.params.id })
+    .populate("metacourse", ["name"])
+    .populate("semester", ["name"])
     .then((course) => {
+      console.log(course);
       res.json(course);
     })
     .catch((err) =>
@@ -58,68 +64,81 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Validate Input fields
-    var errors;
+    var errors = {};
     //Get Metacourse ID
+    const semester = !isEmpty(req.body.semester) ? req.body.semester : "";
+    const metacourse = !isEmpty(req.body.metacourse) ? req.body.metacourse : "";
     var metacourseOfInput;
     var semesterOfInput;
-    console.log("semester:" + req.body.semester);
-    console.log("meta:" + req.body.metacourse);
-    Metacourse.findOne({ name: req.body.metacourse }).then((meta) => {
-      if (meta) {
-        metacourseOfInput = meta._id;
 
-        //Get Semester ID
-        Semester.findOne({ name: req.body.semester }).then((sem) => {
-          if (sem) {
-            semesterOfInput = sem._id;
-            Course.findOne({
-              metacourse: metacourseOfInput,
-              semester: semesterOfInput,
-            }).then((course) => {
-              //Check if Course Name is already there
-              if (course) {
-                errors.course = "Course already exists";
-                return res.status(401).json(errors);
+    Metacourse.findOne({ name: metacourse })
+      .then((meta) => {
+        if (meta) {
+          metacourseOfInput = meta._id;
+
+          //Get Semester ID
+          Semester.findOne({ name: semester })
+            .then((sem) => {
+              if (sem) {
+                semesterOfInput = sem._id;
+                Course.findOne({
+                  metacourse: metacourseOfInput,
+                  semester: semesterOfInput,
+                }).then((course) => {
+                  //Check if Course is already there
+                  if (course) {
+                    errors.metacourse = "Course already exists";
+                    errors.semester = "Course already exists";
+                    return res.status(400).json(errors);
+                  } else {
+                    //If Course does not exist create
+                    //Get Body Fields
+                    const courseFields = {};
+                    courseFields.metacourse = metacourseOfInput;
+                    courseFields.semester = semesterOfInput;
+                    courseFields.studentnumber = req.body.studentnumber;
+                    courseFields.groupnumber = req.body.groupnumber;
+                    courseFields.groupsize = req.body.groupsize;
+                    courseFields.tutorialhours = req.body.tutorialhours;
+                    courseFields.homework = req.body.homework;
+                    courseFields.exam = req.body.exam;
+                    courseFields.midterm = req.body.midterm;
+                    courseFields.groupspertutor = req.body.groupspertutor;
+                    courseFields.maxtutornumber = req.body.maxtutornumber;
+                    courseFields.weeklyhourspertutor =
+                      req.body.weeklyhourspertutor;
+                    courseFields.overallhours = req.body.overallhours;
+                    courseFields.from = req.body.from;
+                    courseFields.till = req.body.till;
+                    courseFields.weeks = req.body.weeks;
+                    courseFields.requirement = req.body.requirement;
+                    //courseFields.admin = req.body.admin;
+                    //courseFields.advisor = req.body.advisor;
+
+                    //Create Course
+                    new Course(courseFields)
+                      .save()
+                      .then((course) => res.json(course));
+                  }
+                });
               } else {
-                //If Course does not exist create
-                //Get Body Fields
-                const courseFields = {};
-                courseFields.metacourse = metacourseOfInput;
-                courseFields.semester = semesterOfInput;
-                courseFields.studentnumber = req.body.studentnumber;
-                courseFields.groupenumber = req.body.groupenumber;
-                courseFields.groupsize = req.body.groupsize;
-                courseFields.tutorialhours = req.body.tutorialhours;
-                courseFields.homework = req.body.homework;
-                courseFields.exam = req.body.exam;
-                courseFields.midterm = req.body.midterm;
-                courseFields.groupspertutor = req.body.groupspertutor;
-                courseFields.maxtutornumber = req.body.maxtutornumber;
-                courseFields.weeklyhourspertutor = req.body.weeklyhourspertutor;
-                courseFields.overallhours = req.body.overallhours;
-                courseFields.from = req.body.from;
-                courseFields.till = req.body.till;
-                courseFields.weeks = req.body.weeks;
-                courseFields.requirement = req.body.requirement;
-                //courseFields.admin = req.body.admin;
-                //courseFields.advisor = req.body.advisor;
-
-                //Create Course
-                new Course(courseFields)
-                  .save()
-                  .then((course) => res.json(course));
+                errors.semester = "Semester not found";
+                return res.status(402).json(errors);
               }
+            })
+            .catch((err) => {
+              errors.semester = "Semester not found";
+              res.status(403).json(errors);
             });
-          } else {
-            errors.semester = "No Semester found";
-            return res.status(404).json(errors);
-          }
-        });
-      } else {
-        errors.metacourse = "No Metacourse found";
-        return res.status(405).json(errors);
-      }
-    });
+        } else {
+          errors.metacourse = "Metacourse not found";
+          return res.status(404).json(errors);
+        }
+      })
+      .catch((err) => {
+        errors.metacourse = "Metacourse not found";
+        res.status(405).json(errors);
+      });
   }
 );
 
@@ -130,72 +149,91 @@ router.post(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    var errors;
+    //Validate Input fields
+    var errors = {};
     //Get Metacourse ID
+    const semester = !isEmpty(req.body.semester) ? req.body.semester : "";
+    const metacourse = !isEmpty(req.body.metacourse) ? req.body.metacourse : "";
     var metacourseOfInput;
     var semesterOfInput;
-    Metacourse.findOne({ name: req.body.metacourse }).then((meta) => {
-      if (meta) {
-        metacourseOfInput = meta._id;
-        //Get Semester ID
-        Semester.findOne({ name: req.body.semester }).then((sem) => {
-          if (sem) {
-            semesterOfInput = sem._id;
-            Course.findOne({
-              metacourse: metacourseOfInput,
-              semester: semesterOfInput,
-            }).then((course) => {
-              if (course && course._id != req.params.id) {
-                errors.course = "Course already exists like this";
-                return res.status(400).json(errors);
-              } else {
-                //If there are no errors update
-                //Get Body Fields
-                const courseFields = {};
-                courseFields.metacourse = metacourseOfInput;
-                courseFields.semester = semesterOfInput;
-                courseFields.studentnumber = req.body.studentnumber;
-                courseFields.groupenumber = req.body.groupenumber;
-                courseFields.groupsize = req.body.groupsize;
-                courseFields.tutorialhours = req.body.tutorialhours;
-                courseFields.homework = req.body.homework;
-                courseFields.exam = req.body.exam;
-                courseFields.midterm = req.body.midterm;
-                courseFields.groupspertutor = req.body.groupspertutor;
-                courseFields.maxtutornumber = req.body.maxtutornumber;
-                courseFields.weeklyhourspertutor = req.body.weeklyhourspertutor;
-                courseFields.overallhours = req.body.overallhours;
-                courseFields.from = req.body.from;
-                courseFields.till = req.body.till;
-                courseFields.weeks = req.body.weeks;
-                courseFields.requirement = req.body.requirement;
-                courseFields.admin = req.body.admin;
-                courseFields.advisor = req.body.advisor;
+    Metacourse.findOne({ name: metacourse })
+      .then((meta) => {
+        if (meta) {
+          metacourseOfInput = meta._id;
+          //Get Semester ID
+          Semester.findOne({ name: semester })
+            .then((sem) => {
+              if (sem) {
+                semesterOfInput = sem._id;
+                Course.findOne({
+                  metacourse: metacourseOfInput,
+                  semester: semesterOfInput,
+                }).then((course) => {
+                  //Check if Course is already there
+                  if (course && course._id != req.params.id) {
+                    errors.metacourse = "Course already exists";
+                    errors.semester = "Course already exists";
+                    return res.status(400).json(errors);
+                  } else {
+                    //If Course does not exist create or if its the same course
+                    //Get Body Fields
+                    const courseFields = {};
+                    courseFields.metacourse = metacourseOfInput;
+                    courseFields.semester = semesterOfInput;
+                    courseFields.studentnumber = req.body.studentnumber;
+                    courseFields.groupnumber = req.body.groupnumber;
+                    courseFields.groupsize = req.body.groupsize;
+                    courseFields.tutorialhours = req.body.tutorialhours;
+                    courseFields.homework = req.body.homework;
+                    courseFields.exam = req.body.exam;
+                    courseFields.midterm = req.body.midterm;
+                    courseFields.groupspertutor = req.body.groupspertutor;
+                    courseFields.maxtutornumber = req.body.maxtutornumber;
+                    courseFields.weeklyhourspertutor =
+                      req.body.weeklyhourspertutor;
+                    courseFields.overallhours = req.body.overallhours;
+                    courseFields.from = req.body.from;
+                    courseFields.till = req.body.till;
+                    courseFields.weeks = req.body.weeks;
+                    courseFields.requirement = req.body.requirement;
+                    //courseFields.admin = req.body.admin;
+                    //courseFields.advisor = req.body.advisor;
 
-                //Update
-                Course.findOneAndUpdate(
-                  { _id: req.params.id },
-                  { $set: courseFields },
-                  { new: true }
-                )
-                  .then((course) => res.json(course))
-                  .catch((err) =>
-                    res.status(400).json({ nocoursefound: "Course not found" })
-                  );
+                    //Update
+                    Course.findOneAndUpdate(
+                      { _id: req.params.id },
+                      { $set: courseFields },
+                      { new: true }
+                    )
+                      .then((course) => res.json(course))
+                      .catch((err) =>
+                        res
+                          .status(400)
+                          .json({ nocoursefound: "Course not found" })
+                      );
+                  }
+                });
+              } else {
+                errors.semester = "Semester not found";
+                return res.status(402).json(errors);
               }
+            })
+            .catch((err) => {
+              errors.semester = "Semester not found";
+              res.status(403).json(errors);
             });
-          } else {
-            errors.semester = "No Semester found";
-            return res.status(400).json(errors);
-          }
-        });
-      } else {
-        errors.metacourse = "No Metacourse found";
-        return res.status(400).json(errors);
-      }
-    });
+        } else {
+          errors.metacourse = "Metacourse not found";
+          return res.status(404).json(errors);
+        }
+      })
+      .catch((err) => {
+        errors.metacourse = "Metacourse not found";
+        res.status(405).json(errors);
+      });
   }
 );
+
 // TODO: FURTHER REMOVES THAT COME WITH REMOVED COURSE
 // @route   DELETE /api/course/:id
 // @desc    DELETE Course
