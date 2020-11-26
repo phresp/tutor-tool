@@ -33,7 +33,7 @@ export const createCourse = (courseData, history) => (dispatch) => {
   axios
     .post("/api/course", courseData)
     .then((res) => {
-      history.push("/course-overview");
+      history.push("/class-overview");
     })
     .catch((err) =>
       dispatch({

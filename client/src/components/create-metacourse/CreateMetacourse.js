@@ -62,7 +62,7 @@ class CreateMetacourse extends Component {
 
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Descriprion"
+                  placeholder="* Description"
                   onChange={this.onChange}
                   value={this.state.name}
                   name="name"

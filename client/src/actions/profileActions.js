@@ -7,6 +7,7 @@ import {
   SET_CURRENT_USER,
   GET_ERRORS,
   GET_PROFILES,
+  GET_ADVISORS,
 } from "./types";
 
 //Get current profile
@@ -32,6 +33,19 @@ export const getProfiles = () => (dispatch) => {
     .catch((err) =>
       dispatch({
         type: GET_PROFILES,
+        payload: {},
+      })
+    );
+};
+
+//Get all advisors
+export const getAdvisors = () => (dispatch) => {
+  axios
+    .get("/api/profile/advisor")
+    .then((res) => dispatch({ type: GET_ADVISORS, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_ADVISORS,
         payload: {},
       })
     );

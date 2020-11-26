@@ -58,17 +58,16 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Validate Input fields
-    const { errors, isValid } = validateCourseInput(req.body);
-    if (!isValid) {
-      //Return any errors with 400 status
-      return res.status(400).json(errors);
-    }
+    var errors;
     //Get Metacourse ID
     var metacourseOfInput;
     var semesterOfInput;
+    console.log("semester:" + req.body.semester);
+    console.log("meta:" + req.body.metacourse);
     Metacourse.findOne({ name: req.body.metacourse }).then((meta) => {
       if (meta) {
         metacourseOfInput = meta._id;
+
         //Get Semester ID
         Semester.findOne({ name: req.body.semester }).then((sem) => {
           if (sem) {
@@ -80,7 +79,7 @@ router.post(
               //Check if Course Name is already there
               if (course) {
                 errors.course = "Course already exists";
-                return res.status(400).json(errors);
+                return res.status(401).json(errors);
               } else {
                 //If Course does not exist create
                 //Get Body Fields
@@ -102,8 +101,8 @@ router.post(
                 courseFields.till = req.body.till;
                 courseFields.weeks = req.body.weeks;
                 courseFields.requirement = req.body.requirement;
-                courseFields.admin = req.body.admin;
-                courseFields.advisor = req.body.advisor;
+                //courseFields.admin = req.body.admin;
+                //courseFields.advisor = req.body.advisor;
 
                 //Create Course
                 new Course(courseFields)
@@ -112,11 +111,13 @@ router.post(
               }
             });
           } else {
-            return res.status(400).json("No Semester found");
+            errors.semester = "No Semester found";
+            return res.status(404).json(errors);
           }
         });
       } else {
-        return res.status(400).json("No Metacourse found");
+        errors.metacourse = "No Metacourse found";
+        return res.status(405).json(errors);
       }
     });
   }
@@ -129,13 +130,7 @@ router.post(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateCourseInput(req.body);
-    //Check validation
-    if (!isValid) {
-      //If not valid, send 400 with errors
-      return res.status(400).json(errors);
-    }
-
+    var errors;
     //Get Metacourse ID
     var metacourseOfInput;
     var semesterOfInput;
@@ -185,16 +180,18 @@ router.post(
                 )
                   .then((course) => res.json(course))
                   .catch((err) =>
-                    res.status(404).json({ nocoursefound: "Course not found" })
+                    res.status(400).json({ nocoursefound: "Course not found" })
                   );
               }
             });
           } else {
-            return res.status(400).json("No Semester found");
+            errors.semester = "No Semester found";
+            return res.status(400).json(errors);
           }
         });
       } else {
-        return res.status(400).json("No Metacourse found");
+        errors.metacourse = "No Metacourse found";
+        return res.status(400).json(errors);
       }
     });
   }

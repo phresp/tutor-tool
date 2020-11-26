@@ -69,6 +69,43 @@ router.get(
   }
 );
 
+// @route   GET api/profile/advisor
+// @desc    Get all advisors
+// @access  Private
+router.get(
+  "/advisor",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Check authorization
+    const errors = {};
+    User.find({ role: "Advisor" })
+      .then((advisors) => {
+        if (!advisors) {
+          errors.profile = "There are no profiles";
+          return res.status(404).json(errors);
+        }
+        const advisorIDs = advisors.map((el) => {
+          return el._id;
+        });
+        Profile.find({
+          user: advisorIDs,
+        })
+          .populate("user", ["email"])
+          .then((advisorProfiles) => {
+            if (!advisorProfiles) {
+              errors.profile = "There are no profiles";
+              return res.status(404).json(errors);
+            } else {
+              res.json(advisorProfiles);
+            }
+          });
+      })
+      .catch((err) =>
+        res.status(404).json({ profile: "There are no advisors" })
+      );
+  }
+);
+
 // @route   POST /api/profile
 // @desc    Create or Update User Profile
 // @access  Private

@@ -56,25 +56,6 @@ const CourseSchema = new Schema({
   requirement: {
     type: String,
   },
-  applications: [
-    {
-      user: {
-        type: Schema.Types.ObjectID,
-        ref: "user",
-      },
-      grade: {
-        type: String,
-      },
-      date: {
-        type: Date,
-        default: Date.now,
-      },
-      status: {
-        type: String,
-        default: "Applied",
-      },
-    },
-  ],
   admin: {
     type: Schema.Types.ObjectID,
     ref: "user",
