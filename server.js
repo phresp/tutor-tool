@@ -9,6 +9,7 @@ const profile = require("./routes/api/profile");
 const semester = require("./routes/api/semester");
 const metacourse = require("./routes/api/metacourse");
 const course = require("./routes/api/course");
+const application = require("./routes/api/application");
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use("/api/profile", profile);
 app.use("/api/semester", semester);
 app.use("/api/metacourse", metacourse);
 app.use("/api/course", course);
+app.use("/api/application", application);
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {

@@ -3,15 +3,22 @@ const Schema = mongoose.Schema;
 
 //Create Application Schema
 const ApplicationSchema = new Schema({
-  tutor: {
+  user: {
     type: Schema.Types.ObjectID,
     ref: "user",
+  },
+  profile: {
+    type: Schema.Types.ObjectID,
+    ref: "profile",
   },
   course: {
     type: Schema.Types.ObjectID,
     ref: "course",
   },
   grade: {
+    type: String,
+  },
+  details: {
     type: String,
   },
   date: {

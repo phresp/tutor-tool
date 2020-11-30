@@ -42,7 +42,6 @@ router.get(
 // @desc    Get Course by id
 // @access  Private
 router.get("/:id", (req, res) => {
-  console.log(req.params.id);
   const errors = {};
   Course.findOne({ _id: req.params.id })
     .populate("metacourse", ["name"])
