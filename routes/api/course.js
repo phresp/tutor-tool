@@ -38,6 +38,28 @@ router.get(
   }
 );
 
+// @route   GET api/course/openforapply
+// @desc    Get all courses
+// @access  Private
+router.get(
+  "/openforapply",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Course.find({ status: "Open" })
+      .populate("metacourse", ["name", "abbreviation"])
+      .populate("semester", ["name"])
+      .then((course) => {
+        if (!course) {
+          errors.course = "There are no courses";
+          return res.status(404).json(errors);
+        }
+        res.json(course);
+      })
+      .catch((err) => res.status(404).json({ course: "There are no Courses" }));
+  }
+);
+
 // @route   GET /api/course/:id
 // @desc    Get Course by id
 // @access  Private

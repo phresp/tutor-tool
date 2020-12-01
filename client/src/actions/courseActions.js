@@ -15,6 +15,19 @@ export const getCourses = () => (dispatch) => {
     );
 };
 
+//Get all Courses for Tutors
+export const getCoursesForApplication = () => (dispatch) => {
+  axios
+    .get("/api/course/openforapply")
+    .then((res) => dispatch({ type: GET_COURSES, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_COURSES,
+        payload: {},
+      })
+    );
+};
+
 //Get Course of id
 export const getCourseById = (id) => (dispatch) => {
   axios

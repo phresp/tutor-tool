@@ -20,7 +20,7 @@ router.get(
   (req, res) => {
     const errors = {};
 
-    Application.findOne({ user: req.user.id })
+    Application.find({ user: req.user.id })
       .then((application) => {
         if (!application) {
           errors.noapplication = "There are no applications yet";

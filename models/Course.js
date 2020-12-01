@@ -64,6 +64,10 @@ const CourseSchema = new Schema({
     type: Schema.Types.ObjectID,
     ref: "user",
   },
+  status: {
+    type: String,
+    default: "Open",
+  },
 });
 
 module.exports = Course = mongoose.model("course", CourseSchema);

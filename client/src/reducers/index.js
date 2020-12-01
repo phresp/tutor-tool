@@ -5,6 +5,7 @@ import profileReducer from "./profileReducer";
 import semesterReducer from "./semesterReducer";
 import metacourseReducer from "./metacourseReducer";
 import courseReducer from "./courseReducer";
+import applicationReducer from "./applicationReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   semester: semesterReducer,
   metacourse: metacourseReducer,
   course: courseReducer,
+  application: applicationReducer,
 });

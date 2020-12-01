@@ -30,6 +30,8 @@ import EditMetacourse from "./components/edit-metacourse/EditMetacourse";
 import CourseOverview from "./components/course/CourseOverview";
 import CreateCourse from "./components/create-course/CreateCourse";
 import EditCourse from "./components/edit-course/EditCourse";
+import TutorApplicationView from "./components/application/TutorApplicationView";
+import TutorApply from "./components/application/TutorApply";
 
 import "./App.css";
 
@@ -162,6 +164,20 @@ class App extends Component {
                   exact
                   path="/edit-course/:id"
                   component={EditCourse}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/tutorapplication"
+                  component={TutorApplicationView}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/tutorapply/:id"
+                  component={TutorApply}
                 />
               </Switch>
             </div>
