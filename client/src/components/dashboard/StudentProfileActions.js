@@ -16,6 +16,9 @@ const StudentProfileActions = () => {
       <Link to="/tutorapplication" className="btn btn-light">
         <i className="fas fa-graduation-cap text-primary"></i> Tutor Application
       </Link>
+      <Link to="/myapplications" className="btn btn-light">
+        <i className="fas fa-graduation-cap text-primary"></i> My Applications
+      </Link>
     </div>
   );
 };

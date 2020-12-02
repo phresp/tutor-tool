@@ -39,7 +39,7 @@ class TutorApplicationView extends Component {
     }
 
     function applyButton(cell, row, rowIndex, formatExtraData) {
-      if (!applicationentries.some((e) => e.course === row._id)) {
+      if (!applicationentries.some((e) => e.course._id === row._id)) {
         return (
           <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
             New Application

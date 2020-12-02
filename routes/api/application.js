@@ -70,6 +70,27 @@ router.get(
   }
 );
 
+// @route   GET /api/application/apply/:id
+// @desc    GET Application of ApplicationID for course of current user
+// @access  Private
+router.get(
+  "/apply/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    Application.findOne({ _id: req.params.id })
+      .then((application) => {
+        if (!application) {
+          errors.noapplication = "There is no application for the course yet";
+          return res.status(404).json(errors);
+        }
+        res.send(application);
+      })
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
 // @route   GET api/application/all
 // @desc    Get all Applications
 // @access  Private
@@ -139,6 +160,28 @@ router.post(
         }
       });
     });
+  }
+);
+
+// @route   POST /api/application/update/:id
+// @desc    POST Applicationupdate for course
+// @access  Private
+router.post(
+  "/update/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    var errors;
+    const updateApp = {
+      grade: req.body.grade,
+      details: req.body.details,
+    };
+    Application.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: updateApp },
+      { new: true }
+    )
+      .then((application) => res.send(application))
+      .catch((err) => res.status(404).jason(err));
   }
 );
 

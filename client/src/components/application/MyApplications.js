@@ -26,9 +26,9 @@ class MyApplications extends Component {
     //Data for Table
     const entries = applications ? applications : [];
 
-    function betrachtenButton(cell, row, rowIndex, formatExtraData) {
+    function betrachtenButton(cell, row, course, rowIndex, formatExtraData) {
       return (
-        <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
+        <Link to={`/updateapplication/${row._id}`} className="btn btn-info">
           Betrachten
         </Link>
       );
@@ -87,7 +87,7 @@ class MyApplications extends Component {
             <Link to={"/dashboard"} className={"btn btn-light"}>
               back
             </Link>
-            <h1 className="display-4 text-center">Courses to Apply</h1>
+            <h1 className="display-4 text-center">My Applications</h1>
 
             {applicationTable}
           </div>

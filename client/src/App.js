@@ -33,6 +33,7 @@ import EditCourse from "./components/edit-course/EditCourse";
 import TutorApplicationView from "./components/application/TutorApplicationView";
 import TutorApply from "./components/application/TutorApply";
 import MyApplications from "./components/application/MyApplications";
+import TutorUpdateApply from "./components/application/TutorUpdateApply";
 
 import "./App.css";
 
@@ -186,6 +187,13 @@ class App extends Component {
                   exact
                   path="/myapplications"
                   component={MyApplications}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/updateapplication/:id"
+                  component={TutorUpdateApply}
                 />
               </Switch>
             </div>

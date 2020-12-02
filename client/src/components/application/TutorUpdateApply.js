@@ -5,13 +5,14 @@ import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
-import { getTutorApplicationForCourse } from "../../actions/applicationActions";
-import { postApplication } from "../../actions/applicationActions";
+import { getApplicationOfId } from "../../actions/applicationActions";
+import { updateApplication } from "../../actions/applicationActions";
 import isEmpty from "../../validation/is-empty";
+import moment from "moment";
 
-class TutorApply extends Component {
+class TutorUpdateApply extends Component {
   componentDidMount() {
-    this.props.getTutorApplicationForCourse(this.props.match.params.id);
+    this.props.getApplicationOfId(this.props.match.params.id);
   }
   //TODO: Add information about the course you apply for
   constructor(props) {
@@ -57,7 +58,7 @@ class TutorApply extends Component {
       grade: this.state.grade,
       details: this.state.details,
     };
-    this.props.postApplication(
+    this.props.updateApplication(
       this.props.match.params.id,
       applicationData,
       this.props.history
@@ -89,10 +90,10 @@ class TutorApply extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link to={"/tutorapplication"} className={"btn btn-light"}>
+              <Link to={"/myapplications"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Application</h1>
+              <h1 className="display-4 text-center">Update Application</h1>
 
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="inputGrade">Your Grade</label>
@@ -128,7 +129,7 @@ class TutorApply extends Component {
   }
 }
 
-TutorApply.propTypes = {
+TutorUpdateApply.propTypes = {
   application: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
@@ -139,6 +140,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getTutorApplicationForCourse,
-  postApplication,
-})(TutorApply);
+  getApplicationOfId,
+  updateApplication,
+})(TutorUpdateApply);

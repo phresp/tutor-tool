@@ -41,12 +41,42 @@ export const getTutorApplicationForCourse = (id) => (dispatch) => {
     );
 };
 
-//Post Application
+//Get Application for applicationID of Tutor
+export const getApplicationOfId = (id) => (dispatch) => {
+  axios
+    .get(`/api/application/apply/${id}`)
+    .then((res) => dispatch({ type: GET_APPLICATION, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_APPLICATION,
+        payload: {},
+      })
+    );
+};
+
+//Post new Application
 export const postApplication = (id, applicationData, history) => (dispatch) => {
   axios
     .post(`/api/application/${id}`, applicationData)
     .then((res) => {
       history.push("/tutorapplication");
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: { err },
+      })
+    );
+};
+
+//UpdateApplication
+export const updateApplication = (id, applicationData, history) => (
+  dispatch
+) => {
+  axios
+    .post(`/api/application/update/${id}`, applicationData)
+    .then((res) => {
+      history.push("/myapplications");
     })
     .catch((err) =>
       dispatch({
