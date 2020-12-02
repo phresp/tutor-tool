@@ -15,7 +15,7 @@ class TutorApply extends Component {
   componentDidMount() {
     this.props.getTutorApplicationForCourse(this.props.match.params.id);
   }
-
+  //TODO: Add information about the course you apply for
   constructor(props) {
     super(props);
     this.state = {

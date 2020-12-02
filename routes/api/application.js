@@ -6,6 +6,12 @@ const passport = require("passport");
 
 const Application = require("../../models/Application");
 
+//Load Profile Model
+const Profile = require("../../models/Profile");
+
+//Load User model
+const User = require("../../models/User");
+
 // @route   GET /api/application/test
 // @desc    Test application route
 // @access  Public
@@ -21,6 +27,17 @@ router.get(
     const errors = {};
 
     Application.find({ user: req.user.id })
+      .populate({
+        path: "course",
+        select: { semester: 1, metacourse: 2 },
+        populate: {
+          path: "semester",
+        },
+        populate: {
+          path: "metacourse",
+          select: { name: 1, abbreviation: 2, module: 3 },
+        },
+      })
       .then((application) => {
         if (!application) {
           errors.noapplication = "There are no applications yet";
@@ -91,34 +108,36 @@ router.post(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    var errors;
-    const newApp = {
-      user: req.user.id,
-      profile: req.body.profile,
-      course: req.params.id,
-      grade: req.body.grade,
-      details: req.body.details,
-    };
-    Application.findOne({
-      user: req.user.id,
-      course: req.params.id,
-    }).then((application) => {
-      if (application) {
-        //Update Application
-        Application.findOneAndUpdate(
-          { user: req.user.id, course: req.params.id },
-          { $set: newApp },
-          { new: true }
-        )
-          .then((application) => res.send(application))
-          .catch((err) => res.status(404).jason(err));
-      } else {
-        //Create Application
-        new Application(newApp)
-          .save()
-          .then((application) => res.send(application))
-          .catch((err) => res.status(400).json(err));
-      }
+    Profile.findOne({ user: req.user.id }).then((profile) => {
+      var errors;
+      const newApp = {
+        user: req.user.id,
+        profile: profile.id,
+        course: req.params.id,
+        grade: req.body.grade,
+        details: req.body.details,
+      };
+      Application.findOne({
+        user: req.user.id,
+        course: req.params.id,
+      }).then((application) => {
+        if (application) {
+          //Update Application
+          Application.findOneAndUpdate(
+            { user: req.user.id, course: req.params.id },
+            { $set: newApp },
+            { new: true }
+          )
+            .then((application) => res.send(application))
+            .catch((err) => res.status(404).jason(err));
+        } else {
+          //Create Application
+          new Application(newApp)
+            .save()
+            .then((application) => res.send(application))
+            .catch((err) => res.status(400).json(err));
+        }
+      });
     });
   }
 );
