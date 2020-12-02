@@ -32,6 +32,27 @@ router.get(
   }
 );
 
+// @route   GET /api/application/:id
+// @desc    GET Application for course of current user
+// @access  Private
+router.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    Application.findOne({ user: req.user.id, course: req.params.id })
+      .then((application) => {
+        if (!application) {
+          errors.noapplication = "There is no application for the course yet";
+          return res.status(404).json(errors);
+        }
+        res.send(application);
+      })
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
 // @route   GET api/application/all
 // @desc    Get all Applications
 // @access  Private
@@ -83,7 +104,14 @@ router.post(
       course: req.params.id,
     }).then((application) => {
       if (application) {
-        return res.status(404).json({ application: "Application exists" });
+        //Update Application
+        Application.findOneAndUpdate(
+          { user: req.user.id, course: req.params.id },
+          { $set: newApp },
+          { new: true }
+        )
+          .then((application) => res.send(application))
+          .catch((err) => res.status(404).jason(err));
       } else {
         //Create Application
         new Application(newApp)

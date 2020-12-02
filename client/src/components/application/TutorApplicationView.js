@@ -22,7 +22,6 @@ class TutorApplicationView extends Component {
   }
 
   render() {
-    console.log(this.props.application.applications);
     const { applications } = this.props.application;
     const { courses } = this.props.course;
     let applicationTable;

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GET_APPLICATIONS, GET_ERRORS } from "./types";
+import { GET_APPLICATIONS, GET_APPLICATION, GET_ERRORS } from "./types";
 
 //Get all Applications
 export const getApplications = () => (dispatch) => {
@@ -28,11 +28,26 @@ export const getTutorApplications = () => (dispatch) => {
     );
 };
 
-//Post Application
-export const postApplication = (id) => (dispatch) => {
+//Get Application for course of Tutor
+export const getTutorApplicationForCourse = (id) => (dispatch) => {
   axios
-    .post("/api/application/:id")
-    .then((res) => dispatch({ type: GET_APPLICATIONS, payload: res.data }))
+    .get(`/api/application/${id}`)
+    .then((res) => dispatch({ type: GET_APPLICATION, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_APPLICATION,
+        payload: {},
+      })
+    );
+};
+
+//Post Application
+export const postApplication = (id, applicationData, history) => (dispatch) => {
+  axios
+    .post(`/api/application/${id}`, applicationData)
+    .then((res) => {
+      history.push("/tutorapplication");
+    })
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,
