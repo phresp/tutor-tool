@@ -36,6 +36,7 @@ import TutorApply from "./components/application/TutorApply";
 import MyApplications from "./components/application/MyApplications";
 import TutorUpdateApply from "./components/application/TutorUpdateApply";
 import AdvisorCourseOverview from "./components/course/AdvisorCourseOverview";
+import AdvisorApplicationView from "./components/application/AdvisorApplicationView";
 
 import "./App.css";
 
@@ -203,6 +204,13 @@ class App extends Component {
                   exact
                   path="/advisor-classes"
                   component={AdvisorCourseOverview}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdvisorRoute
+                  exact
+                  path="/check-applications/:id"
+                  component={AdvisorApplicationView}
                 />
               </Switch>
             </div>

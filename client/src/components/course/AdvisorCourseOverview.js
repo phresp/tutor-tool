@@ -32,10 +32,6 @@ class AdvisorCourseOverview extends Component {
       );
     }
 
-    function dateFormat(value, row, index) {
-      if (value) return moment(value).format("DD/MM/YYYY");
-    }
-
     const columns = [
       {
         dataField: "metacourse.name",
@@ -63,8 +59,6 @@ class AdvisorCourseOverview extends Component {
         sort: true,
       },
       {
-        text: "Edit",
-        header: "Edit",
         id: "links",
         formatter: betrachtenButton,
       },

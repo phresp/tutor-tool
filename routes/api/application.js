@@ -122,6 +122,32 @@ router.get(
   }
 );
 
+// @route   GET api/application/course/:id
+// @desc    Get all Applications for course
+// @access  Private
+router.get(
+  "/course/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    //TODO: Populate User with Email
+    Application.find({ course: req.params.id })
+      .populate("profile")
+      .then((applications) => {
+        console.log(applications);
+        if (!applications) {
+          errors.application = "There are no applications";
+          return res.status(404).json(errors);
+        }
+        res.json(applications);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(404).json({ application: "There are no applications" });
+      });
+  }
+);
+
 // @route   POST /api/application/:id
 // @desc    POST Application for course
 // @access  Private

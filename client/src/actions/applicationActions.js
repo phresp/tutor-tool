@@ -54,6 +54,19 @@ export const getApplicationOfId = (id) => (dispatch) => {
     );
 };
 
+//Get Application for applicationID of Tutor
+export const getApplicationsOfCourse = (id) => (dispatch) => {
+  axios
+    .get(`/api/application/course/${id}`)
+    .then((res) => dispatch({ type: GET_APPLICATIONS, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_APPLICATIONS,
+        payload: {},
+      })
+    );
+};
+
 //Post new Application
 export const postApplication = (id, applicationData, history) => (dispatch) => {
   axios
