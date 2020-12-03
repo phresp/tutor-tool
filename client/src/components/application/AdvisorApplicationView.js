@@ -11,7 +11,7 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 const { SearchBar } = Search;
 
 class AdvisorApplicationView extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getApplicationsOfCourse(this.props.match.params.id);
   }
 
@@ -23,13 +23,12 @@ class AdvisorApplicationView extends Component {
 
   render() {
     const { applications } = this.props.application;
-    console.log(applications);
     let applicationTable;
 
     //Data for Table
     const entries = applications ? applications : [];
 
-    if (applications.length > 0) {
+    if (!applications || applications.length > 0) {
       const columns = [
         {
           dataField: "profile.lastname",
@@ -42,12 +41,22 @@ class AdvisorApplicationView extends Component {
           sort: true,
         },
         {
-          dataField: "profilematrikelnummer",
+          dataField: "profile.matrikelnummer",
           text: "Matrikelnummer",
           sort: true,
         },
         {
+          dataField: "grade",
+          text: "Grade",
+          sort: true,
+        },
+        {
           text: "Betrachten",
+          header: "Edit",
+          id: "links",
+        },
+        {
+          text: "Accept",
           header: "Edit",
           id: "links",
         },
