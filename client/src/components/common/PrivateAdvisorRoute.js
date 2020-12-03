@@ -3,11 +3,11 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const PrivateAdminRoute = ({ component: Component, auth, ...rest }) => (
+const PrivateAdvisorRoute = ({ component: Component, auth, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      auth.isAuthenticated === true && auth.user.role === "Admin" ? (
+      auth.isAuthenticated === true && auth.user.role != "Student" ? (
         <Component {...props} />
       ) : (
         <Redirect to="/dashboard" />
@@ -16,7 +16,7 @@ const PrivateAdminRoute = ({ component: Component, auth, ...rest }) => (
   />
 );
 
-PrivateAdminRoute.propTypes = {
+PrivateAdvisorRoute.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 
@@ -24,4 +24,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(PrivateAdminRoute);
+export default connect(mapStateToProps)(PrivateAdvisorRoute);

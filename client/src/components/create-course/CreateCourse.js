@@ -130,7 +130,7 @@ class CreateCourse extends Component {
       advisors = [];
     }
     const advisorOptions = advisors.map((el) => {
-      return { label: el.firstname + " " + el.lastname, value: el.lastname };
+      return { label: el.firstname + " " + el.lastname, value: el.user._id };
     });
     advisorOptions.unshift({ label: "Select Advisor", value: "" });
 

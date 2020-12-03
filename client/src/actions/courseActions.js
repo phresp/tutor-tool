@@ -28,6 +28,19 @@ export const getCoursesForApplication = () => (dispatch) => {
     );
 };
 
+//Get all Courses for Advisor
+export const getAdvisorCourses = () => (dispatch) => {
+  axios
+    .get("/api/course/advisor/mycourses")
+    .then((res) => dispatch({ type: GET_COURSES, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_COURSES,
+        payload: {},
+      })
+    );
+};
+
 //Get Course of id
 export const getCourseById = (id) => (dispatch) => {
   axios

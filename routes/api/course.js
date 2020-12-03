@@ -39,7 +39,7 @@ router.get(
 );
 
 // @route   GET api/course/openforapply
-// @desc    Get all courses
+// @desc    Get all courses that are open for apply
 // @access  Private
 router.get(
   "/openforapply",
@@ -63,19 +63,45 @@ router.get(
 // @route   GET /api/course/:id
 // @desc    Get Course by id
 // @access  Private
-router.get("/:id", (req, res) => {
-  const errors = {};
-  Course.findOne({ _id: req.params.id })
-    .populate("metacourse", ["name"])
-    .populate("semester", ["name"])
-    .then((course) => {
-      console.log(course);
-      res.json(course);
-    })
-    .catch((err) =>
-      res.status(404).json({ coursenotfound: "Course not found" })
-    );
-});
+router.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Course.findOne({ _id: req.params.id })
+      .populate("metacourse", ["name"])
+      .populate("semester", ["name"])
+      .then((course) => {
+        console.log(course);
+        res.json(course);
+      })
+      .catch((err) =>
+        res.status(404).json({ coursenotfound: "Course not found" })
+      );
+  }
+);
+
+// @route   GET /api/course/advisor/mycourses
+// @desc    Get Courses for advisor
+// @access  Private
+router.get(
+  "/advisor/mycourses",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Course.find({ advisor: req.user.id })
+      .populate("metacourse", ["name"])
+      .populate("semester", ["name"])
+      .then((courses) => {
+        res.json(courses);
+      })
+      .catch((err) =>
+        res.status(404).json({ coursenotfound: "No courses yet" })
+      );
+  }
+);
+
+//TODO: change name to id in pot /api/course
 
 // @route   POST /api/course
 // @desc    Create Course
@@ -134,7 +160,7 @@ router.post(
                     courseFields.weeks = req.body.weeks;
                     courseFields.requirement = req.body.requirement;
                     //courseFields.admin = req.body.admin;
-                    //courseFields.advisor = req.body.advisor;
+                    courseFields.advisor = req.body.advisor;
 
                     //Create Course
                     new Course(courseFields)
@@ -162,6 +188,8 @@ router.post(
       });
   }
 );
+
+//TODO: change name to id in pot /api/course/:id
 
 // @route   POST api/course/:id
 // @desc    Edit Course
@@ -218,7 +246,7 @@ router.post(
                     courseFields.weeks = req.body.weeks;
                     courseFields.requirement = req.body.requirement;
                     //courseFields.admin = req.body.admin;
-                    //courseFields.advisor = req.body.advisor;
+                    courseFields.advisor = req.body.advisor;
 
                     //Update
                     Course.findOneAndUpdate(

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import StudentProfileActions from "./StudentProfileActions";
 import AdminProfileActions from "./AdminProfileActions";
+import AdvisorActions from "./AdvisorActions";
 import Experience from "./Experience";
 import Education from "./Education";
 
@@ -49,11 +50,18 @@ class Dashboard extends Component {
               </button>
             </div>
           );
-        } else {
+        } else if (user.role === "Admin") {
           dashboardContent = (
             <div>
               <p className="lead text-muted">Welcome {profile.firstname}</p>
               <AdminProfileActions />
+            </div>
+          );
+        } else if (user.role === "Advisor") {
+          dashboardContent = (
+            <div>
+              <p className="lead text-muted">Welcome {profile.firstname}</p>
+              <AdvisorActions />
             </div>
           );
         }

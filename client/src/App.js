@@ -9,6 +9,7 @@ import store from "./store";
 
 import PrivateRoute from "./components/common/PrivateRoute";
 import PrivateAdminRoute from "./components/common/PrivateAdminRoute";
+import PrivateAdvisorRoute from "./components/common/PrivateAdvisorRoute";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -34,6 +35,7 @@ import TutorApplicationView from "./components/application/TutorApplicationView"
 import TutorApply from "./components/application/TutorApply";
 import MyApplications from "./components/application/MyApplications";
 import TutorUpdateApply from "./components/application/TutorUpdateApply";
+import AdvisorCourseOverview from "./components/course/AdvisorCourseOverview";
 
 import "./App.css";
 
@@ -99,7 +101,7 @@ class App extends Component {
               </Switch>
 
               <Switch>
-                <PrivateAdminRoute
+                <PrivateAdvisorRoute
                   exact
                   path="/tutor-overview"
                   component={TutorOverview}
@@ -194,6 +196,13 @@ class App extends Component {
                   exact
                   path="/updateapplication/:id"
                   component={TutorUpdateApply}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdvisorRoute
+                  exact
+                  path="/advisor-classes"
+                  component={AdvisorCourseOverview}
                 />
               </Switch>
             </div>
