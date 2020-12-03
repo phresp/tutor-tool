@@ -29,6 +29,7 @@ class EditCourse extends Component {
       maxtutornumber: 0,
       weeklyhourspertutor: 0,
       overallhours: 0,
+      from: "",
       till: "",
       weeks: "",
       requirement: "",
@@ -101,6 +102,7 @@ class EditCourse extends Component {
       course.overallhours = !isEmpty(course.overallhours)
         ? course.overallhours
         : "";
+      course.from = !isEmpty(course.from) ? course.from : "";
       course.till = !isEmpty(course.till) ? course.till : "";
       course.weeks = !isEmpty(course.weeks) ? course.weeks : "";
       course.requirement = !isEmpty(course.requirement)
@@ -123,6 +125,7 @@ class EditCourse extends Component {
         maxtutornumber: course.maxtutornumber,
         weeklyhourspertutor: course.weeklyhourspertutor,
         overallhours: course.overallhours,
+        from: course.from,
         till: course.till,
         weeks: course.weeks,
         requirement: course.requirement,
@@ -148,6 +151,7 @@ class EditCourse extends Component {
       maxtutornumber: this.state.maxtutornumber,
       weeklyhourspertutor: this.state.weeklyhourspertutor,
       overallhours: this.state.overallhours,
+      from: this.state.from,
       till: this.state.till,
       weeks: this.state.weeks,
       requirement: this.state.requirement,

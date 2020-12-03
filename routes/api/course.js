@@ -189,7 +189,7 @@ router.post(
   }
 );
 
-//TODO: change name to id in pot /api/course/:id
+//TODO: change name to id in post /api/course/:id
 
 // @route   POST api/course/:id
 // @desc    Edit Course
