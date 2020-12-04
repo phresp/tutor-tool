@@ -134,7 +134,6 @@ router.get(
     Application.find({ course: req.params.id })
       .populate("profile")
       .then((applications) => {
-        console.log(applications);
         if (!applications) {
           errors.application = "There are no applications";
           return res.status(404).json(errors);
@@ -142,7 +141,6 @@ router.get(
         res.json(applications);
       })
       .catch((err) => {
-        console.log(err);
         res.status(404).json({ application: "There are no applications" });
       });
   }
@@ -207,7 +205,7 @@ router.post(
       { new: true }
     )
       .then((application) => res.send(application))
-      .catch((err) => res.status(404).jason(err));
+      .catch((err) => res.status(404).json(err));
   }
 );
 
@@ -231,6 +229,30 @@ router.delete(
       .catch((err) => {
         res.status(404).json({ applicationnotfound: "Application not found" });
       });
+  }
+);
+
+//TODO: only Admin and advisor
+
+// @route   POST /api/application/accept/:id
+// @desc    POST Applicationupdate for course
+// @access  Private
+router.post(
+  "/accept/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    var errors;
+    console.log("here");
+    const updateApp = {
+      status: "Accepted",
+    };
+    Application.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: updateApp },
+      { new: true }
+    )
+      .then((applications) => res.send(applications))
+      .catch((err) => res.status(404).json(err));
   }
 );
 

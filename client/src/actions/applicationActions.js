@@ -98,3 +98,20 @@ export const updateApplication = (id, applicationData, history) => (
       })
     );
 };
+
+//UpdateApplication
+export const acceptApplication = (id, course) => (dispatch) => {
+  console.log("moin" + id);
+  axios
+    .post(`/api/application/accept/${id}`)
+    .then((res) => {
+      console.log("before get");
+      dispatch(getApplicationsOfCourse(course));
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: { err },
+      })
+    );
+};

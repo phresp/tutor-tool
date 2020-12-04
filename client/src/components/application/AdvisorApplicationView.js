@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { getApplicationsOfCourse } from "../../actions/applicationActions";
+import {
+  getApplicationsOfCourse,
+  acceptApplication,
+} from "../../actions/applicationActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
+import axios from "axios";
 
 const { SearchBar } = Search;
 
@@ -27,6 +31,43 @@ class AdvisorApplicationView extends Component {
 
     //Data for Table
     const entries = applications ? applications : [];
+
+    //TODO: axios auslagern und ohne reload button verschwinden lassen
+
+    //Accept Button
+    const course = this.props.match.params.id;
+    console.log(course);
+    function acceptButton(cell, row, rowIndex, formatExtraData) {
+      if (!entries.some((e) => e.status === "Accepted")) {
+        return (
+          <button
+            onClick={() => {
+              axios.post(`/api/application/accept/${row._id}`).then((res) => {
+                window.location.reload();
+              });
+            }}
+            className="btn btn-primary"
+          >
+            Accept Application
+          </button>
+        );
+      } else {
+        //TODO: Functionality einfügen
+        return <button className="btn btn-secondary">Remove Accept</button>;
+      }
+    }
+
+    function declineButton(cell, row, rowIndex, formatExtraData) {
+      return <button className="btn btn-danger">Decline Application</button>;
+    }
+
+    function betrachtenButton(cell, row, rowIndex, formatExtraData) {
+      return (
+        <Link to={`/applicationdetails/${row._id}`} className="btn btn-info">
+          Profile
+        </Link>
+      );
+    }
 
     if (!applications || applications.length > 0) {
       const columns = [
@@ -51,14 +92,22 @@ class AdvisorApplicationView extends Component {
           sort: true,
         },
         {
-          text: "Betrachten",
+          text: "View Profile",
           header: "Edit",
           id: "links",
+          formatter: betrachtenButton,
         },
         {
           text: "Accept",
           header: "Edit",
           id: "links",
+          formatter: acceptButton,
+        },
+        {
+          text: "Decline",
+          header: "Edit",
+          id: "links",
+          formatter: declineButton,
         },
       ];
 
@@ -97,6 +146,7 @@ class AdvisorApplicationView extends Component {
 
 AdvisorApplicationView.propTypes = {
   getApplicationsOfCourse: PropTypes.func.isRequired,
+  acceptApplication: PropTypes.func.isRequired,
   application: PropTypes.object.isRequired,
 };
 
@@ -104,6 +154,7 @@ const mapStateToProps = (state) => ({
   application: state.application,
 });
 
-export default connect(mapStateToProps, { getApplicationsOfCourse })(
-  AdvisorApplicationView
-);
+export default connect(mapStateToProps, {
+  getApplicationsOfCourse,
+  acceptApplication,
+})(AdvisorApplicationView);
