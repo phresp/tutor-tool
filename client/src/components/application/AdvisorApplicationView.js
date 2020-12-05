@@ -52,13 +52,34 @@ class AdvisorApplicationView extends Component {
           </button>
         );
       } else {
-        //TODO: Functionality einfügen
-        return <button className="btn btn-secondary">Remove Accept</button>;
+        return (
+          <button
+            onClick={() => {
+              axios.post(`/api/application/applied/${row._id}`).then((res) => {
+                window.location.reload();
+              });
+            }}
+            className="btn btn-secondary"
+          >
+            Reset Application
+          </button>
+        );
       }
     }
 
     function declineButton(cell, row, rowIndex, formatExtraData) {
-      return <button className="btn btn-danger">Decline Application</button>;
+      return (
+        <button
+          onClick={() => {
+            axios.post(`/api/application/decline/${row._id}`).then((res) => {
+              window.location.reload();
+            });
+          }}
+          className="btn btn-danger"
+        >
+          Decline Application
+        </button>
+      );
     }
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
@@ -83,12 +104,17 @@ class AdvisorApplicationView extends Component {
         },
         {
           dataField: "profile.matrikelnummer",
-          text: "Matrikelnummer",
+          text: "Matrikelnumber",
           sort: true,
         },
         {
           dataField: "grade",
           text: "Grade",
+          sort: true,
+        },
+        {
+          dataField: "status",
+          text: "Status",
           sort: true,
         },
         {

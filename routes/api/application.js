@@ -80,6 +80,16 @@ router.get(
     const errors = {};
 
     Application.findOne({ _id: req.params.id })
+      .populate({
+        path: "course",
+        select: { metacourse: 1 },
+        populate: {
+          path: "metacourse",
+          select: { name: 1, abbreviation: 2, module: 3 },
+        },
+      })
+      .populate("profile")
+      .populate("user", ["email"])
       .then((application) => {
         if (!application) {
           errors.noapplication = "There is no application for the course yet";
@@ -242,9 +252,51 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     var errors;
-    console.log("here");
     const updateApp = {
       status: "Accepted",
+    };
+    Application.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: updateApp },
+      { new: true }
+    )
+      .then((applications) => res.send(applications))
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
+// @route   POST /api/application/decline/:id
+// @desc    POST Applicationupdate for course
+// @access  Private
+router.post(
+  "/decline/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    var errors;
+    const updateApp = {
+      status: "Declined",
+    };
+    Application.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: updateApp },
+      { new: true }
+    )
+      .then((applications) => res.send(applications))
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
+// @route   POST /api/application/applied/:id
+// @desc    POST Applicationupdate for course
+// @access  Private
+router.post(
+  "/applied/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    var errors;
+
+    const updateApp = {
+      status: "Applied",
     };
     Application.findOneAndUpdate(
       { _id: req.params.id },
