@@ -9,6 +9,11 @@ import { getApplicationOfId } from "../../actions/applicationActions";
 import { updateApplication } from "../../actions/applicationActions";
 import isEmpty from "../../validation/is-empty";
 import moment from "moment";
+import Moment from "react-moment";
+import ExperienceOverview from "../common/ExperienceOverview";
+import EducationOverview from "../common/EducationOverview";
+import Experience from "../dashboard/Experience";
+import Education from "../dashboard/Education";
 
 class AdvisorCourseApplicationView extends Component {
   componentDidMount() {
@@ -34,17 +39,45 @@ class AdvisorCourseApplicationView extends Component {
 
     if (nextProps.application.application) {
       const application = nextProps.application.application;
-      console.log(nextProps.application);
-      console.log(application.application);
 
       //If application field doesn't exist, make empty string
       application.grade = !isEmpty(application.grade) ? application.grade : "";
       application.details = !isEmpty(application.details)
         ? application.details
         : "";
-
       application.course._id = !isEmpty(application.course._id)
         ? application.course._id
+        : "";
+      application.profile.lastname = !isEmpty(application.profile.lastname)
+        ? application.profile.lastname
+        : "";
+      application.profile.firstname = !isEmpty(application.profile.firstname)
+        ? application.profile.firstname
+        : "";
+      application.profile.matrikelnummner = !isEmpty(
+        application.profile.matrikelnummner
+      )
+        ? application.profile.matrikelnummner
+        : "";
+      application.profile.gender = !isEmpty(application.profile.gender)
+        ? application.profile.gender
+        : "";
+      application.profile.nationality = !isEmpty(
+        application.profile.nationality
+      )
+        ? application.profile.nationality
+        : "";
+      application.profile.birthday = !isEmpty(application.profile.birthday)
+        ? application.profile.birthday
+        : "";
+      application.profile.experience = !isEmpty(application.profile.experience)
+        ? application.profile.experience
+        : [];
+      application.profile.education = !isEmpty(application.profile.education)
+        ? application.profile.education
+        : [];
+      application.user.email = !isEmpty(application.user.email)
+        ? application.user.email
         : "";
 
       //Set component fields state
@@ -52,6 +85,15 @@ class AdvisorCourseApplicationView extends Component {
         grade: application.grade,
         details: application.details,
         courseid: application.course._id,
+        lastname: application.profile.lastname,
+        firstname: application.profile.firstname,
+        matrikelnummer: application.profile.matrikelnummer,
+        gender: application.profile.gender,
+        nationality: application.profile.nationality,
+        birthday: application.profile.birthday,
+        experience: application.profile.experience,
+        education: application.profile.education,
+        email: application.user.email,
       });
     }
   }
@@ -75,24 +117,12 @@ class AdvisorCourseApplicationView extends Component {
   }
 
   render() {
-    const { errors, application } = this.state;
-    console.log(application);
-    const gradeOptions = [
-      { label: "No selection", value: "No grade" },
-      { label: "1.0", value: "1.0" },
-      { label: "1.3", value: "1.3" },
-      { label: "1.7", value: "1.7" },
-      { label: "2.0", value: "2.0" },
-      { label: "2.3", value: "2.3" },
-      { label: "2.7", value: "2.7" },
-      { label: "3.0", value: "3.0" },
-      { label: "3.3", value: "3.3" },
-      { label: "3.7", value: "3.7" },
-      { label: "4.0", value: "4.0" },
-    ];
-
+    var profile = { education: [], experience: [] };
+    if (this.props.application.application)
+      profile = this.props.application.application.profile;
+    console.log(profile);
     return (
-      <div className={"Tutorapply"}>
+      <div className={"Tutoroverview"}>
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
@@ -102,34 +132,34 @@ class AdvisorCourseApplicationView extends Component {
               >
                 back
               </Link>
-              <h1 className="display-4 text-center">Update Application</h1>
-
-              <form onSubmit={this.onSubmit}>
-                <label htmlFor="inputGrade">Your Grade</label>
-                <SelectListGroup
-                  placeholder="Grader"
-                  onChange={this.onChange}
-                  value={this.state.grade}
-                  name="grade"
-                  error={errors.grade}
-                  options={gradeOptions}
-                />
-                <label htmlFor="inputDetails">
-                  Additional Details for your Application
-                </label>
-                <TextAreaFieldGroup
-                  placeholder="Details"
-                  onChange={this.onChange}
-                  value={this.state.details}
-                  name="details"
-                  error={errors.details}
-                />
-                <input
-                  type="submit"
-                  value="Submit"
-                  className="btn btn-info btn-block mt-4"
-                />
-              </form>
+              <h1 className="display-4 text-center">
+                Application of {this.state.firstname} {this.state.lastname}
+              </h1>
+              <h5>Course Info</h5>
+              <p className="lead text-muted">Grade: {this.state.grade} </p>
+              <p className="lead text-muted">Details: {this.state.details} </p>
+              <h5>Personal Info</h5>
+              <p className="lead text-muted">Email: {this.state.email}</p>
+              <p className="lead text-muted">
+                Matrikelnummer: {this.state.matrikelnummer}
+              </p>
+              <p className="lead text-muted">
+                Birthday:{" "}
+                <Moment format="DD/MM/YYYY">
+                  {moment.utc(this.state.birthday)}
+                </Moment>
+              </p>
+              <p className="lead text-muted">Gender: {this.state.gender}</p>
+              <p className="lead text-muted">
+                Nationality: {this.state.nationality}
+              </p>
+              <div>
+                <ExperienceOverview experience={profile.experience} />
+                <EducationOverview education={profile.education} />
+              </div>
+              <div style={{ marginBottom: "60px" }} />
+              <p></p>
+              <p></p>
             </div>
           </div>
         </div>

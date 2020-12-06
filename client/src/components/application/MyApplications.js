@@ -10,6 +10,8 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 
 const { SearchBar } = Search;
 
+//TODO: Status of Application
+
 class MyApplications extends Component {
   componentDidMount() {
     this.props.getTutorApplications();
