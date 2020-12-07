@@ -90,6 +90,8 @@ class AdvisorApplicationView extends Component {
       );
     }
 
+    //TODO: Filter nach Applied, Accepted, Declined, New
+
     if (!applications || applications.length > 0) {
       const columns = [
         {

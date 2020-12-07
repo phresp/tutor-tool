@@ -1,9 +1,10 @@
 import axios from "axios";
 
-import { GET_COURSE, GET_ERRORS, GET_COURSES } from "./types";
+import { GET_COURSE, GET_ERRORS, GET_COURSES, COURSE_LOADING } from "./types";
 
 //Get all Course
 export const getCourses = () => (dispatch) => {
+  dispatch(setCourseLoading());
   axios
     .get("/api/course/")
     .then((res) => dispatch({ type: GET_COURSES, payload: res.data }))
@@ -17,9 +18,13 @@ export const getCourses = () => (dispatch) => {
 
 //Get all Courses for Tutors
 export const getCoursesForApplication = () => (dispatch) => {
+  dispatch(setCourseLoading());
   axios
-    .get("/api/course/openforapply")
-    .then((res) => dispatch({ type: GET_COURSES, payload: res.data }))
+    .get("/api/course/status/openforapply")
+    .then((res) => {
+      console.log("openforapply");
+      dispatch({ type: GET_COURSES, payload: res.data });
+    })
     .catch((err) =>
       dispatch({
         type: GET_COURSES,
@@ -30,6 +35,7 @@ export const getCoursesForApplication = () => (dispatch) => {
 
 //Get all Courses for Advisor
 export const getAdvisorCourses = () => (dispatch) => {
+  dispatch(setCourseLoading());
   axios
     .get("/api/course/advisor/mycourses")
     .then((res) => dispatch({ type: GET_COURSES, payload: res.data }))
@@ -43,6 +49,7 @@ export const getAdvisorCourses = () => (dispatch) => {
 
 //Get Course of id
 export const getCourseById = (id) => (dispatch) => {
+  dispatch(setCourseLoading());
   axios
     .get(`/api/course/${id}`)
     .then((res) => dispatch({ type: GET_COURSE, payload: res.data }))
@@ -82,4 +89,11 @@ export const editCourse = (id, courseData, history) => (dispatch) => {
         payload: err.response.data,
       })
     );
+};
+
+// Application Loading
+export const setCourseLoading = () => {
+  return {
+    type: COURSE_LOADING,
+  };
 };

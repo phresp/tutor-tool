@@ -54,15 +54,16 @@ export const getProfiles = () => (dispatch) => {
 
 //Get all advisors
 export const getAdvisors = () => (dispatch) => {
+  dispatch(setProfileLoading());
   axios
-    .get("/api/profile/advisor")
+    .get("/api/profile/role/advisor")
     .then((res) => dispatch({ type: GET_ADVISORS, payload: res.data }))
-    .catch((err) =>
+    .catch((err) => {
       dispatch({
         type: GET_ADVISORS,
         payload: {},
-      })
-    );
+      });
+    });
 };
 
 //CreateProfile

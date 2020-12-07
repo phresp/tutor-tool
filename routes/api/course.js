@@ -38,11 +38,11 @@ router.get(
   }
 );
 
-// @route   GET api/course/openforapply
+// @route   GET api/course/status/openforapply
 // @desc    Get all courses that are open for apply
 // @access  Private
 router.get(
-  "/openforapply",
+  "/status/openforapply",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
@@ -50,13 +50,15 @@ router.get(
       .populate("metacourse", ["name", "abbreviation"])
       .populate("semester", ["name"])
       .then((course) => {
+        console.log(course);
         if (!course) {
           errors.course = "There are no courses";
           return res.status(404).json(errors);
+        } else {
         }
         res.json(course);
       })
-      .catch((err) => res.status(404).json({ course: "There are no Courses" }));
+      .catch((err) => res.status(404).json({ course: "There are no courses" }));
   }
 );
 

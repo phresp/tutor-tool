@@ -66,7 +66,7 @@ const CourseSchema = new Schema({
   },
   status: {
     type: String,
-    default: "Open",
+    default: "Preparation",
   },
 });
 

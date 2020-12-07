@@ -4,6 +4,7 @@ import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
+import isEmpty from "../common/is-empty";
 
 import { createCourse } from "../../actions/courseActions";
 import { getSemesters } from "../../actions/semesterActions";
@@ -128,7 +129,7 @@ class CreateCourse extends Component {
     metacourseOptions.unshift({ label: "Select Metacourse", value: "" });
 
     //Select options for advisors
-    if (!advisors) {
+    if (isEmpty(advisors)) {
       advisors = [];
     }
     const advisorOptions = advisors.map((el) => {

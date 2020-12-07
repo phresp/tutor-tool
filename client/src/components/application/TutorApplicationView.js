@@ -5,9 +5,12 @@ import PropTypes from "prop-types";
 
 import { getTutorApplications } from "../../actions/applicationActions";
 import { getCoursesForApplication } from "../../actions/courseActions";
+import { getAdvisors } from "../../actions/profileActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
+import isEmpty from "validator/es/lib/isEmpty";
+import Spinner from "../common/Spinner";
 
 const { SearchBar } = Search;
 
@@ -15,6 +18,7 @@ class TutorApplicationView extends Component {
   componentDidMount() {
     this.props.getTutorApplications();
     this.props.getCoursesForApplication();
+    this.props.getAdvisors();
   }
 
   onApplyClick(id) {
@@ -22,77 +26,100 @@ class TutorApplicationView extends Component {
   }
 
   render() {
-    const { applications } = this.props.application;
-    const { courses } = this.props.course;
+    let { applications, applicationloading } = this.props.application;
+    let { courses, courseloading } = this.props.course;
+    let { advisors, loading } = this.props.profile;
     let applicationTable;
 
-    //Data for Table
-    const entries = courses ? courses : [];
-    const applicationentries = applications ? applications : [];
+    if (
+      applications === null ||
+      courses === null ||
+      advisors === null ||
+      applicationloading ||
+      courseloading ||
+      loading
+    ) {
+      applicationTable = <Spinner />;
+    } else {
+      //Data for Table
+      const entries = courses ? courses : [];
+      var applicationentries = applications ? applications : [];
 
-    function betrachtenButton(cell, row, rowIndex, formatExtraData) {
-      return (
-        <Link to={`/course/${row._id}`} className="btn btn-info">
-          Betrachten
-        </Link>
-      );
-    }
-
-    function applyButton(cell, row, rowIndex, formatExtraData) {
-      if (!applicationentries.some((e) => e.course._id === row._id)) {
+      function betrachtenButton(cell, row, rowIndex, formatExtraData) {
         return (
-          <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
-            New Application
-          </Link>
-        );
-      } else {
-        return (
-          <Link to={`/tutorapply/${row._id}`} className="btn btn-primary">
-            Edit Application
+          <Link to={`/course/${row._id}`} className="btn btn-info">
+            Betrachten
           </Link>
         );
       }
-    }
 
-    if (courses && courses.length > 0) {
-      const columns = [
-        {
-          dataField: "metacourse.name",
-          text: "Course",
-          sort: true,
-        },
-        {
-          dataField: "requirement",
-          text: "Requirements",
-          sort: true,
-        },
-        {
-          dataField: "advisor",
-          text: "Advisor",
-          sort: true,
-        },
-        {
-          text: "Apply",
-          header: "Apply",
-          id: "links",
-          formatter: applyButton,
-        },
-      ];
+      function applyButton(cell, row, rowIndex, formatExtraData) {
+        return (
+          <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
+            Apply
+          </Link>
+        );
+      }
 
-      applicationTable = (
-        <ToolkitProvider keyField="id" data={entries} columns={columns} search>
-          {(props) => (
-            <div>
-              <SearchBar {...props.searchProps} />
-              <hr />
-              <BootstrapTable
-                {...props.baseProps}
-                pagination={paginationFactory()}
-              />
-            </div>
-          )}
-        </ToolkitProvider>
-      );
+      function advisorFormatter(value, row, rowIndex, formatExtraData) {
+        // console.log(advisors);
+        // console.log("advisorID" + value);
+        var result = advisors.filter((obj) => {
+          return obj.user._id === value;
+        });
+        if (result[0]) {
+          return result[0].firstname + " " + result[0].lastname;
+        } else {
+          return "";
+        }
+      }
+
+      if (courses && courses.length > 0) {
+        const columns = [
+          {
+            dataField: "metacourse.name",
+            text: "Course",
+            sort: true,
+          },
+          {
+            dataField: "requirement",
+            text: "Requirements",
+            sort: true,
+          },
+          {
+            dataField: "advisor",
+            text: "Advisor",
+            sort: true,
+            formatter: advisorFormatter,
+          },
+          {
+            text: "Apply",
+            header: "Apply",
+            id: "links",
+            formatter: applyButton,
+          },
+        ];
+
+        applicationTable = (
+          <ToolkitProvider
+            keyField="id"
+            data={entries}
+            columns={columns}
+            search
+          >
+            {(props) => (
+              <div>
+                <SearchBar {...props.searchProps} />
+                <hr />
+                <BootstrapTable
+                  {...props.baseProps}
+                  pagination={paginationFactory()}
+                />
+              </div>
+            )}
+          </ToolkitProvider>
+        );
+      }
     }
 
     return (
@@ -115,16 +142,20 @@ class TutorApplicationView extends Component {
 TutorApplicationView.propTypes = {
   getTutorApplications: PropTypes.func.isRequired,
   getCoursesForApplication: PropTypes.func.isRequired,
+  getAdvisors: PropTypes.func.isRequired,
   application: PropTypes.object.isRequired,
   course: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   application: state.application,
   course: state.course,
+  profile: state.profile,
 });
 
 export default connect(mapStateToProps, {
   getTutorApplications,
   getCoursesForApplication,
+  getAdvisors,
 })(TutorApplicationView);

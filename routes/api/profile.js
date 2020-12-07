@@ -90,11 +90,11 @@ router.get(
   }
 );
 
-// @route   GET api/profile/advisor
+// @route   GET api/profile/role/advisor
 // @desc    Get all advisors
 // @access  Private
 router.get(
-  "/advisor",
+  "/role/advisor",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Check authorization
@@ -108,6 +108,7 @@ router.get(
         const advisorIDs = advisors.map((el) => {
           return el._id;
         });
+        console.log(advisorIDs);
         Profile.find({
           user: advisorIDs,
         })

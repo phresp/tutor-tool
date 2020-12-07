@@ -95,7 +95,7 @@ class TutorApply extends Component {
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="inputGrade">Your Grade</label>
                 <SelectListGroup
-                  placeholder="Grader"
+                  placeholder="Grade"
                   onChange={this.onChange}
                   value={this.state.grade}
                   name="grade"

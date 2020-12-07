@@ -1,9 +1,15 @@
 import axios from "axios";
 
-import { GET_APPLICATIONS, GET_APPLICATION, GET_ERRORS } from "./types";
+import {
+  GET_APPLICATIONS,
+  GET_APPLICATION,
+  GET_ERRORS,
+  APPLICATION_LOADING,
+} from "./types";
 
 //Get all Applications
 export const getApplications = () => (dispatch) => {
+  dispatch(setApplicationLoading());
   axios
     .get("/api/application/all")
     .then((res) => dispatch({ type: GET_APPLICATIONS, payload: res.data }))
@@ -17,6 +23,7 @@ export const getApplications = () => (dispatch) => {
 
 //Get Applications of Tutor
 export const getTutorApplications = () => (dispatch) => {
+  dispatch(setApplicationLoading());
   axios
     .get("/api/application")
     .then((res) => dispatch({ type: GET_APPLICATIONS, payload: res.data }))
@@ -30,6 +37,7 @@ export const getTutorApplications = () => (dispatch) => {
 
 //Get Application for course of Tutor
 export const getTutorApplicationForCourse = (id) => (dispatch) => {
+  dispatch(setApplicationLoading());
   axios
     .get(`/api/application/${id}`)
     .then((res) => dispatch({ type: GET_APPLICATION, payload: res.data }))
@@ -43,6 +51,7 @@ export const getTutorApplicationForCourse = (id) => (dispatch) => {
 
 //Get Application for applicationID of Tutor
 export const getApplicationOfId = (id) => (dispatch) => {
+  dispatch(setApplicationLoading());
   axios
     .get(`/api/application/apply/${id}`)
     .then((res) => dispatch({ type: GET_APPLICATION, payload: res.data }))
@@ -56,6 +65,7 @@ export const getApplicationOfId = (id) => (dispatch) => {
 
 //Get Application for applicationID of Tutor
 export const getApplicationsOfCourse = (id) => (dispatch) => {
+  dispatch(setApplicationLoading());
   axios
     .get(`/api/application/course/${id}`)
     .then((res) => dispatch({ type: GET_APPLICATIONS, payload: res.data }))
@@ -72,7 +82,7 @@ export const postApplication = (id, applicationData, history) => (dispatch) => {
   axios
     .post(`/api/application/${id}`, applicationData)
     .then((res) => {
-      history.push("/tutorapplication");
+      history.push("/myaplications");
     })
     .catch((err) =>
       dispatch({
@@ -114,4 +124,11 @@ export const acceptApplication = (id, course) => (dispatch) => {
         payload: { err },
       })
     );
+};
+
+// Application Loading
+export const setApplicationLoading = () => {
+  return {
+    type: APPLICATION_LOADING,
+  };
 };

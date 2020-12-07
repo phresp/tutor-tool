@@ -117,10 +117,10 @@ class AdvisorCourseApplicationView extends Component {
   }
 
   render() {
+    //TODO:Buttons to accept and decline application
     var profile = { education: [], experience: [] };
     if (this.props.application.application)
       profile = this.props.application.application.profile;
-    console.log(profile);
     return (
       <div className={"Tutoroverview"}>
         <div className="container">
@@ -158,8 +158,6 @@ class AdvisorCourseApplicationView extends Component {
                 <EducationOverview education={profile.education} />
               </div>
               <div style={{ marginBottom: "60px" }} />
-              <p></p>
-              <p></p>
             </div>
           </div>
         </div>
