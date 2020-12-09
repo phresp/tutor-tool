@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 const AdminProfileActions = () => {
   return (
     <div>
+      <h6>Personal:</h6>
       <div className="dash-buttons">
         <Link to="/edit-profile" className="btn btn-light">
           <i className="fas fa-user-circle text-primary"></i> Edit Profile
         </Link>
+      </div>
+      <h6>Tutor Management:</h6>
+      <div className="dash-buttons">
         <Link to="/tutor-overview" className="btn btn-light">
           <i className="far fa-address-book text-primary"></i> Tutor Overview
         </Link>
@@ -18,7 +22,7 @@ const AdminProfileActions = () => {
           <i className="fas fa-file-contract text-primary"></i> Contracts
         </Link>
       </div>
-      <h6>Options:</h6>
+      <h6>Setup:</h6>
       <div className="dash-buttons">
         <Link to="/semester-overview" className="btn btn-light">
           <i className="fas fa-calendar-alt text-primary"></i> Semester Overview

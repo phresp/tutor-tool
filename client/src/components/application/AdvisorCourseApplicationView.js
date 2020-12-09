@@ -117,6 +117,14 @@ class AdvisorCourseApplicationView extends Component {
   }
 
   render() {
+    var linkto;
+    const { user } = this.props.auth;
+    if (user.role === "Admin") {
+      linkto = `/course-applications/${this.state.courseid}`;
+    } else {
+      linkto = `/check-applications/${this.state.courseid}`;
+    }
+
     //TODO:Buttons to accept and decline application
     var profile = { education: [], experience: [] };
     if (this.props.application.application)
@@ -126,10 +134,7 @@ class AdvisorCourseApplicationView extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link
-                to={`/check-applications/${this.state.courseid}`}
-                className={"btn btn-light"}
-              >
+              <Link to={linkto} className={"btn btn-light"}>
                 back
               </Link>
               <h1 className="display-4 text-center">
@@ -174,6 +179,7 @@ AdvisorCourseApplicationView.propTypes = {
 const mapStateToProps = (state) => ({
   application: state.application,
   course: state.course,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {

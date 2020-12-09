@@ -32,55 +32,7 @@ class AdminApplicationView extends Component {
     //Data for Table
     const entries = applications ? applications : [];
 
-    //TODO: axios auslagern und ohne reload button verschwinden lassen
-
-    //Accept Button
     const course = this.props.match.params.id;
-    console.log(course);
-    function acceptButton(cell, row, rowIndex, formatExtraData) {
-      if (!entries.some((e) => e.status === "Accepted")) {
-        return (
-          <button
-            onClick={() => {
-              axios.post(`/api/application/accept/${row._id}`).then((res) => {
-                window.location.reload();
-              });
-            }}
-            className="btn btn-primary"
-          >
-            Accept Application
-          </button>
-        );
-      } else {
-        return (
-          <button
-            onClick={() => {
-              axios.post(`/api/application/applied/${row._id}`).then((res) => {
-                window.location.reload();
-              });
-            }}
-            className="btn btn-secondary"
-          >
-            Reset Application
-          </button>
-        );
-      }
-    }
-
-    function declineButton(cell, row, rowIndex, formatExtraData) {
-      return (
-        <button
-          onClick={() => {
-            axios.post(`/api/application/decline/${row._id}`).then((res) => {
-              window.location.reload();
-            });
-          }}
-          className="btn btn-danger"
-        >
-          Decline Application
-        </button>
-      );
-    }
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
@@ -125,18 +77,6 @@ class AdminApplicationView extends Component {
           id: "links",
           formatter: betrachtenButton,
         },
-        {
-          text: "Accept",
-          header: "Edit",
-          id: "links",
-          formatter: acceptButton,
-        },
-        {
-          text: "Decline",
-          header: "Edit",
-          id: "links",
-          formatter: declineButton,
-        },
       ];
 
       applicationTable = (
@@ -159,7 +99,7 @@ class AdminApplicationView extends Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <Link to={"/advisor-classes"} className={"btn btn-light"}>
+            <Link to={"/class-overview"} className={"btn btn-light"}>
               back
             </Link>
             <h1 className="display-4 text-center">Applications</h1>

@@ -32,6 +32,14 @@ class CourseOverview extends Component {
       );
     }
 
+    function applicationsButton(cell, row, rowIndex, formatExtraData) {
+      return (
+        <Link to={`/course-applications/${row._id}`} className="btn btn-info">
+          Check Applications
+        </Link>
+      );
+    }
+
     function dateFormat(value, row, index) {
       if (value) return moment(value).format("DD/MM/YYYY");
     }
@@ -72,6 +80,10 @@ class CourseOverview extends Component {
         header: "Edit",
         id: "links",
         formatter: betrachtenButton,
+      },
+      {
+        id: "links",
+        formatter: applicationsButton,
       },
     ];
 

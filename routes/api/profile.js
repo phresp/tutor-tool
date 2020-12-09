@@ -61,11 +61,11 @@ router.get(
   }
 );
 
-// @route   GET api/profile/all
+// @route   GET api/profile/profiles/all
 // @desc    Get all Profiles
 // @access  Private
 router.get(
-  "/all",
+  "/profiles/all",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Check authorization

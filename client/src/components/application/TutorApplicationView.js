@@ -43,15 +43,6 @@ class TutorApplicationView extends Component {
     } else {
       //Data for Table
       const entries = courses ? courses : [];
-      var applicationentries = applications ? applications : [];
-
-      function betrachtenButton(cell, row, rowIndex, formatExtraData) {
-        return (
-          <Link to={`/course/${row._id}`} className="btn btn-info">
-            Betrachten
-          </Link>
-        );
-      }
 
       function applyButton(cell, row, rowIndex, formatExtraData) {
         return (
@@ -60,11 +51,21 @@ class TutorApplicationView extends Component {
           </Link>
         );
       }
+      function statusFormatter(value, row, rowIndex, formatExtraData) {
+        var result = applications.filter((obj) => {
+          //console.log(Object.keys(obj.course));
+          return obj.course === value;
+        });
+        if (result[0]) {
+          return result[0].status;
+        } else {
+          return "";
+        }
+      }
 
       function advisorFormatter(value, row, rowIndex, formatExtraData) {
-        // console.log(advisors);
-        // console.log("advisorID" + value);
         var result = advisors.filter((obj) => {
+          console.log(Object.keys(obj.user));
           return obj.user._id === value;
         });
         if (result[0]) {
@@ -91,6 +92,12 @@ class TutorApplicationView extends Component {
             text: "Advisor",
             sort: true,
             formatter: advisorFormatter,
+          },
+          {
+            dataField: "_id",
+            text: "Status",
+            sort: true,
+            formatter: statusFormatter,
           },
           {
             text: "Apply",

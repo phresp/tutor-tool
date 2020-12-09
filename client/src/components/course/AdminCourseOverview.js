@@ -32,6 +32,14 @@ class AdminCourseOverview extends Component {
       );
     }
 
+    function applicationsButton(cell, row, rowIndex, formatExtraData) {
+      return (
+        <Link to={`/course-applications/${row._id}`} className="btn btn-info">
+          Check Applications
+        </Link>
+      );
+    }
+
     const columns = [
       {
         dataField: "metacourse.name",
@@ -61,6 +69,10 @@ class AdminCourseOverview extends Component {
       {
         id: "links",
         formatter: betrachtenButton,
+      },
+      {
+        id: "links",
+        formatter: applicationsButton,
       },
     ];
 

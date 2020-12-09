@@ -40,6 +40,7 @@ import AdvisorApplicationView from "./components/application/AdvisorApplicationV
 import AdvisorViewTutorProfile from "./components/tutor-profile/AdvisorViewTutorProfile";
 import ViewTutorProfile from "./components/tutor-profile/ViewTutorProfile";
 import AdvisorCourseApplicationView from "./components/application/AdvisorCourseApplicationView";
+import AdminApplicationView from "./components/application/AdminApplicationView";
 
 import "./App.css";
 
@@ -228,6 +229,13 @@ class App extends Component {
                   exact
                   path="/applicationdetails/:id"
                   component={AdvisorCourseApplicationView}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/course-applications/:id"
+                  component={AdminApplicationView}
                 />
               </Switch>
             </div>
