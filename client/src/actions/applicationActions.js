@@ -49,7 +49,7 @@ export const getTutorApplicationForCourse = (id) => (dispatch) => {
     );
 };
 
-//Get Application for applicationID of Tutor
+//Get Application if applicationID
 export const getApplicationOfId = (id) => (dispatch) => {
   dispatch(setApplicationLoading());
   axios
@@ -109,7 +109,7 @@ export const updateApplication = (id, applicationData, history) => (
     );
 };
 
-//UpdateApplication
+//AcceptApplication
 export const acceptApplication = (id, course) => (dispatch) => {
   console.log("moin" + id);
   axios

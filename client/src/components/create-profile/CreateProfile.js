@@ -53,7 +53,7 @@ class CreateProfile extends Component {
   render() {
     const { errors } = this.state;
 
-    //Select options for status
+    //Select options for gender
     const statusOptions = [
       { label: "Select your gender", value: "" },
       { label: "male", value: "male" },

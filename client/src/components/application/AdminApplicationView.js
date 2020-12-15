@@ -42,6 +42,16 @@ class AdminApplicationView extends Component {
       );
     }
 
+    function contractButton(cell, row, rowIndex, formatExtraData) {
+      if (row.status === "Accepted") {
+        return (
+          <Link to={`/create-contract/${row._id}`} className="btn btn-primary">
+            Create Contract
+          </Link>
+        );
+      }
+    }
+
     //TODO: Filter nach Applied, Accepted, Declined, New
 
     if (!applications || applications.length > 0) {
@@ -76,6 +86,12 @@ class AdminApplicationView extends Component {
           header: "Edit",
           id: "links",
           formatter: betrachtenButton,
+        },
+        {
+          text: "View Profile",
+          header: "Edit",
+          id: "links",
+          formatter: contractButton,
         },
       ];
 

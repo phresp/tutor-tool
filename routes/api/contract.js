@@ -148,7 +148,7 @@ router.post(
     contractFields.user = req.user.id;
     contractFields.profile = req.body.profile;
     contractFields.course = req.body.course;
-    contractFields.application = req.body.application;
+    contractFields.application = req.body.applicationID;
     contractFields.contractstart = req.body.contractstart;
     contractFields.contractend = req.body.contractend;
     contractFields.hours = req.body.hours;
