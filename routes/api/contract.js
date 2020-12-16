@@ -193,8 +193,21 @@ router.post(
       : "fehlt";
     contractFields.steuerId = req.body.steuerId ? req.body.steuerId : "fehlt";
 
+    contractFields.status = req.body.status ? req.body.status : "created";
+
     //Create Contract
-    new Contract(contractFields).save().then((contract) => res.json(contract));
+    new Contract(contractFields).save().then((contract) => {
+      //Update Application
+      Application.findOneAndUpdate(
+        { _id: req.body.applicationID },
+        { $set: { status: "Contract" } },
+        { new: true }
+      )
+        .then((application) => res.json(contract))
+        .catch((err) =>
+          res.status(400).json({ applicationnotfound: "Application not found" })
+        );
+    });
   }
 );
 

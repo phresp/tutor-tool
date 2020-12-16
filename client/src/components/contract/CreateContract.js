@@ -9,6 +9,8 @@ import { createContract } from "../../actions/contractActions";
 
 import { getApplicationOfId } from "../../actions/applicationActions";
 
+import { isEmpty } from "../../validation/is-empty";
+
 class CreateContract extends Component {
   componentDidMount() {
     this.props.getApplicationOfId(this.props.match.params.id);
@@ -89,6 +91,34 @@ class CreateContract extends Component {
   render() {
     const { errors } = this.state;
 
+    //Get User ID
+    if (this.props.application.application) {
+      this.state.user = this.props.application.application.user._id;
+    }
+    // Get profile ID
+    if (this.props.application.application) {
+      this.state.profile = this.props.application.application.profile._id;
+    }
+
+    //Get Profile ID
+    if (this.props.application.application) {
+      this.state.course = this.props.application.application.course._id;
+    }
+
+    //Get application ID
+    if (this.props.application.application) {
+      this.state.applicationID = this.props.application.application._id;
+    }
+
+    //Name and course
+    var contractname;
+    if (this.props.application.application) {
+      contractname =
+        this.props.application.application.profile.firstname +
+        " " +
+        this.props.application.application.profile.lastname;
+    }
+
     //Select options for Forms
     const formsOptions = [
       { label: "fehlt", value: "fehlt" },
@@ -129,9 +159,9 @@ class CreateContract extends Component {
               <Link to={"/class-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Contract Creation for </h1>
-              <small className="d-block pb-3">* = required fields</small>
-
+              <h1 className="display-4 text-center">
+                Contract Creation for <br /> {contractname}
+              </h1>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="contractstart">Contract Start:</label>
                 <TextFieldGroup
@@ -153,7 +183,7 @@ class CreateContract extends Component {
                 />
                 <label htmlFor="hours">Hours:</label>
                 <TextFieldGroup
-                  placeholder="* Hours"
+                  placeholder="Hours"
                   onChange={this.onChange}
                   value={this.state.hours}
                   name="hours"
@@ -339,6 +369,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { createContract, getApplicationOfId })(
-  withRouter(CreateContract)
-);
+export default connect(mapStateToProps, {
+  createContract,
+  getApplicationOfId,
+})(withRouter(CreateContract));
