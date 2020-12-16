@@ -6,7 +6,9 @@ import { GET_CONTRACT, GET_CONTRACTS, GET_ERRORS } from "./types";
 export const getContracts = () => (dispatch) => {
   axios
     .get("/api/contract/all")
-    .then((res) => dispatch({ type: GET_CONTRACTS, payload: res.data }))
+    .then((res) => {
+      dispatch({ type: GET_CONTRACTS, payload: res.data });
+    })
     .catch((err) =>
       dispatch({
         type: GET_CONTRACTS,

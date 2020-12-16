@@ -42,6 +42,7 @@ import ViewTutorProfile from "./components/tutor-profile/ViewTutorProfile";
 import AdvisorCourseApplicationView from "./components/application/AdvisorCourseApplicationView";
 import AdminApplicationView from "./components/application/AdminApplicationView";
 import CreateContract from "./components/contract/CreateContract";
+import ContractOverview from "./components/contract/ContractOverview";
 
 import "./App.css";
 
@@ -244,6 +245,13 @@ class App extends Component {
                   exact
                   path="/create-contract/:id"
                   component={CreateContract}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/contracts"
+                  component={ContractOverview}
                 />
               </Switch>
             </div>

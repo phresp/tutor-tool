@@ -22,14 +22,14 @@ export default function (state = initialState, action) {
         ...state,
         contracts: action.payload,
         contract: null,
-        applicationloading: false,
+        contractloading: false,
       };
     case GET_CONTRACT:
       return {
         ...state,
         contracts: null,
         contract: action.payload,
-        applicationloading: false,
+        contractloading: false,
       };
     default:
       return state;
