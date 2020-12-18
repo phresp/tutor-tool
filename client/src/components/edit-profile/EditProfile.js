@@ -26,7 +26,7 @@ class CreateProfile extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
+  //TODO: Nationality Falsch geschrieben
   componentDidMount() {
     this.props.getCurrentProfile();
   }

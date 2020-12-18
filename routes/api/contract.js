@@ -35,17 +35,21 @@ router.get(
     Contract.find({ user: req.user.id })
       .populate({
         path: "course",
-        select: { semester: 1, metacourse: 2 },
-        populate: {
-          path: "semester",
-        },
+        select: { metacourse: 1 },
         populate: {
           path: "metacourse",
           select: { name: 1, abbreviation: 2, module: 3 },
         },
       })
+      .populate({
+        path: "course",
+        select: { semester: 1 },
+        populate: {
+          path: "semester",
+        },
+      })
       .populate({ path: "application" })
-      .populate({ path: "users", select: { email: 1 } })
+      .populate("user", ["email"])
       .populate({ path: "profile" })
       .then((contracts) => {
         if (!contracts) {
@@ -69,17 +73,21 @@ router.get(
     Contract.find()
       .populate({
         path: "course",
-        select: { semester: 1, metacourse: 2 },
-        populate: {
-          path: "semester",
-        },
+        select: { metacourse: 1 },
         populate: {
           path: "metacourse",
           select: { name: 1, abbreviation: 2, module: 3 },
         },
       })
+      .populate({
+        path: "course",
+        select: { semester: 1 },
+        populate: {
+          path: "semester",
+        },
+      })
       .populate({ path: "application" })
-      .populate({ path: "users", select: { email: 1 } })
+      .populate("user", ["email"])
       .populate({ path: "profile" })
       .then((contracts) => {
         if (!contracts) {
@@ -105,17 +113,22 @@ router.get(
     Contract.findOne({ _id: req.params.id })
       .populate({
         path: "course",
-        select: { semester: 1, metacourse: 2 },
-        populate: {
-          path: "semester",
-        },
+        select: { metacourse: 1 },
         populate: {
           path: "metacourse",
           select: { name: 1, abbreviation: 2, module: 3 },
         },
       })
+      .populate({
+        path: "course",
+        select: { semester: 1 },
+        populate: {
+          path: "semester",
+        },
+      })
       .populate({ path: "application" })
-      .populate({ path: "user", select: { email: 1 } })
+      .populate({ path: "profile" })
+      .populate("user", ["email"])
       .then((contract) => {
         if (!contract) {
           errors.application = "There is no contract";
@@ -145,7 +158,7 @@ router.post(
 
     //Get Body Fields
     const contractFields = {};
-    contractFields.user = req.user.id;
+    contractFields.user = req.body.user;
     contractFields.profile = req.body.profile;
     contractFields.course = req.body.course;
     contractFields.application = req.body.applicationID;
@@ -208,6 +221,60 @@ router.post(
           res.status(400).json({ applicationnotfound: "Application not found" })
         );
     });
+  }
+);
+
+// @route   POST /api/contract/update/:id
+// @desc    POST to update contract
+// @access  Private
+router.post(
+  "/update/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Validate Input fields
+    const { errors, isValid } = validateContractInput(req.body);
+    if (!isValid) {
+      //Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    //Get Body Fields
+    const contractFields = {};
+    contractFields.user = req.body.user;
+    contractFields.profile = req.body.profile;
+    contractFields.course = req.body.course;
+    contractFields.application = req.body.applicationID;
+    contractFields.contractstart = req.body.contractstart;
+    contractFields.contractend = req.body.contractend;
+    contractFields.hours = req.body.hours;
+    contractFields.degree = req.body.degree;
+    contractFields.newcontract = req.body.newcontract;
+    contractFields.merkblatt = req.body.merkblatt;
+    contractFields.einstellungsvorschlag = req.body.einstellungsvorschlag;
+    contractFields.versicherungspflicht = req.body.versicherungspflicht;
+    contractFields.scientology = req.body.scientology;
+    contractFields.verfassungstreue = req.body.verfassungstreue;
+    contractFields.immatrikulationsbescheinigung =
+      req.body.immatrikulationsbescheinigung;
+    contractFields.aufenthaltstitel = req.body.aufenthaltstitel;
+    contractFields.krankenkassenbescheinigung =
+      req.body.krankenkassenbescheinigung;
+    contractFields.personalbogenbezuegestelle =
+      req.body.personalbogenbezuegestelle;
+    contractFields.personalbogenstudierende = req.body.personalbogenstudierende;
+    contractFields.sozialversicherungsausweis =
+      req.body.sozialversicherungsausweis;
+    contractFields.steuerId = req.body.steuerId;
+    contractFields.status = req.body.status;
+
+    //Update Contract
+    Contract.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: contractFields },
+      { new: true }
+    )
+      .then((contract) => res.send(contract))
+      .catch((err) => res.status(404).json(err));
   }
 );
 

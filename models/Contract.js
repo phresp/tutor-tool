@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ContractSchema = new Schema({
   user: {
     type: Schema.Types.ObjectID,
-    ref: "user",
+    ref: "users",
   },
   profile: {
     type: Schema.Types.ObjectID,

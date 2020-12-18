@@ -38,13 +38,12 @@ class ContractOverview extends Component {
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
-        <Link to={`/contracts`} className="btn btn-info">
-          Profile
+        <Link to={`/edit-contract/${row._id}`} className="btn btn-info">
+          Edit
         </Link>
       );
     }
 
-    //TODO: Filter nach Applied, Accepted, Declined, New
     if (contracts === null || this.props.contract.contractloading) {
       contractTable = <Spinner />;
     } else {
@@ -63,6 +62,11 @@ class ContractOverview extends Component {
           {
             dataField: "profile.matrikelnummer",
             text: "Matrikelnumber",
+            sort: true,
+          },
+          {
+            dataField: "course.metacourse.name",
+            text: "Course",
             sort: true,
           },
           {

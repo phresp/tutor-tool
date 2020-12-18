@@ -121,20 +121,20 @@ class CreateContract extends Component {
 
     //Select options for Forms
     const formsOptions = [
-      { label: "fehlt", value: "fehlt" },
-      { label: "liegt vor", value: "liegt vor" },
-      { label: "liegt bei", value: "liegt bei" },
+      { label: "Fehlt", value: "Fehlt" },
+      { label: "Liegt vor", value: "Liegt vor" },
+      { label: "Liegt bei", value: "Liegt bei" },
     ];
 
     //Select options for status of contract
     const statusOptions = [
-      { label: "created", value: "created" },
-      { label: "incomplete", value: "incomplete" },
-      { label: "complete", value: "complete" },
-      { label: "in process", value: "in process" },
-      { label: "signable", value: "signable" },
-      { label: "signed", value: "signed" },
-      { label: "completed", value: "completed" },
+      { label: "Created", value: "Created" },
+      { label: "Incomplete", value: "Incomplete" },
+      { label: "Complete", value: "Complete" },
+      { label: "In Process", value: "In Process" },
+      { label: "Signable", value: "Signable" },
+      { label: "Signed", value: "Signed" },
+      { label: "Completed", value: "Completed" },
     ];
 
     //Select options for Degree
