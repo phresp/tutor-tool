@@ -24,6 +24,22 @@ export const getContracts = () => (dispatch) => {
     );
 };
 
+//Get my (Tutor) Contracts
+export const getMyContracts = () => (dispatch) => {
+  dispatch(setContractLoading());
+  axios
+    .get("/api/contract")
+    .then((res) => {
+      dispatch({ type: GET_CONTRACTS, payload: res.data });
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_CONTRACTS,
+        payload: {},
+      })
+    );
+};
+
 //Get Contract if contractID
 export const getContractOfID = (id) => (dispatch) => {
   dispatch(setContractLoading());

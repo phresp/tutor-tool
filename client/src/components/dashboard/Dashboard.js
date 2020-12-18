@@ -36,6 +36,7 @@ class Dashboard extends Component {
             <div>
               <p className="lead text-muted">Welcome {profile.firstname}</p>
               <StudentProfileActions />
+              <hr />
               <div>
                 <Experience experience={profile.experience} />
                 <Education education={profile.education} />
