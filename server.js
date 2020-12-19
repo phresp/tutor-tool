@@ -11,6 +11,7 @@ const metacourse = require("./routes/api/metacourse");
 const course = require("./routes/api/course");
 const application = require("./routes/api/application");
 const contract = require("./routes/api/contract");
+const forms = require("./routes/api/forms");
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use("/api/metacourse", metacourse);
 app.use("/api/course", course);
 app.use("/api/application", application);
 app.use("/api/contract", contract);
+app.use("/api/forms", forms);
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {

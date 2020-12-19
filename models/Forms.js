@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const FormulareSchema = new Schema({
+const FormsSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -11,3 +11,5 @@ const FormulareSchema = new Schema({
     required: true,
   },
 });
+
+module.exports = Forms = mongoose.model("forms", FormsSchema);

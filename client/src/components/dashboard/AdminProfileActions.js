@@ -30,8 +30,8 @@ const AdminProfileActions = () => {
         <Link to="/metacourse-overview" className="btn btn-light">
           <i className="fas fa-graduation-cap text-primary"></i> Metacourses
         </Link>
-        <Link to="/class-overview" className="btn btn-light">
-          <i className="fab fa-accessible-icon text-primary"></i> Test
+        <Link to="/forms-administration" className="btn btn-light">
+          <i className="fas fa-file-pdf text-primary"></i> Forms
         </Link>
         <Link to="/contracts" className="btn btn-light">
           <i className="fab fa-accessible-icon text-primary"></i> Test
