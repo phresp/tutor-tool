@@ -16,6 +16,21 @@ export const getForms = () => (dispatch) => {
     );
 };
 
+//Post new Form
+export const uploadFile = (formsData, history) => (dispatch) => {
+  axios
+    .post(`/api/forms/upload`, formsData)
+    .then((res) => {
+      history.push("/forms-administration");
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: { err },
+      })
+    );
+};
+
 // Application Loading
 export const setFormsLoading = () => {
   return {

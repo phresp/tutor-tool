@@ -4,15 +4,15 @@ import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 
-import isEmpty from "../../validation/is-empty";
 import SelectListGroup from "../common/SelectListGroup";
+import { uploadFile } from "../../actions/formsActions";
 
 class FormsUpload extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      file: null,
+      selectedFile: null,
       errors: {},
     };
 
@@ -22,13 +22,23 @@ class FormsUpload extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const fileData = {
-      name: this.state.name,
-      file: this.state.file,
-    };
+    const fileData = new FormData();
+    fileData.append("file", this.state.selectedFile);
 
-    this.props.uploadFile(fileData);
+    const formsData = {
+      name: this.state.name,
+      fileData: fileData,
+    };
+    console.log(fileData);
+    this.props.uploadFile(fileData, this.props.history);
   }
+
+  onChangeHandler = (e) => {
+    this.setState({
+      selectedFile: e.target.files[0],
+      loaded: 0,
+    });
+  };
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -96,6 +106,7 @@ class FormsUpload extends Component {
 FormsUpload.propTypes = (state) => ({
   forms: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
+  uploadFile: PropTypes.func.isRequired,
 });
 
 const mapStateToProps = (state) => ({
@@ -104,4 +115,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(withRouter(FormsUpload));
+export default connect(mapStateToProps, { uploadFile })(
+  withRouter(FormsUpload)
+);

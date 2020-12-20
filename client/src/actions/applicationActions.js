@@ -111,7 +111,6 @@ export const updateApplication = (id, applicationData, history) => (
 
 //AcceptApplication
 export const acceptApplication = (id, course) => (dispatch) => {
-  console.log("moin" + id);
   axios
     .post(`/api/application/accept/${id}`)
     .then((res) => {
