@@ -46,6 +46,8 @@ import ContractOverview from "./components/contract/ContractOverview";
 import EditContract from "./components/contract/EditContract";
 import MyContracts from "./components/contract/MyContracts";
 import ViewContract from "./components/contract/ViewContract";
+import FormsAdminOverview from "./components/forms/FormsAdminOverview";
+import FormsUpload from "./components/forms/FormsUpload";
 
 import "./App.css";
 
@@ -278,6 +280,21 @@ class App extends Component {
                   exact
                   path="/view-contract/:id"
                   component={ViewContract}
+                />
+              </Switch>
+
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/forms-administration"
+                  component={FormsAdminOverview}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/form-upload"
+                  component={FormsUpload}
                 />
               </Switch>
             </div>

@@ -44,7 +44,9 @@ class ViewContract extends Component {
               <tbody>
                 <tr
                   className={`${
-                    contractdata.merkblatt === "Fehlt" ? "table-danger" : ""
+                    contractdata.merkblatt === "Fehlt"
+                      ? "table-danger"
+                      : "table-success"
                   }`}
                 >
                   <th scope="row">Merkblatt Tutorbetrieb</th>

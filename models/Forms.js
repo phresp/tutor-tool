@@ -10,6 +10,14 @@ const FormsSchema = new Schema({
     type: String,
     required: true,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  lastchange: {
+    type: Schema.Types.ObjectID,
+    ref: "users",
+  },
 });
 
 module.exports = Forms = mongoose.model("forms", FormsSchema);
