@@ -4,6 +4,10 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 var multer = require("multer");
 
+const pdftk = require("node-pdftk");
+const fs = require("fs");
+const path = require("path");
+
 //Load User model
 const Forms = require("../../models/Forms");
 
@@ -64,7 +68,6 @@ router.post(
       if (err instanceof multer.MulterError) {
         return res.status(500).json(err);
       } else if (err) {
-        console.log(err);
         return res.status(500).json(err);
       }
       formFields.name = req.file.filename;
@@ -90,6 +93,36 @@ router.post(
         }
       });
     });
+  }
+);
+
+//@route   GET /api/forms/download
+//@desc    GET Form
+//@access  Private
+router.post(
+  "/download",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const name = req.body.name + ".pdf";
+    Forms.findOne({ name: name })
+      .then((form) => {
+        if (!form) {
+          errors.forms = "There are no forms";
+          return res.status(404).json(errors);
+        }
+        const pdfTemplatePath = form.path;
+        pdftk
+          .input(pdfTemplatePath)
+          .output()
+          .then((buf) => {
+            res.type("application/pdf");
+            res.send(buf);
+          })
+          .catch((err) => {
+            res.status(404).json("something wrong here" + { err });
+          });
+      })
+      .catch((err) => res.status(404).json({ profile: "There are no forms" }));
   }
 );
 

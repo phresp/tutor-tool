@@ -3,16 +3,21 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { getForms } from "../../actions/formsActions";
+import { getForms, downloadPdf } from "../../actions/formsActions";
 
 class FormsAdminOverview extends Component {
   componentDidMount() {
     this.props.getForms();
   }
-  //TODO: DownloadButton für jeweilige Forms
-  render() {
-    const contractdata = {};
 
+  onDownloadClick(name) {
+    const formData = {
+      name: name,
+    };
+    this.props.downloadPdf(formData);
+  }
+
+  render() {
     return (
       <div className="container-fluid">
         <div className="row">
@@ -38,31 +43,105 @@ class FormsAdminOverview extends Component {
               <tbody>
                 <tr>
                   <th scope="row">Merkblatt Tutorbetrieb</th>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "MerkblattTutorbetrieb"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Einstellungsvorschlag</th>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "Einstellungsvorschlag"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Feststellung der Versicherungspflicht</th>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "Versicherungspflicht"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Fragebogen zu Scientology</th>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(this, "Scientology")}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Fragebogen zur Verfassungstreue</th>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "Verfassungstreue"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Personalbogen Bezuegestelle</th>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "PersonalbogenBezuegestelle"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Personalbogen Studierende</th>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "PersonalbogenStudierende"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -82,6 +161,6 @@ const mapStateToProps = (state) => ({
   forms: state.forms,
 });
 
-export default connect(mapStateToProps, { getForms })(
+export default connect(mapStateToProps, { getForms, downloadPdf })(
   withRouter(FormsAdminOverview)
 );
