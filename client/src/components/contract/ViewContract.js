@@ -3,10 +3,18 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { getContractOfID } from "../../actions/contractActions";
+import { downloadPdf } from "../../actions/formsActions";
 
 class ViewContract extends Component {
   componentDidMount() {
     this.props.getContractOfID(this.props.match.params.id);
+  }
+
+  onDownloadClick(name) {
+    const formData = {
+      name: name,
+    };
+    this.props.downloadPdf(formData);
   }
 
   render() {
@@ -51,7 +59,18 @@ class ViewContract extends Component {
                 >
                   <th scope="row">Merkblatt Tutorbetrieb</th>
                   <td>{contractdata.merkblatt}</td>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "MerkblattTutorbetrieb"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr
                   className={`${
@@ -62,7 +81,18 @@ class ViewContract extends Component {
                 >
                   <th scope="row">Einstellungsvorschlag</th>
                   <td>{contractdata.einstellungsvorschlag}</td>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "Einstellungsvorschlag"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr
                   className={`${
@@ -73,7 +103,18 @@ class ViewContract extends Component {
                 >
                   <th scope="row">Feststellung der Versicherungspflicht</th>
                   <td>{contractdata.versicherungspflicht}</td>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "Versicherungspflicht"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr
                   className={`${
@@ -84,7 +125,15 @@ class ViewContract extends Component {
                 >
                   <th scope="row">Fragebogen zu Scientology</th>
                   <td>{contractdata.scientology}</td>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(this, "Scientology")}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr
                   className={`${
@@ -95,7 +144,18 @@ class ViewContract extends Component {
                 >
                   <th scope="row">Fragebogen zur Verfassungstreue</th>
                   <td>{contractdata.verfassungstreue}</td>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "Verfassungstreue"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr
                   className={`${
@@ -142,7 +202,18 @@ class ViewContract extends Component {
                 >
                   <th scope="row">Personalbogen Bezuegestelle</th>
                   <td>{contractdata.personalbogenbezuegestelle}</td>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "PersonalbogenBezuegestelle"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr
                   className={`${
@@ -153,7 +224,18 @@ class ViewContract extends Component {
                 >
                   <th scope="row">Personalbogen Studierende</th>
                   <td>{contractdata.personalbogenstudierende}</td>
-                  <td></td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "PersonalbogenStudierende"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
                 </tr>
                 <tr
                   className={`${
@@ -191,12 +273,13 @@ class ViewContract extends Component {
 ViewContract.propTypes = {
   getContractOfID: PropTypes.func.isRequired,
   contract: PropTypes.object.isRequired,
+  downloadPdf: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   contract: state.contract,
 });
 
-export default connect(mapStateToProps, { getContractOfID })(
+export default connect(mapStateToProps, { getContractOfID, downloadPdf })(
   withRouter(ViewContract)
 );
