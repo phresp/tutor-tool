@@ -24,16 +24,19 @@ export default function (state = initialState, action) {
       return {
         ...state,
         profile: action.payload,
+        profiles: null,
         loading: false,
       };
     case CLEAR_CURRENT_PROFILE:
       return {
         ...state,
         profile: null,
+        profiles: null,
       };
     case GET_PROFILES:
       return {
         ...state,
+        profile: null,
         profiles: action.payload,
         loading: false,
       };
