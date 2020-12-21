@@ -23,8 +23,8 @@ class FormsUpload extends Component {
   onSubmit(e) {
     e.preventDefault();
     const fileData = new FormData();
-    fileData.append("file", this.state.selectedFile);
-
+    fileData.append("file", this.state.selectedFile, this.state.name);
+    fileData.append("name", this.state.name);
     const formsData = {
       name: this.state.name,
       fileData: fileData,
@@ -49,7 +49,8 @@ class FormsUpload extends Component {
 
     //Select options for status of contract
     const fileNameOptions = [
-      { label: "Merkblatt", value: "Merkblatt" },
+      { label: "* Please select Form", value: "" },
+      { label: "Merkblatt", value: "MerkblattTutorbetrieb" },
       { label: "Einstellungsvorschlag", value: "Einstellungsvorschlag" },
       {
         label: "Feststellung der Versicherungspflicht",
@@ -57,10 +58,13 @@ class FormsUpload extends Component {
       },
       { label: "Fragebogen zu Scientology", value: "Scientology" },
       { label: "Fragebogen zur Verfassungstreue", value: "Verfassungstreue" },
-      { label: "Personalbogen Bezuegestelle", value: "Bezuegestelle" },
+      {
+        label: "Personalbogen Bezuegestelle",
+        value: "PersonalbogenBezuegestelle",
+      },
       {
         label: "Personalbogen Studierende",
-        value: "Personalbogen Studierende",
+        value: "PersonalbogenStudierende",
       },
     ];
 

@@ -40,23 +40,26 @@ router.post(
   "/upload",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    var formFields = {};
+    formFields.lastchange = req.user.id;
+    formFields.date = Date.now();
+    formFields.name = "";
+    formFields.path = "";
+    var file = {};
     //Form upload Setup
+
     var storage = multer.diskStorage({
-      destination: function (req, file, cb) {
+      destination: (req, file, cb) => {
         cb(null, __dirname + "../../../files/forms");
       },
-      filename: function (req, file, cb) {
-        cb(null, Date.now() + "-" + file.originalname);
+      filename: (req, file, cb) => {
+        cb(null, file.originalname + ".pdf");
       },
     });
 
     var upload = multer({ storage: storage }).single("file");
     //Get Body Fields
-    const formFields = {};
-    formFields.lastchange = req.user.id;
-    formFields.name = "aaa";
-    formFields.path = "../../files/forms/todo";
-    formFields.date = Date.now();
+
     upload(req, res, function (err) {
       if (err instanceof multer.MulterError) {
         return res.status(500).json(err);
@@ -64,28 +67,29 @@ router.post(
         console.log(err);
         return res.status(500).json(err);
       }
-      console.log(req.file);
-      return res.status(200).send(req.file);
-    });
+      formFields.name = req.file.filename;
+      formFields.path = req.file.path;
 
-    // Forms.findOne({ name: req.body.name }).then((form) => {
-    //   if (form) {
-    //     //Update Forms
-    //     Forms.findOneAndUpdate(
-    //       { name: req.body.name },
-    //       { $set: formFields },
-    //       { new: true }
-    //     )
-    //       .then((form) => res.send(form))
-    //       .catch((err) => res.status(404).jason(err));
-    //   } else {
-    //     //Create Forms
-    //     new Forms(formFields)
-    //       .save()
-    //       .then((form) => res.send(form))
-    //       .catch((err) => res.status(400).json(err));
-    //   }
-    // });
+      //Insert Form Data into MongoDB
+      Forms.findOne({ name: req.body.name }).then((form) => {
+        if (form) {
+          //Update Forms
+          Forms.findOneAndUpdate(
+            { name: req.body.name },
+            { $set: formFields },
+            { new: true }
+          )
+            .then((form) => res.send(form))
+            .catch((err) => res.status(404).jason(err));
+        } else {
+          //Create Forms
+          new Forms(formFields)
+            .save()
+            .then((form) => res.send(form))
+            .catch((err) => res.status(400).json(err));
+        }
+      });
+    });
   }
 );
 
