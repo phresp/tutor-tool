@@ -108,7 +108,7 @@ router.post(
       .then((form) => {
         if (!form) {
           errors.forms = "There are no forms";
-          return res.status(404).json(errors);
+          return res.status(403).json(errors);
         }
         const pdfTemplatePath = form.path;
         pdftk
@@ -122,7 +122,7 @@ router.post(
             res.status(404).json("something wrong here" + { err });
           });
       })
-      .catch((err) => res.status(404).json({ profile: "There are no forms" }));
+      .catch((err) => res.status(405).json({ profile: "There are no forms" }));
   }
 );
 
