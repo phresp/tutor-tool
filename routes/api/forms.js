@@ -121,7 +121,8 @@ router.post(
             res.send(buf);
           })
           .catch((err) => {
-            res.status(404).json("something wrong here" + { err });
+            console.log("Error: " + err);
+            res.status(404).json("something wrong here" + err);
           });
       })
       .catch((err) => res.status(404).json({ profile: "There are no forms" }));
