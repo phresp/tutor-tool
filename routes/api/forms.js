@@ -35,7 +35,6 @@ router.get(
       .catch((err) => res.status(404).json({ profile: "There are no forms" }));
   }
 );
-//TODO: To finish POST
 
 // @route   POST /api/forms/upload
 // @desc    Create or Update Form
@@ -108,9 +107,10 @@ router.post(
       .then((form) => {
         if (!form) {
           errors.forms = "There are no forms";
-          return res.status(403).json(errors);
+          return res.status(404).json(errors);
         }
         const pdfTemplatePath = form.path;
+        console.log(pdfTemplatePath);
         pdftk
           .input(pdfTemplatePath)
           .output()
@@ -122,7 +122,7 @@ router.post(
             res.status(404).json("something wrong here" + { err });
           });
       })
-      .catch((err) => res.status(405).json({ profile: "There are no forms" }));
+      .catch((err) => res.status(404).json({ profile: "There are no forms" }));
   }
 );
 
