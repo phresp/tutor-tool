@@ -109,7 +109,9 @@ router.post(
           errors.forms = "There are no forms";
           return res.status(404).json(errors);
         }
-        const pdfTemplatePath = form.path;
+        const pdfTemplatePath = path.resolve(
+          __dirname + "../../../files/forms/" + form.name
+        );
         console.log(pdfTemplatePath);
         pdftk
           .input(pdfTemplatePath)
