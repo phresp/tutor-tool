@@ -33,11 +33,17 @@ class Register extends Component {
   }
 
   onChange(e) {
+    this.setState((prevState) => ({
+      processable: false,
+    }));
     this.setState({ [e.target.name]: e.target.value });
   }
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState((prevState) => ({
+      processable: !prevState.processable,
+    }));
     const newUser = {
       email: this.state.email,
       password: this.state.password,
@@ -91,11 +97,7 @@ class Register extends Component {
                 <input
                   type="submit"
                   className="btn btn-info btn-block mt-4"
-                  onClick={() => {
-                    this.setState((prevState) => ({
-                      processable: !prevState.processable,
-                    }));
-                  }}
+                  disabled={this.state.processable ? "disabled" : ""}
                 />
               </form>
             </div>
