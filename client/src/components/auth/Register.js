@@ -12,6 +12,7 @@ class Register extends Component {
       email: "",
       password: "",
       password2: "",
+      processable: true,
       errors: {},
     };
 
@@ -87,7 +88,15 @@ class Register extends Component {
                   error={errors.password2}
                 />
 
-                <input type="submit" className="btn btn-info btn-block mt-4" />
+                <input
+                  type="submit"
+                  className="btn btn-info btn-block mt-4"
+                  onClick={() => {
+                    this.setState((prevState) => ({
+                      processable: !prevState.processable,
+                    }));
+                  }}
+                />
               </form>
             </div>
           </div>
