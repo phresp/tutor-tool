@@ -3,15 +3,14 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { loginUser } from "../../actions/authActions";
+import { resetPassword } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 
-class Login extends Component {
+class PasswordForgotten extends Component {
   constructor() {
     super();
     this.state = {
       email: "",
-      password: "",
       errors: {},
     };
 
@@ -43,10 +42,9 @@ class Login extends Component {
     e.preventDefault();
     const userData = {
       email: this.state.email,
-      password: this.state.password,
     };
 
-    this.props.loginUser(userData);
+    this.props.resetPassword(userData);
   }
 
   render() {
@@ -57,10 +55,8 @@ class Login extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Log In</h1>
-              <p className="lead text-center">
-                Sign in to your Tutor-Tool account
-              </p>
+              <h1 className="display-4 text-center">Reset Your Password</h1>
+
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   placeholder="Email Address"
@@ -71,18 +67,8 @@ class Login extends Component {
                   error={errors.email}
                 />
 
-                <TextFieldGroup
-                  placeholder="Password"
-                  type="password"
-                  onChange={this.onChange}
-                  value={this.state.passwordl}
-                  name="password"
-                  error={errors.password}
-                />
-
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
-              <Link to="/password-forgotten">I forgot my password</Link>
             </div>
           </div>
         </div>
@@ -91,7 +77,7 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+PasswordForgotten.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
@@ -102,4 +88,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { loginUser })(withRouter(Login));
+export default connect(mapStateToProps, { resetPassword })(
+  withRouter(PasswordForgotten)
+);

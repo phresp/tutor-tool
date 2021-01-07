@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
-import { getContracts } from "../../actions/contractActions";
+import { getMyContracts } from "../../actions/contractActions";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
 import Spinner from "../common/Spinner";
@@ -15,7 +15,7 @@ const { SearchBar } = Search;
 
 class MyContracts extends Component {
   componentDidMount() {
-    this.props.getContracts();
+    this.props.getMyContracts();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,5 +120,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getContracts,
+  getMyContracts,
 })(MyContracts);

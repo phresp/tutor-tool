@@ -169,42 +169,42 @@ router.post(
     contractFields.newcontract = req.body.newcontract;
     contractFields.merkblatt = req.body.merkblatt
       ? req.body.merkblatt
-      : "fehlt";
+      : "Fehlt";
     contractFields.einstellungsvorschlag = req.body.einstellungsvorschlag
       ? req.body.einstellungsvorschlag
-      : "fehlt";
+      : "Fehlt";
     contractFields.versicherungspflicht = req.body.versicherungspflicht
       ? req.body.versicherungspflicht
-      : "fehlt";
+      : "Fehlt";
     contractFields.scientology = req.body.scientology
       ? req.body.scientology
-      : "fehlt";
+      : "Fehlt";
     contractFields.verfassungstreue = req.body.verfassungstreue
       ? req.body.verfassungstreue
-      : "fehlt";
+      : "Fehlt";
     contractFields.immatrikulationsbescheinigung = req.body
       .immatrikulationsbescheinigung
       ? req.body.immatrikulationsbescheinigung
-      : "fehlt";
+      : "Fehlt";
     contractFields.aufenthaltstitel = req.body.aufenthaltstitel
       ? req.body.aufenthaltstitel
-      : "fehlt";
+      : "Fehlt";
     contractFields.krankenkassenbescheinigung = req.body
       .krankenkassenbescheinigung
       ? req.body.krankenkassenbescheinigung
-      : "fehlt";
+      : "Fehlt";
     contractFields.personalbogenbezuegestelle = req.body
       .personalbogenbezuegestelle
       ? req.body.personalbogenbezuegestelle
-      : "fehlt";
+      : "Fehlt";
     contractFields.personalbogenstudierende = req.body.personalbogenstudierende
       ? req.body.personalbogenstudierende
-      : "fehlt";
+      : "Fehlt";
     contractFields.sozialversicherungsausweis = req.body
       .sozialversicherungsausweis
       ? req.body.sozialversicherungsausweis
-      : "fehlt";
-    contractFields.steuerId = req.body.steuerId ? req.body.steuerId : "fehlt";
+      : "Fehlt";
+    contractFields.steuerId = req.body.steuerId ? req.body.steuerId : "Fehlt";
 
     contractFields.status = req.body.status ? req.body.status : "created";
 
