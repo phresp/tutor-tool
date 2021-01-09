@@ -64,9 +64,6 @@ const ContractSchema = new Schema({
   personalbogenstudierende: {
     type: String,
   },
-  sozialversicherungsausweis: {
-    type: String,
-  },
   steuerId: {
     type: String,
   },

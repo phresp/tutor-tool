@@ -38,7 +38,6 @@ class CreateContract extends Component {
       krankenkassenbescheinigung: "Fehlt",
       personalbogenbezuegestelle: "Fehlt",
       personalbogenstudierende: "Fehlt",
-      sozialversicherungsausweis: "Fehlt",
       steuerId: "Fehlt",
       status: "Created",
       errors: {},
@@ -76,7 +75,6 @@ class CreateContract extends Component {
       krankenkassenbescheinigung: this.state.krankenkassenbescheinigung,
       personalbogenbezuegestelle: this.state.personalbogenbezuegestelle,
       personalbogenstudierende: this.state.personalbogenstudierende,
-      sozialversicherungsausweis: this.state.sozialversicherungsausweis,
       steuerId: this.state.steuerId,
       status: this.state.status,
     };
@@ -130,10 +128,8 @@ class CreateContract extends Component {
     const statusOptions = [
       { label: "Created", value: "Created" },
       { label: "Incomplete", value: "Incomplete" },
-      { label: "Complete", value: "Complete" },
       { label: "In Process", value: "In Process" },
       { label: "Signable", value: "Signable" },
-      { label: "Signed", value: "Signed" },
       { label: "Completed", value: "Completed" },
     ];
 
@@ -309,17 +305,6 @@ class CreateContract extends Component {
                   value={this.state.personalbogenstudierende}
                   name="personalbogenstudierende"
                   error={errors.personalbogenstudierende}
-                  options={formsOptions}
-                />
-                <label htmlFor="sozialversicherungsausweis">
-                  Sozialversicherungsausweis:
-                </label>
-                <SelectListGroup
-                  placeholder="sozialversicherungsausweis"
-                  onChange={this.onChange}
-                  value={this.state.sozialversicherungsausweis}
-                  name="sozialversicherungsausweis"
-                  error={errors.sozialversicherungsausweis}
                   options={formsOptions}
                 />
                 <label htmlFor="steuerId">SteuerId:</label>

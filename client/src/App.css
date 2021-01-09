@@ -2,6 +2,14 @@ img {
   width: 100%;
 }
 
+.tum-blue {
+  background-color: #3070b3;
+}
+
+.tum-black {
+  background-color: #333333;
+}
+
 .landing {
   position: relative;
   background: url('./img/showcase.jpg') no-repeat;

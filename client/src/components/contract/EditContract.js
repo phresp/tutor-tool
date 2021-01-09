@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
+import ContractSelectListGroup from "../common/ContractSelectListGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import moment from "moment";
 
@@ -37,7 +38,6 @@ class EditContract extends Component {
       krankenkassenbescheinigung: "",
       personalbogenbezuegestelle: "",
       personalbogenstudierende: "",
-      sozialversicherungsausweis: "",
       steuerId: "",
       status: "",
       errors: {},
@@ -197,6 +197,14 @@ class EditContract extends Component {
         this.props.contract.contract.profile.lastname;
     }
 
+    var check = (obj) => {
+      if (obj != "Fehlt") {
+        return <i className="fas fa-check"></i>;
+      } else {
+        return <i className=""></i>;
+      }
+    };
+
     //Select options for Forms
     const formsOptions = [
       { label: "Fehlt", value: "Fehlt" },
@@ -208,10 +216,8 @@ class EditContract extends Component {
     const statusOptions = [
       { label: "Created", value: "Created" },
       { label: "Incomplete", value: "Incomplete" },
-      { label: "Complete", value: "Complete" },
       { label: "In Process", value: "In Process" },
       { label: "Signable", value: "Signable" },
-      { label: "Signed", value: "Signed" },
       { label: "Completed", value: "Completed" },
     ];
 
@@ -291,126 +297,126 @@ class EditContract extends Component {
 
                 <h6>Forms:</h6>
                 <label htmlFor="merkblatt">Merkblatt:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="merkblatt"
                   onChange={this.onChange}
                   value={this.state.merkblatt}
                   name="merkblatt"
                   error={errors.merkblatt}
                   options={formsOptions}
+                  color={this.state.merkblatt}
                 />
                 <label htmlFor="einstellungsvorschlag">
                   Einstellungsvorschlag:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="einstellungsvorschlag"
                   onChange={this.onChange}
                   value={this.state.einstellungsvorschlag}
                   name="einstellungsvorschlag"
                   error={errors.einstellungsvorschlag}
                   options={formsOptions}
+                  color={this.state.einstellungsvorschlag}
                 />
                 <label htmlFor="versicherungspflicht">
                   Versicherungspflicht:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="versicherungspflicht"
                   onChange={this.onChange}
                   value={this.state.versicherungspflicht}
                   name="versicherungspflicht"
                   error={errors.versicherungspflicht}
                   options={formsOptions}
+                  color={this.state.versicherungspflicht}
                 />
                 <label htmlFor="scientology">Scientology:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="scientology"
                   onChange={this.onChange}
                   value={this.state.scientology}
                   name="scientology"
                   error={errors.scientology}
                   options={formsOptions}
+                  color={this.state.scientology}
                 />
                 <label htmlFor="verfassungstreue">Verfassungstreue:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="verfassungstreue"
                   onChange={this.onChange}
                   value={this.state.verfassungstreue}
                   name="verfassungstreue"
                   error={errors.verfassungstreue}
                   options={formsOptions}
+                  color={this.state.verfassungstreue}
                 />
                 <label htmlFor="immatrikulationsbescheinigung">
                   Immatrikulationsbescheinigung:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="immatrikulationsbescheinigung"
                   onChange={this.onChange}
                   value={this.state.immatrikulationsbescheinigung}
                   name="immatrikulationsbescheinigung"
                   error={errors.immatrikulationsbescheinigung}
                   options={formsOptions}
+                  color={this.state.immatrikulationsbescheinigung}
                 />
                 <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="aufenthaltstitel"
                   onChange={this.onChange}
                   value={this.state.aufenthaltstitel}
                   name="aufenthaltstitel"
                   error={errors.aufenthaltstitel}
                   options={formsOptions}
+                  color={this.state.aufenthaltstitel}
                 />
                 <label htmlFor="krankenkassenbescheinigung">
                   Krankenkassenbescheinigung:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="krankenkassenbescheinigung"
                   onChange={this.onChange}
                   value={this.state.krankenkassenbescheinigung}
                   name="krankenkassenbescheinigung"
                   error={errors.krankenkassenbescheinigung}
                   options={formsOptions}
+                  color={this.state.krankenkassenbescheinigung}
                 />
                 <label htmlFor="personalbogenbezuegestelle">
                   Personalbogen Bezügestelle:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="personalbogenbezuegestelle"
                   onChange={this.onChange}
                   value={this.state.personalbogenbezuegestelle}
                   name="personalbogenbezuegestelle"
                   error={errors.personalbogenbezuegestelle}
                   options={formsOptions}
+                  color={this.state.personalbogenbezuegestelle}
                 />
                 <label htmlFor="personalbogenstudierende">
                   Personalbogen für Studierende:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="personalbogenstudierende"
                   onChange={this.onChange}
                   value={this.state.personalbogenstudierende}
                   name="personalbogenstudierende"
                   error={errors.personalbogenstudierende}
                   options={formsOptions}
-                />
-                <label htmlFor="sozialversicherungsausweis">
-                  Sozialversicherungsausweis:
-                </label>
-                <SelectListGroup
-                  placeholder="sozialversicherungsausweis"
-                  onChange={this.onChange}
-                  value={this.state.sozialversicherungsausweis}
-                  name="sozialversicherungsausweis"
-                  error={errors.sozialversicherungsausweis}
-                  options={formsOptions}
+                  color={this.state.personalbogenstudierende}
                 />
                 <label htmlFor="steuerId">SteuerId:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="steuerId"
                   onChange={this.onChange}
                   value={this.state.steuerId}
                   name="steuerId"
                   error={errors.steuerId}
                   options={formsOptions}
+                  color={this.state.steuerId}
                 />
 
                 <label htmlFor="status">Status:</label>

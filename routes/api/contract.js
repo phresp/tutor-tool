@@ -200,10 +200,6 @@ router.post(
     contractFields.personalbogenstudierende = req.body.personalbogenstudierende
       ? req.body.personalbogenstudierende
       : "Fehlt";
-    contractFields.sozialversicherungsausweis = req.body
-      .sozialversicherungsausweis
-      ? req.body.sozialversicherungsausweis
-      : "Fehlt";
     contractFields.steuerId = req.body.steuerId ? req.body.steuerId : "Fehlt";
 
     contractFields.status = req.body.status ? req.body.status : "created";
@@ -216,9 +212,9 @@ router.post(
         { $set: { status: "Contract" } },
         { new: true }
       )
-        .then((application) => res.json(contract))
+        .then((contract) => res.json(contract))
         .catch((err) =>
-          res.status(400).json({ applicationnotfound: "Application not found" })
+          res.status(400).json({ contractnotfound: "Contract not found" })
         );
     });
   }
@@ -262,8 +258,6 @@ router.post(
     contractFields.personalbogenbezuegestelle =
       req.body.personalbogenbezuegestelle;
     contractFields.personalbogenstudierende = req.body.personalbogenstudierende;
-    contractFields.sozialversicherungsausweis =
-      req.body.sozialversicherungsausweis;
     contractFields.steuerId = req.body.steuerId;
     contractFields.status = req.body.status;
 
