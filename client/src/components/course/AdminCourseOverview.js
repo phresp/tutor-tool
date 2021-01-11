@@ -67,6 +67,11 @@ class AdminCourseOverview extends Component {
         sort: true,
       },
       {
+        dataField: "status",
+        text: "Status",
+        sort: true,
+      },
+      {
         id: "links",
         formatter: betrachtenButton,
       },

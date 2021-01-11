@@ -247,6 +247,7 @@ router.post(
                     courseFields.till = req.body.till;
                     courseFields.weeks = req.body.weeks;
                     courseFields.requirement = req.body.requirement;
+                    courseFields.status = req.body.status;
                     //courseFields.admin = req.body.admin;
                     courseFields.advisor = req.body.advisor;
 

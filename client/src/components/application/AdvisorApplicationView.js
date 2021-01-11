@@ -34,9 +34,10 @@ class AdvisorApplicationView extends Component {
 
     //TODO: axios auslagern und ohne reload button verschwinden lassen
 
+    //TODO: Accept Button kommt für alle oder keinen kein einzelnes Conmtact kann wieder declined werden
+
     //Accept Button
     const course = this.props.match.params.id;
-    console.log(course);
     function acceptButton(cell, row, rowIndex, formatExtraData) {
       if (!entries.some((e) => e.status === "Accepted")) {
         return (

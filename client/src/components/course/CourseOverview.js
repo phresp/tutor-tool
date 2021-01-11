@@ -76,6 +76,11 @@ class CourseOverview extends Component {
         sort: true,
       },
       {
+        dataField: "status",
+        text: "Status",
+        sort: true,
+      },
+      {
         text: "Edit",
         header: "Edit",
         id: "links",
@@ -92,7 +97,7 @@ class CourseOverview extends Component {
         <Link to={"/dashboard"} className={"btn btn-light"}>
           back
         </Link>
-        <h1 className={"display-4"}>Course Overview</h1>
+        <h1 className="display-4">Course Overview</h1>
         <Link to="/create-course" className="btn btn-info">
           <i className="fas fa-user-circle text-primary"></i> New Course
         </Link>

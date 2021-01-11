@@ -35,6 +35,7 @@ class EditCourse extends Component {
       requirement: "",
       admin: "",
       advisor: "",
+      status: "",
       errors: {},
     };
 
@@ -110,6 +111,7 @@ class EditCourse extends Component {
         : "";
       course.admin = !isEmpty(course.admin) ? course.admin : "";
       course.advisor = !isEmpty(course.advisor) ? course.advisor : "";
+      course.status = !isEmpty(course.status) ? course.status : "";
 
       this.setState({
         metacoursediff: course.metacoursediff,
@@ -131,6 +133,7 @@ class EditCourse extends Component {
         requirement: course.requirement,
         admin: course.admin,
         advisor: course.advisor,
+        status: course.status,
       });
     }
   }
@@ -157,6 +160,7 @@ class EditCourse extends Component {
       requirement: this.state.requirement,
       admin: this.state.admin,
       advisor: this.state.advisor,
+      status: this.state.status,
     };
 
     this.props.editCourse(
@@ -206,6 +210,12 @@ class EditCourse extends Component {
     });
     advisorOptions.unshift({ label: "Select Advisor", value: "" });
 
+    const statusOptions = [
+      { label: "Preparation", value: "Preparation" },
+      { label: "Open", value: "Open" },
+      { label: "Closed", value: "Closed" },
+    ];
+
     return (
       <div className="editCourse">
         <div className="container-fluid">
@@ -217,6 +227,16 @@ class EditCourse extends Component {
               <h1 className="display-4 text-center">Edit Course</h1>
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
+                <label htmlFor="inputStatus">Status</label>
+                <SelectListGroup
+                  placeholder="Status"
+                  onChange={this.onChange}
+                  value={this.state.status}
+                  name="status"
+                  error={errors.status}
+                  options={statusOptions}
+                />
+
                 <label htmlFor="inputMetacourse">Metacourse</label>
                 <SelectListGroup
                   placeholder="Metacourse"

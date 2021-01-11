@@ -53,7 +53,6 @@ class TutorApplicationView extends Component {
       }
       function statusFormatter(value, row, rowIndex, formatExtraData) {
         var result = applications.filter((obj) => {
-          //console.log(Object.keys(obj.course));
           return obj.course === value;
         });
         if (result[0]) {
@@ -65,7 +64,6 @@ class TutorApplicationView extends Component {
 
       function advisorFormatter(value, row, rowIndex, formatExtraData) {
         var result = advisors.filter((obj) => {
-          console.log(Object.keys(obj.user));
           return obj.user._id === value;
         });
         if (result[0]) {

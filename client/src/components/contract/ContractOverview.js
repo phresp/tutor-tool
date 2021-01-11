@@ -26,6 +26,13 @@ class ContractOverview extends Component {
   }
 
   render() {
+    const defaultSorted = [
+      {
+        dataField: "status",
+        order: "asc",
+      },
+    ];
+
     var contracts;
 
     if (this.props.contract) {
@@ -95,8 +102,10 @@ class ContractOverview extends Component {
                 <SearchBar {...props.searchProps} />
                 <hr />
                 <BootstrapTable
+                  striped
                   {...props.baseProps}
                   pagination={paginationFactory()}
+                  defaultSorted={defaultSorted}
                 />
               </div>
             )}

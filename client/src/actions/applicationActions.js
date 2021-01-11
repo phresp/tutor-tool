@@ -82,7 +82,7 @@ export const postApplication = (id, applicationData, history) => (dispatch) => {
   axios
     .post(`/api/application/${id}`, applicationData)
     .then((res) => {
-      history.push("/myaplications");
+      history.push("/myapplications");
     })
     .catch((err) =>
       dispatch({
