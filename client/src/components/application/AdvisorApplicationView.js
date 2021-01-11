@@ -140,7 +140,13 @@ class AdvisorApplicationView extends Component {
       ];
 
       applicationTable = (
-        <ToolkitProvider keyField="id" data={entries} columns={columns} search>
+        <ToolkitProvider
+          bootstrap4
+          keyField="id"
+          data={entries}
+          columns={columns}
+          search
+        >
           {(props) => (
             <div>
               <SearchBar {...props.searchProps} />

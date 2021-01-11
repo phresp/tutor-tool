@@ -76,6 +76,7 @@ class SemesterOverview extends Component {
           </Link>
           <h6></h6>
           <ToolkitProvider
+            bootstrap4
             keyField="id"
             data={semArray}
             columns={columns}

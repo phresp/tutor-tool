@@ -87,6 +87,7 @@ class Profiles extends Component {
 
         profileTable = (
           <ToolkitProvider
+            bootstrap4
             keyField="id"
             data={entries}
             columns={columns}
@@ -97,6 +98,7 @@ class Profiles extends Component {
                 <SearchBar {...props.searchProps} />
                 <hr />
                 <BootstrapTable
+                  striped
                   {...props.baseProps}
                   pagination={paginationFactory()}
                   defaultSorted={defaultSorted}

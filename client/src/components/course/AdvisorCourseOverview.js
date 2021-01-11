@@ -72,6 +72,7 @@ class AdvisorCourseOverview extends Component {
         <h1 className={"display-4"}>Class Overview</h1>
         <h6></h6>
         <ToolkitProvider
+          bootstrap4
           keyField="id"
           data={courseArray}
           columns={columns}

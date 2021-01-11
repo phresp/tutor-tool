@@ -84,6 +84,7 @@ class ContractOverview extends Component {
 
         contractTable = (
           <ToolkitProvider
+            bootstrap4
             keyField="id"
             data={entries}
             columns={columns}

@@ -109,6 +109,7 @@ class TutorApplicationView extends Component {
 
         applicationTable = (
           <ToolkitProvider
+            bootstrap4
             keyField="id"
             data={entries}
             columns={columns}
