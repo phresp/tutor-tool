@@ -34,37 +34,44 @@ class AdvisorApplicationView extends Component {
 
     //TODO: axios auslagern und ohne reload button verschwinden lassen
 
-    //TODO: Accept Button kommt für alle oder keinen kein einzelnes Conmtact kann wieder declined werden
-
     //Accept Button
     const course = this.props.match.params.id;
+
     function acceptButton(cell, row, rowIndex, formatExtraData) {
-      if (!entries.some((e) => e.status === "Accepted")) {
-        return (
-          <button
-            onClick={() => {
-              axios.post(`/api/application/accept/${row._id}`).then((res) => {
-                window.location.reload();
-              });
-            }}
-            className="btn btn-primary"
-          >
-            Accept Application
-          </button>
-        );
-      } else {
-        return (
-          <button
-            onClick={() => {
-              axios.post(`/api/application/applied/${row._id}`).then((res) => {
-                window.location.reload();
-              });
-            }}
-            className="btn btn-secondary"
-          >
-            Reset Application
-          </button>
-        );
+      if (row) {
+        if (row.status) {
+          if (row.status !== "Accepted") {
+            return (
+              <button
+                onClick={() => {
+                  axios
+                    .post(`/api/application/accept/${row._id}`)
+                    .then((res) => {
+                      window.location.reload();
+                    });
+                }}
+                className="btn btn-primary"
+              >
+                Accept Application
+              </button>
+            );
+          } else {
+            return (
+              <button
+                onClick={() => {
+                  axios
+                    .post(`/api/application/applied/${row._id}`)
+                    .then((res) => {
+                      window.location.reload();
+                    });
+                }}
+                className="btn btn-secondary"
+              >
+                Reset Application
+              </button>
+            );
+          }
+        }
       }
     }
 
