@@ -6,6 +6,7 @@ import {
   getApplicationsOfCourse,
   acceptApplication,
 } from "../../actions/applicationActions";
+import { getCourseById } from "../../actions/courseActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
@@ -17,6 +18,7 @@ const { SearchBar } = Search;
 class AdminApplicationView extends Component {
   componentDidMount() {
     this.props.getApplicationsOfCourse(this.props.match.params.id);
+    this.props.getCourseById(this.props.match.params.id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,10 +31,21 @@ class AdminApplicationView extends Component {
     const { applications } = this.props.application;
     let applicationTable;
 
+    var coursename;
+    var coursesem;
+    if (this.props.course) {
+      if (this.props.course.course) {
+        if (this.props.course.course.metacourse.name) {
+          coursename = this.props.course.course.metacourse.name;
+        }
+        if (this.props.course.course.semester.name) {
+          coursesem = this.props.course.course.semester.name;
+        }
+      }
+    }
+
     //Data for Table
     const entries = applications ? applications : [];
-
-    const course = this.props.match.params.id;
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
@@ -121,10 +134,12 @@ class AdminApplicationView extends Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
-            <Link to={"/class-overview"} className={"btn btn-light"}>
+            <Link to={"/course-overview"} className={"btn btn-light"}>
               back
             </Link>
-            <h1 className="display-4 text-center">Applications</h1>
+            <h1 className="display-4 text-center">
+              Applications for {coursename} in {coursesem}
+            </h1>
 
             {applicationTable}
           </div>
@@ -137,14 +152,18 @@ class AdminApplicationView extends Component {
 AdminApplicationView.propTypes = {
   getApplicationsOfCourse: PropTypes.func.isRequired,
   acceptApplication: PropTypes.func.isRequired,
+  getCourseById: PropTypes.func.isRequired,
   application: PropTypes.object.isRequired,
+  course: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   application: state.application,
+  course: state.course,
 });
 
 export default connect(mapStateToProps, {
   getApplicationsOfCourse,
   acceptApplication,
+  getCourseById,
 })(AdminApplicationView);

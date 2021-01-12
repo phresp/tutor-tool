@@ -140,7 +140,6 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
-    //TODO: Populate User with Email
     Application.find({ course: req.params.id })
       .populate("profile")
       .then((applications) => {

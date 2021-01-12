@@ -50,7 +50,6 @@ router.get(
       .populate("metacourse", ["name", "abbreviation"])
       .populate("semester", ["name"])
       .then((course) => {
-        console.log(course);
         if (!course) {
           errors.course = "There are no courses";
           return res.status(404).json(errors);
@@ -74,7 +73,6 @@ router.get(
       .populate("metacourse", ["name"])
       .populate("semester", ["name"])
       .then((course) => {
-        console.log(course);
         res.json(course);
       })
       .catch((err) =>

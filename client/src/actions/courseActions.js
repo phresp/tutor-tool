@@ -22,7 +22,6 @@ export const getCoursesForApplication = () => (dispatch) => {
   axios
     .get("/api/course/status/openforapply")
     .then((res) => {
-      console.log("openforapply");
       dispatch({ type: GET_COURSES, payload: res.data });
     })
     .catch((err) =>
@@ -66,7 +65,7 @@ export const createCourse = (courseData, history) => (dispatch) => {
   axios
     .post("/api/course", courseData)
     .then((res) => {
-      history.push("/class-overview");
+      history.push("/course-overview");
     })
     .catch((err) =>
       dispatch({
@@ -81,7 +80,7 @@ export const editCourse = (id, courseData, history) => (dispatch) => {
   axios
     .post(`/api/course/${id}`, courseData)
     .then((res) => {
-      history.push("/class-overview");
+      history.push("/course-overview");
     })
     .catch((err) =>
       dispatch({
