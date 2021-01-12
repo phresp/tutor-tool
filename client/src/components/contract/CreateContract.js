@@ -126,8 +126,8 @@ class CreateContract extends Component {
       { label: "Liegt bei", value: "Liegt bei" },
     ];
 
-    //Select options for Reisepass
-    const reisepassOptions = [
+    //Select options for Reisepass and Aufenthaltstitel
+    const foreignerOptions = [
       { label: "Kein Bedarf", value: "Kein Bedarf" },
       { label: "Fehlt", value: "Fehlt" },
       { label: "Liegt vor", value: "Liegt vor" },
@@ -164,6 +164,7 @@ class CreateContract extends Component {
           this.props.application.application.profile.nationality2 === "DE"
         ) {
           this.state.reisepass = "Kein Bedarf";
+          this.state.aufenthaltstitel = "Kein Bedarf";
         }
       }
     }
@@ -293,7 +294,7 @@ class CreateContract extends Component {
                   value={this.state.aufenthaltstitel}
                   name="aufenthaltstitel"
                   error={errors.aufenthaltstitel}
-                  options={formsOptions}
+                  options={foreignerOptions}
                 />
                 <label htmlFor="krankenkassenbescheinigung">
                   Krankenkassenbescheinigung:
@@ -345,7 +346,7 @@ class CreateContract extends Component {
                   value={this.state.reisepass}
                   name="reisepass"
                   error={errors.reisepass}
-                  options={reisepassOptions}
+                  options={foreignerOptions}
                 />
 
                 <label htmlFor="status">Status:</label>
