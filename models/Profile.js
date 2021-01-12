@@ -33,9 +33,6 @@ const ProfileSchema = new Schema({
   nationality2: {
     type: String,
   },
-  picture: {
-    type: String,
-  },
   vita: {
     type: String,
   },

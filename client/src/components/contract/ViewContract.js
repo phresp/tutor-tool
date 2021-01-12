@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { getContractOfID } from "../../actions/contractActions";
+import { getCurrentProfile } from "../../actions/profileActions";
 import { downloadPdf } from "../../actions/formsActions";
 
 class ViewContract extends Component {
   componentDidMount() {
     this.props.getContractOfID(this.props.match.params.id);
+    this.props.getCurrentProfile();
   }
 
   onDownloadClick(name) {
@@ -239,26 +241,26 @@ class ViewContract extends Component {
                 </tr>
                 <tr
                   className={`${
-                    contractdata.sozialversicherungsausweis === "Fehlt"
-                      ? "table-danger"
-                      : "table-success"
-                  }`}
-                >
-                  <th scope="row">Sozialversicherungsausweis</th>
-                  <td>{contractdata.sozialversicherungsausweis}</td>
-                  <td></td>
-                </tr>
-                <tr
-                  className={`${
                     contractdata.steuerId === "Fehlt"
                       ? "table-danger"
                       : "table-success"
                   }`}
                 >
                   <th scope="row">
-                    Steuer-ID-Nummer: Kopie einer Bescheinigung vom Finanzam
+                    Steuer-ID-Nummer: Kopie einer Bescheinigung vom Finanzamt
                   </th>
                   <td>{contractdata.steuerId}</td>
+                  <td></td>
+                </tr>
+                <tr
+                  className={`${
+                    contractdata.reisepass === "Fehlt"
+                      ? "table-danger"
+                      : "table-success"
+                  }`}
+                >
+                  <th scope="row">Reisepass</th>
+                  <td>{contractdata.reisepass}</td>
                   <td></td>
                 </tr>
               </tbody>
@@ -274,12 +276,15 @@ ViewContract.propTypes = {
   getContractOfID: PropTypes.func.isRequired,
   contract: PropTypes.object.isRequired,
   downloadPdf: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   contract: state.contract,
 });
 
-export default connect(mapStateToProps, { getContractOfID, downloadPdf })(
-  withRouter(ViewContract)
-);
+export default connect(mapStateToProps, {
+  getContractOfID,
+  downloadPdf,
+  getCurrentProfile,
+})(withRouter(ViewContract));

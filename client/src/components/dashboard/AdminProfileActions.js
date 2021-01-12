@@ -15,8 +15,8 @@ const AdminProfileActions = () => {
         <Link to="/tutor-overview" className="btn btn-light">
           <i className="far fa-address-book text-primary"></i> Tutor Overview
         </Link>
-        <Link to="/class-overview" className="btn btn-light">
-          <i className="fas fa-graduation-cap text-primary"></i> Class Overview
+        <Link to="/course-overview" className="btn btn-light">
+          <i className="fas fa-graduation-cap text-primary"></i> Course Overview
         </Link>
         <Link to="/contracts" className="btn btn-light">
           <i className="fas fa-file-contract text-primary"></i> Contracts

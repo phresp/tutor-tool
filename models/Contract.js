@@ -67,6 +67,9 @@ const ContractSchema = new Schema({
   steuerId: {
     type: String,
   },
+  reisepass: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,

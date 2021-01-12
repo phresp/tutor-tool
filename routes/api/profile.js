@@ -173,7 +173,7 @@ router.post(
     profileFields.fieldofstudy = req.body.fieldofstudy;
     profileFields.birthday = req.body.birthday;
     profileFields.nationality = req.body.nationality;
-    profileFields.picture = req.body.picture;
+    profileFields.nationality2 = req.body.nationality2;
     profileFields.vita = req.body.vita;
 
     Profile.findOne({ user: req.user.id }).then((profile) => {

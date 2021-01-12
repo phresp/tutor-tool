@@ -170,7 +170,7 @@ class App extends Component {
               <Switch>
                 <PrivateAdminRoute
                   exact
-                  path="/class-overview"
+                  path="/course-overview"
                   component={CourseOverview}
                 />
               </Switch>

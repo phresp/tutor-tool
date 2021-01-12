@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
+import countryList from "react-select-country-list";
 
 import { createProfile } from "../../actions/profileActions";
 
@@ -23,6 +24,9 @@ class CreateProfile extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+  componentDidMount() {
+    countryList().setEmpty("Select a Country").getLabel("");
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,6 +55,8 @@ class CreateProfile extends Component {
   }
 
   render() {
+    var countryOptions = countryList().getData();
+
     const { errors } = this.state;
 
     //Select options for gender
@@ -69,18 +75,18 @@ class CreateProfile extends Component {
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Lastname"
-                  onChange={this.onChange}
-                  value={this.state.lastname}
-                  name="lastname"
-                  error={errors.lastname}
-                />
-                <TextFieldGroup
                   placeholder="* Firstname"
                   onChange={this.onChange}
                   value={this.state.firstname}
                   name="firstname"
                   error={errors.firstname}
+                />
+                <TextFieldGroup
+                  placeholder="* Lastname"
+                  onChange={this.onChange}
+                  value={this.state.lastname}
+                  name="lastname"
+                  error={errors.lastname}
                 />
                 <SelectListGroup
                   placeholder="* Gender"
@@ -98,19 +104,23 @@ class CreateProfile extends Component {
                   name="birthday"
                   error={errors.birthday}
                 />
-                <TextFieldGroup
+                <label htmlFor="nationality">* Nationality:</label>
+                <SelectListGroup
                   placeholder="* Nationality"
                   onChange={this.onChange}
                   value={this.state.nationality}
                   name="nationality"
                   error={errors.nationality}
+                  options={countryOptions}
                 />
-                <TextFieldGroup
+                <label htmlFor="nationality2">Second Nationality:</label>
+                <SelectListGroup
                   placeholder="Second Nationality"
                   onChange={this.onChange}
                   value={this.state.nationality2}
                   name="nationality2"
                   error={errors.nationality2}
+                  options={countryOptions}
                   info="Please provide your second nationality if you have one"
                 />
                 <TextFieldGroup

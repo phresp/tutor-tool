@@ -201,6 +201,9 @@ router.post(
       ? req.body.personalbogenstudierende
       : "Fehlt";
     contractFields.steuerId = req.body.steuerId ? req.body.steuerId : "Fehlt";
+    contractFields.reisepass = req.body.reisepass
+      ? req.body.reisepass
+      : "Fehlt";
 
     contractFields.status = req.body.status ? req.body.status : "created";
 
@@ -259,6 +262,7 @@ router.post(
       req.body.personalbogenbezuegestelle;
     contractFields.personalbogenstudierende = req.body.personalbogenstudierende;
     contractFields.steuerId = req.body.steuerId;
+    contractFields.reisepass = req.body.reisepass;
     contractFields.status = req.body.status;
 
     //Update Contract

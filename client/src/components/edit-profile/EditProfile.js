@@ -8,6 +8,7 @@ import moment from "moment";
 
 import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
+import countryList from "react-select-country-list";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -26,8 +27,8 @@ class CreateProfile extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  //TODO: Nationality Falsch geschrieben
   componentDidMount() {
+    countryList().setEmpty("Select a Country").getLabel("");
     this.props.getCurrentProfile();
   }
 
@@ -46,8 +47,8 @@ class CreateProfile extends Component {
       profile.matrikelnummer = !isEmpty(profile.matrikelnummer)
         ? profile.matrikelnummer
         : "";
-      profile.natrionality = !isEmpty(profile.natrionality)
-        ? profile.natrionality
+      profile.nationality = !isEmpty(profile.nationality)
+        ? profile.nationality
         : "";
       profile.nationality2 = !isEmpty(profile.nationality2)
         ? profile.nationality2
@@ -89,6 +90,8 @@ class CreateProfile extends Component {
   render() {
     const { errors } = this.state;
 
+    var countryOptions = countryList().getData();
+
     //Select options for status
     const statusOptions = [
       { label: "Select your gender", value: "" },
@@ -109,19 +112,20 @@ class CreateProfile extends Component {
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Lastname"
-                  onChange={this.onChange}
-                  value={this.state.lastname}
-                  name="lastname"
-                  error={errors.lastname}
-                />
-                <TextFieldGroup
                   placeholder="* Firstname"
                   onChange={this.onChange}
                   value={this.state.firstname}
                   name="firstname"
                   error={errors.firstname}
                 />
+                <TextFieldGroup
+                  placeholder="* Lastname"
+                  onChange={this.onChange}
+                  value={this.state.lastname}
+                  name="lastname"
+                  error={errors.lastname}
+                />
+
                 <SelectListGroup
                   placeholder="* Gender"
                   onChange={this.onChange}
@@ -138,19 +142,23 @@ class CreateProfile extends Component {
                   name="birthday"
                   error={errors.birthday}
                 />
-                <TextFieldGroup
+                <label htmlFor="nationality">* Nationality:</label>
+                <SelectListGroup
                   placeholder="* Nationality"
                   onChange={this.onChange}
                   value={this.state.nationality}
                   name="nationality"
                   error={errors.nationality}
+                  options={countryOptions}
                 />
-                <TextFieldGroup
+                <label htmlFor="nationality2">Second Nationality:</label>
+                <SelectListGroup
                   placeholder="Second Nationality"
                   onChange={this.onChange}
                   value={this.state.nationality2}
                   name="nationality2"
                   error={errors.nationality2}
+                  options={countryOptions}
                   info="Please provide your second nationality if you have one"
                 />
                 <TextFieldGroup

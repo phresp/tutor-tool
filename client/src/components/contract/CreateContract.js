@@ -39,6 +39,7 @@ class CreateContract extends Component {
       personalbogenbezuegestelle: "Fehlt",
       personalbogenstudierende: "Fehlt",
       steuerId: "Fehlt",
+      reisepass: "Fehlt",
       status: "Created",
       errors: {},
     };
@@ -76,6 +77,7 @@ class CreateContract extends Component {
       personalbogenbezuegestelle: this.state.personalbogenbezuegestelle,
       personalbogenstudierende: this.state.personalbogenstudierende,
       steuerId: this.state.steuerId,
+      reisepass: this.state.reisepass,
       status: this.state.status,
     };
 
@@ -124,6 +126,14 @@ class CreateContract extends Component {
       { label: "Liegt bei", value: "Liegt bei" },
     ];
 
+    //Select options for Reisepass
+    const reisepassOptions = [
+      { label: "Kein Bedarf", value: "Kein Bedarf" },
+      { label: "Fehlt", value: "Fehlt" },
+      { label: "Liegt vor", value: "Liegt vor" },
+      { label: "Liegt bei", value: "Liegt bei" },
+    ];
+
     //Select options for status of contract
     const statusOptions = [
       { label: "Created", value: "Created" },
@@ -146,6 +156,17 @@ class CreateContract extends Component {
       { label: "True", value: "True" },
       { label: "False", value: "False" },
     ];
+
+    if (this.props.application.application) {
+      if (this.props.application.application.profile) {
+        if (
+          this.props.application.application.profile.nationality === "DE" ||
+          this.props.application.application.profile.nationality2 === "DE"
+        ) {
+          this.state.reisepass = "Kein Bedarf";
+        }
+      }
+    }
 
     return (
       <div className="createContract">
@@ -315,6 +336,16 @@ class CreateContract extends Component {
                   name="steuerId"
                   error={errors.steuerId}
                   options={formsOptions}
+                />
+
+                <label htmlFor="reisepass">Reisepass:</label>
+                <SelectListGroup
+                  placeholder="reisepass"
+                  onChange={this.onChange}
+                  value={this.state.reisepass}
+                  name="reisepass"
+                  error={errors.reisepass}
+                  options={reisepassOptions}
                 />
 
                 <label htmlFor="status">Status:</label>
