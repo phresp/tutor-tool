@@ -2,6 +2,7 @@ import {
   GET_SEMESTER,
   GET_SEMESTERS,
   SEMESTER_LOADING,
+  CLEAR_FOR_DASHBOARD,
 } from "../actions/types";
 
 const initialState = {
@@ -12,6 +13,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case CLEAR_FOR_DASHBOARD:
+      return {
+        semester: null,
+        semesters: null,
+        semesterloading: false,
+      };
     case SEMESTER_LOADING:
       return {
         ...state,

@@ -2,6 +2,7 @@ import {
   GET_METACOURSE,
   GET_METACOURSES,
   METACOURSE_LOADING,
+  CLEAR_FOR_DASHBOARD,
 } from "../actions/types";
 
 const initialState = {
@@ -12,6 +13,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case CLEAR_FOR_DASHBOARD:
+      return {
+        metacourse: null,
+        metacourses: null,
+        metacourseloading: false,
+      };
     case METACOURSE_LOADING:
       return {
         ...state,

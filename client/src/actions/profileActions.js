@@ -4,6 +4,7 @@ import {
   GET_PROFILE,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
+  CLEAR_FOR_DASHBOARD,
   SET_CURRENT_USER,
   GET_ERRORS,
   GET_PROFILES,
@@ -176,5 +177,12 @@ export const setProfileLoading = () => {
 export const clearCurrentProfile = () => {
   return {
     type: CLEAR_CURRENT_PROFILE,
+  };
+};
+
+// Clear all for Dashboard
+export const clearForDashboard = () => {
+  return {
+    type: CLEAR_FOR_DASHBOARD,
   };
 };

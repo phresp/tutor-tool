@@ -1,4 +1,9 @@
-import { GET_FORM, GET_FORMS, FORMS_LOADING } from "../actions/types";
+import {
+  GET_FORM,
+  GET_FORMS,
+  FORMS_LOADING,
+  CLEAR_FOR_DASHBOARD,
+} from "../actions/types";
 
 const initialState = {
   form: null,
@@ -8,6 +13,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case CLEAR_FOR_DASHBOARD:
+      return {
+        form: null,
+        forms: null,
+        formsloading: false,
+      };
     case FORMS_LOADING:
       return {
         ...state,

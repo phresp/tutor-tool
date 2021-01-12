@@ -23,3 +23,4 @@ export const GET_CONTRACT = "GET_CONTRACT";
 export const GET_CONTRACTS = "GET_CONTRACTS";
 export const GET_FORM = "GET_FORM";
 export const GET_FORMS = "GET_FORMS";
+export const CLEAR_FOR_DASHBOARD = "CLEAR_FOR_DASHBOARD";

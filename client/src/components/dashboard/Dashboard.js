@@ -9,11 +9,16 @@ import AdvisorActions from "./AdvisorActions";
 import Experience from "./Experience";
 import Education from "./Education";
 
-import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
+import {
+  getCurrentProfile,
+  deleteAccount,
+  clearForDashboard,
+} from "../../actions/profileActions";
 
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
+    this.props.clearForDashboard();
   }
 
   onDeleteClick(e) {
@@ -97,6 +102,7 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
+  clearForDashboard: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
 };
@@ -106,6 +112,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
-  Dashboard
-);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  deleteAccount,
+  clearForDashboard,
+})(Dashboard);

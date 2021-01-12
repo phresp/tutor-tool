@@ -1,4 +1,9 @@
-import { GET_COURSE, GET_COURSES, COURSE_LOADING } from "../actions/types";
+import {
+  GET_COURSE,
+  GET_COURSES,
+  COURSE_LOADING,
+  CLEAR_FOR_DASHBOARD,
+} from "../actions/types";
 
 const initialState = {
   course: null,
@@ -8,6 +13,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case CLEAR_FOR_DASHBOARD:
+      return {
+        course: null,
+        courses: null,
+        courseloading: false,
+      };
     case COURSE_LOADING:
       return {
         ...state,

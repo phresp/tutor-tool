@@ -2,6 +2,7 @@ import {
   GET_CONTRACTS,
   GET_CONTRACT,
   CONTRACT_LOADING,
+  CLEAR_FOR_DASHBOARD,
 } from "../actions/types";
 
 const initialState = {
@@ -12,6 +13,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case CLEAR_FOR_DASHBOARD:
+      return {
+        contracts: null,
+        contract: null,
+        contractloading: false,
+      };
     case CONTRACT_LOADING:
       return {
         ...state,

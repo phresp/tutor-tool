@@ -2,6 +2,7 @@ import {
   GET_APPLICATIONS,
   GET_APPLICATION,
   APPLICATION_LOADING,
+  CLEAR_FOR_DASHBOARD,
 } from "../actions/types";
 
 const initialState = {
@@ -12,6 +13,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case CLEAR_FOR_DASHBOARD:
+      return {
+        applications: null,
+        application: null,
+        applicationloading: false,
+      };
     case APPLICATION_LOADING:
       return {
         ...state,
