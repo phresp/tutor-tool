@@ -46,6 +46,8 @@ class CreateProfile extends Component {
       birthday: this.state.birthday,
       nationality: this.state.nationality,
       nationality2: this.state.nationality2,
+      birthplace: this.state.birthplace,
+      countryofbirth: this.state.countryofbirth,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -103,6 +105,22 @@ class CreateProfile extends Component {
                   value={this.state.birthday}
                   name="birthday"
                   error={errors.birthday}
+                />
+                <TextFieldGroup
+                  placeholder="* Birthplace"
+                  onChange={this.onChange}
+                  value={this.state.birthplace}
+                  name="birthplace"
+                  error={errors.birthplace}
+                />
+                <label htmlFor="countryofbirth">* Country of Birth:</label>
+                <SelectListGroup
+                  placeholder="* Country of Birth"
+                  onChange={this.onChange}
+                  value={this.state.countryofbirth}
+                  name="countryofbirth"
+                  error={errors.countryofbirth}
+                  options={countryOptions}
                 />
                 <label htmlFor="nationality">* Nationality:</label>
                 <SelectListGroup

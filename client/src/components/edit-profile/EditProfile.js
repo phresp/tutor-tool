@@ -21,6 +21,8 @@ class CreateProfile extends Component {
       birthday: "",
       nationality: "",
       nationality2: "",
+      birthplace: "",
+      countryofbirth: "",
       errors: {},
     };
 
@@ -54,6 +56,12 @@ class CreateProfile extends Component {
         ? profile.nationality2
         : "";
       profile.birthday = !isEmpty(profile.birthday) ? profile.birthday : "";
+      profile.birthplace = !isEmpty(profile.birthplace)
+        ? profile.birthplace
+        : "";
+      profile.countryofbirth = !isEmpty(profile.countryofbirth)
+        ? profile.countryofbirth
+        : "";
 
       //Set component fields state
       this.setState({
@@ -64,6 +72,8 @@ class CreateProfile extends Component {
         nationality: profile.nationality,
         nationality2: profile.nationality2,
         birthday: profile.birthday,
+        birthplace: profile.birthplace,
+        countryofbirth: profile.countryofbirth,
       });
     }
   }
@@ -79,6 +89,8 @@ class CreateProfile extends Component {
       birthday: this.state.birthday,
       nationality: this.state.nationality,
       nationality2: this.state.nationality2,
+      birthplace: this.state.birthplace,
+      countryofbirth: this.state.countryofbirth,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -111,6 +123,7 @@ class CreateProfile extends Component {
 
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
+                <label htmlFor="firstname">* Firstname:</label>
                 <TextFieldGroup
                   placeholder="* Firstname"
                   onChange={this.onChange}
@@ -118,6 +131,7 @@ class CreateProfile extends Component {
                   name="firstname"
                   error={errors.firstname}
                 />
+                <label htmlFor="lastname">* Lastname:</label>
                 <TextFieldGroup
                   placeholder="* Lastname"
                   onChange={this.onChange}
@@ -141,6 +155,23 @@ class CreateProfile extends Component {
                   value={moment.utc(this.state.birthday).format("YYYY-MM-DD")}
                   name="birthday"
                   error={errors.birthday}
+                />
+                <label htmlFor="birthplace">* Birthplace:</label>
+                <TextFieldGroup
+                  placeholder="* Birthplace"
+                  onChange={this.onChange}
+                  value={this.state.birthplace}
+                  name="birthplace"
+                  error={errors.birthplace}
+                />
+                <label htmlFor="countryofbirth">* Country of Birth:</label>
+                <SelectListGroup
+                  placeholder="* Country of Birth"
+                  onChange={this.onChange}
+                  value={this.state.countryofbirth}
+                  name="countryofbirth"
+                  error={errors.countryofbirth}
+                  options={countryOptions}
                 />
                 <label htmlFor="nationality">* Nationality:</label>
                 <SelectListGroup
