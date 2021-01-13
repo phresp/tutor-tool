@@ -15,6 +15,15 @@ import Spinner from "../common/Spinner";
 const { SearchBar } = Search;
 
 class ContractOverview extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fil: "0",
+    };
+
+    this.onChange = this.onChange.bind(this);
+  }
+
   componentDidMount() {
     this.props.getContracts();
   }
@@ -23,6 +32,10 @@ class ContractOverview extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
@@ -42,6 +55,15 @@ class ContractOverview extends Component {
 
     //Data for Table
     const entries = contracts ? contracts : [];
+
+    var newArray = entries.filter((el) => {
+      if (this.state.fil === "0") return el;
+      if (this.state.fil === "Created") return el.status === "Created";
+      if (this.state.fil === "Signable") return el.status === "Signable";
+      if (this.state.fil === "Incomplete") return el.status === "Incomplete";
+      if (this.state.fil === "In Process") return el.status === "In Process";
+      if (this.state.fil === "Completed") return el.status === "Completed";
+    });
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
@@ -67,11 +89,6 @@ class ContractOverview extends Component {
             sort: true,
           },
           {
-            dataField: "profile.matrikelnummer",
-            text: "Matrikelnumber",
-            sort: true,
-          },
-          {
             dataField: "course.metacourse.name",
             text: "Course",
             sort: true,
@@ -93,12 +110,106 @@ class ContractOverview extends Component {
           <ToolkitProvider
             bootstrap4
             keyField="id"
-            data={entries}
+            data={newArray}
             columns={columns}
             search
           >
             {(props) => (
               <div>
+                <h6>Status Filter:</h6>
+
+                <button
+                  className={
+                    this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "0",
+                    });
+                  }}
+                >
+                  {" "}
+                  Alle
+                </button>
+                <button
+                  className={
+                    this.state.fil === "Created"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Created",
+                    });
+                  }}
+                >
+                  {" "}
+                  Created
+                </button>
+
+                <button
+                  className={
+                    this.state.fil === "Incomplete"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Incomplete",
+                    });
+                  }}
+                >
+                  {" "}
+                  Incomplete
+                </button>
+
+                <button
+                  className={
+                    this.state.fil === "In Process"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "In Process",
+                    });
+                  }}
+                >
+                  {" "}
+                  In Process
+                </button>
+
+                <button
+                  className={
+                    this.state.fil === "Signable"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Signable",
+                    });
+                  }}
+                >
+                  {" "}
+                  Signable
+                </button>
+
+                <button
+                  className={
+                    this.state.fil === "Completed"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Completed",
+                    });
+                  }}
+                >
+                  {" "}
+                  Completed
+                </button>
                 <SearchBar {...props.searchProps} />
                 <hr />
                 <BootstrapTable

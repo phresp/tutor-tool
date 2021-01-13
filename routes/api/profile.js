@@ -129,7 +129,6 @@ router.get(
         const advisorIDs = advisors.map((el) => {
           return el._id;
         });
-        console.log(advisorIDs);
         Profile.find({
           user: advisorIDs,
         })

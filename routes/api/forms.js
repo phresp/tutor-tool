@@ -112,7 +112,6 @@ router.post(
         const pdfTemplatePath = path.resolve(
           __dirname + "../../../files/forms/" + form.name
         );
-        console.log(pdfTemplatePath);
         pdftk
           .input(pdfTemplatePath)
           .output()
@@ -121,7 +120,6 @@ router.post(
             res.send(buf);
           })
           .catch((err) => {
-            console.log("Error: " + err);
             res.status(404).json("something wrong here" + err);
           });
       })

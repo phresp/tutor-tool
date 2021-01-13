@@ -37,6 +37,11 @@ module.exports = function validateProfileInput(data) {
     errors.matrikelnummer = "Your Matrikelnummer is required";
   }
 
+  if (!Validator.isLength(data.matrikelnummer, { min: 7, max: 8 })) {
+    errors.matrikelnummer =
+      "Your Matrikelnumber must be between 7 and 8 characters";
+  }
+
   return {
     errors: errors,
     isValid: isEmpty(errors),
