@@ -199,7 +199,7 @@ class CreateContract extends Component {
                 back
               </Link>
               <h1 className="display-4 text-center">
-                Contract Creation for <br /> {contractname}
+                Vertrag von <br /> {contractname}
               </h1>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="contractstart">Vertrag Start:</label>

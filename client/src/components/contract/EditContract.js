@@ -197,16 +197,24 @@ class EditContract extends Component {
         this.props.contract.contract.profile.lastname;
     }
 
-    var check = (obj) => {
-      if (obj != "Fehlt") {
-        return <i className="fas fa-check"></i>;
-      } else {
-        return <i className=""></i>;
-      }
-    };
-
     //Select options for Forms
     const formsOptions = [
+      { label: "Fehlt", value: "Fehlt" },
+      { label: "Liegt vor", value: "Liegt vor" },
+      { label: "Liegt bei", value: "Liegt bei" },
+    ];
+
+    //Options for forms that are not always needed
+    const formsNotAlwaysNeededOptions = [
+      { label: "Fehlt", value: "Fehlt" },
+      { label: "Bereits Vorhanden", value: "Bereits Vorhanden" },
+      { label: "Liegt vor", value: "Liegt vor" },
+      { label: "Liegt bei", value: "Liegt bei" },
+    ];
+
+    //Select options for Reisepass and Aufenthaltstitel
+    const foreignerOptions = [
+      { label: "Kein Bedarf", value: "Kein Bedarf" },
       { label: "Fehlt", value: "Fehlt" },
       { label: "Liegt vor", value: "Liegt vor" },
       { label: "Liegt bei", value: "Liegt bei" },
@@ -234,6 +242,32 @@ class EditContract extends Component {
       { label: "False", value: "False" },
     ];
 
+    //Query to set forms we dont need if there is already an contract
+    if (
+      this.state.newcontract === "False" &&
+      (this.state.merkblatt !== "Bereits Vorhanden" ||
+        this.state.versicherungspflicht !== "Bereits Vorhanden" ||
+        this.state.immatrikulationsbescheinigung !== "Bereits Vorhanden")
+    ) {
+      this.setState({
+        merkblatt: "Bereits Vorhanden",
+        versicherungspflicht: "Bereits Vorhanden",
+        immatrikulationsbescheinigung: "Bereits Vorhanden",
+      });
+    }
+
+    if (this.props.application.application) {
+      if (this.props.application.application.profile) {
+        if (
+          this.props.application.application.profile.nationality === "DE" ||
+          this.props.application.application.profile.nationality2 === "DE"
+        ) {
+          this.state.reisepass = "Kein Bedarf";
+          this.state.aufenthaltstitel = "Kein Bedarf";
+        }
+      }
+    }
+
     return (
       <div className="createContract">
         <div className="container-fluid">
@@ -243,10 +277,10 @@ class EditContract extends Component {
                 back
               </Link>
               <h1 className="display-4 text-center">
-                Contract of <br /> {contractname}
+                Vertrag von <br /> {contractname}
               </h1>
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="contractstart">Contract Start:</label>
+                <label htmlFor="contractstart">Vertrag Start:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract Start"
@@ -257,7 +291,7 @@ class EditContract extends Component {
                   name="contractstart"
                   error={errors.contractstart}
                 />
-                <label htmlFor="contractend">Contract End:</label>
+                <label htmlFor="contractend">Vertrag Ende:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract End"
@@ -268,7 +302,7 @@ class EditContract extends Component {
                   name="contractend"
                   error={errors.contractend}
                 />
-                <label htmlFor="hours">Hours:</label>
+                <label htmlFor="hours">Wochenstunden:</label>
                 <TextFieldGroup
                   placeholder="Hours"
                   onChange={this.onChange}
@@ -276,7 +310,7 @@ class EditContract extends Component {
                   name="hours"
                   error={errors.hours}
                 />
-                <label htmlFor="degree">Degree:</label>
+                <label htmlFor="degree">Abschluss:</label>
                 <SelectListGroup
                   placeholder="Degree"
                   onChange={this.onChange}
@@ -285,7 +319,7 @@ class EditContract extends Component {
                   error={errors.degree}
                   options={degreeOptions}
                 />
-                <label htmlFor="newContract">new Contract:</label>
+                <label htmlFor="newContract">neuer Vertrag:</label>
                 <SelectListGroup
                   placeholder="new Contract"
                   onChange={this.onChange}
@@ -295,7 +329,7 @@ class EditContract extends Component {
                   options={newcontractOptions}
                 />
 
-                <h6>Forms:</h6>
+                <h6>Formulare:</h6>
                 <label htmlFor="merkblatt">Merkblatt:</label>
                 <ContractSelectListGroup
                   placeholder="merkblatt"
@@ -303,7 +337,7 @@ class EditContract extends Component {
                   value={this.state.merkblatt}
                   name="merkblatt"
                   error={errors.merkblatt}
-                  options={formsOptions}
+                  options={formsNotAlwaysNeededOptions}
                   color={this.state.merkblatt}
                 />
                 <label htmlFor="einstellungsvorschlag">
@@ -327,7 +361,7 @@ class EditContract extends Component {
                   value={this.state.versicherungspflicht}
                   name="versicherungspflicht"
                   error={errors.versicherungspflicht}
-                  options={formsOptions}
+                  options={formsNotAlwaysNeededOptions}
                   color={this.state.versicherungspflicht}
                 />
                 <label htmlFor="scientology">Scientology:</label>
@@ -359,7 +393,7 @@ class EditContract extends Component {
                   value={this.state.immatrikulationsbescheinigung}
                   name="immatrikulationsbescheinigung"
                   error={errors.immatrikulationsbescheinigung}
-                  options={formsOptions}
+                  options={formsNotAlwaysNeededOptions}
                   color={this.state.immatrikulationsbescheinigung}
                 />
                 <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
@@ -369,7 +403,7 @@ class EditContract extends Component {
                   value={this.state.aufenthaltstitel}
                   name="aufenthaltstitel"
                   error={errors.aufenthaltstitel}
-                  options={formsOptions}
+                  options={foreignerOptions}
                   color={this.state.aufenthaltstitel}
                 />
                 <label htmlFor="krankenkassenbescheinigung">
@@ -418,6 +452,16 @@ class EditContract extends Component {
                   options={formsOptions}
                   color={this.state.steuerId}
                 />
+                <label htmlFor="reisepass">Reisepass:</label>
+                <ContractSelectListGroup
+                  placeholder="reisepass"
+                  onChange={this.onChange}
+                  value={this.state.reisepass}
+                  name="reisepass"
+                  error={errors.reisepass}
+                  options={foreignerOptions}
+                  color={this.state.reisepass}
+                />
 
                 <label htmlFor="status">Status:</label>
                 <SelectListGroup
@@ -428,6 +472,7 @@ class EditContract extends Component {
                   error={errors.status}
                   options={statusOptions}
                 />
+
                 <input
                   type="submit"
                   value="Submit"
