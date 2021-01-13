@@ -80,11 +80,6 @@ class AdminApplicationView extends Component {
           sort: true,
         },
         {
-          dataField: "profile.matrikelnummer",
-          text: "Matrikelnumber",
-          sort: true,
-        },
-        {
           dataField: "grade",
           text: "Grade",
           sort: true,

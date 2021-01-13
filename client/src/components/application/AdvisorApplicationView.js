@@ -6,6 +6,7 @@ import {
   getApplicationsOfCourse,
   acceptApplication,
 } from "../../actions/applicationActions";
+import { getCourseById } from "../../actions/courseActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
@@ -17,6 +18,7 @@ const { SearchBar } = Search;
 class AdvisorApplicationView extends Component {
   componentDidMount() {
     this.props.getApplicationsOfCourse(this.props.match.params.id);
+    this.props.getCourseById(this.props.match.params.id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,6 +31,19 @@ class AdvisorApplicationView extends Component {
     const { applications } = this.props.application;
     let applicationTable;
 
+    var coursename;
+    var coursesem;
+    if (this.props.course) {
+      if (this.props.course.course) {
+        if (this.props.course.course.metacourse.name) {
+          coursename = this.props.course.course.metacourse.name;
+        }
+        if (this.props.course.course.semester.name) {
+          coursesem = this.props.course.course.semester.name;
+        }
+      }
+    }
+
     //Data for Table
     const entries = applications ? applications : [];
 
@@ -40,7 +55,7 @@ class AdvisorApplicationView extends Component {
     function acceptButton(cell, row, rowIndex, formatExtraData) {
       if (row) {
         if (row.status) {
-          if (row.status !== "Accepted") {
+          if (row.status === "Applied") {
             return (
               <button
                 onClick={() => {
@@ -55,7 +70,7 @@ class AdvisorApplicationView extends Component {
                 Accept Application
               </button>
             );
-          } else {
+          } else if (row.status === "Accepted" || row.status === "Declined") {
             return (
               <button
                 onClick={() => {
@@ -76,18 +91,24 @@ class AdvisorApplicationView extends Component {
     }
 
     function declineButton(cell, row, rowIndex, formatExtraData) {
-      return (
-        <button
-          onClick={() => {
-            axios.post(`/api/application/decline/${row._id}`).then((res) => {
-              window.location.reload();
-            });
-          }}
-          className="btn btn-danger"
-        >
-          Decline Application
-        </button>
-      );
+      if (row.status) {
+        if (row.status === "Applied") {
+          return (
+            <button
+              onClick={() => {
+                axios
+                  .post(`/api/application/decline/${row._id}`)
+                  .then((res) => {
+                    window.location.reload();
+                  });
+              }}
+              className="btn btn-danger"
+            >
+              Decline Application
+            </button>
+          );
+        }
+      }
     }
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
@@ -176,7 +197,9 @@ class AdvisorApplicationView extends Component {
             <Link to={"/advisor-classes"} className={"btn btn-light"}>
               back
             </Link>
-            <h1 className="display-4 text-center">Applications</h1>
+            <h1 className="display-4 text-center">
+              Applications for {coursename} in {coursesem}
+            </h1>
 
             {applicationTable}
           </div>
@@ -194,9 +217,11 @@ AdvisorApplicationView.propTypes = {
 
 const mapStateToProps = (state) => ({
   application: state.application,
+  course: state.course,
 });
 
 export default connect(mapStateToProps, {
   getApplicationsOfCourse,
   acceptApplication,
+  getCourseById,
 })(AdvisorApplicationView);

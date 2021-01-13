@@ -126,6 +126,14 @@ class CreateContract extends Component {
       { label: "Liegt bei", value: "Liegt bei" },
     ];
 
+    //Options for forms that are not always needed
+    const formsNotAlwaysNeededOptions = [
+      { label: "Fehlt", value: "Fehlt" },
+      { label: "Bereits Vorhanden", value: "Bereits Vorhanden" },
+      { label: "Liegt vor", value: "Liegt vor" },
+      { label: "Liegt bei", value: "Liegt bei" },
+    ];
+
     //Select options for Reisepass and Aufenthaltstitel
     const foreignerOptions = [
       { label: "Kein Bedarf", value: "Kein Bedarf" },
@@ -152,10 +160,23 @@ class CreateContract extends Component {
 
     //Select options for new Contract
     const newcontractOptions = [
-      { label: "new Contract", value: "False" },
       { label: "True", value: "True" },
       { label: "False", value: "False" },
     ];
+
+    //Query to set forms we dont need if there is already an contract
+    if (
+      this.state.newcontract === "False" &&
+      (this.state.merkblatt !== "Bereits Vorhanden" ||
+        this.state.versicherungspflicht !== "Bereits Vorhanden" ||
+        this.state.immatrikulationsbescheinigung !== "Bereits Vorhanden")
+    ) {
+      this.setState({
+        merkblatt: "Bereits Vorhanden",
+        versicherungspflicht: "Bereits Vorhanden",
+        immatrikulationsbescheinigung: "Bereits Vorhanden",
+      });
+    }
 
     if (this.props.application.application) {
       if (this.props.application.application.profile) {
@@ -174,14 +195,14 @@ class CreateContract extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link to={"/class-overview"} className={"btn btn-light"}>
+              <Link to={"/course-overview"} className={"btn btn-light"}>
                 back
               </Link>
               <h1 className="display-4 text-center">
                 Contract Creation for <br /> {contractname}
               </h1>
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="contractstart">Contract Start:</label>
+                <label htmlFor="contractstart">Vertrag Start:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract Start"
@@ -190,7 +211,7 @@ class CreateContract extends Component {
                   name="contractstart"
                   error={errors.contractstart}
                 />
-                <label htmlFor="contractend">Contract End:</label>
+                <label htmlFor="contractend">Vertrag Ende:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract End"
@@ -199,7 +220,7 @@ class CreateContract extends Component {
                   name="contractend"
                   error={errors.contractend}
                 />
-                <label htmlFor="hours">Hours:</label>
+                <label htmlFor="hours">Wochenstunden:</label>
                 <TextFieldGroup
                   placeholder="Hours"
                   onChange={this.onChange}
@@ -207,7 +228,7 @@ class CreateContract extends Component {
                   name="hours"
                   error={errors.hours}
                 />
-                <label htmlFor="degree">Degree:</label>
+                <label htmlFor="degree">Abschluss:</label>
                 <SelectListGroup
                   placeholder="Degree"
                   onChange={this.onChange}
@@ -216,7 +237,7 @@ class CreateContract extends Component {
                   error={errors.degree}
                   options={degreeOptions}
                 />
-                <label htmlFor="newContract">new Contract:</label>
+                <label htmlFor="newContract">neuer Vertrag:</label>
                 <SelectListGroup
                   placeholder="new Contract"
                   onChange={this.onChange}
@@ -226,7 +247,7 @@ class CreateContract extends Component {
                   options={newcontractOptions}
                 />
 
-                <h6>Forms:</h6>
+                <h6>Formulare:</h6>
                 <label htmlFor="merkblatt">Merkblatt:</label>
                 <SelectListGroup
                   placeholder="merkblatt"
@@ -234,7 +255,7 @@ class CreateContract extends Component {
                   value={this.state.merkblatt}
                   name="merkblatt"
                   error={errors.merkblatt}
-                  options={formsOptions}
+                  options={formsNotAlwaysNeededOptions}
                 />
                 <label htmlFor="einstellungsvorschlag">
                   Einstellungsvorschlag:
@@ -256,7 +277,7 @@ class CreateContract extends Component {
                   value={this.state.versicherungspflicht}
                   name="versicherungspflicht"
                   error={errors.versicherungspflicht}
-                  options={formsOptions}
+                  options={formsNotAlwaysNeededOptions}
                 />
                 <label htmlFor="scientology">Scientology:</label>
                 <SelectListGroup
@@ -285,7 +306,7 @@ class CreateContract extends Component {
                   value={this.state.immatrikulationsbescheinigung}
                   name="immatrikulationsbescheinigung"
                   error={errors.immatrikulationsbescheinigung}
-                  options={formsOptions}
+                  options={formsNotAlwaysNeededOptions}
                 />
                 <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
                 <SelectListGroup
