@@ -25,8 +25,10 @@ class CreateProfile extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  componentDidMount() {
-    countryList().setEmpty("Select a Country").getLabel("");
+  componentWillMount() {
+    if (countryList().data[0].value !== "") {
+      countryList().setEmpty("Select a Country").getLabel("");
+    }
   }
 
   componentWillReceiveProps(nextProps) {

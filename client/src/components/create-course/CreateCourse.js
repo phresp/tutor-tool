@@ -25,16 +25,20 @@ class CreateCourse extends Component {
       homework: 0,
       exam: 0,
       midterm: 0,
-      groupspertutor: 0,
+      groupspertutor: 1,
       maxtutornumber: 0,
       weeklyhourspertutor: 0,
+      overallweeklyhours: 0,
       overallhours: 0,
+      basehours: 3,
       from: "",
       till: "",
-      weeks: "",
+      weeks: 1,
       requirement: "",
       admin: "",
       advisor: "",
+      manualmaxtutor: false,
+      manualweekly: false,
       errors: {},
     };
 
@@ -78,7 +82,7 @@ class CreateCourse extends Component {
       metacourse: this.state.metacourse,
       semester: this.state.semester,
       studentnumber: this.state.studentnumber,
-      groupenumber: this.state.groupenumber,
+      groupnumber: this.state.groupnumber,
       groupsize: this.state.groupsize,
       tutorialhours: this.state.tutorialhours,
       homework: this.state.homework,
@@ -88,6 +92,7 @@ class CreateCourse extends Component {
       maxtutornumber: this.state.maxtutornumber,
       weeklyhourspertutor: this.state.weeklyhourspertutor,
       overallhours: this.state.overallhours,
+      overallweeklyhours: this.state.overallweeklyhours,
       from: this.state.from,
       till: this.state.till,
       weeks: this.state.weeks,
@@ -108,8 +113,39 @@ class CreateCourse extends Component {
     var { semesters } = this.state;
     var { metacourses } = this.state;
     var { advisors } = this.state;
-    //TODO: Calculation of Overall Hours
-    this.state.overallhours = this.state.groupsize * this.state.tutorialhours;
+
+    var tutorialmin = Math.min(2, this.state.tutorialhours);
+
+    //Select options for Midterm
+    const midtermOptions = [
+      { label: "0", value: "0" },
+      { label: "0.5", value: "0.5" },
+    ];
+
+    //Select options for Exam
+    const examOptions = [
+      { label: "0", value: "0" },
+      { label: "1", value: "1" },
+    ];
+
+    if (!this.state.manualweekly) {
+      this.state.weeklyhourspertutor =
+        this.state.basehours * 1 +
+        this.state.exam * 1 +
+        this.state.midterm * 1 +
+        this.state.tutorialhours * this.state.groupspertutor +
+        tutorialmin * this.state.groupspertutor * this.state.homework;
+    }
+
+    this.state.overallweeklyhours =
+      this.state.maxtutornumber * this.state.weeklyhourspertutor;
+
+    this.state.overallhours = this.state.overallweeklyhours * this.state.weeks;
+
+    if (!this.state.manualmaxtutor) {
+      this.state.maxtutornumber =
+        this.state.groupnumber / this.state.groupspertutor;
+    }
 
     //Select options for semester
     if (!semesters) {
@@ -142,7 +178,7 @@ class CreateCourse extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link to={"/class-overview"} className={"btn btn-light"}>
+              <Link to={"/course-overview"} className={"btn btn-light"}>
                 back
               </Link>
               <h1 className="display-4 text-center">Course Creation</h1>
@@ -226,32 +262,6 @@ class CreateCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputMaxTutorNumber">
-                      Max Tutor Number
-                    </label>
-                    <TextFieldGroup
-                      placeholder="* Max Tutor Number"
-                      onChange={this.onChange}
-                      value={this.state.maxtutornumber}
-                      name="maxtutornumber"
-                      error={errors.maxtutornumber}
-                    />
-                  </div>
-                </div>
-                <div className="form-row">
-                  <div className="form-group col-md-6">
-                    <label htmlFor="inputWeeklyhourspertutor">
-                      Weekly Hours per Tutor
-                    </label>
-                    <TextFieldGroup
-                      placeholder="Weekly Hours per Tutor"
-                      onChange={this.onChange}
-                      value={this.state.weeklyhourspertutor}
-                      name="weeklyhourspertutor"
-                      error={errors.weeklyhourspertutor}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
                     <label htmlFor="inputHomework">Homework</label>
                     <TextFieldGroup
                       placeholder="Homework"
@@ -262,25 +272,114 @@ class CreateCourse extends Component {
                     />
                   </div>
                 </div>
+
                 <div className="form-row">
                   <div className="form-group col-md-6">
                     <label htmlFor="inputMidterm">Midterm</label>
-                    <TextFieldGroup
+                    <SelectListGroup
                       placeholder="Midterm"
                       onChange={this.onChange}
                       value={this.state.midterm}
                       name="midterm"
                       error={errors.midterm}
+                      options={midtermOptions}
                     />
                   </div>
                   <div className="form-group col-md-6">
                     <label htmlFor="inputExam">Exam</label>
-                    <TextFieldGroup
+                    <SelectListGroup
                       placeholder="Exam"
                       onChange={this.onChange}
                       value={this.state.exam}
                       name="exam"
                       error={errors.exam}
+                      options={examOptions}
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <label htmlFor="inputMaxTutorNumber">
+                      Max Tutor Number -{" "}
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="maxTutorNumber"
+                          onChange={() => {
+                            this.setState((prevState) => ({
+                              manualmaxtutor: !prevState.manualmaxtutor,
+                            }));
+                          }}
+                          value={this.state.manualmaxtutor}
+                        />
+                        <label className="form-check-label" htmlFor="wacom">
+                          Manuelle Eingabe
+                        </label>
+                      </div>
+                    </label>
+                    <TextFieldGroup
+                      placeholder="* Max Tutor Number"
+                      onChange={this.onChange}
+                      value={this.state.maxtutornumber}
+                      name="maxtutornumber"
+                      error={errors.maxtutornumber}
+                      disabled={!this.state.manualmaxtutor}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <label htmlFor="inputWeeklyhourspertutor">
+                      Weekly Hours per Tutor -{" "}
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="maxTutorNumber"
+                          onChange={() => {
+                            this.setState((prevState) => ({
+                              manualweekly: !prevState.manualweekly,
+                            }));
+                          }}
+                          value={this.state.manualweekly}
+                        />
+                        <label className="form-check-label" htmlFor="wacom">
+                          Manuelle Eingabe
+                        </label>
+                      </div>
+                    </label>
+                    <TextFieldGroup
+                      placeholder="Weekly Hours per Tutor"
+                      onChange={this.onChange}
+                      value={this.state.weeklyhourspertutor}
+                      name="weeklyhourspertutor"
+                      error={errors.weeklyhourspertutor}
+                      disabled={!this.state.manualweekly}
+                    />
+                  </div>
+                </div>
+                <div className="form-row">
+                  {" "}
+                  <div className="form-group col-md-6">
+                    <label htmlFor="inputOverallhours">Weeks</label>
+                    <TextFieldGroup
+                      placeholder="Weeks"
+                      onChange={this.onChange}
+                      value={this.state.weeks}
+                      name="weeks"
+                      error={errors.weeks}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <label htmlFor="inputOverallWeeklyhours">
+                      Overall Weekly Hours
+                    </label>
+                    <TextFieldGroup
+                      placeholder="Overall Weekly Hours"
+                      onChange={this.onChange}
+                      value={this.state.overallweeklyhours}
+                      name="overallweeklyhours"
+                      error={errors.overallweeklyhours}
+                      disabled={true}
                     />
                   </div>
                 </div>
@@ -293,6 +392,7 @@ class CreateCourse extends Component {
                   error={errors.overallhours}
                   disabled={true}
                 />
+
                 <label htmlFor="inputFrom">From</label>
                 <TextFieldGroup
                   type={"Date"}

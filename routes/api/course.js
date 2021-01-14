@@ -155,6 +155,8 @@ router.post(
                     courseFields.weeklyhourspertutor =
                       req.body.weeklyhourspertutor;
                     courseFields.overallhours = req.body.overallhours;
+                    courseFields.overallweeklyhours =
+                      req.body.overallweeklyhours;
                     courseFields.from = req.body.from;
                     courseFields.till = req.body.till;
                     courseFields.weeks = req.body.weeks;
@@ -241,6 +243,8 @@ router.post(
                     courseFields.weeklyhourspertutor =
                       req.body.weeklyhourspertutor;
                     courseFields.overallhours = req.body.overallhours;
+                    courseFields.overallweeklyhours =
+                      req.body.overallweeklyhours;
                     courseFields.from = req.body.from;
                     courseFields.till = req.body.till;
                     courseFields.weeks = req.body.weeks;

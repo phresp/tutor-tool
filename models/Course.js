@@ -44,6 +44,9 @@ const CourseSchema = new Schema({
   overallhours: {
     type: Number,
   },
+  overallweeklyhours: {
+    type: Number,
+  },
   from: {
     type: String,
   },
