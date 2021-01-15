@@ -19,6 +19,8 @@ class CreateProfile extends Component {
       birthday: "",
       nationality: "",
       nationality2: "",
+      birthplace: "",
+      countryofbirth: "",
       errors: {},
     };
 

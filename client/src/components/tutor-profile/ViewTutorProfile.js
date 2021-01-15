@@ -5,9 +5,11 @@ import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import moment from "moment";
+import verfassungsPruefung from "../common/VerfassungschutzCountries";
 
 import { createProfile, getProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
+import countryList from "react-select-country-list";
 
 class ViewTutorProfile extends Component {
   constructor(props) {
@@ -20,15 +22,21 @@ class ViewTutorProfile extends Component {
       birthday: "",
       nationality: "",
       nationality2: "",
+      birthplace: "",
+      countryofbirth: "",
+      processable: "True",
       errors: {},
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  //TODO: Nationality Falsch geschrieben
   componentDidMount() {
     this.props.getProfile(this.props.match.params.id);
+
+    if (countryList().data[0].value !== "") {
+      countryList().setEmpty("Select a Country").getLabel("");
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,6 +61,12 @@ class ViewTutorProfile extends Component {
         ? profile.nationality2
         : "";
       profile.birthday = !isEmpty(profile.birthday) ? profile.birthday : "";
+      profile.birthplace = !isEmpty(profile.birthplace)
+        ? profile.birthplace
+        : "";
+      profile.countryofbirth = !isEmpty(profile.countryofbirth)
+        ? profile.countryofbirth
+        : "";
 
       //Set component fields state
       this.setState({
@@ -63,6 +77,8 @@ class ViewTutorProfile extends Component {
         nationality: profile.nationality,
         nationality2: profile.nationality2,
         birthday: profile.birthday,
+        birthplace: profile.birthplace,
+        countryofbirth: profile.countryofbirth,
       });
     }
   }
@@ -89,6 +105,8 @@ class ViewTutorProfile extends Component {
   render() {
     const { errors } = this.state;
 
+    var countryOptions = countryList().getData();
+    console.log(this.state.nationality);
     //Select options for status
     const statusOptions = [
       { label: "Select your gender", value: "" },
@@ -96,6 +114,35 @@ class ViewTutorProfile extends Component {
       { label: "female", value: "female" },
       { label: "divers", value: "divers" },
     ];
+
+    var verfassungsPruefungTooltipNationality = <div></div>;
+    var verfassungsPruefungTooltipCountryofbirth = <div></div>;
+    var verfassungsPruefungTooltipNationality2 = <div></div>;
+
+    if (verfassungsPruefung.indexOf(this.state.nationality) !== -1) {
+      verfassungsPruefungTooltipNationality = (
+        <h3 className="text-danger">Verfassungsprüfung Necessary!</h3>
+      );
+    } else {
+      verfassungsPruefungTooltipNationality = <div></div>;
+    }
+
+    if (verfassungsPruefung.indexOf(this.state.countryofbirth) !== -1) {
+      verfassungsPruefungTooltipCountryofbirth = (
+        <h3 className="text-danger">Verfassungsprüfung Necessary!</h3>
+      );
+    } else {
+      verfassungsPruefungTooltipCountryofbirth = <div></div>;
+    }
+
+    if (verfassungsPruefung.indexOf(this.state.nationality2) !== -1) {
+      verfassungsPruefungTooltipNationality2 = (
+        <h3 className="text-danger">Verfassungsprüfung Necessary!</h3>
+      );
+    } else {
+      verfassungsPruefungTooltipNationality2 = <div></div>;
+    }
+
     return (
       <div className={"create-profile"}>
         <div className="container">
@@ -108,22 +155,23 @@ class ViewTutorProfile extends Component {
                 Profile of <br />
                 {this.state.firstname} {this.state.lastname}{" "}
               </h1>
-
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  placeholder="* Lastname"
-                  onChange={this.onChange}
-                  value={this.state.lastname}
-                  name="lastname"
-                  error={errors.lastname}
-                />
                 <TextFieldGroup
                   placeholder="* Firstname"
                   onChange={this.onChange}
                   value={this.state.firstname}
                   name="firstname"
                   error={errors.firstname}
+                  disabled={this.state.processable ? "disabled" : ""}
+                />
+                <TextFieldGroup
+                  placeholder="* Lastname"
+                  onChange={this.onChange}
+                  value={this.state.lastname}
+                  name="lastname"
+                  error={errors.lastname}
+                  disabled={this.state.processable ? "disabled" : ""}
                 />
                 <SelectListGroup
                   placeholder="* Gender"
@@ -132,6 +180,7 @@ class ViewTutorProfile extends Component {
                   name="gender"
                   error={errors.gender}
                   options={statusOptions}
+                  disabled={this.state.processable ? "disabled" : ""}
                 />
                 <TextFieldGroup
                   type={"date"}
@@ -140,21 +189,50 @@ class ViewTutorProfile extends Component {
                   value={moment.utc(this.state.birthday).format("YYYY-MM-DD")}
                   name="birthday"
                   error={errors.birthday}
+                  disabled={this.state.processable ? "disabled" : ""}
                 />
+                <label htmlFor="birthplace">* Birthplace:</label>
                 <TextFieldGroup
+                  placeholder="* Birthplace"
+                  onChange={this.onChange}
+                  value={this.state.birthplace}
+                  name="birthplace"
+                  error={errors.birthplace}
+                  disabled={this.state.processable ? "disabled" : ""}
+                />
+                <label htmlFor="countryofbirth">* Country of Birth:</label>
+                {verfassungsPruefungTooltipCountryofbirth}
+                <SelectListGroup
+                  placeholder="* Country of Birth"
+                  onChange={this.onChange}
+                  value={this.state.countryofbirth}
+                  name="countryofbirth"
+                  error={errors.countryofbirth}
+                  options={countryOptions}
+                  disabled={this.state.processable ? "disabled" : ""}
+                />
+                <label htmlFor="nationality">* Nationality:</label>
+                {verfassungsPruefungTooltipNationality}
+                <SelectListGroup
                   placeholder="* Nationality"
                   onChange={this.onChange}
                   value={this.state.nationality}
                   name="nationality"
                   error={errors.nationality}
+                  options={countryOptions}
+                  disabled={this.state.processable ? "disabled" : ""}
                 />
-                <TextFieldGroup
+                <label htmlFor="nationality2">Second Nationality:</label>
+                {verfassungsPruefungTooltipNationality2}
+                <SelectListGroup
                   placeholder="Second Nationality"
                   onChange={this.onChange}
                   value={this.state.nationality2}
                   name="nationality2"
                   error={errors.nationality2}
+                  options={countryOptions}
                   info="Please provide your second nationality if you have one"
+                  disabled={this.state.processable ? "disabled" : ""}
                 />
                 <TextFieldGroup
                   placeholder="* Matrikelnummer"
@@ -162,6 +240,7 @@ class ViewTutorProfile extends Component {
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"
                   error={errors.matrikelnummer}
+                  disabled={this.state.processable ? "disabled" : ""}
                 />
               </form>
             </div>
