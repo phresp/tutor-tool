@@ -22,7 +22,7 @@ class AdvisorCourseOverview extends Component {
 
   render() {
     const { courses } = this.props.course;
-    const courseArray = courses ? courses : [];
+    var courseArray = courses ? courses : [];
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
@@ -32,30 +32,49 @@ class AdvisorCourseOverview extends Component {
       );
     }
 
+    const numberApplications = (cell, row, rowIndex, formatExtraData) => {
+      if (row.applications) {
+        return row.applications.length;
+      }
+    };
+
+    const numberAccepted = (cell, row, rowIndex, formatExtraData) => {
+      if (row.applications) {
+        return row.applications.filter(
+          (x) => x.status == "Accepted" || x.status == "Contract"
+        ).length;
+      }
+    };
+
     const columns = [
       {
-        dataField: "metacourse.name",
-        text: "Course:",
+        dataField: "metacourse[0].name",
+        text: "Course",
         sort: true,
       },
       {
-        dataField: "semester.name",
+        dataField: "semester[0].name",
         text: "Semester",
         sort: true,
       },
       {
-        dataField: "groupsize",
-        text: "Groupsize",
+        text: "Applications",
+        formatter: numberApplications,
         sort: true,
       },
       {
-        dataField: "tutorialhours",
-        text: "Tutorialhours",
+        text: "Accepted",
+        formatter: numberAccepted,
         sort: true,
       },
       {
-        dataField: "studentnumber",
-        text: "Studentnumber",
+        dataField: "maxtutornumber",
+        text: "Needed Tutors",
+        sort: true,
+      },
+      {
+        dataField: "status",
+        text: "Status",
         sort: true,
       },
       {
@@ -69,7 +88,7 @@ class AdvisorCourseOverview extends Component {
         <Link to={"/dashboard"} className={"btn btn-light"}>
           back
         </Link>
-        <h1 className={"display-4"}>Class Overview</h1>
+        <h1 className={"display-4"}>Your Courses</h1>
         <h6></h6>
         <ToolkitProvider
           bootstrap4

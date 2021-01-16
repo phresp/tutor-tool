@@ -10,6 +10,15 @@ import moment from "moment";
 const { SearchBar } = Search;
 
 class CourseOverview extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fil: "0",
+    };
+
+    this.onChange = this.onChange.bind(this);
+  }
+
   componentWillMount() {
     this.props.getCourses();
   }
@@ -20,9 +29,20 @@ class CourseOverview extends Component {
     }
   }
 
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
     const { courses } = this.props.course;
-    const courseArray = courses ? courses : [];
+    const entries = courses ? courses : [];
+
+    var courseArray = entries.filter((el) => {
+      if (this.state.fil === "0") return el;
+      if (this.state.fil === "Open") return el.status === "Open";
+      if (this.state.fil === "Closed") return el.status === "Closed";
+      if (this.state.fil === "Preparation") return el.status === "Preparation";
+    });
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
       return (
@@ -44,35 +64,58 @@ class CourseOverview extends Component {
       if (value) return moment(value).format("DD/MM/YYYY");
     }
 
+    const numberApplications = (cell, row, rowIndex, formatExtraData) => {
+      if (row.applications) {
+        return row.applications.length;
+      }
+    };
+
+    const numberAccepted = (cell, row, rowIndex, formatExtraData) => {
+      if (row.applications) {
+        return row.applications.filter((x) => x.status == "Accepted").length;
+      }
+    };
+
+    const numberVertrag = (cell, row, rowIndex, formatExtraData) => {
+      if (row.applications) {
+        return row.applications.filter((x) => x.status == "Contract").length;
+      }
+    };
+
     const columns = [
       {
-        dataField: "metacourse.name",
-        text: "Course:",
+        dataField: "metacourse[0].name",
+        text: "Kurs",
         sort: true,
       },
       {
-        dataField: "semester.name",
+        dataField: "semester[0].name",
         text: "Semester",
         sort: true,
       },
       {
-        dataField: "groupsize",
-        text: "Groupsize",
+        dataField: "weeklyhourspertutor",
+        text: "Wochenstunden",
         sort: true,
       },
       {
-        dataField: "tutorialhours",
-        text: "Tutorialhours",
+        text: "Bewerbungen",
+        formatter: numberApplications,
         sort: true,
       },
       {
-        dataField: "studentnumber",
-        text: "Studentnumber",
+        text: "Angenommen",
+        formatter: numberAccepted,
         sort: true,
       },
       {
-        dataField: "exam",
-        text: "exam",
+        text: "Vertrag",
+        formatter: numberAccepted,
+        sort: true,
+      },
+      {
+        dataField: "maxtutornumber",
+        text: "Max Tutoren",
         sort: true,
       },
       {
@@ -111,6 +154,68 @@ class CourseOverview extends Component {
         >
           {(props) => (
             <div>
+              <h6>Status Filter:</h6>
+
+              <button
+                className={
+                  this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "0",
+                  });
+                }}
+              >
+                {" "}
+                Alle
+              </button>
+              <button
+                className={
+                  this.state.fil === "Open"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "Open",
+                  });
+                }}
+              >
+                {" "}
+                Open
+              </button>
+
+              <button
+                className={
+                  this.state.fil === "Preparation"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "Preparation",
+                  });
+                }}
+              >
+                {" "}
+                Preparation
+              </button>
+
+              <button
+                className={
+                  this.state.fil === "Closed"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "Closed",
+                  });
+                }}
+              >
+                {" "}
+                Closed
+              </button>
               <SearchBar {...props.searchProps} />
               <hr />
               <BootstrapTable {...props.baseProps} />

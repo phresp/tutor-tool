@@ -24,9 +24,32 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
-    Course.find()
-      .populate("metacourse", ["name"])
-      .populate("semester", ["name"])
+    Course.aggregate([
+      {
+        $lookup: {
+          from: "applications",
+          localField: "_id",
+          foreignField: "course",
+          as: "applications",
+        },
+      },
+      {
+        $lookup: {
+          from: "metacourses",
+          localField: "metacourse",
+          foreignField: "_id",
+          as: "metacourse",
+        },
+      },
+      {
+        $lookup: {
+          from: "semesters",
+          localField: "semester",
+          foreignField: "_id",
+          as: "semester",
+        },
+      },
+    ])
       .then((course) => {
         if (!course) {
           errors.course = "There are no courses";
@@ -89,9 +112,37 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
-    Course.find({ advisor: req.user.id })
-      .populate("metacourse", ["name"])
-      .populate("semester", ["name"])
+    Course.aggregate([
+      {
+        $match: {
+          advisor: new mongoose.Types.ObjectId(req.user.id),
+        },
+      },
+      {
+        $lookup: {
+          from: "applications",
+          localField: "_id",
+          foreignField: "course",
+          as: "applications",
+        },
+      },
+      {
+        $lookup: {
+          from: "metacourses",
+          localField: "metacourse",
+          foreignField: "_id",
+          as: "metacourse",
+        },
+      },
+      {
+        $lookup: {
+          from: "semesters",
+          localField: "semester",
+          foreignField: "_id",
+          as: "semester",
+        },
+      },
+    ])
       .then((courses) => {
         res.json(courses);
       })
