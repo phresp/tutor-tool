@@ -110,7 +110,7 @@ class CourseOverview extends Component {
       },
       {
         text: "Vertrag",
-        formatter: numberAccepted,
+        formatter: numberVertrag,
         sort: true,
       },
       {
