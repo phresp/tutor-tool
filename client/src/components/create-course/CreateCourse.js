@@ -154,7 +154,7 @@ class CreateCourse extends Component {
     const semesterOptions = semesters.map((el) => {
       return { label: el.name, value: el.name };
     });
-    semesterOptions.unshift({ label: "Select Semester", value: "" });
+    semesterOptions.unshift({ label: "Semester auswählen", value: "" });
     //Select options for metacourse
     if (!metacourses) {
       metacourses = [];
@@ -162,7 +162,7 @@ class CreateCourse extends Component {
     const metacourseOptions = metacourses.map((el) => {
       return { label: el.name, value: el.name };
     });
-    metacourseOptions.unshift({ label: "Select Metacourse", value: "" });
+    metacourseOptions.unshift({ label: "Metakurs auswählen", value: "" });
 
     //Select options for advisors
     if (isEmpty(advisors)) {
@@ -171,7 +171,7 @@ class CreateCourse extends Component {
     const advisorOptions = advisors.map((el) => {
       return { label: el.firstname + " " + el.lastname, value: el.user._id };
     });
-    advisorOptions.unshift({ label: "Select Advisor", value: "" });
+    advisorOptions.unshift({ label: "Betreuer auswählen", value: "" });
 
     return (
       <div className="createCourse">
@@ -181,12 +181,12 @@ class CreateCourse extends Component {
               <Link to={"/course-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Course Creation</h1>
-              <small className="d-block pb-3">* = required fields</small>
+              <h1 className="display-4 text-center">Kurs erstellen</h1>
+              <small className="d-block pb-3">* = benötigte Felder</small>
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="inputMetacourse4">Metacourse</label>
+                <label htmlFor="inputMetacourse4">Metakurs</label>
                 <SelectListGroup
-                  placeholder="Metacourse"
+                  placeholder="Metakurs"
                   onChange={this.onChange}
                   value={this.state.metacourse}
                   name="metacourse"
@@ -204,9 +204,7 @@ class CreateCourse extends Component {
                 />
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputStudentnumber">
-                      Number of Students
-                    </label>
+                    <label htmlFor="inputStudentnumber">Anzahl Studenten</label>
                     <TextFieldGroup
                       placeholder="Number of Students"
                       onChange={this.onChange}
@@ -216,7 +214,7 @@ class CreateCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputGroupnumber">Number of Groups</label>
+                    <label htmlFor="inputGroupnumber">Anzahl Gruppen</label>
                     <TextFieldGroup
                       placeholder="Number of Groups"
                       onChange={this.onChange}
@@ -228,7 +226,7 @@ class CreateCourse extends Component {
                 </div>
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputGroupsize">Groupsize</label>
+                    <label htmlFor="inputGroupsize">Gruppengöße</label>
                     <TextFieldGroup
                       placeholder="Groupsize"
                       onChange={this.onChange}
@@ -238,7 +236,7 @@ class CreateCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputTutorialhours">Tutorialhours</label>
+                    <label htmlFor="inputTutorialhours">Dauer Tutorium</label>
                     <TextFieldGroup
                       placeholder="Tutorialhours"
                       onChange={this.onChange}
@@ -251,7 +249,7 @@ class CreateCourse extends Component {
                 <div className="form-row">
                   <div className="form-group col-md-6">
                     <label htmlFor="inputGroupsPerTutor">
-                      Groups per Tutor
+                      Gruppen pro Tutor
                     </label>
                     <TextFieldGroup
                       placeholder="Groups per Tutor"
@@ -262,7 +260,7 @@ class CreateCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputHomework">Homework</label>
+                    <label htmlFor="inputHomework">Hausaufgaben</label>
                     <TextFieldGroup
                       placeholder="Homework"
                       onChange={this.onChange}
@@ -286,7 +284,7 @@ class CreateCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputExam">Exam</label>
+                    <label htmlFor="inputExam">Klausur</label>
                     <SelectListGroup
                       placeholder="Exam"
                       onChange={this.onChange}
@@ -300,7 +298,7 @@ class CreateCourse extends Component {
                 <div className="form-row">
                   <div className="form-group col-md-6">
                     <label htmlFor="inputMaxTutorNumber">
-                      Max Tutor Number -{" "}
+                      Maximale Anzahl Tutoren -{" "}
                       <div className="form-check form-check-inline">
                         <input
                           className="form-check-input"
@@ -319,7 +317,7 @@ class CreateCourse extends Component {
                       </div>
                     </label>
                     <TextFieldGroup
-                      placeholder="* Max Tutor Number"
+                      placeholder="* Maximale Anzahl Tutoren"
                       onChange={this.onChange}
                       value={this.state.maxtutornumber}
                       name="maxtutornumber"
@@ -329,7 +327,7 @@ class CreateCourse extends Component {
                   </div>
                   <div className="form-group col-md-6">
                     <label htmlFor="inputWeeklyhourspertutor">
-                      Weekly Hours per Tutor -{" "}
+                      Wochenstunden pro Tutor -{" "}
                       <div className="form-check form-check-inline">
                         <input
                           className="form-check-input"
@@ -348,7 +346,7 @@ class CreateCourse extends Component {
                       </div>
                     </label>
                     <TextFieldGroup
-                      placeholder="Weekly Hours per Tutor"
+                      placeholder="Wochenstunden pro Tutor"
                       onChange={this.onChange}
                       value={this.state.weeklyhourspertutor}
                       name="weeklyhourspertutor"
@@ -360,9 +358,9 @@ class CreateCourse extends Component {
                 <div className="form-row">
                   {" "}
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputOverallhours">Weeks</label>
+                    <label htmlFor="inputOverallhours">Wochen</label>
                     <TextFieldGroup
-                      placeholder="Weeks"
+                      placeholder="Wochen"
                       onChange={this.onChange}
                       value={this.state.weeks}
                       name="weeks"
@@ -371,7 +369,7 @@ class CreateCourse extends Component {
                   </div>
                   <div className="form-group col-md-6">
                     <label htmlFor="inputOverallWeeklyhours">
-                      Overall Weekly Hours
+                      Gesamtwochenstunden
                     </label>
                     <TextFieldGroup
                       placeholder="Overall Weekly Hours"
@@ -383,7 +381,7 @@ class CreateCourse extends Component {
                     />
                   </div>
                 </div>
-                <label htmlFor="inputOverallhours">Overall Hours</label>
+                <label htmlFor="inputOverallhours">Gesamtstunden</label>
                 <TextFieldGroup
                   placeholder="Overall Hours"
                   onChange={this.onChange}
@@ -393,7 +391,7 @@ class CreateCourse extends Component {
                   disabled={true}
                 />
 
-                <label htmlFor="inputFrom">From</label>
+                <label htmlFor="inputFrom">Von</label>
                 <TextFieldGroup
                   type={"Date"}
                   placeholder="From"
@@ -402,7 +400,7 @@ class CreateCourse extends Component {
                   name="from"
                   error={errors.from}
                 />
-                <label htmlFor="inputTill">Till</label>
+                <label htmlFor="inputTill">Bis</label>
                 <TextFieldGroup
                   type={"Date"}
                   placeholder="Till"
@@ -411,15 +409,15 @@ class CreateCourse extends Component {
                   name="till"
                   error={errors.till}
                 />
-                <label htmlFor="inputRequirements">Requirements</label>
+                <label htmlFor="inputRequirements">Anforderungen</label>
                 <TextFieldGroup
-                  placeholder="Requirements"
+                  placeholder="Anforderungen"
                   onChange={this.onChange}
                   value={this.state.requirement}
                   name="requirement"
                   error={errors.requirement}
                 />
-                <label htmlFor="inputAdvisor">Advisor</label>
+                <label htmlFor="inputAdvisor">Betreuer</label>
                 <SelectListGroup
                   placeholder="Advisor"
                   onChange={this.onChange}

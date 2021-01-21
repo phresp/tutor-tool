@@ -144,11 +144,11 @@ class CreateContract extends Component {
 
     //Select options for status of contract
     const statusOptions = [
-      { label: "Created", value: "Created" },
-      { label: "Incomplete", value: "Incomplete" },
-      { label: "In Process", value: "In Process" },
-      { label: "Signable", value: "Signable" },
-      { label: "Completed", value: "Completed" },
+      { label: "Erstellt", value: "Created" },
+      { label: "Unvollständig", value: "Incomplete" },
+      { label: "In Bearbeitung", value: "In Process" },
+      { label: "Unterschriftsbereit", value: "Signable" },
+      { label: "Abgeschlossen", value: "Completed" },
     ];
 
     //Select options for Degree
