@@ -28,6 +28,24 @@ const ContractSchema = new Schema({
   hours: {
     type: Number,
   },
+  contractstart2: {
+    type: Date,
+  },
+  contractend2: {
+    type: Date,
+  },
+  hours2: {
+    type: Number,
+  },
+  contractstart3: {
+    type: Date,
+  },
+  contractend3: {
+    type: Date,
+  },
+  hours3: {
+    type: Number,
+  },
   degree: {
     type: String,
   },

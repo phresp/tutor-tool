@@ -165,6 +165,12 @@ router.post(
     contractFields.contractstart = req.body.contractstart;
     contractFields.contractend = req.body.contractend;
     contractFields.hours = req.body.hours;
+    contractFields.contractstart2 = req.body.contractstart2;
+    contractFields.contractend2 = req.body.contractend2;
+    contractFields.hours2 = req.body.hours2;
+    contractFields.contractstart3 = req.body.contractstart3;
+    contractFields.contractend3 = req.body.contractend3;
+    contractFields.hours3 = req.body.hours3;
     contractFields.degree = req.body.degree;
     contractFields.newcontract = req.body.newcontract;
     contractFields.merkblatt = req.body.merkblatt
@@ -246,6 +252,12 @@ router.post(
     contractFields.contractstart = req.body.contractstart;
     contractFields.contractend = req.body.contractend;
     contractFields.hours = req.body.hours;
+    contractFields.contractstart2 = req.body.contractstart2;
+    contractFields.contractend2 = req.body.contractend2;
+    contractFields.hours2 = req.body.hours2;
+    contractFields.contractstart3 = req.body.contractstart3;
+    contractFields.contractend3 = req.body.contractend3;
+    contractFields.hours3 = req.body.hours3;
     contractFields.degree = req.body.degree;
     contractFields.newcontract = req.body.newcontract;
     contractFields.merkblatt = req.body.merkblatt;

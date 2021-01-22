@@ -27,6 +27,12 @@ class EditContract extends Component {
       contractstart: "",
       contractend: "",
       hours: "",
+      contractstart2: "",
+      contractend2: "",
+      hours2: "",
+      contractstart3: "",
+      contractend3: "",
+      hours3: "",
       degree: "",
       newcontract: "",
       merkblatt: "",
@@ -41,6 +47,7 @@ class EditContract extends Component {
       personalbogenstudierende: "",
       steuerId: "",
       status: "",
+      displayContractsplitting: false,
       errors: {},
     };
 
@@ -55,6 +62,7 @@ class EditContract extends Component {
 
     if (nextProps.contract.contract) {
       const contract = nextProps.contract.contract;
+      var display = false;
 
       //If profile field doesn't exist, make empty string
       contract.user = !isEmpty(contract.user) ? contract.user : "";
@@ -70,6 +78,23 @@ class EditContract extends Component {
         ? contract.contractend
         : "";
       contract.hours = !isEmpty(contract.hours) ? contract.hours : "";
+
+      contract.contractstart2 = !isEmpty(contract.contractstart2)
+        ? contract.contractstart2
+        : "";
+      contract.contractend2 = !isEmpty(contract.contractend2)
+        ? contract.contractend2
+        : "";
+      contract.hours2 = !isEmpty(contract.hours2) ? contract.hours2 : "";
+
+      contract.contractstart3 = !isEmpty(contract.contractstart3)
+        ? contract.contractstart3
+        : "";
+      contract.contractend3 = !isEmpty(contract.contractend3)
+        ? contract.contractend3
+        : "";
+      contract.hours3 = !isEmpty(contract.hours3) ? contract.hours3 : "";
+
       contract.degree = !isEmpty(contract.degree) ? contract.degree : "";
       contract.newcontract = !isEmpty(contract.newcontract)
         ? contract.newcontract
@@ -120,6 +145,16 @@ class EditContract extends Component {
       contract.steuerId = !isEmpty(contract.steuerId) ? contract.steuerId : "";
       contract.status = !isEmpty(contract.status) ? contract.status : "";
 
+      if (
+        contract.contractstart2 ||
+        contract.contractstart3 ||
+        contract.contractend2 ||
+        contract.contractend3 ||
+        contract.hours2 ||
+        contract.hours3
+      ) {
+        display = true;
+      }
       //set component State Field
       this.setState({
         user: contract.user,
@@ -129,6 +164,12 @@ class EditContract extends Component {
         contractstart: contract.contractstart,
         contractend: contract.contractend,
         hours: contract.hours,
+        contractstart2: contract.contractstart2,
+        contractend2: contract.contractend2,
+        hours2: contract.hours2,
+        contractstart3: contract.contractstart3,
+        contractend3: contract.contractend3,
+        hours3: contract.hours3,
         degree: contract.degree,
         newcontract: contract.newcontract,
         merkblatt: contract.merkblatt,
@@ -144,6 +185,7 @@ class EditContract extends Component {
         sozialversicherungsausweis: contract.sozialversicherungsausweis,
         steuerId: contract.steuerId,
         status: contract.status,
+        displayContractsplitting: display,
       });
     }
   }
@@ -158,6 +200,12 @@ class EditContract extends Component {
       contractstart: this.state.contractstart,
       contractend: this.state.contractend,
       hours: this.state.hours,
+      contractstart2: this.state.contractstart2,
+      contractend2: this.state.contractend2,
+      hours2: this.state.hours2,
+      contractstart3: this.state.contractstart3,
+      contractend3: this.state.contractend3,
+      hours3: this.state.hours3,
       degree: this.state.degree,
       newcontract: this.state.newcontract,
       merkblatt: this.state.merkblatt,
@@ -187,7 +235,7 @@ class EditContract extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, displayContractsplitting } = this.state;
 
     //Name and course
     var contractname;
@@ -302,7 +350,82 @@ class EditContract extends Component {
         }
       }
     }
+
+    var vertragSplitting;
+
+    if (this.state.displayContractsplitting) {
+      vertragSplitting = (
+        <div className="bg-light">
+          <hr />
+          <label htmlFor="contractstart">Vertrag Start 2:</label>
+          <TextFieldGroup
+            type={"date"}
+            placeholder="Contract Start"
+            onChange={this.onChange}
+            value={moment.utc(this.state.contractstart2).format("YYYY-MM-DD")}
+            name="contractstart2"
+            error={errors.contractstart2}
+          />
+          <label htmlFor="contractend">Vertrag Ende 2:</label>
+          <TextFieldGroup
+            type={"date"}
+            placeholder="Contract End"
+            onChange={this.onChange}
+            value={moment.utc(this.state.contractend2).format("YYYY-MM-DD")}
+            name="contractend2"
+            error={errors.contractend2}
+          />
+          <label htmlFor="hours">Wochenstunden 2:</label>
+          <TextFieldGroup
+            placeholder="Wochenstunden 2"
+            onChange={this.onChange}
+            value={this.state.hours2}
+            name="hours2"
+            error={errors.hours2}
+          />
+
+          <label htmlFor="contractstart">Vertrag Start 3:</label>
+          <TextFieldGroup
+            type={"date"}
+            placeholder="Contract Start"
+            onChange={this.onChange}
+            value={moment.utc(this.state.contractstart3).format("YYYY-MM-DD")}
+            name="contractstart3"
+            error={errors.contractstart3}
+          />
+          <label htmlFor="contractend">Vertrag Ende 3:</label>
+          <TextFieldGroup
+            type={"date"}
+            placeholder="Contract End 3"
+            onChange={this.onChange}
+            value={moment.utc(this.state.contractend3).format("YYYY-MM-DD")}
+            name="contractend3"
+            error={errors.contractend3}
+          />
+          <label htmlFor="hours">Wochenstunden 3:</label>
+          <TextFieldGroup
+            placeholder="Wochenstunden 3"
+            onChange={this.onChange}
+            value={this.state.hours3}
+            name="hours3"
+            error={errors.hours3}
+          />
+          <hr />
+        </div>
+      );
+    }
+
+    //Buttoncolor for Contractsplitting
+    var color;
+
+    if (displayContractsplitting) {
+      color = "btn btn-success";
+    } else {
+      color = "btn btn-light";
+    }
+
     //TODO: Functionality print EV
+
     return (
       <div className="createContract">
         <div className="container-fluid">
@@ -350,6 +473,22 @@ class EditContract extends Component {
                   name="hours"
                   error={errors.hours}
                 />
+
+                <div className="mb-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.setState((prevState) => ({
+                        displayContractsplitting: !prevState.displayContractsplitting,
+                      }));
+                    }}
+                    className={color}
+                  >
+                    Vertragsplitting
+                  </button>
+                  <span className="text-muted">Optional</span>
+                </div>
+                {vertragSplitting}
                 <label htmlFor="degree">Abschluss:</label>
                 <SelectListGroup
                   placeholder="Degree"

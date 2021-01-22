@@ -28,6 +28,12 @@ class CreateContract extends Component {
       contractstart: "",
       contractend: "",
       hours: "",
+      contractstart2: "",
+      contractend2: "",
+      hours2: "",
+      contractstart3: "",
+      contractend3: "",
+      hours3: "",
       degree: "",
       newcontract: "",
       merkblatt: "Fehlt",
@@ -43,6 +49,7 @@ class CreateContract extends Component {
       steuerId: "Fehlt",
       reisepass: "Fehlt",
       status: "Created",
+      displayContractsplitting: false,
       errors: {},
     };
 
@@ -66,6 +73,12 @@ class CreateContract extends Component {
       contractstart: this.state.contractstart,
       contractend: this.state.contractend,
       hours: this.state.hours,
+      contractstart2: this.state.contractstart2,
+      contractend2: this.state.contractend2,
+      hours2: this.state.hours2,
+      contractstart3: this.state.contractstart3,
+      contractend3: this.state.contractend3,
+      hours3: this.state.hours3,
       degree: this.state.degree,
       newcontract: this.state.newcontract,
       merkblatt: this.state.merkblatt,
@@ -91,7 +104,7 @@ class CreateContract extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, displayContractsplitting } = this.state;
 
     //Get User ID
     if (this.props.application.application) {
@@ -226,6 +239,79 @@ class CreateContract extends Component {
       }
     }
 
+    var vertragSplitting;
+
+    if (displayContractsplitting) {
+      vertragSplitting = (
+        <div className="bg-light">
+          <hr />
+          <label htmlFor="contractstart">Vertrag Start 2:</label>
+          <TextFieldGroup
+            type={"date"}
+            placeholder="Contract Start"
+            onChange={this.onChange}
+            value={this.state.contractstart2}
+            name="contractstart2"
+            error={errors.contractstart2}
+          />
+          <label htmlFor="contractend">Vertrag Ende 2:</label>
+          <TextFieldGroup
+            type={"date"}
+            placeholder="Contract End"
+            onChange={this.onChange}
+            value={this.state.contractend2}
+            name="contractend2"
+            error={errors.contractend2}
+          />
+          <label htmlFor="hours">Wochenstunden 2:</label>
+          <TextFieldGroup
+            placeholder="Wochenstunden 2"
+            onChange={this.onChange}
+            value={this.state.hours2}
+            name="hours2"
+            error={errors.hours2}
+          />
+
+          <label htmlFor="contractstart">Vertrag Start 3:</label>
+          <TextFieldGroup
+            type={"date"}
+            placeholder="Contract Start"
+            onChange={this.onChange}
+            value={this.state.contractstart3}
+            name="contractstart3"
+            error={errors.contractstart3}
+          />
+          <label htmlFor="contractend">Vertrag Ende 3:</label>
+          <TextFieldGroup
+            type={"date"}
+            placeholder="Contract End 3"
+            onChange={this.onChange}
+            value={this.state.contractend3}
+            name="contractend3"
+            error={errors.contractend3}
+          />
+          <label htmlFor="hours">Wochenstunden 3:</label>
+          <TextFieldGroup
+            placeholder="Wochenstunden 3"
+            onChange={this.onChange}
+            value={this.state.hours3}
+            name="hours3"
+            error={errors.hours3}
+          />
+          <hr />
+        </div>
+      );
+    }
+
+    //Buttoncolor for Contractsplitting
+    var color;
+
+    if (displayContractsplitting) {
+      color = "btn btn-success";
+    } else {
+      color = "btn btn-light";
+    }
+
     return (
       <div className="createContract">
         <div className="container-fluid">
@@ -259,12 +345,28 @@ class CreateContract extends Component {
                 />
                 <label htmlFor="hours">Wochenstunden:</label>
                 <TextFieldGroup
-                  placeholder="Hours"
+                  placeholder="Wochenstunden"
                   onChange={this.onChange}
                   value={this.state.hours}
                   name="hours"
                   error={errors.hours}
                 />
+
+                <div className="mb-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.setState((prevState) => ({
+                        displayContractsplitting: !prevState.displayContractsplitting,
+                      }));
+                    }}
+                    className={color}
+                  >
+                    Vertragsplitting
+                  </button>
+                  <span className="text-muted">Optional</span>
+                </div>
+                {vertragSplitting}
                 <label htmlFor="degree">Abschluss:</label>
                 <SelectListGroup
                   placeholder="Degree"

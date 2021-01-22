@@ -7,6 +7,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
 import { getMyContracts } from "../../actions/contractActions";
+import moment from "moment";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
 import Spinner from "../common/Spinner";
@@ -43,6 +44,10 @@ class MyContracts extends Component {
       );
     }
 
+    const dateFormat = (value, row, index) => {
+      if (value) return moment(value).format("DD/MM/YYYY");
+    };
+
     if (contracts === null || this.props.contract.contractloading) {
       contractTable = <Spinner />;
     } else {
@@ -58,7 +63,18 @@ class MyContracts extends Component {
             text: "Nachname",
             sort: true,
           },
-
+          {
+            dataField: "contractstart",
+            text: "From",
+            formatter: dateFormat,
+            sort: true,
+          },
+          {
+            dataField: "contractend",
+            text: "Till",
+            formatter: dateFormat,
+            sort: true,
+          },
           {
             dataField: "status",
             text: "Status",
