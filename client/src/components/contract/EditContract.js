@@ -10,6 +10,7 @@ import moment from "moment";
 import { getContractOfID, updateContract } from "../../actions/contractActions";
 
 import isEmpty from "../../validation/is-empty";
+import verfassungsPruefung from "../common/VerfassungschutzCountries";
 
 class EditContract extends Component {
   componentDidMount() {
@@ -268,6 +269,40 @@ class EditContract extends Component {
       }
     }
 
+    var verfassungsPruefungTooltip = <div></div>;
+
+    if (this.props.contract.contract) {
+      if (this.props.contract.contract.profile) {
+        if (
+          verfassungsPruefung.indexOf(
+            this.props.contract.contract.profile.countryofbirth
+          ) !== -1
+        ) {
+          verfassungsPruefungTooltip = (
+            <h3 className="text-danger">Verfassungsprüfung nötig!</h3>
+          );
+        } else if (
+          verfassungsPruefung.indexOf(
+            this.props.contract.contract.profile.nationality
+          ) !== -1
+        ) {
+          verfassungsPruefungTooltip = (
+            <h3 className="text-danger">Verfassungsprüfung nötig!</h3>
+          );
+        } else if (
+          verfassungsPruefung.indexOf(
+            this.props.contract.contract.profile.nationality2
+          ) !== -1
+        ) {
+          verfassungsPruefungTooltip = (
+            <h3 className="text-danger">Verfassungsprüfung nötig!</h3>
+          );
+        } else {
+          verfassungsPruefungTooltip = <div></div>;
+        }
+      }
+    }
+    //TODO: Functionality print EV
     return (
       <div className="createContract">
         <div className="container-fluid">
@@ -278,7 +313,12 @@ class EditContract extends Component {
               </Link>
               <h1 className="display-4 text-center">
                 Vertrag von <br /> {contractname}
+                {verfassungsPruefungTooltip}
               </h1>
+
+              <Link to={"/contracts"} className={"btn btn-primary"}>
+                EV drucken
+              </Link>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="contractstart">Vertrag Start:</label>
                 <TextFieldGroup
@@ -396,16 +436,7 @@ class EditContract extends Component {
                   options={formsNotAlwaysNeededOptions}
                   color={this.state.immatrikulationsbescheinigung}
                 />
-                <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
-                <ContractSelectListGroup
-                  placeholder="aufenthaltstitel"
-                  onChange={this.onChange}
-                  value={this.state.aufenthaltstitel}
-                  name="aufenthaltstitel"
-                  error={errors.aufenthaltstitel}
-                  options={foreignerOptions}
-                  color={this.state.aufenthaltstitel}
-                />
+
                 <label htmlFor="krankenkassenbescheinigung">
                   Krankenkassenbescheinigung:
                 </label>
@@ -461,6 +492,16 @@ class EditContract extends Component {
                   error={errors.reisepass}
                   options={foreignerOptions}
                   color={this.state.reisepass}
+                />
+                <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
+                <ContractSelectListGroup
+                  placeholder="aufenthaltstitel"
+                  onChange={this.onChange}
+                  value={this.state.aufenthaltstitel}
+                  name="aufenthaltstitel"
+                  error={errors.aufenthaltstitel}
+                  options={foreignerOptions}
+                  color={this.state.aufenthaltstitel}
                 />
 
                 <label htmlFor="status">Status:</label>

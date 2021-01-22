@@ -9,6 +9,8 @@ import { createContract } from "../../actions/contractActions";
 
 import { getApplicationOfId } from "../../actions/applicationActions";
 
+import verfassungsPruefung from "../common/VerfassungschutzCountries";
+
 import { isEmpty } from "../../validation/is-empty";
 
 class CreateContract extends Component {
@@ -190,6 +192,40 @@ class CreateContract extends Component {
       }
     }
 
+    var verfassungsPruefungTooltip = <div></div>;
+
+    if (this.props.application.application) {
+      if (this.props.application.application.profile) {
+        if (
+          verfassungsPruefung.indexOf(
+            this.props.application.application.profile.countryofbirth
+          ) !== -1
+        ) {
+          verfassungsPruefungTooltip = (
+            <h3 className="text-danger">Verfassungsprüfung nötig!</h3>
+          );
+        } else if (
+          verfassungsPruefung.indexOf(
+            this.props.application.application.profile.nationality
+          ) !== -1
+        ) {
+          verfassungsPruefungTooltip = (
+            <h3 className="text-danger">Verfassungsprüfung nötig!</h3>
+          );
+        } else if (
+          verfassungsPruefung.indexOf(
+            this.props.application.application.profile.nationality2
+          ) !== -1
+        ) {
+          verfassungsPruefungTooltip = (
+            <h3 className="text-danger">Verfassungsprüfung nötig!</h3>
+          );
+        } else {
+          verfassungsPruefungTooltip = <div></div>;
+        }
+      }
+    }
+
     return (
       <div className="createContract">
         <div className="container-fluid">
@@ -201,6 +237,7 @@ class CreateContract extends Component {
               <h1 className="display-4 text-center">
                 Vertrag von <br /> {contractname}
               </h1>
+              {verfassungsPruefungTooltip}
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="contractstart">Vertrag Start:</label>
                 <TextFieldGroup
@@ -308,15 +345,7 @@ class CreateContract extends Component {
                   error={errors.immatrikulationsbescheinigung}
                   options={formsNotAlwaysNeededOptions}
                 />
-                <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
-                <SelectListGroup
-                  placeholder="aufenthaltstitel"
-                  onChange={this.onChange}
-                  value={this.state.aufenthaltstitel}
-                  name="aufenthaltstitel"
-                  error={errors.aufenthaltstitel}
-                  options={foreignerOptions}
-                />
+
                 <label htmlFor="krankenkassenbescheinigung">
                   Krankenkassenbescheinigung:
                 </label>
@@ -367,6 +396,16 @@ class CreateContract extends Component {
                   value={this.state.reisepass}
                   name="reisepass"
                   error={errors.reisepass}
+                  options={foreignerOptions}
+                />
+
+                <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
+                <SelectListGroup
+                  placeholder="aufenthaltstitel"
+                  onChange={this.onChange}
+                  value={this.state.aufenthaltstitel}
+                  name="aufenthaltstitel"
+                  error={errors.aufenthaltstitel}
                   options={foreignerOptions}
                 />
 
