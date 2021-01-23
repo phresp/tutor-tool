@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import moment from "moment";
+import aufenthaltfreieCountries from "../common/AufenthaltCountries";
 
 import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
@@ -23,6 +24,7 @@ class CreateProfile extends Component {
       nationality2: "",
       birthplace: "",
       countryofbirth: "",
+      aufenthaltend: "",
       errors: {},
     };
 
@@ -64,6 +66,9 @@ class CreateProfile extends Component {
       profile.countryofbirth = !isEmpty(profile.countryofbirth)
         ? profile.countryofbirth
         : "";
+      profile.aufenthaltend = !isEmpty(profile.aufenthaltend)
+        ? profile.aufenthaltend
+        : "";
 
       //Set component fields state
       this.setState({
@@ -76,6 +81,7 @@ class CreateProfile extends Component {
         birthday: profile.birthday,
         birthplace: profile.birthplace,
         countryofbirth: profile.countryofbirth,
+        aufenthaltend: profile.aufenthaltend,
       });
     }
   }
@@ -93,6 +99,7 @@ class CreateProfile extends Component {
       nationality2: this.state.nationality2,
       birthplace: this.state.birthplace,
       countryofbirth: this.state.countryofbirth,
+      aufenthaltend: this.state.aufenthaltend,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -105,7 +112,7 @@ class CreateProfile extends Component {
     const { errors } = this.state;
 
     var countryOptions = countryList().getData();
-
+    console.log(this.state.nationality);
     //Select options for status
     const statusOptions = [
       { label: "Select your gender", value: "" },
@@ -113,6 +120,26 @@ class CreateProfile extends Component {
       { label: "female", value: "female" },
       { label: "divers", value: "divers" },
     ];
+
+    var aufenthaltInput;
+    var aufenthaltLabel;
+
+    if (
+      aufenthaltfreieCountries.indexOf(this.state.nationality) == -1 ||
+      aufenthaltfreieCountries.indexOf(this.state.nationality2) == -1
+    ) {
+      aufenthaltLabel = <label htmlFor="Aufenthalt">Aufenthalt Ende:</label>;
+      aufenthaltInput = (
+        <TextFieldGroup
+          type={"date"}
+          placeholder="Aufenthalt Ende"
+          onChange={this.onChange}
+          value={moment.utc(this.state.aufenthaltend).format("YYYY-MM-DD")}
+          name="Aufenthalt Ende"
+          error={errors.aufenthaltend}
+        />
+      );
+    }
     return (
       <div className={"create-profile"}>
         <div className="container">
@@ -141,7 +168,7 @@ class CreateProfile extends Component {
                   name="lastname"
                   error={errors.lastname}
                 />
-
+                <label htmlFor="birthplace">* Gender:</label>
                 <SelectListGroup
                   placeholder="* Gender"
                   onChange={this.onChange}
@@ -150,6 +177,7 @@ class CreateProfile extends Component {
                   error={errors.gender}
                   options={statusOptions}
                 />
+                <label htmlFor="birthplace">* Birthday:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="* Birthday"
@@ -194,8 +222,11 @@ class CreateProfile extends Component {
                   options={countryOptions}
                   info="Please provide your second nationality if you have one"
                 />
+                {aufenthaltLabel}
+                {aufenthaltInput}
+                <label htmlFor="Matrikelnummer">Matrikelnummer:</label>
                 <TextFieldGroup
-                  placeholder="* Matrikelnummer"
+                  placeholder="Matrikelnummer"
                   onChange={this.onChange}
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"

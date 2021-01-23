@@ -7,6 +7,8 @@ import SelectListGroup from "../common/SelectListGroup";
 import countryList from "react-select-country-list";
 
 import { createProfile } from "../../actions/profileActions";
+import aufenthaltfreieCountries from "../common/AufenthaltCountries";
+import moment from "moment";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class CreateProfile extends Component {
       birthday: "",
       nationality: "",
       nationality2: "",
+      aufenthaltend: "",
       birthplace: "",
       countryofbirth: "",
       errors: {},
@@ -52,6 +55,7 @@ class CreateProfile extends Component {
       nationality2: this.state.nationality2,
       birthplace: this.state.birthplace,
       countryofbirth: this.state.countryofbirth,
+      aufenthaltend: this.state.aufenthaltend,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -72,6 +76,27 @@ class CreateProfile extends Component {
       { label: "female", value: "female" },
       { label: "divers", value: "divers" },
     ];
+
+    var aufenthaltInput;
+    var aufenthaltLabel;
+
+    if (
+      aufenthaltfreieCountries.indexOf(this.state.nationality) == -1 ||
+      aufenthaltfreieCountries.indexOf(this.state.nationality2) == -1
+    ) {
+      aufenthaltLabel = <label htmlFor="Aufenthalt">Aufenthalt Ende:</label>;
+      aufenthaltInput = (
+        <TextFieldGroup
+          type={"date"}
+          placeholder="Aufenthalt Ende"
+          onChange={this.onChange}
+          value={moment.utc(this.state.aufenthaltend).format("YYYY-MM-DD")}
+          name="Aufenthalt Ende"
+          error={errors.aufenthaltend}
+        />
+      );
+    }
+
     return (
       <div className={"create-profile"}>
         <div className="container">
@@ -94,6 +119,7 @@ class CreateProfile extends Component {
                   name="lastname"
                   error={errors.lastname}
                 />
+                <label htmlFor="countryofbirth">* Gender:</label>
                 <SelectListGroup
                   placeholder="* Gender"
                   onChange={this.onChange}
@@ -102,6 +128,7 @@ class CreateProfile extends Component {
                   error={errors.gender}
                   options={statusOptions}
                 />
+                <label htmlFor="countryofbirth">* Birthday:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="* Birthday"
@@ -110,6 +137,7 @@ class CreateProfile extends Component {
                   name="birthday"
                   error={errors.birthday}
                 />
+                <label htmlFor="countryofbirth">* Birthplace:</label>
                 <TextFieldGroup
                   placeholder="* Birthplace"
                   onChange={this.onChange}
@@ -145,8 +173,11 @@ class CreateProfile extends Component {
                   options={countryOptions}
                   info="Please provide your second nationality if you have one"
                 />
+                {aufenthaltLabel}
+                {aufenthaltInput}
+                <label htmlFor="Matrikelnummer">Matrikelnummer:</label>
                 <TextFieldGroup
-                  placeholder="* Matrikelnummer"
+                  placeholder="Matrikelnummer"
                   onChange={this.onChange}
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"

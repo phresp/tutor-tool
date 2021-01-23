@@ -20,7 +20,6 @@ const ProfileSchema = new Schema({
   },
   matrikelnummer: {
     type: String,
-    required: true,
   },
   birthday: {
     type: Date,
@@ -43,6 +42,9 @@ const ProfileSchema = new Schema({
   },
   vita: {
     type: String,
+  },
+  aufenthaltend: {
+    type: Date,
   },
 
   experience: [

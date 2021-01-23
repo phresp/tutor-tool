@@ -73,11 +73,11 @@ router.post(
       formFields.path = req.file.path;
 
       //Insert Form Data into MongoDB
-      Forms.findOne({ name: req.body.name }).then((form) => {
+      Forms.findOne({ name: formFields.name }).then((form) => {
         if (form) {
           //Update Forms
           Forms.findOneAndUpdate(
-            { name: req.body.name },
+            { name: formFields.name },
             { $set: formFields },
             { new: true }
           )
