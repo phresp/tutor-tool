@@ -24,6 +24,7 @@ class CreateProfile extends Component {
       aufenthaltend: "",
       birthplace: "",
       countryofbirth: "",
+      stipendiumend: "",
       errors: {},
     };
 
@@ -56,6 +57,7 @@ class CreateProfile extends Component {
       birthplace: this.state.birthplace,
       countryofbirth: this.state.countryofbirth,
       aufenthaltend: this.state.aufenthaltend,
+      stipendiumend: this.state.stipendiumend,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -88,10 +90,10 @@ class CreateProfile extends Component {
       aufenthaltInput = (
         <TextFieldGroup
           type={"date"}
-          placeholder="Aufenthalt Ende"
+          placeholder="Aufenthaltstitel Ende"
           onChange={this.onChange}
           value={moment.utc(this.state.aufenthaltend).format("YYYY-MM-DD")}
-          name="Aufenthalt Ende"
+          name="aufenthaltend"
           error={errors.aufenthaltend}
         />
       );
@@ -175,6 +177,29 @@ class CreateProfile extends Component {
                 />
                 {aufenthaltLabel}
                 {aufenthaltInput}
+                <div className="container">
+                  <div className="row">
+                    <div className={"col-md-9"}>
+                      <label htmlFor="Stipendium">
+                        End of scholarship (if applicable):
+                      </label>
+                    </div>
+                    <div className={"col-md-3"}>
+                      <button
+                        className={"btn btn-light"}
+                        type="button"
+                        onClick={() => {
+                          this.setState({
+                            stipendiumend: "",
+                          });
+                        }}
+                      >
+                        {" "}
+                        Empty Date
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <label htmlFor="Matrikelnummer">Matrikelnummer:</label>
                 <TextFieldGroup
                   placeholder="Matrikelnummer"

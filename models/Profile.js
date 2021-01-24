@@ -46,6 +46,9 @@ const ProfileSchema = new Schema({
   aufenthaltend: {
     type: Date,
   },
+  stipendiumend: {
+    type: Date,
+  },
 
   experience: [
     {

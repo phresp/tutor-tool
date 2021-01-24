@@ -25,6 +25,7 @@ class CreateProfile extends Component {
       birthplace: "",
       countryofbirth: "",
       aufenthaltend: "",
+      stipendiumend: "",
       errors: {},
     };
 
@@ -69,6 +70,9 @@ class CreateProfile extends Component {
       profile.aufenthaltend = !isEmpty(profile.aufenthaltend)
         ? profile.aufenthaltend
         : "";
+      profile.stipendiumend = !isEmpty(profile.stipendiumend)
+        ? profile.stipendiumend
+        : "";
 
       //Set component fields state
       this.setState({
@@ -82,6 +86,7 @@ class CreateProfile extends Component {
         birthplace: profile.birthplace,
         countryofbirth: profile.countryofbirth,
         aufenthaltend: profile.aufenthaltend,
+        stipendiumend: profile.stipendiumend,
       });
     }
   }
@@ -100,6 +105,7 @@ class CreateProfile extends Component {
       birthplace: this.state.birthplace,
       countryofbirth: this.state.countryofbirth,
       aufenthaltend: this.state.aufenthaltend,
+      stipendiumend: this.state.stipendiumend,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -132,10 +138,10 @@ class CreateProfile extends Component {
       aufenthaltInput = (
         <TextFieldGroup
           type={"date"}
-          placeholder="Aufenthalt Ende"
+          placeholder="Aufenthaltstitel Ende"
           onChange={this.onChange}
           value={moment.utc(this.state.aufenthaltend).format("YYYY-MM-DD")}
-          name="Aufenthalt Ende"
+          name="aufenthaltend"
           error={errors.aufenthaltend}
         />
       );
@@ -177,7 +183,7 @@ class CreateProfile extends Component {
                   error={errors.gender}
                   options={statusOptions}
                 />
-                <label htmlFor="birthplace">* Birthday:</label>
+                <label htmlFor="birthday">* Birthday:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="* Birthday"
@@ -224,6 +230,42 @@ class CreateProfile extends Component {
                 />
                 {aufenthaltLabel}
                 {aufenthaltInput}
+
+                <div className="container">
+                  <div className="row">
+                    <div className={"col-md-9"}>
+                      <label htmlFor="Stipendium">
+                        End of scholarship (if applicable):
+                      </label>
+                    </div>
+                    <div className={"col-md-3"}>
+                      <button
+                        className={"btn btn-light"}
+                        type="button"
+                        onClick={() => {
+                          this.setState({
+                            stipendiumend: "",
+                          });
+                        }}
+                      >
+                        {" "}
+                        Empty Date
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <TextFieldGroup
+                  type={"date"}
+                  placeholder="Stipendium End"
+                  onChange={this.onChange}
+                  value={moment
+                    .utc(this.state.stipendiumend)
+                    .format("YYYY-MM-DD")}
+                  name="stipendiumend"
+                  error={errors.stipendiumend}
+                />
+
                 <label htmlFor="Matrikelnummer">Matrikelnummer:</label>
                 <TextFieldGroup
                   placeholder="Matrikelnummer"

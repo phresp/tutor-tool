@@ -176,6 +176,7 @@ router.post(
     profileFields.birthplace = req.body.birthplace;
     profileFields.countryofbirth = req.body.countryofbirth;
     profileFields.aufenthaltend = req.body.aufenthaltend;
+    profileFields.stipendiumend = req.body.stipendiumend;
     profileFields.vita = req.body.vita;
 
     Profile.findOne({ user: req.user.id }).then((profile) => {
