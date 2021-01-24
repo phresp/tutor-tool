@@ -9,7 +9,7 @@ import isEmpty from "../common/is-empty";
 import { createCourse } from "../../actions/courseActions";
 import { getSemesters } from "../../actions/semesterActions";
 import { getMetacourses } from "../../actions/metacourseActions";
-import { getAdvisors } from "../../actions/profileActions";
+import { getAdvisors, getAdmins } from "../../actions/profileActions";
 
 class CreateCourse extends Component {
   constructor(props) {
@@ -37,6 +37,8 @@ class CreateCourse extends Component {
       requirement: "",
       admin: "",
       advisor: "",
+      advisor2: "",
+      advisor3: "",
       manualmaxtutor: false,
       manualweekly: false,
       errors: {},
@@ -50,6 +52,7 @@ class CreateCourse extends Component {
     this.props.getMetacourses();
     this.props.getSemesters();
     this.props.getAdvisors();
+    this.props.getAdmins();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,9 +72,10 @@ class CreateCourse extends Component {
       });
     }
     if (nextProps.profile) {
-      const { advisors } = nextProps.profile;
+      const { advisors, admins } = nextProps.profile;
       this.setState({
         advisors: advisors,
+        admins: admins,
       });
     }
   }
@@ -99,6 +103,8 @@ class CreateCourse extends Component {
       requirement: this.state.requirement,
       admin: this.state.admin,
       advisor: this.state.advisor,
+      advisor2: this.state.advisor2,
+      advisor3: this.state.advisor3,
     };
 
     this.props.createCourse(courseData, this.props.history);
@@ -113,6 +119,7 @@ class CreateCourse extends Component {
     var { semesters } = this.state;
     var { metacourses } = this.state;
     var { advisors } = this.state;
+    var { admins } = this.state;
 
     var tutorialmin = Math.min(2, this.state.tutorialhours);
 
@@ -171,7 +178,17 @@ class CreateCourse extends Component {
     const advisorOptions = advisors.map((el) => {
       return { label: el.firstname + " " + el.lastname, value: el.user._id };
     });
-    advisorOptions.unshift({ label: "Betreuer auswählen", value: "" });
+    advisorOptions.unshift({ label: "Übungsleiter auswählen", value: "" });
+
+    //Select options for admins
+    console.log(advisors);
+    if (isEmpty(admins)) {
+      admins = [];
+    }
+    const adminOptions = admins.map((el) => {
+      return { label: el.firstname + " " + el.lastname, value: el.user._id };
+    });
+    adminOptions.unshift({ label: "Betreuer auswählen", value: "" });
 
     return (
       <div className="createCourse">
@@ -417,7 +434,7 @@ class CreateCourse extends Component {
                   name="requirement"
                   error={errors.requirement}
                 />
-                <label htmlFor="inputAdvisor">Betreuer</label>
+                <label htmlFor="inputAdvisor">Übungsleiter</label>
                 <SelectListGroup
                   placeholder="Advisor"
                   onChange={this.onChange}
@@ -425,6 +442,34 @@ class CreateCourse extends Component {
                   name="advisor"
                   error={errors.advisor}
                   options={advisorOptions}
+                />
+                <label htmlFor="inputAdvisor">Übungsleiter 2</label>
+                <SelectListGroup
+                  placeholder="Advisor2"
+                  onChange={this.onChange}
+                  value={this.state.advisor2}
+                  name="advisor2"
+                  error={errors.advisor2}
+                  options={advisorOptions}
+                />
+                <label htmlFor="inputAdvisor">Übungsleiter 3</label>
+                <SelectListGroup
+                  placeholder="Advisor3"
+                  onChange={this.onChange}
+                  value={this.state.advisor3}
+                  name="advisor3"
+                  error={errors.advisor3}
+                  options={advisorOptions}
+                />
+
+                <label htmlFor="inputBetreuer">Betreuer</label>
+                <SelectListGroup
+                  placeholder="Betreuer"
+                  onChange={this.onChange}
+                  value={this.state.admin}
+                  name="admin"
+                  error={errors.admin}
+                  options={adminOptions}
                 />
                 <input
                   type="submit"
@@ -462,4 +507,5 @@ export default connect(mapStateToProps, {
   getSemesters,
   getMetacourses,
   getAdvisors,
+  getAdmins,
 })(withRouter(CreateCourse));

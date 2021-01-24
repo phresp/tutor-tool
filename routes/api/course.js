@@ -212,8 +212,22 @@ router.post(
                     courseFields.till = req.body.till;
                     courseFields.weeks = req.body.weeks;
                     courseFields.requirement = req.body.requirement;
-                    //courseFields.admin = req.body.admin;
+                    courseFields.admin = req.body.admin;
                     courseFields.advisor = req.body.advisor;
+                    courseFields.advisor2 = req.body.advisor2;
+                    courseFields.advisor3 = req.body.advisor3;
+                    if (isEmpty(courseFields.admin)) {
+                      courseFields.admin = null;
+                    }
+                    if (isEmpty(courseFields.advisor)) {
+                      courseFields.advisor = null;
+                    }
+                    if (isEmpty(courseFields.advisor2)) {
+                      courseFields.advisor2 = null;
+                    }
+                    if (isEmpty(courseFields.advisor3)) {
+                      courseFields.advisor3 = null;
+                    }
 
                     //Create Course
                     new Course(courseFields)
@@ -301,8 +315,22 @@ router.post(
                     courseFields.weeks = req.body.weeks;
                     courseFields.requirement = req.body.requirement;
                     courseFields.status = req.body.status;
-                    //courseFields.admin = req.body.admin;
+                    courseFields.admin = req.body.admin;
                     courseFields.advisor = req.body.advisor;
+                    courseFields.advisor2 = req.body.advisor2;
+                    courseFields.advisor3 = req.body.advisor3;
+                    if (isEmpty(courseFields.admin)) {
+                      courseFields.admin = null;
+                    }
+                    if (isEmpty(courseFields.advisor)) {
+                      courseFields.advisor = null;
+                    }
+                    if (isEmpty(courseFields.advisor2)) {
+                      courseFields.advisor2 = null;
+                    }
+                    if (isEmpty(courseFields.advisor3)) {
+                      courseFields.advisor3 = null;
+                    }
 
                     //Update
                     Course.findOneAndUpdate(

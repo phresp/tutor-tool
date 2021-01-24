@@ -67,6 +67,14 @@ const CourseSchema = new Schema({
     type: Schema.Types.ObjectID,
     ref: "user",
   },
+  advisor2: {
+    type: Schema.Types.ObjectID,
+    ref: "user",
+  },
+  advisor3: {
+    type: Schema.Types.ObjectID,
+    ref: "user",
+  },
   status: {
     type: String,
     default: "Preparation",

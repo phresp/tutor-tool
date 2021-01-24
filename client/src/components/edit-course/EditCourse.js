@@ -8,7 +8,7 @@ import SelectListGroup from "../common/SelectListGroup";
 import { editCourse, getCourseById } from "../../actions/courseActions";
 import { getSemesters } from "../../actions/semesterActions";
 import { getMetacourses } from "../../actions/metacourseActions";
-import { getAdvisors } from "../../actions/profileActions";
+import { getAdvisors, getAdmins } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
 
 class EditCourse extends Component {
@@ -36,6 +36,8 @@ class EditCourse extends Component {
       requirement: "",
       admin: "",
       advisor: "",
+      advisor2: "",
+      advisor3: "",
       status: "",
       manualmaxtutor: false,
       manualweekly: false,
@@ -50,6 +52,7 @@ class EditCourse extends Component {
     this.props.getMetacourses();
     this.props.getSemesters();
     this.props.getAdvisors();
+    this.props.getAdmins();
     this.props.getCourseById(this.props.match.params.id);
   }
 
@@ -70,9 +73,10 @@ class EditCourse extends Component {
       });
     }
     if (nextProps.profile) {
-      const { advisors } = nextProps.profile;
+      const { advisors, admins } = nextProps.profile;
       this.setState({
         advisors: advisors,
+        admins: admins,
       });
     }
     if (nextProps.course.course) {
@@ -117,6 +121,8 @@ class EditCourse extends Component {
         : "";
       course.admin = !isEmpty(course.admin) ? course.admin : "";
       course.advisor = !isEmpty(course.advisor) ? course.advisor : "";
+      course.advisor2 = !isEmpty(course.advisor2) ? course.advisor2 : "";
+      course.advisor3 = !isEmpty(course.advisor3) ? course.advisor3 : "";
       course.status = !isEmpty(course.status) ? course.status : "";
 
       this.setState({
@@ -139,6 +145,8 @@ class EditCourse extends Component {
         requirement: course.requirement,
         admin: course.admin,
         advisor: course.advisor,
+        advisor2: course.advisor2,
+        advisor3: course.advisor3,
         status: course.status,
       });
     }
@@ -167,6 +175,8 @@ class EditCourse extends Component {
       requirement: this.state.requirement,
       admin: this.state.admin,
       advisor: this.state.advisor,
+      advisor2: this.state.advisor2,
+      advisor3: this.state.advisor3,
       status: this.state.status,
     };
 
@@ -186,6 +196,7 @@ class EditCourse extends Component {
     var { semesters } = this.state;
     var { metacourses } = this.state;
     var { advisors } = this.state;
+    var { admins } = this.state;
 
     var tutorialmin = Math.min(2, this.state.tutorialhours);
 
@@ -245,7 +256,17 @@ class EditCourse extends Component {
     const advisorOptions = advisors.map((el) => {
       return { label: el.firstname + " " + el.lastname, value: el.user._id };
     });
-    advisorOptions.unshift({ label: "Select Advisor", value: "" });
+    advisorOptions.unshift({ label: "Übungsleiter auswählen", value: "" });
+
+    //Select options for admins
+    console.log(advisors);
+    if (isEmpty(admins)) {
+      admins = [];
+    }
+    const adminOptions = admins.map((el) => {
+      return { label: el.firstname + " " + el.lastname, value: el.user._id };
+    });
+    adminOptions.unshift({ label: "Betreuer auswählen", value: "" });
 
     const statusOptions = [
       { label: "Preparation", value: "Preparation" },
@@ -509,7 +530,7 @@ class EditCourse extends Component {
                   name="requirement"
                   error={errors.requirement}
                 />
-                <label htmlFor="inputAdvisor">Advisor</label>
+                <label htmlFor="inputAdvisor">Übungsleiter</label>
                 <SelectListGroup
                   placeholder="Advisor"
                   onChange={this.onChange}
@@ -517,6 +538,34 @@ class EditCourse extends Component {
                   name="advisor"
                   error={errors.advisor}
                   options={advisorOptions}
+                />
+                <label htmlFor="inputAdvisor">Übungsleiter 2</label>
+                <SelectListGroup
+                  placeholder="Advisor2"
+                  onChange={this.onChange}
+                  value={this.state.advisor2}
+                  name="advisor2"
+                  error={errors.advisor2}
+                  options={advisorOptions}
+                />
+                <label htmlFor="inputAdvisor">Übungsleiter 3</label>
+                <SelectListGroup
+                  placeholder="Advisor3"
+                  onChange={this.onChange}
+                  value={this.state.advisor3}
+                  name="advisor3"
+                  error={errors.advisor3}
+                  options={advisorOptions}
+                />
+
+                <label htmlFor="inputBetreuer">Betreuer</label>
+                <SelectListGroup
+                  placeholder="Betreuer"
+                  onChange={this.onChange}
+                  value={this.state.admin}
+                  name="admin"
+                  error={errors.admin}
+                  options={adminOptions}
                 />
                 <input
                   type="submit"
@@ -555,4 +604,5 @@ export default connect(mapStateToProps, {
   getMetacourses,
   getAdvisors,
   getCourseById,
+  getAdmins,
 })(withRouter(EditCourse));

@@ -148,6 +148,41 @@ router.get(
   }
 );
 
+// @route   GET api/profile/role/admin
+// @desc    Get all admins
+// @access  Private
+router.get(
+  "/role/admin",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Check authorization
+    const errors = {};
+    User.find({ role: "Admin" })
+      .then((admins) => {
+        if (!admins) {
+          errors.profile = "There are no profiles";
+          return res.status(404).json(errors);
+        }
+        const adminIDs = admins.map((el) => {
+          return el._id;
+        });
+        Profile.find({
+          user: adminIDs,
+        })
+          .populate("user", ["email"])
+          .then((adminProfiles) => {
+            if (!adminProfiles) {
+              errors.profile = "There are no profiles";
+              return res.status(404).json(errors);
+            } else {
+              res.json(adminProfiles);
+            }
+          });
+      })
+      .catch((err) => res.status(404).json({ profile: "There are no admins" }));
+  }
+);
+
 // @route   POST /api/profile
 // @desc    Create or Update User Profile
 // @access  Private

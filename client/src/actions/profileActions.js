@@ -9,6 +9,7 @@ import {
   GET_ERRORS,
   GET_PROFILES,
   GET_ADVISORS,
+  GET_ADMINS,
 } from "./types";
 
 //Get current profile
@@ -65,6 +66,20 @@ export const getAdvisors = () => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: GET_ADVISORS,
+        payload: {},
+      });
+    });
+};
+
+//Get all advisors
+export const getAdmins = () => (dispatch) => {
+  dispatch(setProfileLoading());
+  axios
+    .get("/api/profile/role/admin")
+    .then((res) => dispatch({ type: GET_ADMINS, payload: res.data }))
+    .catch((err) => {
+      dispatch({
+        type: GET_ADMINS,
         payload: {},
       });
     });

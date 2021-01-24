@@ -4,12 +4,14 @@ import {
   PROFILE_LOADING,
   GET_PROFILES,
   GET_ADVISORS,
+  GET_ADMINS,
 } from "../actions/types";
 
 const initialState = {
   profile: null,
   profiles: null,
   advisors: null,
+  admins: null,
   loading: false,
 };
 
@@ -44,6 +46,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         advisors: action.payload,
+        loading: false,
+      };
+    case GET_ADMINS:
+      return {
+        ...state,
+        admins: action.payload,
         loading: false,
       };
     default:
