@@ -101,4 +101,23 @@ router.post("/login", (req, res) => {
   });
 });
 
+// @route   POST api/users/updateaccounttype
+// @desc    Update the account type of the user
+// @access  Private
+router.post(
+  "/updateaccounttype",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const accountFields = {};
+    accountFields.role = req.body.role;
+    User.findOneAndUpdate(
+      { _id: req.body.userID },
+      { $set: accountFields },
+      { new: true }
+    )
+      .then((user) => res.send(user))
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
 module.exports = router;

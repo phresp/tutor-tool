@@ -155,6 +155,12 @@ class ViewTutorProfile extends Component {
                 Profile of <br />
                 {this.state.firstname} {this.state.lastname}{" "}
               </h1>
+              <Link
+                to={`/changeAccountType/${this.props.match.params.id}`}
+                className={"btn btn-primary"}
+              >
+                Change Account Type
+              </Link>
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup

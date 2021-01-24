@@ -49,6 +49,7 @@ import MyContracts from "./components/contract/MyContracts";
 import ViewContract from "./components/contract/ViewContract";
 import FormsAdminOverview from "./components/forms/FormsAdminOverview";
 import FormsUpload from "./components/forms/FormsUpload";
+import ChangeAccountType from "./components/administration/ChangeAccountType";
 
 import "./App.css";
 
@@ -301,6 +302,13 @@ class App extends Component {
                   exact
                   path="/form-upload"
                   component={FormsUpload}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/changeaccounttype/:id"
+                  component={ChangeAccountType}
                 />
               </Switch>
             </div>

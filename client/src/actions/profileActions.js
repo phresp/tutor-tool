@@ -83,6 +83,21 @@ export const createProfile = (profileData, history) => (dispatch) => {
     );
 };
 
+//CreateProfile
+export const updateAccount = (accountData, history) => (dispatch) => {
+  if (window.confirm("Account Typ wirklich verändern?")) {
+    axios
+      .post("/api/users/updateaccounttype", accountData)
+      .then((res) => history.push("/dashboard"))
+      .catch((err) =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data,
+        })
+      );
+  }
+};
+
 //Add Experience
 export const addExperience = (expData, history) => (dispatch) => {
   axios
