@@ -26,6 +26,8 @@ class CreateProfile extends Component {
       countryofbirth: "",
       aufenthaltend: "",
       stipendiumend: "",
+      currentfieldofstudy: "",
+      degree: "",
       errors: {},
     };
 
@@ -73,6 +75,10 @@ class CreateProfile extends Component {
       profile.stipendiumend = !isEmpty(profile.stipendiumend)
         ? profile.stipendiumend
         : "";
+      profile.currentfieldofstudy = !isEmpty(profile.currentfieldofstudy)
+        ? profile.currentfieldofstudy
+        : "";
+      profile.degree = !isEmpty(profile.degree) ? profile.degree : "";
 
       //Set component fields state
       this.setState({
@@ -87,6 +93,8 @@ class CreateProfile extends Component {
         countryofbirth: profile.countryofbirth,
         aufenthaltend: profile.aufenthaltend,
         stipendiumend: profile.stipendiumend,
+        currentfieldofstudy: profile.currentfieldofstudy,
+        degree: profile.degree,
       });
     }
   }
@@ -106,6 +114,8 @@ class CreateProfile extends Component {
       countryofbirth: this.state.countryofbirth,
       aufenthaltend: this.state.aufenthaltend,
       stipendiumend: this.state.stipendiumend,
+      currentfieldofstudy: this.state.currentfieldofstudy,
+      degree: this.state.degree,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -118,13 +128,21 @@ class CreateProfile extends Component {
     const { errors } = this.state;
 
     var countryOptions = countryList().getData();
-    console.log(this.state.nationality);
+
     //Select options for status
     const statusOptions = [
       { label: "Select your gender", value: "" },
       { label: "male", value: "male" },
       { label: "female", value: "female" },
       { label: "divers", value: "divers" },
+    ];
+
+    //Select options for degree
+    const degreeOptions = [
+      { label: "None", value: "" },
+      { label: "Bachelor(FH,Uni)/Diplom(FH)/Master(FH),", value: "Bachelor," },
+      { label: "Master(Uni)", value: "Master" },
+      { label: "Diplom(Uni)", value: "Diplom" },
     ];
 
     var aufenthaltInput;
@@ -273,6 +291,25 @@ class CreateProfile extends Component {
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"
                   error={errors.matrikelnummer}
+                />
+                <label htmlFor="CurrentFieldofStudy">
+                  Current Field of Study:
+                </label>
+                <TextFieldGroup
+                  placeholder="Current Field of Study"
+                  onChange={this.onChange}
+                  value={this.state.currentfieldofstudy}
+                  name="currentfieldofstudy"
+                  error={errors.currentfieldofstudy}
+                />
+                <label htmlFor="degree">Degree:</label>
+                <SelectListGroup
+                  placeholder="Degree"
+                  onChange={this.onChange}
+                  value={this.state.degree}
+                  name="degree"
+                  error={errors.degree}
+                  options={degreeOptions}
                 />
                 <input
                   type="submit"

@@ -49,6 +49,12 @@ const ProfileSchema = new Schema({
   stipendiumend: {
     type: Date,
   },
+  currentfieldofstudy: {
+    type: String,
+  },
+  degree: {
+    type: String,
+  },
 
   experience: [
     {

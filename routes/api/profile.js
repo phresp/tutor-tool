@@ -178,6 +178,8 @@ router.post(
     profileFields.aufenthaltend = req.body.aufenthaltend;
     profileFields.stipendiumend = req.body.stipendiumend;
     profileFields.vita = req.body.vita;
+    profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
+    profileFields.degree = req.body.degree;
 
     Profile.findOne({ user: req.user.id }).then((profile) => {
       if (profile) {

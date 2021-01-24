@@ -25,6 +25,8 @@ class CreateProfile extends Component {
       birthplace: "",
       countryofbirth: "",
       stipendiumend: "",
+      currentfieldofstudy: "",
+      degree: "",
       errors: {},
     };
 
@@ -58,6 +60,8 @@ class CreateProfile extends Component {
       countryofbirth: this.state.countryofbirth,
       aufenthaltend: this.state.aufenthaltend,
       stipendiumend: this.state.stipendiumend,
+      currentfieldofstudy: this.state.currentfieldofstudy,
+      degree: this.state.degree,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -77,6 +81,14 @@ class CreateProfile extends Component {
       { label: "male", value: "male" },
       { label: "female", value: "female" },
       { label: "divers", value: "divers" },
+    ];
+
+    //Select options for degree
+    const degreeOptions = [
+      { label: "None", value: "" },
+      { label: "Bachelor(FH,Uni)/Diplom(FH)/Master(FH),", value: "Bachelor," },
+      { label: "Master(Uni)", value: "Master" },
+      { label: "Diplom(Uni)", value: "Diplom" },
     ];
 
     var aufenthaltInput;
@@ -200,6 +212,17 @@ class CreateProfile extends Component {
                     </div>
                   </div>
                 </div>
+
+                <TextFieldGroup
+                  type={"date"}
+                  placeholder="Stipendium End"
+                  onChange={this.onChange}
+                  value={moment
+                    .utc(this.state.stipendiumend)
+                    .format("YYYY-MM-DD")}
+                  name="stipendiumend"
+                  error={errors.stipendiumend}
+                />
                 <label htmlFor="Matrikelnummer">Matrikelnummer:</label>
                 <TextFieldGroup
                   placeholder="Matrikelnummer"
@@ -207,6 +230,25 @@ class CreateProfile extends Component {
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"
                   error={errors.matrikelnummer}
+                />
+                <label htmlFor="CurrentFieldofStudy">
+                  Current Field of Study:
+                </label>
+                <TextFieldGroup
+                  placeholder="Current Field of Study"
+                  onChange={this.onChange}
+                  value={this.state.currentfieldofstudy}
+                  name="currentfieldofstudy"
+                  error={errors.currentfieldofstudy}
+                />
+                <label htmlFor="degree">Degree:</label>
+                <SelectListGroup
+                  placeholder="Degree"
+                  onChange={this.onChange}
+                  value={this.state.degree}
+                  name="degree"
+                  error={errors.degree}
+                  options={degreeOptions}
                 />
                 <input
                   type="submit"
