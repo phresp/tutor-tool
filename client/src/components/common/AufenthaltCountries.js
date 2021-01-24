@@ -30,6 +30,7 @@ const aufenthaltfreieCountries = [
   "CH",
   "NO",
   "LI",
+  "IS",
 ];
 
 export default aufenthaltfreieCountries;
