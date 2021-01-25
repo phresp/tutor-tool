@@ -88,6 +88,9 @@ const ContractSchema = new Schema({
   reisepass: {
     type: String,
   },
+  stipendium: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,

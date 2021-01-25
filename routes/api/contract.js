@@ -275,6 +275,7 @@ router.post(
     contractFields.personalbogenstudierende = req.body.personalbogenstudierende;
     contractFields.steuerId = req.body.steuerId;
     contractFields.reisepass = req.body.reisepass;
+    contractFields.stipendium = req.body.stipendium;
     contractFields.status = req.body.status;
 
     //Update Contract

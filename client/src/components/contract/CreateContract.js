@@ -48,6 +48,7 @@ class CreateContract extends Component {
       personalbogenstudierende: "Fehlt",
       steuerId: "Fehlt",
       reisepass: "Fehlt",
+      stipendium: "Fehlt",
       status: "Created",
       displayContractsplitting: false,
       errors: {},
@@ -93,6 +94,7 @@ class CreateContract extends Component {
       personalbogenstudierende: this.state.personalbogenstudierende,
       steuerId: this.state.steuerId,
       reisepass: this.state.reisepass,
+      stipendium: this.state.stipendium,
       status: this.state.status,
     };
 
@@ -201,6 +203,14 @@ class CreateContract extends Component {
         ) {
           this.state.reisepass = "Kein Bedarf";
           this.state.aufenthaltstitel = "Kein Bedarf";
+        }
+      }
+    }
+
+    if (this.props.application.application) {
+      if (this.props.application.application.profile) {
+        if (!this.props.application.application.profile.stipendiumend) {
+          this.state.stipendium = "Kein Bedarf";
         }
       }
     }
@@ -508,6 +518,16 @@ class CreateContract extends Component {
                   value={this.state.aufenthaltstitel}
                   name="aufenthaltstitel"
                   error={errors.aufenthaltstitel}
+                  options={foreignerOptions}
+                />
+
+                <label htmlFor="stipendium">Stipendiumsbescheinigung:</label>
+                <SelectListGroup
+                  placeholder="stipendium"
+                  onChange={this.onChange}
+                  value={this.state.stipendium}
+                  name="stipendium"
+                  error={errors.stipendium}
                   options={foreignerOptions}
                 />
 

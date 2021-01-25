@@ -42,10 +42,12 @@ class EditContract extends Component {
       verfassungstreue: "",
       immatrikulationsbescheinigung: "",
       aufenthaltstitel: "",
+      reisepass: "",
       krankenkassenbescheinigung: "",
       personalbogenbezuegestelle: "",
       personalbogenstudierende: "",
       steuerId: "",
+      stipendium: "",
       status: "",
       displayContractsplitting: false,
       errors: {},
@@ -143,6 +145,12 @@ class EditContract extends Component {
         ? contract.sozialversicherungsausweis
         : "";
       contract.steuerId = !isEmpty(contract.steuerId) ? contract.steuerId : "";
+      contract.stipendium = !isEmpty(contract.stipendium)
+        ? contract.stipendium
+        : "";
+      contract.reisepass = !isEmpty(contract.reisepass)
+        ? contract.reisepass
+        : "";
       contract.status = !isEmpty(contract.status) ? contract.status : "";
 
       if (
@@ -184,6 +192,8 @@ class EditContract extends Component {
         personalbogenstudierende: contract.personalbogenstudierende,
         sozialversicherungsausweis: contract.sozialversicherungsausweis,
         steuerId: contract.steuerId,
+        reisepass: contract.reisepass,
+        stipendium: contract.stipendium,
         status: contract.status,
         displayContractsplitting: display,
       });
@@ -215,6 +225,8 @@ class EditContract extends Component {
       verfassungstreue: this.state.verfassungstreue,
       immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
       aufenthaltstitel: this.state.aufenthaltstitel,
+      reisepass: this.state.reisepass,
+      stipendium: this.state.stipendium,
       krankenkassenbescheinigung: this.state.krankenkassenbescheinigung,
       personalbogenbezuegestelle: this.state.personalbogenbezuegestelle,
       personalbogenstudierende: this.state.personalbogenstudierende,
@@ -641,6 +653,17 @@ class EditContract extends Component {
                   error={errors.aufenthaltstitel}
                   options={foreignerOptions}
                   color={this.state.aufenthaltstitel}
+                />
+
+                <label htmlFor="stipendium">Stipendiumsbescheinigung:</label>
+                <ContractSelectListGroup
+                  placeholder="stipendium"
+                  onChange={this.onChange}
+                  value={this.state.stipendium}
+                  name="stipendium"
+                  error={errors.stipendium}
+                  options={foreignerOptions}
+                  color={this.state.stipendium}
                 />
 
                 <label htmlFor="status">Status:</label>
