@@ -116,12 +116,10 @@ router.get(
         select: { metacourse: 1 },
         populate: {
           path: "metacourse",
-          select: { name: 1, abbreviation: 2, module: 3 },
         },
       })
       .populate({
         path: "course",
-        select: { semester: 1 },
         populate: {
           path: "semester",
         },

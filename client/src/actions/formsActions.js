@@ -47,6 +47,26 @@ export const downloadPdf = (formData) => (dispatch) => {
   });
 };
 
+//download Einstellungsvorschlag
+export const downloadEV = (evData) => (dispatch) => {
+  axios({
+    url: "/api/forms/downloadev",
+    method: "POST",
+    responseType: "blob",
+    data: evData,
+  }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute(
+      "download",
+      `Einstellungsvorschlag-${evData.lastname}.pdf`
+    );
+    document.body.appendChild(link);
+    link.click();
+  });
+};
+
 // Application Loading
 export const setFormsLoading = () => {
   return {

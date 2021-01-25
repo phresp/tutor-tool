@@ -6,8 +6,11 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import ContractSelectListGroup from "../common/ContractSelectListGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import moment from "moment";
+import countryList from "react-select-country-list";
 
 import { getContractOfID, updateContract } from "../../actions/contractActions";
+import { downloadEV } from "../../actions/formsActions";
+import { getAdvisors, getAdmins } from "../../actions/profileActions";
 
 import isEmpty from "../../validation/is-empty";
 import verfassungsPruefung from "../common/VerfassungschutzCountries";
@@ -15,6 +18,8 @@ import verfassungsPruefung from "../common/VerfassungschutzCountries";
 class EditContract extends Component {
   componentDidMount() {
     this.props.getContractOfID(this.props.match.params.id);
+    this.props.getAdvisors();
+    this.props.getAdmins();
   }
 
   constructor(props) {
@@ -49,6 +54,8 @@ class EditContract extends Component {
       steuerId: "",
       stipendium: "",
       status: "",
+      admin: "",
+      advisor: "",
       displayContractsplitting: false,
       errors: {},
     };
@@ -198,6 +205,49 @@ class EditContract extends Component {
         displayContractsplitting: display,
       });
     }
+
+    //Get Advisordata for EV
+    if (nextProps.profile.advisors) {
+      const advisors = nextProps.profile.advisors;
+      var advisor;
+      if (this.props.contract) {
+        if (this.props.contract.contract) {
+          if (this.props.contract.contract.course) {
+            advisor = advisors.find(
+              (el) =>
+                el.user._id === this.props.contract.contract.course.advisor
+            );
+          }
+        }
+      }
+      if (advisor) {
+        this.setState({
+          advisorlastname: advisor.lastname,
+          advisorfirstname: advisor.firstname,
+        });
+      }
+    }
+
+    //Get Admindata for EV
+    if (nextProps.profile.admins) {
+      const admins = nextProps.profile.admins;
+      var admin;
+      if (this.props.contract) {
+        if (this.props.contract.contract) {
+          if (this.props.contract.contract.course) {
+            admin = admins.find(
+              (el) => el.user._id === this.props.contract.contract.course.admin
+            );
+          }
+        }
+      }
+      if (admin) {
+        this.setState({
+          adminlastname: admin.lastname,
+          adminfirstname: admin.firstname,
+        });
+      }
+    }
   }
 
   onSubmit(e) {
@@ -240,6 +290,53 @@ class EditContract extends Component {
       contractData,
       this.props.history
     );
+  }
+
+  onDownloadClick(e) {
+    e.preventDefault();
+    var nat = countryList().getLabel(
+      this.props.contract.contract.profile.nationality
+    );
+    var cob = countryList().getLabel(
+      this.props.contract.contract.profile.countryofbirth
+    );
+    const evData = {
+      name: "Einstellungsvorschlag",
+      lastname: this.props.contract.contract.profile.lastname,
+      firstname: this.props.contract.contract.profile.firstname,
+      advisorlastname: this.state.advisorlastname,
+      advisorfirstname: this.state.advisorfirstname,
+      adminlastname: this.state.adminlastname,
+      adminfirstname: this.state.adminfirstname,
+      nationality: nat,
+      birthplace: this.props.contract.contract.profile.birthplace,
+      countryofbirth: cob,
+      birthday: this.props.contract.contract.profile.birthday,
+      contractstart: this.state.contractstart,
+      contractend: this.state.contractend,
+      degree: this.state.degree,
+      hours: this.state.hours,
+      courseabb: this.props.contract.contract.course.metacourse.abbreviation,
+      module: this.props.contract.contract.course.metacourse.module,
+      scheme: this.props.contract.contract.course.metacourse.scheme,
+      fondsnumber: this.props.contract.contract.course.metacourse.fondsnumber,
+      costcentre: this.props.contract.contract.course.metacourse.costcentre,
+      merkblatt: this.state.merkblatt,
+      einstellungsvorschlag: this.state.einstellungsvorschlag,
+      versicherungspflicht: this.state.versicherungspflicht,
+      scientology: this.state.scientology,
+      verfassungstreue: this.state.verfassungstreue,
+      immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
+      aufenthaltstitel: this.state.aufenthaltstitel,
+      reisepass: this.state.reisepass,
+      stipendium: this.state.stipendium,
+      krankenkassenbescheinigung: this.state.krankenkassenbescheinigung,
+      personalbogenbezuegestelle: this.state.personalbogenbezuegestelle,
+      personalbogenstudierende: this.state.personalbogenstudierende,
+      sozialversicherungsausweis: this.state.sozialversicherungsausweis,
+      steuerId: this.state.steuerId,
+    };
+    this.props.downloadEV(evData);
   }
 
   onChange(e) {
@@ -451,9 +548,13 @@ class EditContract extends Component {
                 {verfassungsPruefungTooltip}
               </h1>
 
-              <Link to={"/contracts"} className={"btn btn-primary"}>
-                EV drucken
-              </Link>
+              <button
+                type="button"
+                onClick={this.onDownloadClick.bind(this)}
+                className="btn btn-primary"
+              >
+                EV exportieren
+              </button>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="contractstart">Vertrag Start:</label>
                 <TextFieldGroup
@@ -702,6 +803,7 @@ EditContract.propTypes = (state) => ({
 const mapStateToProps = (state) => ({
   contract: state.contract,
   application: state.application,
+  profile: state.profile,
   errors: state.errors,
   auth: state.auth,
 });
@@ -709,4 +811,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getContractOfID,
   updateContract,
+  downloadEV,
+  getAdvisors,
+  getAdmins,
 })(withRouter(EditContract));

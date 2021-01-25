@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
+import SelectListGroup from "../common/SelectListGroup";
 
 import {
   editMetacourse,
@@ -89,6 +90,15 @@ class EditMetacourse extends Component {
 
   render() {
     const { errors } = this.state;
+
+    const SchemaOptions = [
+      { label: "* Schema", value: "" },
+      { label: "Tutorien", value: "Tutorien" },
+      { label: "Vorkurse", value: "Vorkurse" },
+      { label: "Repetitorien", value: "Repetitorien" },
+      { label: "Programmierprojekte", value: "Programmierprojekte" },
+    ];
+
     return (
       <div className="editMetacourse">
         <div className="container-fluid">
@@ -109,12 +119,13 @@ class EditMetacourse extends Component {
                   error={errors.name}
                   info="Metacourse Description"
                 />
-                <TextFieldGroup
+                <SelectListGroup
                   placeholder="* Scheme"
                   onChange={this.onChange}
                   value={this.state.scheme}
                   name="scheme"
                   error={errors.scheme}
+                  options={SchemaOptions}
                   info="Scheme"
                 />
                 <TextFieldGroup
