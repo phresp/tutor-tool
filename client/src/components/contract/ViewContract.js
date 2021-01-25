@@ -263,6 +263,29 @@ class ViewContract extends Component {
                   <td>{contractdata.reisepass}</td>
                   <td></td>
                 </tr>
+
+                <tr
+                  className={`${
+                    contractdata.stipendium === "Fehlt"
+                      ? "table-danger"
+                      : "table-success"
+                  }`}
+                >
+                  <th scope="row">Stipendiumsbescheinigung</th>
+                  <td>{contractdata.stipendium}</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "Stipendiumsbescheinigung"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

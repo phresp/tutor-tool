@@ -66,6 +66,10 @@ class FormsUpload extends Component {
         label: "Personalbogen Studierende",
         value: "PersonalbogenStudierende",
       },
+      {
+        label: "Stipendiumsbescheinigung",
+        value: "Stipendiumsbescheinigung",
+      },
     ];
 
     return (

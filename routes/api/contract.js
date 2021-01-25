@@ -210,6 +210,9 @@ router.post(
     contractFields.reisepass = req.body.reisepass
       ? req.body.reisepass
       : "Fehlt";
+    contractFields.stipendium = req.body.stipendium
+      ? req.body.stipendium
+      : "Fehlt";
 
     contractFields.status = req.body.status ? req.body.status : "created";
 

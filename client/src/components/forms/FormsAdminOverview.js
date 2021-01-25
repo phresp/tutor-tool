@@ -26,6 +26,7 @@ class FormsAdminOverview extends Component {
     var verfassungData = { date: "not yet uploaded" };
     var bezuegeData = { date: "not yet uploaded" };
     var personalData = { date: "not yet uploaded" };
+    var stipendiumData = { date: "not yet uploaded" };
 
     if (Array.isArray(this.props.forms.forms)) {
       var formsArray = this.props.forms.forms;
@@ -71,6 +72,12 @@ class FormsAdminOverview extends Component {
       });
       if (!personalData) {
         personalData = { date: "not yet uploaded" };
+      }
+      stipendiumData = formsArray.find((obj) => {
+        return obj.name === "Stipendiumsbescheinigung.pdf";
+      });
+      if (!stipendiumData) {
+        stipendiumData = { date: "not yet uploaded" };
       }
     }
 
@@ -207,6 +214,23 @@ class FormsAdminOverview extends Component {
                     </button>
                   </td>
                   <th scope="row">{personalData.date}</th>
+                </tr>
+
+                <tr>
+                  <th scope="row">Stipendiumsbescheinigung</th>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(
+                        this,
+                        "Stipendiumsbescheinigung"
+                      )}
+                      className="btn btn-info"
+                    >
+                      Download
+                    </button>
+                  </td>
+                  <th scope="row">{stipendiumData.date}</th>
                 </tr>
               </tbody>
             </table>
