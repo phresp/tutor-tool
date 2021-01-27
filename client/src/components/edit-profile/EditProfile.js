@@ -140,7 +140,7 @@ class CreateProfile extends Component {
     //Select options for degree
     const degreeOptions = [
       { label: "None", value: "" },
-      { label: "Bachelor(FH,Uni)/Diplom(FH)/Master(FH),", value: "Bachelor," },
+      { label: "Bachelor(FH,Uni)/Diplom(FH)/Master(FH)", value: "Bachelor" },
       { label: "Master(Uni)", value: "Master" },
       { label: "Diplom(Uni)", value: "Diplom" },
     ];

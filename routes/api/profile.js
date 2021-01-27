@@ -372,13 +372,22 @@ router.delete(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Profile.findOneAndRemove({
-      user: req.user.id,
-    }).then(
-      User.findOneAndRemove({
-        _id: req.user.id,
-      }).then(() => res.json({ success: true }))
-    );
+    User.findOne({ _id: req.user.id })
+      .then((userP) => {
+        const userFields = {
+          email: Math.random().toString(36).substring(2) + userP.email,
+          active: false,
+        };
+        console.log(userFields);
+        User.findOneAndUpdate(
+          { _id: req.user.id },
+          { $set: userFields },
+          { new: true }
+        )
+          .then(() => res.json({ success: true }))
+          .catch((err) => res.status(404).json(err));
+      })
+      .catch((err) => res.status(404).json(err));
   }
 );
 

@@ -19,6 +19,10 @@ const UserSchema = new Schema({
     type: String,
     default: "Student",
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = User = mongoose.model("users", UserSchema);

@@ -62,6 +62,14 @@ class CreateContract extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+
+    //Get degree
+    if (nextProps.application.application) {
+      if (nextProps.application.application.profile)
+        this.setState({
+          degree: nextProps.application.application.profile.degree,
+        });
+    }
   }
 
   onSubmit(e) {
@@ -168,33 +176,39 @@ class CreateContract extends Component {
       { label: "Abgeschlossen", value: "Completed" },
     ];
 
-    //Select options for Degree
+    //Select options for degree
     const degreeOptions = [
-      { label: "None", value: "None" },
-      { label: "Bachelor", value: "Bachelor" },
-      { label: "Master", value: "Master" },
+      { label: "None", value: "" },
+      { label: "Bachelor(FH,Uni)/Diplom(FH)/Master(FH)", value: "Bachelor" },
+      { label: "Master(Uni)", value: "Master" },
+      { label: "Diplom(Uni)", value: "Diplom" },
     ];
 
     //Select options for new Contract
     const newcontractOptions = [
-      { label: "True", value: "True" },
-      { label: "False", value: "False" },
+      { label: "neuer Vertrag", value: "True" },
+      { label: "Weiterbeschäftigung", value: "False" },
     ];
 
     //Query to set forms we dont need if there is already an contract
     if (
       this.state.newcontract === "False" &&
-      (this.state.merkblatt !== "Bereits Vorhanden" ||
-        this.state.versicherungspflicht !== "Bereits Vorhanden" ||
-        this.state.immatrikulationsbescheinigung !== "Bereits Vorhanden")
+      (this.state.scientology !== "Liegt vor" ||
+        this.state.verfassungstreue !== "Liegt vor" ||
+        this.state.krankenkassenbescheinigung !== "Liegt vor" ||
+        this.state.personalbogenstudierende !== "Liegt vor" ||
+        this.state.steuerId !== "Liegt vor")
     ) {
       this.setState({
-        merkblatt: "Bereits Vorhanden",
-        versicherungspflicht: "Bereits Vorhanden",
-        immatrikulationsbescheinigung: "Bereits Vorhanden",
+        scientology: "Liegt vor",
+        verfassungstreue: "Liegt vor",
+        krankenkassenbescheinigung: "Liegt vor",
+        personalbogenstudierende: "Liegt vor",
+        steuerId: "Liegt vor",
       });
     }
 
+    //Query for Reisepass
     if (this.props.application.application) {
       if (this.props.application.application.profile) {
         if (
