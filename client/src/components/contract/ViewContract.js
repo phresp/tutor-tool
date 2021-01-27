@@ -286,6 +286,18 @@ class ViewContract extends Component {
                     </button>
                   </td>
                 </tr>
+
+                <tr
+                  className={`${
+                    contractdata.abschlusszeugnis === "Fehlt"
+                      ? "table-danger"
+                      : "table-success"
+                  }`}
+                >
+                  <th scope="row">Abschlusszeugnis</th>
+                  <td>{contractdata.abschlusszeugnis}</td>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
           </div>

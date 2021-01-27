@@ -53,6 +53,7 @@ class CreateContract extends Component {
       steuerId: "Fehlt",
       reisepass: "Fehlt",
       stipendium: "Fehlt",
+      abschlusszeugnis: "Fehlt",
       status: "Created",
       displayContractsplitting: false,
       errors: {},
@@ -182,7 +183,7 @@ class CreateContract extends Component {
 
     //Select options for degree
     const degreeOptions = [
-      { label: "None", value: "" },
+      { label: "Keiner", value: "" },
       { label: "Bachelor(FH,Uni)/Diplom(FH)/Master(FH)", value: "Bachelor" },
       { label: "Master(Uni)", value: "Master" },
       { label: "Diplom(Uni)", value: "Diplom" },
@@ -223,6 +224,14 @@ class CreateContract extends Component {
           this.state.aufenthaltstitel = "Kein Bedarf";
         }
       }
+    }
+
+    //Query for Abschlusszeugnis
+    if (
+      this.state.degree === "" &&
+      this.state.abschlusszeugnis !== "Kein Bedarf"
+    ) {
+      this.state.abschlusszeugnis = "Kein Bedarf";
     }
 
     if (this.props.application.application) {
@@ -640,6 +649,16 @@ class CreateContract extends Component {
                   value={this.state.stipendium}
                   name="stipendium"
                   error={errors.stipendium}
+                  options={foreignerOptions}
+                />
+
+                <label htmlFor="stipendium">Abschlusszeugnis:</label>
+                <SelectListGroup
+                  placeholder="abschlusszeugnis"
+                  onChange={this.onChange}
+                  value={this.state.abschlusszeugnis}
+                  name="abschlusszeugnis"
+                  error={errors.abschlusszeugnis}
                   options={foreignerOptions}
                 />
 

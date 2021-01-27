@@ -59,6 +59,7 @@ class EditContract extends Component {
       personalbogenstudierende: "",
       steuerId: "",
       stipendium: "",
+      abschlusszeugnis: "",
       status: "",
       admin: "",
       advisor: "",
@@ -161,12 +162,14 @@ class EditContract extends Component {
       contract.stipendium = !isEmpty(contract.stipendium)
         ? contract.stipendium
         : "";
+      contract.abschlusszeugnis = !isEmpty(contract.abschlusszeugnis)
+        ? contract.abschlusszeugnis
+        : "";
       contract.reisepass = !isEmpty(contract.reisepass)
         ? contract.reisepass
         : "";
       contract.status = !isEmpty(contract.status) ? contract.status : "";
       if (contract.profile.degree) {
-        console.log("yes");
         contract.profiledegree = !isEmpty(contract.profile.degree)
           ? contract.profile.degree
           : "";
@@ -213,6 +216,7 @@ class EditContract extends Component {
         steuerId: contract.steuerId,
         reisepass: contract.reisepass,
         stipendium: contract.stipendium,
+        abschlusszeugnis: contract.abschlusszeugnis,
         status: contract.status,
         displayContractsplitting: display,
       });
@@ -289,6 +293,7 @@ class EditContract extends Component {
       aufenthaltstitel: this.state.aufenthaltstitel,
       reisepass: this.state.reisepass,
       stipendium: this.state.stipendium,
+      abschlusszeugnis: this.state.abschlusszeugnis,
       krankenkassenbescheinigung: this.state.krankenkassenbescheinigung,
       personalbogenbezuegestelle: this.state.personalbogenbezuegestelle,
       personalbogenstudierende: this.state.personalbogenstudierende,
@@ -495,7 +500,7 @@ class EditContract extends Component {
         </h3>
       );
     }
-    console.log(this.state.profiledegree);
+
     //20 Hour Max Calculations Date 1
     const contracts = this.props.application.applications;
     var hoursum = this.state.hours;
@@ -891,6 +896,17 @@ class EditContract extends Component {
                   value={this.state.stipendium}
                   name="stipendium"
                   error={errors.stipendium}
+                  options={foreignerOptions}
+                  color={this.state.stipendium}
+                />
+
+                <label htmlFor="abschlusszeugnis">Abschlusszeugnis:</label>
+                <ContractSelectListGroup
+                  placeholder="abschlusszeugnis"
+                  onChange={this.onChange}
+                  value={this.state.abschlusszeugnis}
+                  name="abschlusszeugnis"
+                  error={errors.abschlusszeugnis}
                   options={foreignerOptions}
                   color={this.state.stipendium}
                 />

@@ -91,6 +91,9 @@ const ContractSchema = new Schema({
   stipendium: {
     type: String,
   },
+  abschlusszeugnis: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,

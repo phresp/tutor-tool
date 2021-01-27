@@ -276,6 +276,9 @@ router.post(
     contractFields.stipendium = req.body.stipendium
       ? req.body.stipendium
       : "Fehlt";
+    contractFields.abschlusszeugnis = req.body.abschlusszeugnis
+      ? req.body.abschlusszeugnis
+      : "Fehlt";
 
     contractFields.status = req.body.status ? req.body.status : "created";
 
@@ -343,6 +346,7 @@ router.post(
     contractFields.reisepass = req.body.reisepass;
     contractFields.stipendium = req.body.stipendium;
     contractFields.status = req.body.status;
+    contractFields.abschlusszeugnis = req.body.abschlusszeugnis;
 
     //Update Contract
     Contract.findOneAndUpdate(
