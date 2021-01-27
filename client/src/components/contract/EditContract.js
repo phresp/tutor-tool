@@ -44,6 +44,7 @@ class EditContract extends Component {
       contractend3: "",
       hours3: "",
       degree: "",
+      profiledegree: "",
       newcontract: "",
       merkblatt: "",
       einstellungsvorschlag: "",
@@ -164,7 +165,12 @@ class EditContract extends Component {
         ? contract.reisepass
         : "";
       contract.status = !isEmpty(contract.status) ? contract.status : "";
-
+      if (contract.profile.degree) {
+        console.log("yes");
+        contract.profiledegree = !isEmpty(contract.profile.degree)
+          ? contract.profile.degree
+          : "";
+      }
       if (
         contract.contractstart2 ||
         contract.contractstart3 ||
@@ -191,6 +197,7 @@ class EditContract extends Component {
         contractend3: contract.contractend3,
         hours3: contract.hours3,
         degree: contract.degree,
+        profiledegree: contract.profiledegree,
         newcontract: contract.newcontract,
         merkblatt: contract.merkblatt,
         einstellungsvorschlag: contract.einstellungsvorschlag,
@@ -476,6 +483,19 @@ class EditContract extends Component {
       }
     }
 
+    var degreeTooltipp = <div></div>;
+
+    if (
+      this.state.profiledegree &&
+      this.state.profiledegree != this.state.degree
+    ) {
+      degreeTooltipp = (
+        <h3 className="text-danger">
+          Abschluss anders als von Tutor angegeben!
+        </h3>
+      );
+    }
+    console.log(this.state.profiledegree);
     //20 Hour Max Calculations Date 1
     const contracts = this.props.application.applications;
     var hoursum = this.state.hours;
@@ -497,7 +517,6 @@ class EditContract extends Component {
           hoursum = hoursum * 1 + element.hours;
         }
       });
-      console.log(hoursum);
       if (hoursum > 20) {
         hoursummessage = (
           <h3 className="text-danger">
@@ -527,7 +546,6 @@ class EditContract extends Component {
           hoursum2 = hoursum2 * 1 + element.hours;
         }
       });
-      console.log(hoursum2);
       if (hoursum2 > 20) {
         hoursum2message = (
           <h3 className="text-danger">
@@ -557,7 +575,6 @@ class EditContract extends Component {
           hoursum3 = hoursum3 * 1 + element.hours;
         }
       });
-      console.log(hoursum3);
       if (hoursum3 > 20) {
         hoursum3message = (
           <h3 className="text-danger">
@@ -712,6 +729,7 @@ class EditContract extends Component {
                   <span className="text-muted">Optional</span>
                 </div>
                 {vertragSplitting}
+                {degreeTooltipp}
                 <label htmlFor="degree">Abschluss:</label>
                 <SelectListGroup
                   placeholder="Degree"
