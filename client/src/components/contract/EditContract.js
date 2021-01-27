@@ -314,8 +314,14 @@ class EditContract extends Component {
       birthday: this.props.contract.contract.profile.birthday,
       contractstart: this.state.contractstart,
       contractend: this.state.contractend,
+      contractstart2: this.state.contractstart2,
+      contractend2: this.state.contractend2,
+      contractstart3: this.state.contractstart3,
+      contractend3: this.state.contractend3,
       degree: this.state.degree,
       hours: this.state.hours,
+      hours2: this.state.hours2,
+      hours3: this.state.hours3,
       courseabb: this.props.contract.contract.course.metacourse.abbreviation,
       module: this.props.contract.contract.course.metacourse.module,
       scheme: this.props.contract.contract.course.metacourse.scheme,
@@ -397,8 +403,8 @@ class EditContract extends Component {
 
     //Select options for new Contract
     const newcontractOptions = [
-      { label: "True", value: "True" },
-      { label: "False", value: "False" },
+      { label: "neuer Vertrag", value: "True" },
+      { label: "Weiterbeschäftigung", value: "False" },
     ];
 
     //Query to set forms we dont need if there is already an contract

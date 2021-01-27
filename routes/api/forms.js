@@ -137,14 +137,6 @@ router.post(
   (req, res) => {
     const name = "Einstellungsvorschlag.pdf";
 
-    // merkblatt: this.state.merkblatt,
-    //     einstellungsvorschlag: this.state.einstellungsvorschlag,
-    //     immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
-    //     aufenthaltstitel: this.state.aufenthaltstitel,
-
-    //     steuerId: this.state.steuerId,+
-
-    //Versicherungspflicht
     var anbei8, liegtvor8;
     if (req.body.versicherungspflicht === "Liegt bei") {
       anbei8 = "Yes";
@@ -234,6 +226,66 @@ router.post(
     } else if (req.body.stipendium === "Liegt vor") {
       liegtvorStipendium = "Yes";
     }
+    var contractdate1 = "";
+    var contractdate2 = "";
+    var contractdate3 = "";
+
+    if (req.body.contractstart && req.body.contractend) {
+      contractdate1 =
+        moment.utc(req.body.contractstart).format("DD.MM.YYYY") +
+        " - " +
+        moment.utc(req.body.contractend).format("DD.MM.YYYY");
+    }
+
+    if (req.body.contractstart2 && req.body.contractend2 && contractdate1) {
+      contractdate2 =
+        " // " +
+        moment.utc(req.body.contractstart2).format("DD.MM.YYYY") +
+        " - " +
+        moment.utc(req.body.contractend2).format("DD.MM.YYYY");
+    } else if (req.body.contractstart2 && req.body.contractend2) {
+      contractdate2 =
+        moment.utc(req.body.contractstart2).format("DD.MM.YYYY") +
+        " - " +
+        moment.utc(req.body.contractend2).format("DD.MM.YYYY");
+    }
+
+    if (
+      req.body.contractstart3 &&
+      req.body.contractend3 &&
+      (contractdate1 || contractdate2)
+    ) {
+      contractdate3 =
+        " // " +
+        moment.utc(req.body.contractstart3).format("DD.MM.YYYY") +
+        " - " +
+        moment.utc(req.body.contractend3).format("DD.MM.YYYY");
+    } else if (req.body.contractstart3 && req.body.contractend3) {
+      contractdate3 =
+        moment.utc(req.body.contractstart3).format("DD.MM.YYYY") +
+        " - " +
+        moment.utc(req.body.contractend3).format("DD.MM.YYYY");
+    }
+
+    var zeitraum = contractdate1 + contractdate2 + contractdate3;
+
+    var hours1 = "";
+    var hours2 = "";
+    var hours3 = "";
+
+    if (req.body.hours) {
+      hours1 = req.body.hours;
+    }
+
+    if (req.body.hours2) {
+      hours2 = " // " + req.body.hours2;
+    }
+
+    if (req.body.hours3) {
+      hours3 = " // " + req.body.hours3;
+    }
+
+    var hourstogether = hours1 + hours2 + hours3;
 
     const formdata = {
       Betreuer: req.body.adminlastname + ", " + req.body.adminfirstname,
@@ -246,11 +298,8 @@ router.post(
       Geburtsland: req.body.countryofbirth,
       Geburtsdatum: moment.utc(req.body.birthday).format("DD.MM.YYYY"),
       Taetigkeit: "Tutor für " + req.body.module + ": " + req.body.courseabb,
-      "Zeitraum 2":
-        moment.utc(req.body.contractstart).format("DD.MM.YYYY") +
-        " - " +
-        moment.utc(req.body.contractend).format("DD.MM.YYYY"),
-      "StdWoche 2": req.body.hours,
+      "Zeitraum 2": zeitraum,
+      "StdWoche 2": hourstogether,
       Fonds: req.body.fondsnumber,
       Kostenstelle_3: req.body.costcentre,
       "aus Studienbeitragsmassnahme": req.body.scheme,

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -9,7 +10,6 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import { getContracts } from "../../actions/contractActions";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
-import axios from "axios";
 import Spinner from "../common/Spinner";
 
 const { SearchBar } = Search;
@@ -65,13 +65,17 @@ class ContractOverview extends Component {
       if (this.state.fil === "Completed") return el.status === "Completed";
     });
 
-    function betrachtenButton(cell, row, rowIndex, formatExtraData) {
+    const betrachtenButton = (cell, row, rowIndex, formatExtraData) => {
       return (
         <Link to={`/edit-contract/${row._id}`} className="btn btn-info">
           Edit
         </Link>
       );
-    }
+    };
+
+    const dateFormat = (value, row, index) => {
+      if (value) return moment(value).format("DD/MM/YYYY");
+    };
 
     if (contracts === null || this.props.contract.contractloading) {
       contractTable = <Spinner />;
@@ -90,7 +94,24 @@ class ContractOverview extends Component {
           },
           {
             dataField: "course.metacourse.name",
-            text: "Course",
+            text: "Kurs",
+            sort: true,
+          },
+          {
+            dataField: "contractstart",
+            text: "Vertrag Start",
+            formatter: dateFormat,
+            sort: true,
+          },
+          {
+            dataField: "contractend",
+            text: "Vertrag Ende",
+            formatter: dateFormat,
+            sort: true,
+          },
+          {
+            dataField: "hours",
+            text: "W-Stunden",
             sort: true,
           },
           {
@@ -231,7 +252,7 @@ class ContractOverview extends Component {
             <Link to={"/dashboard"} className={"btn btn-light"}>
               back
             </Link>
-            <h1 className="display-4 text-center">Contracts</h1>
+            <h1 className="display-4 text-center">Verträge</h1>
 
             {contractTable}
           </div>
