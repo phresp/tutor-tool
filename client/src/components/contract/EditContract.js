@@ -403,7 +403,7 @@ class EditContract extends Component {
 
     //Select options for new Contract
     const newcontractOptions = [
-      { label: "neuer Vertrag", value: "True" },
+      { label: "Neueinstellung", value: "True" },
       { label: "Weiterbeschäftigung", value: "False" },
     ];
 

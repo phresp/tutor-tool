@@ -140,6 +140,35 @@ router.get(
   }
 );
 
+// @route   GET api/contract/application/:id
+// @desc    Get contracts for user of applicationID
+// @access  Private
+router.get(
+  "/application/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Application.findOne({ _id: req.params.id })
+      .then((application) => {
+        if (!application) {
+          errors.noapplication = "There is no application for the course yet";
+          return res.status(404).json(errors);
+        }
+        Contract.find({ user: application.user })
+          .then((contracts) => {
+            if (!application) {
+              errors.noapplication =
+                "There are no other contracts for the user yet";
+              return res.status(404).json(errors);
+            }
+            res.json(contracts);
+          })
+          .catch((err) => res.status(404).json(err));
+      })
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
 // @route   POST /api/contract
 // @desc    POST to create contract
 // @access  Private

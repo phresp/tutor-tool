@@ -5,7 +5,10 @@ import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 
-import { createContract } from "../../actions/contractActions";
+import {
+  createContract,
+  getContractsForApplication,
+} from "../../actions/contractActions";
 
 import { getApplicationOfId } from "../../actions/applicationActions";
 
@@ -16,6 +19,7 @@ import { isEmpty } from "../../validation/is-empty";
 class CreateContract extends Component {
   componentDidMount() {
     this.props.getApplicationOfId(this.props.match.params.id);
+    this.props.getContractsForApplication(this.props.match.params.id);
   }
 
   constructor(props) {
@@ -186,7 +190,7 @@ class CreateContract extends Component {
 
     //Select options for new Contract
     const newcontractOptions = [
-      { label: "neuer Vertrag", value: "True" },
+      { label: "Neueinstellung", value: "True" },
       { label: "Weiterbeschäftigung", value: "False" },
     ];
 
@@ -262,6 +266,96 @@ class CreateContract extends Component {
         }
       }
     }
+    //20 Hour Max Calculations Date 1
+    const contracts = this.props.contract.contracts;
+    var hoursum = this.state.hours;
+    var hoursummessage = <div></div>;
+    if (contracts) {
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend),
+            new Date(element.contractend),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart),
+              new Date(element.contractstart),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum = hoursum * 1 + element.hours;
+        }
+      });
+      console.log(hoursum);
+      if (hoursum > 20) {
+        hoursummessage = (
+          <h3 className="text-danger">
+            Achtung Wochenstunden zu hoch! ({hoursum})
+          </h3>
+        );
+      }
+    }
+
+    //20 Hour Max Calculations Date 2
+    var hoursum2 = this.state.hours2;
+    var hoursum2message = <div></div>;
+    if (contracts) {
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend2),
+            new Date(element.contractend),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart2),
+              new Date(element.contractstart),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum2 = hoursum2 * 1 + element.hours;
+        }
+      });
+      console.log(hoursum2);
+      if (hoursum2 > 20) {
+        hoursum2message = (
+          <h3 className="text-danger">
+            Achtung Wochenstunden zu hoch! ({hoursum2})
+          </h3>
+        );
+      }
+    }
+
+    //20 Hour Max Calculations Date 3
+    var hoursum3 = this.state.hours3;
+    var hoursum3message = <div></div>;
+    if (contracts) {
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend3),
+            new Date(element.contractend),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart3),
+              new Date(element.contractstart),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum3 = hoursum3 * 1 + element.hours;
+        }
+      });
+      console.log(hoursum3);
+      if (hoursum3 > 20) {
+        hoursum3message = (
+          <h3 className="text-danger">
+            Achtung Wochenstunden zu hoch! ({hoursum3})
+          </h3>
+        );
+      }
+    }
 
     var vertragSplitting;
 
@@ -287,6 +381,7 @@ class CreateContract extends Component {
             name="contractend2"
             error={errors.contractend2}
           />
+          {hoursum2message}
           <label htmlFor="hours">Wochenstunden 2:</label>
           <TextFieldGroup
             placeholder="Wochenstunden 2"
@@ -314,6 +409,7 @@ class CreateContract extends Component {
             name="contractend3"
             error={errors.contractend3}
           />
+          {hoursum3message}
           <label htmlFor="hours">Wochenstunden 3:</label>
           <TextFieldGroup
             placeholder="Wochenstunden 3"
@@ -367,6 +463,7 @@ class CreateContract extends Component {
                   name="contractend"
                   error={errors.contractend}
                 />
+                {hoursummessage}
                 <label htmlFor="hours">Wochenstunden:</label>
                 <TextFieldGroup
                   placeholder="Wochenstunden"
@@ -578,6 +675,7 @@ CreateContract.propTypes = (state) => ({
 
 const mapStateToProps = (state) => ({
   application: state.application,
+  contract: state.contract,
   errors: state.errors,
   auth: state.auth,
 });
@@ -585,4 +683,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   createContract,
   getApplicationOfId,
+  getContractsForApplication,
 })(withRouter(CreateContract));

@@ -6,7 +6,6 @@ import {
   GET_CONTRACTS,
   GET_ERRORS,
 } from "./types";
-import { setApplicationLoading } from "./applicationActions";
 
 //Get all Contracts
 export const getContracts = () => (dispatch) => {
@@ -49,6 +48,20 @@ export const getContractOfID = (id) => (dispatch) => {
     .catch((err) =>
       dispatch({
         type: GET_CONTRACT,
+        payload: {},
+      })
+    );
+};
+
+//Get Contract of userID
+export const getContractsForApplication = (id) => (dispatch) => {
+  dispatch(setContractLoading());
+  axios
+    .get(`/api/contract/application/${id}`)
+    .then((res) => dispatch({ type: GET_CONTRACTS, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_CONTRACTS,
         payload: {},
       })
     );
