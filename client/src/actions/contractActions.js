@@ -5,6 +5,7 @@ import {
   GET_CONTRACT,
   GET_CONTRACTS,
   GET_ERRORS,
+  GET_APPLICATIONS,
 } from "./types";
 
 //Get all Contracts
@@ -39,7 +40,7 @@ export const getMyContracts = () => (dispatch) => {
     );
 };
 
-//Get Contract if contractID
+//Get Contract of contractID
 export const getContractOfID = (id) => (dispatch) => {
   dispatch(setContractLoading());
   axios
@@ -53,7 +54,7 @@ export const getContractOfID = (id) => (dispatch) => {
     );
 };
 
-//Get Contract of userID
+//Get Contracts of user for application ID
 export const getContractsForApplication = (id) => (dispatch) => {
   dispatch(setContractLoading());
   axios
@@ -62,6 +63,22 @@ export const getContractsForApplication = (id) => (dispatch) => {
     .catch((err) =>
       dispatch({
         type: GET_CONTRACTS,
+        payload: {},
+      })
+    );
+};
+
+//Get Contracts of user for Contract ID
+//This will be stored in applications due to design constrains in this application
+//This is an exception until i come up with a solution
+export const getContractsForContract = (id) => (dispatch) => {
+  dispatch(setContractLoading());
+  axios
+    .get(`/api/contract/contractofid/${id}`)
+    .then((res) => dispatch({ type: GET_APPLICATIONS, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_APPLICATIONS,
         payload: {},
       })
     );

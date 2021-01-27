@@ -157,10 +157,46 @@ router.get(
         Contract.find({ user: application.user })
           .then((contracts) => {
             if (!application) {
-              errors.noapplication =
+              errors.nocontracts =
                 "There are no other contracts for the user yet";
               return res.status(404).json(errors);
             }
+            res.json(contracts);
+          })
+          .catch((err) => res.status(404).json(err));
+      })
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
+// @route   GET api/contract/contractofid/:id
+// @desc    Get contracts for user of applicationID
+// @access  Private
+router.get(
+  "/contractofid/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Contract.findOne({ _id: req.params.id })
+      .then((contract) => {
+        if (!contract) {
+          errors.nocontract = "There is no contract for the course yet";
+          return res.status(404).json(errors);
+        }
+        Contract.find({ user: contract.user })
+          .then((contracts) => {
+            if (!contracts) {
+              errors.nocontracts =
+                "There are no other contracts for the user yet";
+              return res.status(404).json(errors);
+            }
+            const removeIndex = contracts
+              .map((item) => item.id)
+              .indexOf(req.params.id);
+
+            //Splice out of array
+            contracts.splice(removeIndex, 1);
+
             res.json(contracts);
           })
           .catch((err) => res.status(404).json(err));

@@ -266,6 +266,7 @@ class CreateContract extends Component {
         }
       }
     }
+
     //20 Hour Max Calculations Date 1
     const contracts = this.props.contract.contracts;
     var hoursum = this.state.hours;
