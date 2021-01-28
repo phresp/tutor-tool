@@ -19,14 +19,14 @@ class FormsAdminOverview extends Component {
 
   render() {
     // Get Dates from Props
-    var merkblattData = { date: "not yet uploaded" };
-    var einstellungsData = { date: "not yet uploaded" };
-    var versicherungData = { date: "not yet uploaded" };
-    var scientology = { date: "not yet uploaded" };
-    var verfassungData = { date: "not yet uploaded" };
-    var bezuegeData = { date: "not yet uploaded" };
-    var personalData = { date: "not yet uploaded" };
-    var stipendiumData = { date: "not yet uploaded" };
+    var merkblattData = { date: "noch kein Upload" };
+    var einstellungsData = { date: "noch kein Upload" };
+    var versicherungData = { date: "noch kein Upload" };
+    var scientology = { date: "noch kein Upload" };
+    var verfassungData = { date: "noch kein Upload" };
+    var bezuegeData = { date: "noch kein Upload" };
+    var personalData = { date: "noch kein Upload" };
+    var stipendiumData = { date: "noch kein Upload" };
 
     if (Array.isArray(this.props.forms.forms)) {
       var formsArray = this.props.forms.forms;
@@ -41,43 +41,43 @@ class FormsAdminOverview extends Component {
         return obj.name === "Einstellungsvorschlag.pdf";
       });
       if (!einstellungsData) {
-        einstellungsData = { date: "not yet uploaded" };
+        einstellungsData = { date: "noch kein Upload" };
       }
       versicherungData = formsArray.find((obj) => {
         return obj.name === "Versicherungspflicht.pdf";
       });
       if (!versicherungData) {
-        versicherungData = { date: "not yet uploaded" };
+        versicherungData = { date: "noch kein Upload" };
       }
       scientology = formsArray.find((obj) => {
         return obj.name === "Scientology.pdf";
       });
       if (!scientology) {
-        scientology = { date: "not yet uploaded" };
+        scientology = { date: "noch kein Upload" };
       }
       verfassungData = formsArray.find((obj) => {
         return obj.name === "Verfassungstreue.pdf";
       });
       if (!verfassungData) {
-        verfassungData = { date: "not yet uploaded" };
+        verfassungData = { date: "noch kein Upload" };
       }
       bezuegeData = formsArray.find((obj) => {
         return obj.name === "PersonalbogenBezuegestelle.pdf";
       });
       if (!bezuegeData) {
-        bezuegeData = { date: "not yet uploaded" };
+        bezuegeData = { date: "noch kein Upload" };
       }
       personalData = formsArray.find((obj) => {
         return obj.name === "PersonalbogenStudierende.pdf";
       });
       if (!personalData) {
-        personalData = { date: "not yet uploaded" };
+        personalData = { date: "noch kein Upload" };
       }
       stipendiumData = formsArray.find((obj) => {
         return obj.name === "Stipendiumsbescheinigung.pdf";
       });
       if (!stipendiumData) {
-        stipendiumData = { date: "not yet uploaded" };
+        stipendiumData = { date: "noch kein Upload" };
       }
     }
 
@@ -89,19 +89,19 @@ class FormsAdminOverview extends Component {
               back
             </Link>
 
-            <h1 className="display-4 text-center">Forms</h1>
+            <h1 className="display-4 text-center">Formulare</h1>
             <Link
               to={"/form-upload"}
               className="btn btn-primary display-4 text-center"
             >
-              Upload new Form
+              neues Formular
             </Link>
             <table className="table table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">Form</th>
+                  <th scope="col">Formular</th>
                   <th scope="col">Download</th>
-                  <th scope="col">Last Update</th>
+                  <th scope="col">Letztes Update</th>
                 </tr>
               </thead>
               <tbody>

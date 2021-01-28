@@ -121,8 +121,6 @@ class CreateCourse extends Component {
     var { advisors } = this.state;
     var { admins } = this.state;
 
-    var tutorialmin = Math.min(2, this.state.tutorialhours);
-
     //Select options for Midterm
     const midtermOptions = [
       { label: "0", value: "0" },
@@ -134,6 +132,8 @@ class CreateCourse extends Component {
       { label: "0", value: "0" },
       { label: "1", value: "1" },
     ];
+
+    var tutorialmin = Math.min(2, this.state.tutorialhours);
 
     if (!this.state.manualweekly) {
       this.state.weeklyhourspertutor =

@@ -120,7 +120,7 @@ class ContractOverview extends Component {
             sort: true,
           },
           {
-            text: "View Contract",
+            text: "Vertrag bearbeiten",
             header: "Edit",
             id: "links",
             formatter: betrachtenButton,

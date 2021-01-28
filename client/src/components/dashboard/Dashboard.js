@@ -31,6 +31,27 @@ class Dashboard extends Component {
 
     let dashboardContent;
 
+    var aufenthaltToolTipp;
+    var stipendiumToolTipp;
+    if (profile) {
+      if (new Date(profile.aufenthaltend) < Date.now()) {
+        aufenthaltToolTipp = (
+          <h3 className="text-danger">Aufenthaltstitel expired!</h3>
+        );
+      }
+    }
+
+    if (profile) {
+      if (
+        new Date(profile.stipendiumend) < Date.now() &&
+        profile.stipendiumend
+      ) {
+        stipendiumToolTipp = (
+          <h3 className="text-danger">Stipendium expired!</h3>
+        );
+      }
+    }
+
     if (profile === null || loading) {
       dashboardContent = <Spinner />;
     } else {
@@ -40,6 +61,8 @@ class Dashboard extends Component {
           dashboardContent = (
             <div>
               <p className="lead text-muted">Welcome {profile.firstname}</p>
+              {aufenthaltToolTipp}
+              {stipendiumToolTipp}
               <StudentProfileActions />
               <hr />
               <div>

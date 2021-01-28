@@ -107,58 +107,58 @@ class EditMetacourse extends Component {
               <Link to={"/metacourse-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Edit Metacourse</h1>
-              <small className="d-block pb-3">* = required fields</small>
+              <h1 className="display-4 text-center">Metakurs Bearbeiten</h1>
+              <small className="d-block pb-3">* = benötigte Felder</small>
 
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Description"
+                  placeholder="* Bezeichnung Metakurs"
                   onChange={this.onChange}
                   value={this.state.name}
                   name="name"
                   error={errors.name}
-                  info="Metacourse Description"
+                  info="* Bezeichnung Metakurs"
                 />
                 <SelectListGroup
-                  placeholder="* Scheme"
+                  placeholder="* Schema"
                   onChange={this.onChange}
                   value={this.state.scheme}
                   name="scheme"
                   error={errors.scheme}
                   options={SchemaOptions}
-                  info="Scheme"
+                  info="* Schema"
                 />
                 <TextFieldGroup
-                  placeholder="Fondsnumber"
+                  placeholder="* Fondsnummer"
                   onChange={this.onChange}
                   value={this.state.fondsnumber}
                   name="fondsnumber"
                   error={errors.fondsnumber}
-                  info="Fondsnumber"
+                  info="* Fondsnummer"
                 />
                 <TextFieldGroup
-                  placeholder="Costcentre"
+                  placeholder="Kostenstelle"
                   onChange={this.onChange}
                   value={this.state.costcentre}
                   name="costcentre"
                   error={errors.costcentre}
-                  info="Costcentre"
+                  info="Kostenstelle"
                 />
                 <TextFieldGroup
-                  placeholder="* Abbreviation"
+                  placeholder="* Abkürzung"
                   onChange={this.onChange}
                   value={this.state.abbreviation}
                   name="abbreviation"
                   error={errors.abbreviation}
-                  info="Abbreviation"
+                  info="* Abkürzung"
                 />
                 <TextFieldGroup
-                  placeholder="Module"
+                  placeholder="Modul"
                   onChange={this.onChange}
                   value={this.state.module}
                   name="module"
                   error={errors.module}
-                  info="Module"
+                  info="Modul"
                 />
                 <input
                   type="submit"

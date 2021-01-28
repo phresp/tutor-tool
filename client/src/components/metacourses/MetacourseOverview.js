@@ -39,37 +39,37 @@ class MetacourseOverview extends Component {
     const columns = [
       {
         dataField: "name",
-        text: "Metacourse",
+        text: "Metakurs",
         sort: true,
       },
       {
         dataField: "scheme",
-        text: "Scheme",
+        text: "Schema",
         sort: true,
       },
       {
         dataField: "fondsnumber",
-        text: "Fondsnumber",
+        text: "Fondsnummer",
         sort: true,
       },
       {
         dataField: "costcentre",
-        text: "Costcentre",
+        text: "Konstenstelle",
         sort: true,
       },
       {
         dataField: "abbreviation",
-        text: "Abbreviation:",
+        text: "Abkürzung",
         sort: true,
       },
       {
         dataField: "module",
-        text: "Module",
+        text: "Modul",
         sort: true,
       },
       {
         text: "Edit",
-        header: "Edit",
+        header: "Bearbeiten",
         id: "links",
         formatter: betrachtenButton,
       },
@@ -81,9 +81,9 @@ class MetacourseOverview extends Component {
           <Link to={"/dashboard"} className={"btn btn-light"}>
             back
           </Link>
-          <h1 className={"display-4"}>Metacourse Overview</h1>
+          <h1 className={"display-4"}>Metakurs Übersicht</h1>
           <Link to="/create-metacourse" className="btn btn-info">
-            <i className="fas fa-user-circle text-primary"></i> New Metacourse
+            <i className="fas fa-user-circle text-primary"></i> Neuer Metakurs
           </Link>
           <h6></h6>
           <ToolkitProvider

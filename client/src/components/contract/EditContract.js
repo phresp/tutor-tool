@@ -378,6 +378,11 @@ class EditContract extends Component {
         this.props.contract.contract.profile.lastname;
     }
 
+    var contractcourse;
+    if (this.props.contract.contract) {
+      contractcourse = this.props.contract.contract.course.metacourse.name;
+    }
+
     //Select options for Forms
     const formsOptions = [
       { label: "Fehlt", value: "Fehlt" },
@@ -655,6 +660,23 @@ class EditContract extends Component {
       );
     }
 
+    //Weiterbeschäftigung possible
+    var weiterbeschäftigungTooltipp;
+    if (contracts) {
+      var oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+      contracts.forEach((element) => {
+        if (
+          new Date(element.contractend) > oneYearAgo ||
+          new Date(element.contractend2) > oneYearAgo ||
+          new Date(element.contractend3) > oneYearAgo
+        ) {
+          weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
+        }
+      });
+    }
+
     //Buttoncolor for Contractsplitting
     var color;
 
@@ -663,8 +685,6 @@ class EditContract extends Component {
     } else {
       color = "btn btn-light";
     }
-
-    //TODO: Functionality print EV
 
     return (
       <div className="createContract">
@@ -675,7 +695,7 @@ class EditContract extends Component {
                 back
               </Link>
               <h1 className="display-4 text-center">
-                Vertrag von <br /> {contractname}
+                Vertrag von <br /> {contractname} <br /> für {contractcourse}
                 {verfassungsPruefungTooltip}
               </h1>
 
@@ -744,7 +764,9 @@ class EditContract extends Component {
                   error={errors.degree}
                   options={degreeOptions}
                 />
+
                 <label htmlFor="newContract">neuer Vertrag:</label>
+                {weiterbeschäftigungTooltipp}
                 <SelectListGroup
                   placeholder="new Contract"
                   onChange={this.onChange}

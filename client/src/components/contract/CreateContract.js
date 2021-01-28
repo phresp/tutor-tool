@@ -336,6 +336,27 @@ class CreateContract extends Component {
         );
       }
     }
+    var profile;
+    var aufenthaltToolTipp;
+    var stipendiumToolTipp;
+    if (profile) {
+      if (new Date(profile.aufenthaltend) < Date.now()) {
+        aufenthaltToolTipp = (
+          <h3 className="text-danger">Aufenthaltstitel expired!</h3>
+        );
+      }
+    }
+
+    if (profile) {
+      if (
+        new Date(profile.stipendiumend) < Date.now() &&
+        profile.stipendiumend
+      ) {
+        stipendiumToolTipp = (
+          <h3 className="text-danger">Stipendium expired!</h3>
+        );
+      }
+    }
 
     //20 Hour Max Calculations Date 3
     var hoursum3 = this.state.hours3;
@@ -357,7 +378,6 @@ class CreateContract extends Component {
           hoursum3 = hoursum3 * 1 + element.hours;
         }
       });
-      console.log(hoursum3);
       if (hoursum3 > 20) {
         hoursum3message = (
           <h3 className="text-danger">
@@ -433,6 +453,23 @@ class CreateContract extends Component {
       );
     }
 
+    //Weiterbeschäftigung possible
+    var weiterbeschäftigungTooltipp;
+    if (contracts) {
+      var oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+      contracts.forEach((element) => {
+        if (
+          new Date(element.contractend) > oneYearAgo ||
+          new Date(element.contractend2) > oneYearAgo ||
+          new Date(element.contractend3) > oneYearAgo
+        ) {
+          weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
+        }
+      });
+    }
+
     //Buttoncolor for Contractsplitting
     var color;
 
@@ -482,7 +519,6 @@ class CreateContract extends Component {
                   name="hours"
                   error={errors.hours}
                 />
-
                 <div className="mb-3">
                   <button
                     type="button"
@@ -508,6 +544,7 @@ class CreateContract extends Component {
                   options={degreeOptions}
                 />
                 <label htmlFor="newContract">neuer Vertrag:</label>
+                {weiterbeschäftigungTooltipp}
                 <SelectListGroup
                   placeholder="new Contract"
                   onChange={this.onChange}
@@ -516,7 +553,6 @@ class CreateContract extends Component {
                   error={errors.newcontract}
                   options={newcontractOptions}
                 />
-
                 <h6>Formulare:</h6>
                 <label htmlFor="merkblatt">Merkblatt:</label>
                 <SelectListGroup
@@ -578,7 +614,6 @@ class CreateContract extends Component {
                   error={errors.immatrikulationsbescheinigung}
                   options={formsNotAlwaysNeededOptions}
                 />
-
                 <label htmlFor="krankenkassenbescheinigung">
                   Krankenkassenbescheinigung:
                 </label>
@@ -621,7 +656,6 @@ class CreateContract extends Component {
                   error={errors.steuerId}
                   options={formsOptions}
                 />
-
                 <label htmlFor="reisepass">Reisepass:</label>
                 <SelectListGroup
                   placeholder="reisepass"
@@ -631,7 +665,6 @@ class CreateContract extends Component {
                   error={errors.reisepass}
                   options={foreignerOptions}
                 />
-
                 <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
                 <SelectListGroup
                   placeholder="aufenthaltstitel"
@@ -641,7 +674,6 @@ class CreateContract extends Component {
                   error={errors.aufenthaltstitel}
                   options={foreignerOptions}
                 />
-
                 <label htmlFor="stipendium">Stipendiumsbescheinigung:</label>
                 <SelectListGroup
                   placeholder="stipendium"
@@ -651,7 +683,6 @@ class CreateContract extends Component {
                   error={errors.stipendium}
                   options={foreignerOptions}
                 />
-
                 <label htmlFor="stipendium">Abschlusszeugnis:</label>
                 <SelectListGroup
                   placeholder="abschlusszeugnis"
@@ -661,7 +692,6 @@ class CreateContract extends Component {
                   error={errors.abschlusszeugnis}
                   options={foreignerOptions}
                 />
-
                 <label htmlFor="status">Status:</label>
                 <SelectListGroup
                   placeholder="status"

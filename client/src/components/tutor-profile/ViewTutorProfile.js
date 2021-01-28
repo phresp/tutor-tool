@@ -10,6 +10,7 @@ import verfassungsPruefung from "../common/VerfassungschutzCountries";
 import { createProfile, getProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
 import countryList from "react-select-country-list";
+import aufenthaltfreieCountries from "../common/AufenthaltCountries";
 
 class ViewTutorProfile extends Component {
   constructor(props) {
@@ -24,6 +25,10 @@ class ViewTutorProfile extends Component {
       nationality2: "",
       birthplace: "",
       countryofbirth: "",
+      aufenthaltend: "",
+      stipendiumend: "",
+      degree: "",
+      currentfieldofstudy: "",
       processable: "True",
       errors: {},
     };
@@ -67,6 +72,16 @@ class ViewTutorProfile extends Component {
       profile.countryofbirth = !isEmpty(profile.countryofbirth)
         ? profile.countryofbirth
         : "";
+      profile.currentfieldofstudy = !isEmpty(profile.currentfieldofstudy)
+        ? profile.currentfieldofstudy
+        : "";
+      profile.stipendiumend = !isEmpty(profile.stipendiumend)
+        ? profile.stipendiumend
+        : "";
+      profile.degree = !isEmpty(profile.degree) ? profile.degree : "";
+      profile.aufenthaltend = !isEmpty(profile.aufenthaltend)
+        ? profile.aufenthaltend
+        : "";
 
       //Set component fields state
       this.setState({
@@ -79,6 +94,10 @@ class ViewTutorProfile extends Component {
         birthday: profile.birthday,
         birthplace: profile.birthplace,
         countryofbirth: profile.countryofbirth,
+        currentfieldofstudy: profile.currentfieldofstudy,
+        degree: profile.degree,
+        stipendiumend: profile.stipendiumend,
+        aufenthaltend: profile.aufenthaltend,
       });
     }
   }
@@ -94,6 +113,12 @@ class ViewTutorProfile extends Component {
       birthday: this.state.birthday,
       nationality: this.state.nationality,
       nationality2: this.state.nationality2,
+      birthplace: this.state.birthplace,
+      countryofbirth: this.state.countryofbirth,
+      currentfieldofstudy: this.state.currentfieldofstudy,
+      degree: this.state.degree,
+      stipendiumend: this.state.stipendiumend,
+      aufenthaltend: this.state.aufenthaltend,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -114,6 +139,35 @@ class ViewTutorProfile extends Component {
       { label: "female", value: "female" },
       { label: "divers", value: "divers" },
     ];
+
+    //Select options for degree
+    const degreeOptions = [
+      { label: "None", value: "" },
+      { label: "Bachelor(FH,Uni)/Diplom(FH)/Master(FH)", value: "Bachelor" },
+      { label: "Master(Uni)", value: "Master" },
+      { label: "Diplom(Uni)", value: "Diplom" },
+    ];
+
+    var aufenthaltInput;
+    var aufenthaltLabel;
+
+    if (
+      aufenthaltfreieCountries.indexOf(this.state.nationality) == -1 ||
+      aufenthaltfreieCountries.indexOf(this.state.nationality2) == -1
+    ) {
+      aufenthaltLabel = <label htmlFor="Aufenthalt">Aufenthalt Ende:</label>;
+      aufenthaltInput = (
+        <TextFieldGroup
+          type={"date"}
+          placeholder="Aufenthaltstitel Ende"
+          onChange={this.onChange}
+          value={moment.utc(this.state.aufenthaltend).format("YYYY-MM-DD")}
+          name="aufenthaltend"
+          error={errors.aufenthaltend}
+          disabled={this.state.processable ? "disabled" : ""}
+        />
+      );
+    }
 
     var verfassungsPruefungTooltipNationality = <div></div>;
     var verfassungsPruefungTooltipCountryofbirth = <div></div>;
@@ -161,10 +215,9 @@ class ViewTutorProfile extends Component {
               >
                 Change Account Type
               </Link>
-              <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Firstname"
+                  placeholder="Vorname"
                   onChange={this.onChange}
                   value={this.state.firstname}
                   name="firstname"
@@ -172,7 +225,7 @@ class ViewTutorProfile extends Component {
                   disabled={this.state.processable ? "disabled" : ""}
                 />
                 <TextFieldGroup
-                  placeholder="* Lastname"
+                  placeholder="Nachname"
                   onChange={this.onChange}
                   value={this.state.lastname}
                   name="lastname"
@@ -180,7 +233,7 @@ class ViewTutorProfile extends Component {
                   disabled={this.state.processable ? "disabled" : ""}
                 />
                 <SelectListGroup
-                  placeholder="* Gender"
+                  placeholder="Geschlecht"
                   onChange={this.onChange}
                   value={this.state.gender}
                   name="gender"
@@ -188,9 +241,10 @@ class ViewTutorProfile extends Component {
                   options={statusOptions}
                   disabled={this.state.processable ? "disabled" : ""}
                 />
+                <label htmlFor="birthday">Geburtstag:</label>
                 <TextFieldGroup
                   type={"date"}
-                  placeholder="* Birthday"
+                  placeholder="Geburtstag"
                   onChange={this.onChange}
                   value={moment.utc(this.state.birthday).format("YYYY-MM-DD")}
                   name="birthday"
@@ -199,14 +253,14 @@ class ViewTutorProfile extends Component {
                 />
                 <label htmlFor="birthplace">* Birthplace:</label>
                 <TextFieldGroup
-                  placeholder="* Birthplace"
+                  placeholder="Geburtsort"
                   onChange={this.onChange}
                   value={this.state.birthplace}
                   name="birthplace"
                   error={errors.birthplace}
                   disabled={this.state.processable ? "disabled" : ""}
                 />
-                <label htmlFor="countryofbirth">* Country of Birth:</label>
+                <label htmlFor="countryofbirth">Geburtsland:</label>
                 {verfassungsPruefungTooltipCountryofbirth}
                 <SelectListGroup
                   placeholder="* Country of Birth"
@@ -217,7 +271,7 @@ class ViewTutorProfile extends Component {
                   options={countryOptions}
                   disabled={this.state.processable ? "disabled" : ""}
                 />
-                <label htmlFor="nationality">* Nationality:</label>
+                <label htmlFor="nationality">Nationaliät:</label>
                 {verfassungsPruefungTooltipNationality}
                 <SelectListGroup
                   placeholder="* Nationality"
@@ -228,7 +282,7 @@ class ViewTutorProfile extends Component {
                   options={countryOptions}
                   disabled={this.state.processable ? "disabled" : ""}
                 />
-                <label htmlFor="nationality2">Second Nationality:</label>
+                <label htmlFor="nationality2">Zweite Nationalität:</label>
                 {verfassungsPruefungTooltipNationality2}
                 <SelectListGroup
                   placeholder="Second Nationality"
@@ -240,12 +294,47 @@ class ViewTutorProfile extends Component {
                   info="Please provide your second nationality if you have one"
                   disabled={this.state.processable ? "disabled" : ""}
                 />
+
+                {aufenthaltLabel}
+                {aufenthaltInput}
+
+                <TextFieldGroup
+                  type={"date"}
+                  placeholder="Stipendium Ende"
+                  onChange={this.onChange}
+                  value={moment
+                    .utc(this.state.stipendiumend)
+                    .format("YYYY-MM-DD")}
+                  name="stipendiumend"
+                  error={errors.stipendiumend}
+                  disabled={this.state.processable ? "disabled" : ""}
+                />
                 <TextFieldGroup
                   placeholder="* Matrikelnummer"
                   onChange={this.onChange}
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"
                   error={errors.matrikelnummer}
+                  disabled={this.state.processable ? "disabled" : ""}
+                />
+
+                <label htmlFor="CurrentFieldofStudy">Studiengang:</label>
+                <TextFieldGroup
+                  placeholder="Current Field of Study"
+                  onChange={this.onChange}
+                  value={this.state.currentfieldofstudy}
+                  name="currentfieldofstudy"
+                  error={errors.currentfieldofstudy}
+                  disabled={this.state.processable ? "disabled" : ""}
+                />
+                <label htmlFor="degree">Abschluss:</label>
+                <SelectListGroup
+                  placeholder="Degree"
+                  onChange={this.onChange}
+                  value={this.state.degree}
+                  name="degree"
+                  error={errors.degree}
+                  options={degreeOptions}
                   disabled={this.state.processable ? "disabled" : ""}
                 />
               </form>

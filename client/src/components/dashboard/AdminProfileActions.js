@@ -7,31 +7,32 @@ const AdminProfileActions = () => {
       <h6>Personal:</h6>
       <div className="dash-buttons">
         <Link to="/edit-profile" className="btn btn-light">
-          <i className="fas fa-user-circle text-primary"></i> Edit Profile
+          <i className="fas fa-user-circle text-primary"></i> Profil bearbeiten
         </Link>
       </div>
       <h6>Tutor Management:</h6>
       <div className="dash-buttons">
         <Link to="/tutor-overview" className="btn btn-light">
-          <i className="far fa-address-book text-primary"></i> Tutor Overview
+          <i className="far fa-address-book text-primary"></i> Tutor Übersicht
         </Link>
         <Link to="/course-overview" className="btn btn-light">
-          <i className="fas fa-graduation-cap text-primary"></i> Course Overview
+          <i className="fas fa-graduation-cap text-primary"></i> Kurs Übersicht
         </Link>
         <Link to="/contracts" className="btn btn-light">
-          <i className="fas fa-file-contract text-primary"></i> Contracts
+          <i className="fas fa-file-contract text-primary"></i> Verträge
         </Link>
       </div>
       <h6>Setup:</h6>
       <div className="dash-buttons">
         <Link to="/semester-overview" className="btn btn-light">
-          <i className="fas fa-calendar-alt text-primary"></i> Semester Overview
+          <i className="fas fa-calendar-alt text-primary"></i> Semester
+          Übersicht
         </Link>
         <Link to="/metacourse-overview" className="btn btn-light">
-          <i className="fas fa-graduation-cap text-primary"></i> Metacourses
+          <i className="fas fa-graduation-cap text-primary"></i> Metakurse
         </Link>
         <Link to="/forms-administration" className="btn btn-light">
-          <i className="fas fa-file-pdf text-primary"></i> Forms
+          <i className="fas fa-file-pdf text-primary"></i> Formulare
         </Link>
         <Link to="/contracts" className="btn btn-light">
           <i className="fab fa-accessible-icon text-primary"></i> Test

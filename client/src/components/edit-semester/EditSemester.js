@@ -86,53 +86,53 @@ class EditSemester extends Component {
               <Link to={"/semester-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Semester Creation</h1>
-              <small className="d-block pb-3">* = required fields</small>
+              <h1 className="display-4 text-center">Semester Bearbeiten</h1>
+              <small className="d-block pb-3">* = benötigte Felder</small>
 
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Descriprion"
+                  placeholder="* Semester Bezeichnung"
                   onChange={this.onChange}
                   value={this.state.name}
                   name="name"
                   error={errors.name}
-                  info="Semester Description"
+                  info="* Semester Bezeichnung"
                 />
                 <TextFieldGroup
                   type={"date"}
-                  placeholder="* From"
+                  placeholder="* Semester Start"
                   onChange={this.onChange}
                   value={moment.utc(this.state.from).format("YYYY-MM-DD")}
                   name="from"
                   error={errors.from}
-                  info="Semester Start"
+                  info="* Semester Start"
                 />
                 <TextFieldGroup
                   type={"date"}
-                  placeholder="* Till"
+                  placeholder="* Semester Ende"
                   onChange={this.onChange}
                   value={moment.utc(this.state.to).format("YYYY-MM-DD")}
                   name="to"
                   error={errors.to}
-                  info="Semester Till"
+                  info="* Semester Ende"
                 />
                 <TextFieldGroup
                   type={"date"}
-                  placeholder="* Courses From"
+                  placeholder="* Kurse von"
                   onChange={this.onChange}
                   value={moment.utc(this.state.coursefrom).format("YYYY-MM-DD")}
                   name="coursefrom"
                   error={errors.coursefrom}
-                  info="Semester Courses Start"
+                  info="* Semester Kurse Start"
                 />
                 <TextFieldGroup
                   type={"date"}
-                  placeholder="* Courses Till"
+                  placeholder="* Kurse bis"
                   onChange={this.onChange}
                   value={moment.utc(this.state.courseto).format("YYYY-MM-DD")}
                   name="courseto"
                   error={errors.courseto}
-                  info="Semester Courses Till"
+                  info="* Semester Kurse Ende"
                 />
                 <input
                   type="submit"

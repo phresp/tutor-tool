@@ -238,7 +238,7 @@ class EditCourse extends Component {
     const semesterOptions = semesters.map((el) => {
       return { label: el.name, value: el.name };
     });
-    semesterOptions.unshift({ label: "Select Semester", value: "" });
+    semesterOptions.unshift({ label: "Semester auswählen", value: "" });
 
     //Select options for metacourse
     if (!metacourses) {
@@ -247,7 +247,7 @@ class EditCourse extends Component {
     const metacourseOptions = metacourses.map((el) => {
       return { label: el.name, value: el.name };
     });
-    metacourseOptions.unshift({ label: "Select Metacourse", value: "" });
+    metacourseOptions.unshift({ label: "Metakurs auswählen", value: "" });
 
     //Select options for advisors
     if (!advisors) {
@@ -282,8 +282,8 @@ class EditCourse extends Component {
               <Link to={"/course-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Edit Course</h1>
-              <small className="d-block pb-3">* = required fields</small>
+              <h1 className="display-4 text-center">Kurs bearbeiten</h1>
+              <small className="d-block pb-3">* = benötigte Felder</small>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="inputStatus">Status</label>
                 <SelectListGroup
@@ -295,7 +295,7 @@ class EditCourse extends Component {
                   options={statusOptions}
                 />
 
-                <label htmlFor="inputMetacourse">Metacourse</label>
+                <label htmlFor="inputMetacourse">Metakurs</label>
                 <SelectListGroup
                   placeholder="Metacourse"
                   onChange={this.onChange}
@@ -315,9 +315,7 @@ class EditCourse extends Component {
                 />
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputStudentnumber">
-                      Number of Students
-                    </label>
+                    <label htmlFor="inputStudentnumber">Anzahl Studenten</label>
                     <TextFieldGroup
                       placeholder="Number of Students"
                       onChange={this.onChange}
@@ -327,7 +325,7 @@ class EditCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputGroupnumber">Number of Groups</label>
+                    <label htmlFor="inputGroupnumber">Anzahl Gruppen</label>
                     <TextFieldGroup
                       placeholder="Number of Groups"
                       onChange={this.onChange}
@@ -339,7 +337,7 @@ class EditCourse extends Component {
                 </div>
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputGroupsize">Groupsize</label>
+                    <label htmlFor="inputGroupsize">Gruppengröße</label>
                     <TextFieldGroup
                       placeholder="Groupsize"
                       onChange={this.onChange}
@@ -349,7 +347,7 @@ class EditCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputTutorialhours">Tutorialhours</label>
+                    <label htmlFor="inputTutorialhours">Dauer Tutorium</label>
                     <TextFieldGroup
                       placeholder="Tutorialhours"
                       onChange={this.onChange}
@@ -362,7 +360,7 @@ class EditCourse extends Component {
                 <div className="form-row">
                   <div className="form-group col-md-6">
                     <label htmlFor="inputGroupsPerTutor">
-                      Groups per Tutor
+                      Gruppen pro Tutor
                     </label>
                     <TextFieldGroup
                       placeholder="Groups per Tutor"
@@ -373,7 +371,7 @@ class EditCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputHomework">Homework</label>
+                    <label htmlFor="inputHomework">Hausaufgaben</label>
                     <TextFieldGroup
                       placeholder="Homework"
                       onChange={this.onChange}
@@ -386,7 +384,7 @@ class EditCourse extends Component {
 
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputMidterm">Midterm</label>
+                    <label htmlFor="inputMidterm">Midtermfaktor</label>
                     <SelectListGroup
                       placeholder="Midterm"
                       onChange={this.onChange}
@@ -397,7 +395,7 @@ class EditCourse extends Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputExam">Exam</label>
+                    <label htmlFor="inputExam">Klausurfaktor</label>
                     <SelectListGroup
                       placeholder="Exam"
                       onChange={this.onChange}
@@ -411,7 +409,7 @@ class EditCourse extends Component {
                 <div className="form-row">
                   <div className="form-group col-md-6">
                     <label htmlFor="inputMaxTutorNumber">
-                      Max Tutor Number -{" "}
+                      Maximale Anzahl Tutoren -{" "}
                       <div className="form-check form-check-inline">
                         <input
                           className="form-check-input"
@@ -430,7 +428,7 @@ class EditCourse extends Component {
                       </div>
                     </label>
                     <TextFieldGroup
-                      placeholder="* Max Tutor Number"
+                      placeholder="* Maximale Anzahl Tutoren"
                       onChange={this.onChange}
                       value={this.state.maxtutornumber}
                       name="maxtutornumber"
@@ -440,7 +438,7 @@ class EditCourse extends Component {
                   </div>
                   <div className="form-group col-md-6">
                     <label htmlFor="inputWeeklyhourspertutor">
-                      Weekly Hours per Tutor -{" "}
+                      Wochenstunden pro Tutor -{" "}
                       <div className="form-check form-check-inline">
                         <input
                           className="form-check-input"
@@ -459,7 +457,7 @@ class EditCourse extends Component {
                       </div>
                     </label>
                     <TextFieldGroup
-                      placeholder="Weekly Hours per Tutor"
+                      placeholder="Wochenstunden pro Tutor"
                       onChange={this.onChange}
                       value={this.state.weeklyhourspertutor}
                       name="weeklyhourspertutor"
@@ -471,7 +469,7 @@ class EditCourse extends Component {
                 <div className="form-row">
                   {" "}
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputOverallhours">Weeks</label>
+                    <label htmlFor="inputOverallhours">Wochen</label>
                     <TextFieldGroup
                       placeholder="Weeks"
                       onChange={this.onChange}
@@ -482,7 +480,7 @@ class EditCourse extends Component {
                   </div>
                   <div className="form-group col-md-6">
                     <label htmlFor="inputOverallWeeklyhours">
-                      Overall Weekly Hours
+                      Gesamtwochenstunden
                     </label>
                     <TextFieldGroup
                       placeholder="Overall Weekly Hours"
@@ -494,7 +492,7 @@ class EditCourse extends Component {
                     />
                   </div>
                 </div>
-                <label htmlFor="inputOverallhours">Overall Hours</label>
+                <label htmlFor="inputOverallhours">Gesamtstunden</label>
                 <TextFieldGroup
                   placeholder="Overall Hours"
                   onChange={this.onChange}
@@ -504,7 +502,7 @@ class EditCourse extends Component {
                   disabled={true}
                 />
 
-                <label htmlFor="inputFrom">From</label>
+                <label htmlFor="inputFrom">Von</label>
                 <TextFieldGroup
                   type={"Date"}
                   placeholder="From"
@@ -513,7 +511,7 @@ class EditCourse extends Component {
                   name="from"
                   error={errors.from}
                 />
-                <label htmlFor="inputTill">Till</label>
+                <label htmlFor="inputTill">Bis</label>
                 <TextFieldGroup
                   type={"Date"}
                   placeholder="Till"
@@ -522,7 +520,7 @@ class EditCourse extends Component {
                   name="till"
                   error={errors.till}
                 />
-                <label htmlFor="inputRequirements">Requirements</label>
+                <label htmlFor="inputRequirements">Anforderungen</label>
                 <TextFieldGroup
                   placeholder="Requirements"
                   onChange={this.onChange}

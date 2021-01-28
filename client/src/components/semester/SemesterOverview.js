@@ -42,17 +42,17 @@ class SemesterOverview extends Component {
         text: "Semester",
         sort: true,
       },
-      { dataField: "from", text: "From:", sort: true, formatter: dateFormat },
-      { dataField: "to", text: "To:", sort: true, formatter: dateFormat },
+      { dataField: "from", text: "Von", sort: true, formatter: dateFormat },
+      { dataField: "to", text: "Bis", sort: true, formatter: dateFormat },
       {
         dataField: "coursefrom",
-        text: "Courses from:",
+        text: "Kurse von",
         sort: true,
         formatter: dateFormat,
       },
       {
         dataField: "courseto",
-        text: "Courses till:",
+        text: "Kurse bis",
         sort: true,
         formatter: dateFormat,
       },
@@ -70,9 +70,9 @@ class SemesterOverview extends Component {
           <Link to={"/dashboard"} className={"btn btn-light"}>
             back
           </Link>
-          <h1 className={"display-4"}>Semester Overview</h1>
+          <h1 className={"display-4"}>Semester Übersicht</h1>
           <Link to="/create-semester" className="btn btn-info">
-            <i className="fas fa-user-circle text-primary"></i> New Semester
+            <i className="fas fa-user-circle text-primary"></i> Neues Semester
           </Link>
           <h6></h6>
           <ToolkitProvider

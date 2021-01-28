@@ -13,6 +13,7 @@ class FormsUpload extends Component {
     this.state = {
       name: "",
       selectedFile: null,
+      disabledSubmit: true,
       errors: {},
     };
 
@@ -29,7 +30,6 @@ class FormsUpload extends Component {
       name: this.state.name,
       fileData: fileData,
     };
-    console.log(fileData);
     this.props.uploadFile(fileData, this.props.history);
   }
 
@@ -49,7 +49,7 @@ class FormsUpload extends Component {
 
     //Select options for status of contract
     const fileNameOptions = [
-      { label: "* Please select Form", value: "" },
+      { label: "* Formular auswählen", value: "" },
       { label: "Merkblatt", value: "MerkblattTutorbetrieb" },
       { label: "Einstellungsvorschlag", value: "Einstellungsvorschlag" },
       {
@@ -71,6 +71,16 @@ class FormsUpload extends Component {
         value: "Stipendiumsbescheinigung",
       },
     ];
+    if (
+      this.state.name &&
+      this.state.selectedFile &&
+      this.state.disabledSubmit
+    ) {
+      console.log("here");
+      this.setState({
+        disabledSubmit: false,
+      });
+    }
 
     return (
       <div className="uploadForm">
@@ -80,10 +90,10 @@ class FormsUpload extends Component {
               <Link to={"/forms-administration"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Upload Form</h1>
+              <h1 className="display-4 text-center">Formular Upload</h1>
 
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="filename">File to Upload:</label>
+                <label htmlFor="filename">File zum Upload:</label>
                 <SelectListGroup
                   placeholder="Filename"
                   onChange={this.onChange}
@@ -101,6 +111,7 @@ class FormsUpload extends Component {
                   type="submit"
                   value="Submit"
                   className="btn btn-info btn-block mt-4"
+                  disabled={this.state.disabledSubmit}
                 />
               </form>
             </div>

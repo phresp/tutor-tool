@@ -55,7 +55,7 @@ class CourseOverview extends Component {
     function applicationsButton(cell, row, rowIndex, formatExtraData) {
       return (
         <Link to={`/course-applications/${row._id}`} className="btn btn-info">
-          Check Applications
+          Bewerbungen
         </Link>
       );
     }
@@ -140,7 +140,7 @@ class CourseOverview extends Component {
         <Link to={"/dashboard"} className={"btn btn-light"}>
           back
         </Link>
-        <h1 className="display-4">Course Overview</h1>
+        <h1 className="display-4">Kursübersicht</h1>
         <Link to="/create-course" className="btn btn-info">
           <i className="fas fa-user-circle text-primary"></i> New Course
         </Link>

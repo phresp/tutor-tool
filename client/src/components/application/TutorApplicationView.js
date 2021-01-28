@@ -51,9 +51,10 @@ class TutorApplicationView extends Component {
           </Link>
         );
       }
+
       function statusFormatter(value, row, rowIndex, formatExtraData) {
         var result = applications.filter((obj) => {
-          return obj.course === value;
+          return obj.course._id === value;
         });
         if (result[0]) {
           return result[0].status;
