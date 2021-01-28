@@ -10,6 +10,7 @@ import {
   GET_PROFILES,
   GET_ADVISORS,
   GET_ADMINS,
+  GET_TUTORS,
 } from "./types";
 
 //Get current profile
@@ -55,6 +56,20 @@ export const getProfiles = () => (dispatch) => {
         payload: {},
       })
     );
+};
+
+//Get all advisors
+export const getTutors = () => (dispatch) => {
+  dispatch(setProfileLoading());
+  axios
+    .get("/api/profile/role/tutor")
+    .then((res) => dispatch({ type: GET_TUTORS, payload: res.data }))
+    .catch((err) => {
+      dispatch({
+        type: GET_TUTORS,
+        payload: {},
+      });
+    });
 };
 
 //Get all advisors

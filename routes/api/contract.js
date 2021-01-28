@@ -62,6 +62,44 @@ router.get(
   }
 );
 
+// @route   GET /api/contract/contract/userid/:id
+// @desc    GET contracts of user
+// @access  Private
+router.get(
+  "/contract/userid/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    console.log(req.params.id);
+    Contract.find({ user: req.params.id })
+      .populate({
+        path: "course",
+        select: { metacourse: 1 },
+        populate: {
+          path: "metacourse",
+          select: { name: 1, abbreviation: 2, module: 3 },
+        },
+      })
+      .populate({
+        path: "course",
+        select: { semester: 1 },
+        populate: {
+          path: "semester",
+        },
+      })
+      .populate({ path: "application" })
+      .populate({ path: "profile" })
+      .then((contracts) => {
+        if (!contracts) {
+          errors.nocontract = "There are no contracts yet";
+          return res.status(404).json(errors);
+        }
+        res.send(contracts);
+      })
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
 // @route   GET /api/contract/all
 // @desc    GET all Contracts
 // @access  Private
@@ -295,6 +333,38 @@ router.post(
           res.status(400).json({ contractnotfound: "Contract not found" })
         );
     });
+  }
+);
+
+// @route   POST /api/contract/separatecontract
+// @desc    POST to create contract
+// @access  Private
+router.post(
+  "/separatecontract",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Validate Input fields
+    const { errors, isValid } = validateContractInput(req.body);
+    if (!isValid) {
+      //Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    //Get Body Fields
+    const contractFields = {};
+    contractFields.user = req.body.user;
+    contractFields.profile = req.body.profile;
+    contractFields.course = req.body.course;
+
+    contractFields.status = req.body.status ? req.body.status : "created";
+
+    //Create Contract
+    new Contract(contractFields)
+      .save()
+      .then((contract) => res.json(contract))
+      .catch((err) =>
+        res.status(400).json({ contractnotfound: "Contract not found" })
+      );
   }
 );
 

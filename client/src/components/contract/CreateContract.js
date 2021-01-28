@@ -327,7 +327,6 @@ class CreateContract extends Component {
           hoursum2 = hoursum2 * 1 + element.hours;
         }
       });
-      console.log(hoursum2);
       if (hoursum2 > 20) {
         hoursum2message = (
           <h3 className="text-danger">
@@ -336,28 +335,6 @@ class CreateContract extends Component {
         );
       }
     }
-    var profile;
-    var aufenthaltToolTipp;
-    var stipendiumToolTipp;
-    if (profile) {
-      if (new Date(profile.aufenthaltend) < Date.now()) {
-        aufenthaltToolTipp = (
-          <h3 className="text-danger">Aufenthaltstitel expired!</h3>
-        );
-      }
-    }
-
-    if (profile) {
-      if (
-        new Date(profile.stipendiumend) < Date.now() &&
-        profile.stipendiumend
-      ) {
-        stipendiumToolTipp = (
-          <h3 className="text-danger">Stipendium expired!</h3>
-        );
-      }
-    }
-
     //20 Hour Max Calculations Date 3
     var hoursum3 = this.state.hours3;
     var hoursum3message = <div></div>;
@@ -383,6 +360,29 @@ class CreateContract extends Component {
           <h3 className="text-danger">
             Achtung Wochenstunden zu hoch! ({hoursum3})
           </h3>
+        );
+      }
+    }
+
+    //TODO: Abgelaufene Daten Tooltipp
+    var profile;
+    var aufenthaltToolTipp;
+    var stipendiumToolTipp;
+    if (profile) {
+      if (new Date(profile.aufenthaltend) < Date.now()) {
+        aufenthaltToolTipp = (
+          <h3 className="text-danger">Aufenthaltstitel abgelaufen!</h3>
+        );
+      }
+    }
+
+    if (profile) {
+      if (
+        new Date(profile.stipendiumend) < Date.now() &&
+        profile.stipendiumend
+      ) {
+        stipendiumToolTipp = (
+          <h3 className="text-danger">Stipendium abgelaufen!</h3>
         );
       }
     }

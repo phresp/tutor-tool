@@ -183,6 +183,41 @@ router.get(
   }
 );
 
+// @route   GET api/profile/role/tutor
+// @desc    Get all tutors
+// @access  Private
+router.get(
+  "/role/tutor",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Check authorization
+    const errors = {};
+    User.find({ role: "Student" })
+      .then((tutors) => {
+        if (!tutors) {
+          errors.profile = "There are no profiles";
+          return res.status(404).json(errors);
+        }
+        const tutorIDs = tutors.map((el) => {
+          return el._id;
+        });
+        Profile.find({
+          user: tutorIDs,
+        })
+          .populate("user", ["email"])
+          .then((tutorProfiles) => {
+            if (!tutorProfiles) {
+              errors.profile = "There are no profiles";
+              return res.status(404).json(errors);
+            } else {
+              res.json(tutorProfiles);
+            }
+          });
+      })
+      .catch((err) => res.status(404).json({ profile: "There are no tutors" }));
+  }
+);
+
 // @route   POST /api/profile
 // @desc    Create or Update User Profile
 // @access  Private

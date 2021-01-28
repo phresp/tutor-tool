@@ -5,6 +5,7 @@ import {
   GET_PROFILES,
   GET_ADVISORS,
   GET_ADMINS,
+  GET_TUTORS,
 } from "../actions/types";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   profiles: null,
   advisors: null,
   admins: null,
+  tutors: null,
   loading: false,
 };
 
@@ -52,6 +54,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         admins: action.payload,
+        loading: false,
+      };
+    case GET_TUTORS:
+      return {
+        ...state,
+        tutors: action.payload,
         loading: false,
       };
     default:

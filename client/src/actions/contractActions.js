@@ -40,6 +40,21 @@ export const getMyContracts = () => (dispatch) => {
     );
 };
 
+//Get my (Tutor) Contracts
+export const getUserContracts = (id) => (dispatch) => {
+  axios
+    .get(`/api/contract/contract/userid/${id}`)
+    .then((res) => {
+      dispatch({ type: GET_CONTRACTS, payload: res.data });
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_CONTRACTS,
+        payload: {},
+      })
+    );
+};
+
 //Get Contract of contractID
 export const getContractOfID = (id) => (dispatch) => {
   dispatch(setContractLoading());
@@ -90,6 +105,21 @@ export const createContract = (contractData, history) => (dispatch) => {
     .post("/api/contract", contractData)
     .then((res) => {
       history.push("/dashboard");
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+//Create Contract
+export const createSeparateContract = (contractData, history) => (dispatch) => {
+  axios
+    .post("/api/contract/separatecontract", contractData)
+    .then((res) => {
+      history.push("/contracts");
     })
     .catch((err) =>
       dispatch({

@@ -253,7 +253,9 @@ class ContractOverview extends Component {
               back
             </Link>
             <h1 className="display-4 text-center">Verträge</h1>
-
+            <Link to="/createseparatecontract" className="btn btn-info">
+              <i className="text-primary"></i> Leeren Vertrag anlegen
+            </Link>
             {contractTable}
           </div>
         </div>
