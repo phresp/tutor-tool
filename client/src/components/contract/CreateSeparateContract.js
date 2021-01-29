@@ -9,7 +9,7 @@ import {
   getUserContracts,
 } from "../../actions/contractActions";
 
-import { getCoursesForApplication } from "../../actions/courseActions";
+import { getCourses } from "../../actions/courseActions";
 
 import { getTutors } from "../../actions/profileActions";
 
@@ -18,7 +18,7 @@ import isEmpty from "../common/is-empty";
 class CreateSeparateContract extends Component {
   componentDidMount() {
     this.props.getTutors();
-    this.props.getCoursesForApplication();
+    this.props.getCourses();
   }
 
   constructor(props) {
@@ -100,7 +100,7 @@ class CreateSeparateContract extends Component {
     }
     const courseOptions = courses.map((el) => {
       return {
-        label: el.metacourse.name + ", " + el.semester.name,
+        label: el.metacourse[0].name + ", " + el.semester[0].name,
         value: el._id,
       };
     });
@@ -189,5 +189,5 @@ export default connect(mapStateToProps, {
   createSeparateContract,
   getTutors,
   getUserContracts,
-  getCoursesForApplication,
+  getCourses,
 })(withRouter(CreateSeparateContract));
