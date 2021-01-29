@@ -39,6 +39,7 @@ class CreateCourse extends Component {
       advisor: "",
       advisor2: "",
       advisor3: "",
+      status: "",
       manualmaxtutor: false,
       manualweekly: false,
       errors: {},
@@ -105,6 +106,7 @@ class CreateCourse extends Component {
       advisor: this.state.advisor,
       advisor2: this.state.advisor2,
       advisor3: this.state.advisor3,
+      status: this.state.status,
     };
 
     this.props.createCourse(courseData, this.props.history);
@@ -131,6 +133,13 @@ class CreateCourse extends Component {
     const examOptions = [
       { label: "0", value: "0" },
       { label: "1", value: "1" },
+    ];
+
+    //Select options for Status
+    const statusOptions = [
+      { label: "Preparation", value: "Preparation" },
+      { label: "Open", value: "Open" },
+      { label: "Closed", value: "Closed" },
     ];
 
     var tutorialmin = Math.min(2, this.state.tutorialhours);
@@ -470,6 +479,16 @@ class CreateCourse extends Component {
                   name="admin"
                   error={errors.admin}
                   options={adminOptions}
+                />
+
+                <label htmlFor="inputStatus">Status</label>
+                <SelectListGroup
+                  placeholder="Status"
+                  onChange={this.onChange}
+                  value={this.state.status}
+                  name="status"
+                  error={errors.status}
+                  options={statusOptions}
                 />
                 <input
                   type="submit"

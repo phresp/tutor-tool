@@ -216,6 +216,7 @@ router.post(
                     courseFields.advisor = req.body.advisor;
                     courseFields.advisor2 = req.body.advisor2;
                     courseFields.advisor3 = req.body.advisor3;
+                    courseFields.status = req.body.status;
                     if (isEmpty(courseFields.admin)) {
                       courseFields.admin = null;
                     }

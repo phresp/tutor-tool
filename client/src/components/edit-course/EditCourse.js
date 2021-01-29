@@ -281,7 +281,9 @@ class EditCourse extends Component {
               <Link to={"/course-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Kurs bearbeiten</h1>
+              <h1 className="display-4 text-center">
+                Veranstaltung bearbeiten
+              </h1>
               <small className="d-block pb-3">* = benötigte Felder</small>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="inputStatus">Status</label>
@@ -294,7 +296,7 @@ class EditCourse extends Component {
                   options={statusOptions}
                 />
 
-                <label htmlFor="inputMetacourse">Metakurs</label>
+                <label htmlFor="inputMetacourse">Metaveranstaltung</label>
                 <SelectListGroup
                   placeholder="Metacourse"
                   onChange={this.onChange}
