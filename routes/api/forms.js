@@ -4,6 +4,9 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 var multer = require("multer");
 const moment = require("moment");
+const AufenthaltsfreieCountries = require("../../config/AufenthaltCountries");
+const aufenthaltfreieCountriesNoEmpty =
+  AufenthaltsfreieCountries.aufenthaltfreieCountriesNoEmpty;
 
 const pdftk = require("node-pdftk");
 const fs = require("fs");
@@ -292,9 +295,12 @@ router.post(
     if (req.body.hours3) {
       hours3 = " // " + req.body.hours3;
     }
-    //TODO: ausweis häckchen
-    var hourstogether = hours1 + hours2 + hours3;
 
+    var hourstogether = hours1 + hours2 + hours3;
+    var ausweis;
+    if (aufenthaltfreieCountriesNoEmpty.includes(req.body.natforausweis)) {
+      ausweis = "Yes";
+    }
     const formdata = {
       Betreuer: req.body.adminlastname + ", " + req.body.adminfirstname,
       BetreuerTelefon: "+49 (0)89 289 17182",
@@ -311,6 +317,7 @@ router.post(
       Fonds: req.body.fondsnumber,
       Kostenstelle_3: req.body.costcentre,
       "aus Studienbeitragsmassnahme": req.body.scheme,
+      ausweis: ausweis,
       anbei8: anbei8,
       anbei15: anbei15,
       anbei9: anbei9,

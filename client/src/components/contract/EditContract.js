@@ -334,6 +334,7 @@ class EditContract extends Component {
       advisorfirstname: this.state.advisorfirstname,
       adminlastname: this.state.adminlastname,
       adminfirstname: this.state.adminfirstname,
+      natforausweis: this.props.contract.contract.profile.nationality,
       nationality: nat,
       nationality2: nat2,
       birthplace: this.props.contract.contract.profile.birthplace,
