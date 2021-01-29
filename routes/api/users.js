@@ -27,15 +27,14 @@ router.post("/register", (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-
-  User.findOne({ email: req.body.email }).then((user) => {
+  User.findOne({ email: req.body.email.toLowerCase() }).then((user) => {
     if (user) {
       errors.email = "Email already exists";
       return res.status(400).json(errors);
     } else {
       const newUser = new User({
         password: req.body.password,
-        email: req.body.email,
+        email: req.body.email.toLowerCase(),
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -63,7 +62,7 @@ router.post("/login", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const email = req.body.email;
+  const email = req.body.email.toLowerCase();
   const password = req.body.password;
 
   //Find user by email
