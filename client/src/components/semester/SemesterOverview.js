@@ -66,7 +66,7 @@ class SemesterOverview extends Component {
 
     return (
       <div className="Semester Overview">
-        <div className="container-fluid">
+        <div className="container">
           <Link to={"/dashboard"} className={"btn btn-light"}>
             back
           </Link>

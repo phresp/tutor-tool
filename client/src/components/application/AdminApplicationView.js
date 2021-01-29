@@ -126,7 +126,7 @@ class AdminApplicationView extends Component {
     }
 
     return (
-      <div className="container-fluid">
+      <div className="container">
         <div className="row">
           <div className="col-md-12">
             <Link to={"/course-overview"} className={"btn btn-light"}>

@@ -136,13 +136,13 @@ class CourseOverview extends Component {
     ];
 
     return (
-      <div className="container-fluid">
+      <div className="container">
         <Link to={"/dashboard"} className={"btn btn-light"}>
           back
         </Link>
-        <h1 className="display-4">Kursübersicht</h1>
+        <h1 className="display-4">Veranstaltungsübersicht</h1>
         <Link to="/create-course" className="btn btn-info">
-          <i className="fas fa-user-circle text-primary"></i> New Course
+          <i className="fas fa-user-circle text-primary"></i> Neue Veranstaltung
         </Link>
         <h6></h6>
         <ToolkitProvider

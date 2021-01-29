@@ -192,13 +192,13 @@ class CreateCourse extends Component {
 
     return (
       <div className="createCourse">
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to={"/course-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Kurs erstellen</h1>
+              <h1 className="display-4 text-center">Veranstaltung erstellen</h1>
               <small className="d-block pb-3">* = benötigte Felder</small>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="inputMetacourse4">Metakurs</label>

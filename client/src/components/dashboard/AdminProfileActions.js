@@ -16,7 +16,7 @@ const AdminProfileActions = () => {
           <i className="far fa-address-book text-primary"></i> Tutor Übersicht
         </Link>
         <Link to="/course-overview" className="btn btn-light">
-          <i className="fas fa-graduation-cap text-primary"></i> Kurs Übersicht
+          <i className="fas fa-graduation-cap text-primary"></i> Veranstaltungen
         </Link>
         <Link to="/contracts" className="btn btn-light">
           <i className="fas fa-file-contract text-primary"></i> Verträge
@@ -29,7 +29,8 @@ const AdminProfileActions = () => {
           Übersicht
         </Link>
         <Link to="/metacourse-overview" className="btn btn-light">
-          <i className="fas fa-graduation-cap text-primary"></i> Metakurse
+          <i className="fas fa-graduation-cap text-primary"></i>{" "}
+          Metaveranstaltungen
         </Link>
         <Link to="/forms-administration" className="btn btn-light">
           <i className="fas fa-file-pdf text-primary"></i> Formulare

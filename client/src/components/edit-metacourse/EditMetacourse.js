@@ -101,7 +101,7 @@ class EditMetacourse extends Component {
 
     return (
       <div className="editMetacourse">
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to={"/metacourse-overview"} className={"btn btn-light"}>

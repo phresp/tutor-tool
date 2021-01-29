@@ -259,7 +259,6 @@ class EditCourse extends Component {
     advisorOptions.unshift({ label: "Übungsleiter auswählen", value: "" });
 
     //Select options for admins
-    console.log(advisors);
     if (isEmpty(admins)) {
       admins = [];
     }
@@ -276,7 +275,7 @@ class EditCourse extends Component {
 
     return (
       <div className="editCourse">
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to={"/course-overview"} className={"btn btn-light"}>

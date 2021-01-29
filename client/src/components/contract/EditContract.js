@@ -117,62 +117,64 @@ class EditContract extends Component {
         : "";
       contract.merkblatt = !isEmpty(contract.merkblatt)
         ? contract.merkblatt
-        : "";
+        : "Fehlt";
       contract.einstellungsvorschlag = !isEmpty(contract.einstellungsvorschlag)
         ? contract.einstellungsvorschlag
-        : "";
+        : "Fehlt";
       contract.versicherungspflicht = !isEmpty(contract.versicherungspflicht)
         ? contract.versicherungspflicht
-        : "";
+        : "Fehlt";
       contract.scientology = !isEmpty(contract.scientology)
         ? contract.scientology
-        : "";
+        : "Fehlt";
       contract.verfassungstreue = !isEmpty(contract.verfassungstreue)
         ? contract.verfassungstreue
-        : "";
+        : "Fehlt";
       contract.immatrikulationsbescheinigung = !isEmpty(
         contract.immatrikulationsbescheinigung
       )
         ? contract.immatrikulationsbescheinigung
-        : "";
+        : "Fehlt";
       contract.aufenthaltstitel = !isEmpty(contract.aufenthaltstitel)
         ? contract.aufenthaltstitel
-        : "";
+        : "Fehlt";
       contract.krankenkassenbescheinigung = !isEmpty(
         contract.krankenkassenbescheinigung
       )
         ? contract.krankenkassenbescheinigung
-        : "";
+        : "Fehlt";
       contract.personalbogenbezuegestelle = !isEmpty(
         contract.personalbogenbezuegestelle
       )
         ? contract.personalbogenbezuegestelle
-        : "";
+        : "Fehlt";
       contract.personalbogenstudierende = !isEmpty(
         contract.personalbogenstudierende
       )
         ? contract.personalbogenstudierende
-        : "";
+        : "Fehlt";
       contract.sozialversicherungsausweis = !isEmpty(
         contract.sozialversicherungsausweis
       )
         ? contract.sozialversicherungsausweis
-        : "";
-      contract.steuerId = !isEmpty(contract.steuerId) ? contract.steuerId : "";
+        : "Fehlt";
+      contract.steuerId = !isEmpty(contract.steuerId)
+        ? contract.steuerId
+        : "Fehlt";
       contract.stipendium = !isEmpty(contract.stipendium)
         ? contract.stipendium
-        : "";
+        : "Fehlt";
       contract.abschlusszeugnis = !isEmpty(contract.abschlusszeugnis)
         ? contract.abschlusszeugnis
-        : "";
+        : "Fehlt";
       contract.reisepass = !isEmpty(contract.reisepass)
         ? contract.reisepass
-        : "";
+        : "Fehlt";
       contract.status = !isEmpty(contract.status) ? contract.status : "";
       if (contract.profile.degree) {
         contract.profiledegree = !isEmpty(contract.profile.degree)
           ? contract.profile.degree
-          : "";
+          : "Fehlt";
       }
       if (
         contract.contractstart2 ||
@@ -314,6 +316,13 @@ class EditContract extends Component {
     var nat = countryList().getLabel(
       this.props.contract.contract.profile.nationality
     );
+    var nat2 = "";
+    if (this.props.contract.contract.profile.nationality2) {
+      nat2 = countryList().getLabel(
+        this.props.contract.contract.profile.nationality2
+      );
+    }
+    var n;
     var cob = countryList().getLabel(
       this.props.contract.contract.profile.countryofbirth
     );
@@ -326,6 +335,7 @@ class EditContract extends Component {
       adminlastname: this.state.adminlastname,
       adminfirstname: this.state.adminfirstname,
       nationality: nat,
+      nationality2: nat2,
       birthplace: this.props.contract.contract.profile.birthplace,
       countryofbirth: cob,
       birthday: this.props.contract.contract.profile.birthday,
@@ -711,7 +721,7 @@ class EditContract extends Component {
 
     return (
       <div className="createContract">
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to={"/contracts"} className={"btn btn-light"}>

@@ -84,7 +84,7 @@ class FormsUpload extends Component {
 
     return (
       <div className="uploadForm">
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to={"/forms-administration"} className={"btn btn-light"}>

@@ -80,7 +80,7 @@ class EditSemester extends Component {
     const { errors } = this.state;
     return (
       <div className="editSemester">
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to={"/semester-overview"} className={"btn btn-light"}>

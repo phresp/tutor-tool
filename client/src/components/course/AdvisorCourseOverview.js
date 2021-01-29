@@ -84,7 +84,7 @@ class AdvisorCourseOverview extends Component {
     ];
 
     return (
-      <div className="container-fluid">
+      <div className="container">
         <Link to={"/dashboard"} className={"btn btn-light"}>
           back
         </Link>

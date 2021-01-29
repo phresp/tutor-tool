@@ -114,7 +114,7 @@ class Profiles extends Component {
 
     return (
       <div className="profiles">
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
             <div className="col-md-12">
               <Link to={"/dashboard"} className={"btn btn-light"}>

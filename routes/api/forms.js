@@ -267,6 +267,14 @@ router.post(
         moment.utc(req.body.contractend3).format("DD.MM.YYYY");
     }
 
+    var staatsangehörigkeit;
+    if (req.body.nationality2) {
+      staatsangehörigkeit =
+        req.body.nationality + " // " + req.body.nationality2;
+    } else {
+      staatsangehörigkeit = req.body.nationality;
+    }
+
     var zeitraum = contractdate1 + contractdate2 + contractdate3;
 
     var hours1 = "";
@@ -284,7 +292,7 @@ router.post(
     if (req.body.hours3) {
       hours3 = " // " + req.body.hours3;
     }
-
+    //TODO: ausweis häckchen
     var hourstogether = hours1 + hours2 + hours3;
 
     const formdata = {
@@ -293,7 +301,7 @@ router.post(
       BetreuerEMail: "tutorbetrieb@in.tum.de",
       Postkuerzel: "Tutor-In",
       "Name 2": req.body.lastname + ", " + req.body.firstname,
-      Staatsangehoerigkeit: req.body.nationality,
+      Staatsangehoerigkeit: staatsangehörigkeit,
       Geburtsort: req.body.birthplace,
       Geburtsland: req.body.countryofbirth,
       Geburtsdatum: moment.utc(req.body.birthday).format("DD.MM.YYYY"),

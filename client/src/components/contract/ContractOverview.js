@@ -115,6 +115,40 @@ class ContractOverview extends Component {
             sort: true,
           },
           {
+            dataField: "contractstart2",
+            text: "Vertrag Start 2",
+            formatter: dateFormat,
+            sort: true,
+          },
+          {
+            dataField: "hours2",
+            text: "W-Stunden 2",
+            sort: true,
+          },
+          {
+            dataField: "contractend2",
+            text: "Vertrag Ende 2",
+            formatter: dateFormat,
+            sort: true,
+          },
+          {
+            dataField: "contractstart3",
+            text: "Vertrag Start 3",
+            formatter: dateFormat,
+            sort: true,
+          },
+          {
+            dataField: "hours3",
+            text: "W-Stunden 3",
+            sort: true,
+          },
+          {
+            dataField: "contractend3",
+            text: "Vertrag Ende 3",
+            formatter: dateFormat,
+            sort: true,
+          },
+          {
             dataField: "status",
             text: "Status",
             sort: true,
@@ -247,17 +281,15 @@ class ContractOverview extends Component {
     }
     return (
       <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-12">
-            <Link to={"/dashboard"} className={"btn btn-light"}>
-              back
-            </Link>
-            <h1 className="display-4 text-center">Verträge</h1>
-            <Link to="/createseparatecontract" className="btn btn-info">
-              <i className="text-primary"></i> Leeren Vertrag anlegen
-            </Link>
-            {contractTable}
-          </div>
+        <div className="container-fluid">
+          <Link to={"/dashboard"} className={"btn btn-light"}>
+            back
+          </Link>
+          <h1 className="display-4 text-center">Verträge</h1>
+          <Link to="/createseparatecontract" className="btn btn-info">
+            <i className="text-primary"></i> Leeren Vertrag anlegen
+          </Link>
+          {contractTable}
         </div>
       </div>
     );

@@ -77,11 +77,11 @@ class MetacourseOverview extends Component {
 
     return (
       <div className="Metacourse Overview">
-        <div className="container-fluid">
+        <div className="container">
           <Link to={"/dashboard"} className={"btn btn-light"}>
             back
           </Link>
-          <h1 className={"display-4"}>Metakurs Übersicht</h1>
+          <h1 className={"display-4"}>Metaveranstaltung Übersicht</h1>
           <Link to="/create-metacourse" className="btn btn-info">
             <i className="fas fa-user-circle text-primary"></i> Neuer Metakurs
           </Link>
