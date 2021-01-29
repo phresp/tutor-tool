@@ -39,7 +39,7 @@ class CreateContract extends Component {
       contractend3: "",
       hours3: "",
       degree: "",
-      newcontract: "",
+      newcontract: "True",
       merkblatt: "Fehlt",
       einstellungsvorschlag: "Fehlt",
       versicherungspflicht: "Fehlt",
@@ -466,6 +466,9 @@ class CreateContract extends Component {
           new Date(element.contractend3) > oneYearAgo
         ) {
           weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
+          if (this.state.newcontract === "True") {
+            this.setState({ newcontract: "False" });
+          }
         }
       });
     }

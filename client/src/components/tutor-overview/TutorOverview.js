@@ -12,8 +12,20 @@ import moment from "moment";
 const { SearchBar } = Search;
 
 class Profiles extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fil: "0",
+    };
+
+    this.onChange = this.onChange.bind(this);
+  }
+
   componentDidMount() {
     this.props.getProfiles();
+  }
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
@@ -22,6 +34,16 @@ class Profiles extends Component {
 
     //Data for Table
     const entries = profiles ? profiles : [];
+
+    var newArray = entries.filter((el) => {
+      if (el.user) {
+        if (this.state.fil === "0") return el;
+        if (this.state.fil === "Admin") return el.user.role === "Admin";
+        if (this.state.fil === "Advisor") return el.user.role === "Advisor";
+        if (this.state.fil === "Student") return el.user.role === "Student";
+        if (this.state.fil === "RBG") return el.user.role === "RBG";
+      }
+    });
 
     const defaultSorted = [
       {
@@ -89,12 +111,90 @@ class Profiles extends Component {
           <ToolkitProvider
             bootstrap4
             keyField="id"
-            data={entries}
+            data={newArray}
             columns={columns}
             search
           >
             {(props) => (
               <div>
+                <h6>Role Filter:</h6>
+
+                <button
+                  className={
+                    this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "0",
+                    });
+                  }}
+                >
+                  {" "}
+                  Alle
+                </button>
+                <button
+                  className={
+                    this.state.fil === "Admin"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Admin",
+                    });
+                  }}
+                >
+                  {" "}
+                  Admin
+                </button>
+
+                <button
+                  className={
+                    this.state.fil === "Advisor"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Advisor",
+                    });
+                  }}
+                >
+                  {" "}
+                  Übungsleiter
+                </button>
+
+                <button
+                  className={
+                    this.state.fil === "Student"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Student",
+                    });
+                  }}
+                >
+                  {" "}
+                  Student
+                </button>
+
+                <button
+                  className={
+                    this.state.fil === "RBG"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "RBG",
+                    });
+                  }}
+                >
+                  {" "}
+                  RBG
+                </button>
                 <SearchBar {...props.searchProps} />
                 <hr />
                 <BootstrapTable

@@ -97,7 +97,7 @@ router.get(
     // }
 
     Profile.find()
-      .populate("user", ["email"])
+      .populate("user", ["email", "role"])
       .then((profiles) => {
         if (!profiles) {
           errors.profile = "There are no profiles";

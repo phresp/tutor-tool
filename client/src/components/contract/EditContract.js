@@ -707,6 +707,13 @@ class EditContract extends Component {
           new Date(element.contractend3) > oneYearAgo
         ) {
           weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
+          console.log(this.state.newcontract);
+          if (
+            this.state.newcontract === "True" ||
+            this.state.newcontract === ""
+          ) {
+            this.setState({ newcontract: "False" });
+          }
         }
       });
     }
