@@ -80,18 +80,26 @@ router.post("/login", (req, res) => {
           id: user.id,
           role: user.role,
         };
-        // Sign Token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: "8h" },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token,
-            });
-          }
-        );
+        const userFields = {
+          lastlogin: user.date,
+          date: Date.now(),
+        };
+        User.findOneAndUpdate({ email }, { $set: userFields }, { new: true })
+          .then(() => {
+            // Sign Token
+            jwt.sign(
+              payload,
+              keys.secretOrKey,
+              { expiresIn: "8h" },
+              (err, token) => {
+                res.json({
+                  success: true,
+                  token: "Bearer " + token,
+                });
+              }
+            );
+          })
+          .catch((err) => res.status(404).json(err));
       } else {
         errors.password = "Password incorrect";
         res.status(400).json(errors);

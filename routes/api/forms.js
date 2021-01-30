@@ -86,7 +86,7 @@ router.post(
             { new: true }
           )
             .then((form) => res.send(form))
-            .catch((err) => res.status(404).jason(err));
+            .catch((err) => res.status(404).json(err));
         } else {
           //Create Forms
           new Forms(formFields)

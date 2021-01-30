@@ -183,7 +183,7 @@ router.post(
             { new: true }
           )
             .then((application) => res.send(application))
-            .catch((err) => res.status(404).jason(err));
+            .catch((err) => res.status(404).json(err));
         } else {
           //Create Application
           new Application(newApp)

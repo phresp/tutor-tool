@@ -29,6 +29,7 @@ router.get(
     const errors = {};
 
     Profile.findOne({ user: req.user.id })
+      .populate("user", ["lastlogin"])
       .then((profile) => {
         if (!profile) {
           errors.noprofile = "There is no profile for this user";
@@ -260,7 +261,7 @@ router.post(
           { new: true }
         )
           .then((profile) => res.send(profile))
-          .catch((err) => res.status(404).jason(err));
+          .catch((err) => res.status(404).json(err));
       } else {
         //Create Profile
         new Profile(profileFields)

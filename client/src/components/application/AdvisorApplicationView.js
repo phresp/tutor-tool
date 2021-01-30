@@ -6,6 +6,9 @@ import {
   getApplicationsOfCourse,
   acceptApplication,
 } from "../../actions/applicationActions";
+
+import { getCurrentProfile } from "../../actions/profileActions";
+
 import { getCourseById } from "../../actions/courseActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -16,9 +19,19 @@ import axios from "axios";
 const { SearchBar } = Search;
 
 class AdvisorApplicationView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fil: "0",
+    };
+
+    this.onChange = this.onChange.bind(this);
+  }
+
   componentDidMount() {
     this.props.getApplicationsOfCourse(this.props.match.params.id);
     this.props.getCourseById(this.props.match.params.id);
+    this.props.getCurrentProfile();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,8 +40,13 @@ class AdvisorApplicationView extends Component {
     }
   }
 
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
     const { applications } = this.props.application;
+    const { profile } = this.props.profile;
     let applicationTable;
 
     var coursename;
@@ -46,6 +64,24 @@ class AdvisorApplicationView extends Component {
 
     //Data for Table
     const entries = applications ? applications : [];
+
+    //Dash Button Filter
+    var newArray = entries.filter((el) => {
+      if (el.user) {
+        if (this.state.fil === "0") return el;
+        if (this.state.fil === "Applied") return el.status === "Applied";
+        if (this.state.fil === "Accepted") return el.status === "Accepted";
+        if (this.state.fil === "Contract") return el.status === "Contract";
+        if (this.state.fil === "Declined") return el.status === "Declined";
+        if (this.state.fil === "LastLogin") {
+          if (profile.user.lastlogin) {
+            if (el.date >= profile.user.lastlogin) {
+              return true;
+            }
+          }
+        }
+      }
+    });
 
     //TODO: axios auslagern und ohne reload button verschwinden lassen
 
@@ -172,12 +208,106 @@ class AdvisorApplicationView extends Component {
         <ToolkitProvider
           bootstrap4
           keyField="id"
-          data={entries}
+          data={newArray}
           columns={columns}
           search
         >
           {(props) => (
             <div>
+              <h6>Role Filter:</h6>
+
+              <button
+                className={
+                  this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "0",
+                  });
+                }}
+              >
+                {" "}
+                Alle
+              </button>
+              <button
+                className={
+                  this.state.fil === "Applied"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "Applied",
+                  });
+                }}
+              >
+                {" "}
+                Applied
+              </button>
+
+              <button
+                className={
+                  this.state.fil === "Accepted"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "Accepted",
+                  });
+                }}
+              >
+                {" "}
+                Accepted
+              </button>
+
+              <button
+                className={
+                  this.state.fil === "Declined"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "Declined",
+                  });
+                }}
+              >
+                {" "}
+                Declined
+              </button>
+
+              <button
+                className={
+                  this.state.fil === "Contract"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "Contract",
+                  });
+                }}
+              >
+                {" "}
+                Contract
+              </button>
+
+              <button
+                className={
+                  this.state.fil === "LastLogin"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "LastLogin",
+                  });
+                }}
+              >
+                {" "}
+                New since last Login
+              </button>
               <SearchBar {...props.searchProps} />
               <hr />
               <BootstrapTable
@@ -213,15 +343,18 @@ AdvisorApplicationView.propTypes = {
   getApplicationsOfCourse: PropTypes.func.isRequired,
   acceptApplication: PropTypes.func.isRequired,
   application: PropTypes.object.isRequired,
+  rofile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   application: state.application,
   course: state.course,
+  profile: state.profile,
 });
 
 export default connect(mapStateToProps, {
   getApplicationsOfCourse,
   acceptApplication,
   getCourseById,
+  getCurrentProfile,
 })(AdvisorApplicationView);
