@@ -30,7 +30,6 @@ export const getSemesterById = (id) => (dispatch) => {
 
 //Create Semester
 export const createSemester = (semesterData, history) => (dispatch) => {
-  console.log(semesterData);
   axios
     .post("/api/semester", semesterData)
     .then((res) => {
@@ -46,7 +45,6 @@ export const createSemester = (semesterData, history) => (dispatch) => {
 
 //Edit Semester
 export const editSemester = (id, semesterData, history) => (dispatch) => {
-  console.log(semesterData);
   axios
     .post(`/api/semester/${id}`, semesterData)
     .then((res) => {

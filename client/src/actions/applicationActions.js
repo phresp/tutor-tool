@@ -114,7 +114,6 @@ export const acceptApplication = (id, course) => (dispatch) => {
   axios
     .post(`/api/application/accept/${id}`)
     .then((res) => {
-      console.log("before get");
       dispatch(getApplicationsOfCourse(course));
     })
     .catch((err) =>

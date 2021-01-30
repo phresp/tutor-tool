@@ -76,7 +76,6 @@ class FormsUpload extends Component {
       this.state.selectedFile &&
       this.state.disabledSubmit
     ) {
-      console.log("here");
       this.setState({
         disabledSubmit: false,
       });

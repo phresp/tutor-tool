@@ -70,7 +70,6 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
-    console.log(req.params.id);
     Contract.find({ user: req.params.id })
       .populate({
         path: "course",

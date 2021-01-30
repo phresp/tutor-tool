@@ -131,7 +131,6 @@ class ViewTutorProfile extends Component {
     const { errors } = this.state;
 
     var countryOptions = countryList().getData();
-    console.log(this.state.nationality);
     //Select options for status
     const statusOptions = [
       { label: "Select your gender", value: "" },

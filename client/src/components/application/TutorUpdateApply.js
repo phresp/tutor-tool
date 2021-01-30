@@ -34,8 +34,6 @@ class TutorUpdateApply extends Component {
 
     if (nextProps.application.application) {
       const application = nextProps.application.application;
-      console.log(nextProps.application);
-      console.log(application.application);
 
       //If application field doesn't exist, make empty string
       application.grade = !isEmpty(application.grade) ? application.grade : "";

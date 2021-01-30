@@ -297,7 +297,7 @@ class CreateContract extends Component {
           hoursum = hoursum * 1 + element.hours;
         }
       });
-      console.log(hoursum);
+
       if (hoursum > 20) {
         hoursummessage = (
           <h3 className="text-danger">

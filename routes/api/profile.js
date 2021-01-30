@@ -414,7 +414,6 @@ router.delete(
           email: Math.random().toString(36).substring(2) + userP.email,
           active: false,
         };
-        console.log(userFields);
         User.findOneAndUpdate(
           { _id: req.user.id },
           { $set: userFields },

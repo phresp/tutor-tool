@@ -45,7 +45,7 @@ class CreateSeparateContract extends Component {
       course: this.state.course,
       status: this.state.status,
     };
-    console.log("yes");
+
     this.props.createSeparateContract(contractData, this.props.history);
   }
 

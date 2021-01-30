@@ -33,7 +33,6 @@ export const getProfile = (id) => (dispatch) => {
   axios
     .get(`/api/profile/profile/${id}`)
     .then((res) => {
-      console.log(res);
       dispatch({ type: GET_PROFILE, payload: res.data });
     })
     .catch((err) =>

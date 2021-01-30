@@ -150,6 +150,32 @@ router.post(
       liegtvor8 = "Yes";
     }
 
+    //Weiterbeschäftigung
+    var optionsfeld1 = "eingestellt";
+    if (req.body.newcontract === "True") {
+      optionsfeld1 = "eingestellt";
+    } else if (req.body.newcontract === "False") {
+      optionsfeld1 = "weiterbeschaeftigt";
+    }
+
+    //Abschluss/Degree
+    var gewuenschterstatus2 = "Studierende/r ohne Abschluss";
+    if (req.body.degree === "None") {
+      gewuenschterstatus2 = "Studierende/r ohne Abschluss";
+    } else if (req.body.degree === "Bachelor") {
+      gewuenschterstatus2 = "Studierende/r mit Abschluss";
+    } else if (req.body.degree === "Master" || req.body.degree === "Diplom") {
+      gewuenschterstatus2 = "wissenschaftliche Hilfskraft";
+    }
+
+    //Stipendium
+    var stipendiumdate = "nein";
+    if (req.body.stipendiumdate) {
+      if (new Date(req.body.stipendiumdate) > new Date(Date.now())) {
+        stipendiumdate = "ja";
+      }
+    }
+
     //Scientology
     var anbei15, liegtvor15;
     if (req.body.scientology === "Liegt bei") {
@@ -307,13 +333,16 @@ router.post(
       BetreuerEMail: "tutorbetrieb@in.tum.de",
       Postkuerzel: "Tutor-In",
       "Name 2": req.body.lastname + ", " + req.body.firstname,
+      Optionsfeld1: optionsfeld1,
       Staatsangehoerigkeit: staatsangehörigkeit,
       Geburtsort: req.body.birthplace,
       Geburtsland: req.body.countryofbirth,
       Geburtsdatum: moment.utc(req.body.birthday).format("DD.MM.YYYY"),
+      Optionsfeld3: stipendiumdate,
       Taetigkeit: "Tutor für " + req.body.module + ": " + req.body.courseabb,
       "Zeitraum 2": zeitraum,
       "StdWoche 2": hourstogether,
+      "gewuenschter Status2": gewuenschterstatus2,
       Fonds: req.body.fondsnumber,
       Kostenstelle_3: req.body.costcentre,
       "aus Studienbeitragsmassnahme": req.body.scheme,

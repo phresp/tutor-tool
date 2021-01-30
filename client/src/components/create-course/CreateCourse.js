@@ -190,7 +190,6 @@ class CreateCourse extends Component {
     advisorOptions.unshift({ label: "Übungsleiter auswählen", value: "" });
 
     //Select options for admins
-    console.log(advisors);
     if (isEmpty(admins)) {
       admins = [];
     }

@@ -43,9 +43,9 @@ class EditContract extends Component {
       contractstart3: "",
       contractend3: "",
       hours3: "",
-      degree: "",
+      degree: "None",
       profiledegree: "",
-      newcontract: "",
+      newcontract: "True",
       merkblatt: "",
       einstellungsvorschlag: "",
       versicherungspflicht: "",
@@ -111,10 +111,10 @@ class EditContract extends Component {
         : "";
       contract.hours3 = !isEmpty(contract.hours3) ? contract.hours3 : "";
 
-      contract.degree = !isEmpty(contract.degree) ? contract.degree : "";
+      contract.degree = !isEmpty(contract.degree) ? contract.degree : "None";
       contract.newcontract = !isEmpty(contract.newcontract)
         ? contract.newcontract
-        : "";
+        : "True";
       contract.merkblatt = !isEmpty(contract.merkblatt)
         ? contract.merkblatt
         : "Fehlt";
@@ -313,23 +313,33 @@ class EditContract extends Component {
 
   onDownloadClick(e) {
     e.preventDefault();
-    var nat = countryList().getLabel(
-      this.props.contract.contract.profile.nationality
-    );
+
+    var nat = "";
+    if (this.props.contract.contract.profile.nationality) {
+      nat = countryList().getLabel(
+        this.props.contract.contract.profile.nationality
+      );
+    }
+
     var nat2 = "";
     if (this.props.contract.contract.profile.nationality2) {
       nat2 = countryList().getLabel(
         this.props.contract.contract.profile.nationality2
       );
     }
-    var n;
-    var cob = countryList().getLabel(
-      this.props.contract.contract.profile.countryofbirth
-    );
+
+    var cob = "";
+    if (this.props.contract.contract.profile.countryofbirth) {
+      cob = countryList().getLabel(
+        this.props.contract.contract.profile.countryofbirth
+      );
+    }
+
     const evData = {
       name: "Einstellungsvorschlag",
       lastname: this.props.contract.contract.profile.lastname,
       firstname: this.props.contract.contract.profile.firstname,
+      newcontract: this.state.newcontract,
       advisorlastname: this.state.advisorlastname,
       advisorfirstname: this.state.advisorfirstname,
       adminlastname: this.state.adminlastname,
@@ -364,6 +374,7 @@ class EditContract extends Component {
       aufenthaltstitel: this.state.aufenthaltstitel,
       reisepass: this.state.reisepass,
       stipendium: this.state.stipendium,
+      stipendiumdate: this.state.profile.stipendiumend,
       krankenkassenbescheinigung: this.state.krankenkassenbescheinigung,
       personalbogenbezuegestelle: this.state.personalbogenbezuegestelle,
       personalbogenstudierende: this.state.personalbogenstudierende,
@@ -378,7 +389,7 @@ class EditContract extends Component {
   }
 
   render() {
-    const { errors, displayContractsplitting } = this.state;
+    const { errors, displayContractsplitting, profile } = this.state;
 
     //Name and course
     var contractname;
@@ -439,7 +450,6 @@ class EditContract extends Component {
       { label: "Neueinstellung", value: "True" },
       { label: "Weiterbeschäftigung", value: "False" },
     ];
-
     //Query to set forms we dont need if there is already an contract
     if (
       this.state.newcontract === "False" &&
@@ -508,7 +518,7 @@ class EditContract extends Component {
 
     if (
       this.state.profiledegree &&
-      this.state.profiledegree != this.state.degree
+      this.state.profiledegree !== this.state.degree
     ) {
       degreeTooltipp = (
         <h3 className="text-danger">
@@ -672,7 +682,6 @@ class EditContract extends Component {
     }
 
     //TODO: Abgelaufene Daten Tooltipp
-    var profile;
     var aufenthaltToolTipp;
     var stipendiumToolTipp;
     if (profile) {
@@ -707,7 +716,7 @@ class EditContract extends Component {
           new Date(element.contractend3) > oneYearAgo
         ) {
           weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
-          console.log(this.state.newcontract);
+
           if (
             this.state.newcontract === "True" ||
             this.state.newcontract === ""
@@ -941,6 +950,7 @@ class EditContract extends Component {
                   options={foreignerOptions}
                   color={this.state.reisepass}
                 />
+                {aufenthaltToolTipp}
                 <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
                 <ContractSelectListGroup
                   placeholder="aufenthaltstitel"
@@ -951,7 +961,7 @@ class EditContract extends Component {
                   options={foreignerOptions}
                   color={this.state.aufenthaltstitel}
                 />
-
+                {stipendiumToolTipp}
                 <label htmlFor="stipendium">Stipendiumsbescheinigung:</label>
                 <ContractSelectListGroup
                   placeholder="stipendium"
@@ -971,7 +981,7 @@ class EditContract extends Component {
                   name="abschlusszeugnis"
                   error={errors.abschlusszeugnis}
                   options={foreignerOptions}
-                  color={this.state.stipendium}
+                  color={this.state.abschlusszeugnis}
                 />
 
                 <label htmlFor="status">Status:</label>
