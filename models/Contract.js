@@ -70,6 +70,9 @@ const ContractSchema = new Schema({
   immatrikulationsbescheinigung: {
     type: String,
   },
+  immatrikulationsbescheinigung2: {
+    type: String,
+  },
   aufenthaltstitel: {
     type: String,
   },

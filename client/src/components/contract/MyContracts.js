@@ -28,6 +28,13 @@ class MyContracts extends Component {
   render() {
     var contracts;
 
+    const defaultSorted = [
+      {
+        dataField: "contractend",
+        order: "desc",
+      },
+    ];
+
     if (this.props.contract) {
       contracts = this.props.contract.contracts;
     }
@@ -103,6 +110,7 @@ class MyContracts extends Component {
                 <BootstrapTable
                   {...props.baseProps}
                   pagination={paginationFactory()}
+                  defaultSorted={defaultSorted}
                 />
               </div>
             )}

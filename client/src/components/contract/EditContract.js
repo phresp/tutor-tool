@@ -52,6 +52,7 @@ class EditContract extends Component {
       scientology: "",
       verfassungstreue: "",
       immatrikulationsbescheinigung: "",
+      immatrikulationsbescheinigung2: "",
       aufenthaltstitel: "",
       reisepass: "",
       krankenkassenbescheinigung: "",
@@ -135,6 +136,11 @@ class EditContract extends Component {
       )
         ? contract.immatrikulationsbescheinigung
         : "Fehlt";
+      contract.immatrikulationsbescheinigung2 = !isEmpty(
+        contract.immatrikulationsbescheinigung2
+      )
+        ? contract.immatrikulationsbescheinigung2
+        : "Fehlt";
       contract.aufenthaltstitel = !isEmpty(contract.aufenthaltstitel)
         ? contract.aufenthaltstitel
         : "Fehlt";
@@ -210,6 +216,7 @@ class EditContract extends Component {
         scientology: contract.scientology,
         verfassungstreue: contract.verfassungstreue,
         immatrikulationsbescheinigung: contract.immatrikulationsbescheinigung,
+        immatrikulationsbescheinigung2: contract.immatrikulationsbescheinigung2,
         aufenthaltstitel: contract.aufenthaltstitel,
         krankenkassenbescheinigung: contract.krankenkassenbescheinigung,
         personalbogenbezuegestelle: contract.personalbogenbezuegestelle,
@@ -292,6 +299,7 @@ class EditContract extends Component {
       scientology: this.state.scientology,
       verfassungstreue: this.state.verfassungstreue,
       immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
+      immatrikulationsbescheinigung2: this.state.immatrikulationsbescheinigung2,
       aufenthaltstitel: this.state.aufenthaltstitel,
       reisepass: this.state.reisepass,
       stipendium: this.state.stipendium,
@@ -371,6 +379,7 @@ class EditContract extends Component {
       scientology: this.state.scientology,
       verfassungstreue: this.state.verfassungstreue,
       immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
+      immatrikulationsbescheinigung2: this.state.immatrikulationsbescheinigung2,
       aufenthaltstitel: this.state.aufenthaltstitel,
       reisepass: this.state.reisepass,
       stipendium: this.state.stipendium,
@@ -703,6 +712,40 @@ class EditContract extends Component {
       }
     }
 
+    //Immatrikulation Folgesemester
+    var immatrikulationNextSem;
+    var immatrikulationNextSemLabel;
+    var { contract } = this.props.contract;
+    if (contract) {
+      if (contract.course.semester) {
+        if (
+          new Date(contract.course.semester.to) <
+            new Date(this.state.contractend) ||
+          new Date(contract.course.semester.to) <
+            new Date(this.state.contractend2) ||
+          new Date(contract.course.semester.to) <
+            new Date(this.state.contractend3)
+        ) {
+          immatrikulationNextSemLabel = (
+            <label htmlFor="newContract">
+              Immatrikulationsbescheinigung Folgesemester:
+            </label>
+          );
+          immatrikulationNextSem = (
+            <ContractSelectListGroup
+              placeholder="immatrikulationsbescheinigung Folgesemester"
+              onChange={this.onChange}
+              value={this.state.immatrikulationsbescheinigung2}
+              name="immatrikulationsbescheinigung2"
+              error={errors.immatrikulationsbescheinigung2}
+              options={formsNotAlwaysNeededOptions}
+              color={this.state.immatrikulationsbescheinigung2}
+            />
+          );
+        }
+      }
+    }
+
     //Weiterbeschäftigung possible
     var weiterbeschäftigungTooltipp;
     if (contracts) {
@@ -893,7 +936,8 @@ class EditContract extends Component {
                   options={formsNotAlwaysNeededOptions}
                   color={this.state.immatrikulationsbescheinigung}
                 />
-
+                {immatrikulationNextSemLabel}
+                {immatrikulationNextSem}
                 <label htmlFor="krankenkassenbescheinigung">
                   Krankenkassenbescheinigung:
                 </label>

@@ -88,6 +88,13 @@ router.get(
           select: { name: 1, abbreviation: 2, module: 3 },
         },
       })
+      .populate({
+        path: "course",
+        select: { semester: 2 },
+        populate: {
+          path: "semester",
+        },
+      })
       .populate("profile")
       .populate("user", ["email"])
       .then((application) => {

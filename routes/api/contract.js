@@ -292,6 +292,10 @@ router.post(
       .immatrikulationsbescheinigung
       ? req.body.immatrikulationsbescheinigung
       : "Fehlt";
+    contractFields.immatrikulationsbescheinigung2 = req.body
+      .immatrikulationsbescheinigung2
+      ? req.body.immatrikulationsbescheinigung2
+      : "";
     contractFields.aufenthaltstitel = req.body.aufenthaltstitel
       ? req.body.aufenthaltstitel
       : "Fehlt";
@@ -355,6 +359,22 @@ router.post(
     contractFields.profile = req.body.profile;
     contractFields.course = req.body.course;
 
+    contractFields.merkblatt = "Fehlt";
+    contractFields.einstellungsvorschlag = "Fehlt";
+    contractFields.versicherungspflicht = "Fehlt";
+    contractFields.scientology = "Fehlt";
+    contractFields.verfassungstreue = "Fehlt";
+    contractFields.immatrikulationsbescheinigung = "Fehlt";
+    contractFields.aufenthaltstitel = "Fehlt";
+    contractFields.krankenkassenbescheinigung = "Fehlt";
+    contractFields.personalbogenbezuegestelle = "Fehlt";
+    contractFields.personalbogenstudierende = "Fehlt";
+    contractFields.steuerId = "Fehlt";
+    contractFields.reisepass = "Fehlt";
+    contractFields.stipendium = "Fehlt";
+    contractFields.status = "Fehlt";
+    contractFields.abschlusszeugnis = "Fehlt";
+
     contractFields.status = req.body.status ? req.body.status : "created";
 
     //Create Contract
@@ -405,6 +425,9 @@ router.post(
     contractFields.verfassungstreue = req.body.verfassungstreue;
     contractFields.immatrikulationsbescheinigung =
       req.body.immatrikulationsbescheinigung;
+    contractFields.immatrikulationsbescheinigung2 =
+      req.body.immatrikulationsbescheinigung2;
+
     contractFields.aufenthaltstitel = req.body.aufenthaltstitel;
     contractFields.krankenkassenbescheinigung =
       req.body.krankenkassenbescheinigung;

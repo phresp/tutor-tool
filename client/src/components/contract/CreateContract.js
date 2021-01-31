@@ -46,6 +46,7 @@ class CreateContract extends Component {
       scientology: "Fehlt",
       verfassungstreue: "Fehlt",
       immatrikulationsbescheinigung: "Fehlt",
+      immatrikulationsbescheinigung2: "",
       aufenthaltstitel: "Fehlt",
       krankenkassenbescheinigung: "Fehlt",
       personalbogenbezuegestelle: "Fehlt",
@@ -101,6 +102,7 @@ class CreateContract extends Component {
       scientology: this.state.scientology,
       verfassungstreue: this.state.verfassungstreue,
       immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
+      immatrikulationsbescheinigung2: this.state.immatrikulationsbescheinigung2,
       aufenthaltstitel: this.state.aufenthaltstitel,
       krankenkassenbescheinigung: this.state.krankenkassenbescheinigung,
       personalbogenbezuegestelle: this.state.personalbogenbezuegestelle,
@@ -119,7 +121,7 @@ class CreateContract extends Component {
   }
 
   render() {
-    const { errors, displayContractsplitting } = this.state;
+    const { errors, displayContractsplitting, profile } = this.state;
 
     //Get User ID
     if (this.props.application.application) {
@@ -364,8 +366,6 @@ class CreateContract extends Component {
       }
     }
 
-    //TODO: Abgelaufene Daten Tooltipp
-    var profile;
     var aufenthaltToolTipp;
     var stipendiumToolTipp;
     if (profile) {
@@ -451,6 +451,39 @@ class CreateContract extends Component {
           <hr />
         </div>
       );
+    }
+
+    //Immatrikulation Folgesemester
+    var immatrikulationNextSem;
+    var immatrikulationNextSemLabel;
+    var { application } = this.props.application;
+    if (application) {
+      if (application.course.semester) {
+        if (
+          new Date(application.course.semester.to) <
+            new Date(this.state.contractend) ||
+          new Date(application.course.semester.to) <
+            new Date(this.state.contractend2) ||
+          new Date(application.course.semester.to) <
+            new Date(this.state.contractend3)
+        ) {
+          immatrikulationNextSemLabel = (
+            <label htmlFor="newContract">
+              Immatrikulationsbescheinigung Folgesemester:
+            </label>
+          );
+          immatrikulationNextSem = (
+            <SelectListGroup
+              placeholder="immatrikulationsbescheinigung Folgesemester"
+              onChange={this.onChange}
+              value={this.state.immatrikulationsbescheinigung2}
+              name="immatrikulationsbescheinigung2"
+              error={errors.immatrikulationsbescheinigung2}
+              options={formsNotAlwaysNeededOptions}
+            />
+          );
+        }
+      }
     }
 
     //Weiterbeschäftigung possible
@@ -617,6 +650,8 @@ class CreateContract extends Component {
                   error={errors.immatrikulationsbescheinigung}
                   options={formsNotAlwaysNeededOptions}
                 />
+                {immatrikulationNextSemLabel}
+                {immatrikulationNextSem}
                 <label htmlFor="krankenkassenbescheinigung">
                   Krankenkassenbescheinigung:
                 </label>
@@ -668,6 +703,7 @@ class CreateContract extends Component {
                   error={errors.reisepass}
                   options={foreignerOptions}
                 />
+                {aufenthaltToolTipp}
                 <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
                 <SelectListGroup
                   placeholder="aufenthaltstitel"
@@ -677,6 +713,7 @@ class CreateContract extends Component {
                   error={errors.aufenthaltstitel}
                   options={foreignerOptions}
                 />
+                {stipendiumToolTipp}
                 <label htmlFor="stipendium">Stipendiumsbescheinigung:</label>
                 <SelectListGroup
                   placeholder="stipendium"
