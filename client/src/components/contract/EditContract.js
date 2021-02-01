@@ -557,6 +557,39 @@ class EditContract extends Component {
           hoursum = hoursum * 1 + element.hours;
         }
       });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend),
+            new Date(element.contractend2),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart),
+              new Date(element.contractstart2),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum = hoursum * 1 + element.hours2;
+        }
+      });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend),
+            new Date(element.contractend3),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart),
+              new Date(element.contractstart3),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum = hoursum * 1 + element.hours3;
+        }
+      });
+
       if (hoursum > 20) {
         hoursummessage = (
           <h3 className="text-danger">
@@ -584,6 +617,38 @@ class EditContract extends Component {
         );
         if (overlap > 0) {
           hoursum2 = hoursum2 * 1 + element.hours;
+        }
+      });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend2),
+            new Date(element.contractend2),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart2),
+              new Date(element.contractstart2),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum2 = hoursum2 * 1 + element.hours2;
+        }
+      });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend2),
+            new Date(element.contractend3),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart2),
+              new Date(element.contractstart3),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum2 = hoursum2 * 1 + element.hours3;
         }
       });
       if (hoursum2 > 20) {
@@ -615,6 +680,38 @@ class EditContract extends Component {
           hoursum3 = hoursum3 * 1 + element.hours;
         }
       });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend3),
+            new Date(element.contractend2),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart3),
+              new Date(element.contractstart2),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum3 = hoursum3 * 1 + element.hours2;
+        }
+      });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend3),
+            new Date(element.contractend3),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart3),
+              new Date(element.contractstart3),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum3 = hoursum3 * 1 + element.hours3;
+        }
+      });
       if (hoursum3 > 20) {
         hoursum3message = (
           <h3 className="text-danger">
@@ -624,13 +721,43 @@ class EditContract extends Component {
       }
     }
 
+    //Start Date2 becomes End Date1 +1 Day
+    if (this.state.contractend && this.state.contractstart2) {
+      var end = new Date(this.state.contractend);
+      var start2 = new Date(this.state.contractstart2);
+      if (end.setDate(end.getDate() + 1) != start2.setDate(start2.getDate())) {
+        this.setState({ contractstart2: moment.utc(end).format("YYYY-MM-DD") });
+      }
+    }
+
     var vertragSplitting;
 
     if (this.state.displayContractsplitting) {
       vertragSplitting = (
         <div className="bg-light">
           <hr />
-          <label htmlFor="contractstart">Vertrag Start 2:</label>
+          <div className="container">
+            <div className="row">
+              {" "}
+              <div className="col-md-9">
+                <label htmlFor="contractstart">Vertrag Start 2:</label>
+              </div>
+              <div className={"col-md-3"}>
+                <button
+                  className={"btn btn-light"}
+                  type="button"
+                  onClick={() => {
+                    this.setState({
+                      contractstart2: "",
+                    });
+                  }}
+                >
+                  {" "}
+                  Datum löschen
+                </button>
+              </div>
+            </div>
+          </div>
           <TextFieldGroup
             type={"date"}
             placeholder="Contract Start"
@@ -639,7 +766,27 @@ class EditContract extends Component {
             name="contractstart2"
             error={errors.contractstart2}
           />
-          <label htmlFor="contractend">Vertrag Ende 2:</label>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-9">
+                <label htmlFor="contractend">Vertrag Ende 2:</label>
+              </div>
+              <div className={"col-md-3"}>
+                <button
+                  className={"btn btn-light"}
+                  type="button"
+                  onClick={() => {
+                    this.setState({
+                      contractend2: "",
+                    });
+                  }}
+                >
+                  {" "}
+                  Datum löschen
+                </button>
+              </div>
+            </div>
+          </div>
           <TextFieldGroup
             type={"date"}
             placeholder="Contract End"
@@ -658,7 +805,27 @@ class EditContract extends Component {
             error={errors.hours2}
           />
 
-          <label htmlFor="contractstart">Vertrag Start 3:</label>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-9">
+                <label htmlFor="contractstart">Vertrag Start 3:</label>
+              </div>
+              <div className={"col-md-3"}>
+                <button
+                  className={"btn btn-light"}
+                  type="button"
+                  onClick={() => {
+                    this.setState({
+                      contractstart3: "",
+                    });
+                  }}
+                >
+                  {" "}
+                  Datum löschen
+                </button>
+              </div>
+            </div>
+          </div>
           <TextFieldGroup
             type={"date"}
             placeholder="Contract Start"
@@ -667,7 +834,28 @@ class EditContract extends Component {
             name="contractstart3"
             error={errors.contractstart3}
           />
-          <label htmlFor="contractend">Vertrag Ende 3:</label>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-9">
+                <label htmlFor="contractend">Vertrag Ende 3:</label>
+              </div>
+              <div className={"col-md-3"}>
+                <button
+                  className={"btn btn-light"}
+                  type="button"
+                  onClick={() => {
+                    this.setState({
+                      contractend3: "",
+                    });
+                  }}
+                >
+                  {" "}
+                  Datum löschen
+                </button>
+              </div>
+            </div>
+          </div>
+
           <TextFieldGroup
             type={"date"}
             placeholder="Contract End 3"
@@ -800,7 +988,27 @@ class EditContract extends Component {
                 EV exportieren
               </button>
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="contractstart">Vertrag Start:</label>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-9">
+                      <label htmlFor="contractstart">Vertrag Start:</label>
+                    </div>
+                    <div className={"col-md-3"}>
+                      <button
+                        className={"btn btn-light"}
+                        type="button"
+                        onClick={() => {
+                          this.setState({
+                            contractstart: "",
+                          });
+                        }}
+                      >
+                        {" "}
+                        Datum löschen
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract Start"
@@ -811,7 +1019,27 @@ class EditContract extends Component {
                   name="contractstart"
                   error={errors.contractstart}
                 />
-                <label htmlFor="contractend">Vertrag Ende:</label>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-9">
+                      <label htmlFor="contractend">Vertrag Ende:</label>
+                    </div>
+                    <div className={"col-md-3"}>
+                      <button
+                        className={"btn btn-light"}
+                        type="button"
+                        onClick={() => {
+                          this.setState({
+                            contractend: "",
+                          });
+                        }}
+                      >
+                        {" "}
+                        Datum löschen
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract End"

@@ -4,6 +4,7 @@ import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
+import moment from "moment";
 
 import {
   createContract,
@@ -317,6 +318,38 @@ class CreateContract extends Component {
           hoursum = hoursum * 1 + element.hours;
         }
       });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend),
+            new Date(element.contractend2),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart),
+              new Date(element.contractstart2),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum = hoursum * 1 + element.hours2;
+        }
+      });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend),
+            new Date(element.contractend3),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart),
+              new Date(element.contractstart3),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum = hoursum * 1 + element.hours3;
+        }
+      });
 
       if (hoursum > 20) {
         hoursummessage = (
@@ -347,6 +380,38 @@ class CreateContract extends Component {
           hoursum2 = hoursum2 * 1 + element.hours;
         }
       });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend2),
+            new Date(element.contractend2),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart2),
+              new Date(element.contractstart2),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum2 = hoursum2 * 1 + element.hours2;
+        }
+      });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend2),
+            new Date(element.contractend3),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart2),
+              new Date(element.contractstart3),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum2 = hoursum2 * 1 + element.hours3;
+        }
+      });
       if (hoursum2 > 20) {
         hoursum2message = (
           <h3 className="text-danger">
@@ -375,12 +440,53 @@ class CreateContract extends Component {
           hoursum3 = hoursum3 * 1 + element.hours;
         }
       });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend3),
+            new Date(element.contractend2),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart3),
+              new Date(element.contractstart2),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum3 = hoursum3 * 1 + element.hours2;
+        }
+      });
+      contracts.forEach((element) => {
+        const overlap = Math.max(
+          0,
+          Math.min.apply(null, [
+            new Date(this.state.contractend3),
+            new Date(element.contractend3),
+          ]) -
+            Math.max.apply(null, [
+              new Date(this.state.contractstart3),
+              new Date(element.contractstart3),
+            ])
+        );
+        if (overlap > 0) {
+          hoursum3 = hoursum3 * 1 + element.hours3;
+        }
+      });
       if (hoursum3 > 20) {
         hoursum3message = (
           <h3 className="text-danger">
             Achtung Wochenstunden zu hoch! ({hoursum3})
           </h3>
         );
+      }
+    }
+
+    //Start Date2 becomes End Date1 +1 Day
+    if (this.state.contractend && this.state.contractstart2) {
+      var end = new Date(this.state.contractend);
+      var start2 = new Date(this.state.contractstart2);
+      if (end.setDate(end.getDate() + 1) != start2.setDate(start2.getDate())) {
+        this.setState({ contractstart2: moment.utc(end).format("YYYY-MM-DD") });
       }
     }
 
@@ -411,7 +517,29 @@ class CreateContract extends Component {
       vertragSplitting = (
         <div className="bg-light">
           <hr />
-          <label htmlFor="contractstart">Vertrag Start 2:</label>
+          <div className="container">
+            <div className="row">
+              {" "}
+              <div className="col-md-9">
+                <label htmlFor="contractstart">Vertrag Start 2:</label>
+              </div>
+              <div className={"col-md-3"}>
+                <button
+                  className={"btn btn-light"}
+                  type="button"
+                  onClick={() => {
+                    this.setState({
+                      contractstart2: "",
+                    });
+                  }}
+                >
+                  {" "}
+                  Datum löschen
+                </button>
+              </div>
+            </div>
+          </div>
+
           <TextFieldGroup
             type={"date"}
             placeholder="Contract Start"
@@ -420,7 +548,28 @@ class CreateContract extends Component {
             name="contractstart2"
             error={errors.contractstart2}
           />
-          <label htmlFor="contractend">Vertrag Ende 2:</label>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-9">
+                <label htmlFor="contractend">Vertrag Ende 2:</label>
+              </div>
+              <div className={"col-md-3"}>
+                <button
+                  className={"btn btn-light"}
+                  type="button"
+                  onClick={() => {
+                    this.setState({
+                      contractend2: "",
+                    });
+                  }}
+                >
+                  {" "}
+                  Datum löschen
+                </button>
+              </div>
+            </div>
+          </div>
+
           <TextFieldGroup
             type={"date"}
             placeholder="Contract End"
@@ -438,8 +587,28 @@ class CreateContract extends Component {
             name="hours2"
             error={errors.hours2}
           />
+          <div className="container">
+            <div className="row">
+              <div className="col-md-9">
+                <label htmlFor="contractstart">Vertrag Start 3:</label>
+              </div>
+              <div className={"col-md-3"}>
+                <button
+                  className={"btn btn-light"}
+                  type="button"
+                  onClick={() => {
+                    this.setState({
+                      contractstart3: "",
+                    });
+                  }}
+                >
+                  {" "}
+                  Datum löschen
+                </button>
+              </div>
+            </div>
+          </div>
 
-          <label htmlFor="contractstart">Vertrag Start 3:</label>
           <TextFieldGroup
             type={"date"}
             placeholder="Contract Start"
@@ -448,7 +617,28 @@ class CreateContract extends Component {
             name="contractstart3"
             error={errors.contractstart3}
           />
-          <label htmlFor="contractend">Vertrag Ende 3:</label>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-9">
+                <label htmlFor="contractend">Vertrag Ende 3:</label>
+              </div>
+              <div className={"col-md-3"}>
+                <button
+                  className={"btn btn-light"}
+                  type="button"
+                  onClick={() => {
+                    this.setState({
+                      contractend3: "",
+                    });
+                  }}
+                >
+                  {" "}
+                  Datum löschen
+                </button>
+              </div>
+            </div>
+          </div>
+
           <TextFieldGroup
             type={"date"}
             placeholder="Contract End 3"
@@ -544,7 +734,28 @@ class CreateContract extends Component {
               </h1>
               {verfassungsPruefungTooltip}
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="contractstart">Vertrag Start:</label>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-9">
+                      <label htmlFor="contractstart">Vertrag Start:</label>
+                    </div>
+                    <div className={"col-md-3"}>
+                      <button
+                        className={"btn btn-light"}
+                        type="button"
+                        onClick={() => {
+                          this.setState({
+                            contractstart: "",
+                          });
+                        }}
+                      >
+                        {" "}
+                        Datum löschen
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract Start"
@@ -553,7 +764,28 @@ class CreateContract extends Component {
                   name="contractstart"
                   error={errors.contractstart}
                 />
-                <label htmlFor="contractend">Vertrag Ende:</label>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-9">
+                      <label htmlFor="contractend">Vertrag Ende:</label>
+                    </div>
+                    <div className={"col-md-3"}>
+                      <button
+                        className={"btn btn-light"}
+                        type="button"
+                        onClick={() => {
+                          this.setState({
+                            contractend: "",
+                          });
+                        }}
+                      >
+                        {" "}
+                        Datum löschen
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract End"
