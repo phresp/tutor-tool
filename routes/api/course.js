@@ -115,7 +115,11 @@ router.get(
     Course.aggregate([
       {
         $match: {
-          advisor: new mongoose.Types.ObjectId(req.user.id),
+          $or: [
+            { advisor: new mongoose.Types.ObjectId(req.user.id) },
+            { advisor2: new mongoose.Types.ObjectId(req.user.id) },
+            { advisor3: new mongoose.Types.ObjectId(req.user.id) },
+          ],
         },
       },
       {
@@ -216,7 +220,9 @@ router.post(
                     courseFields.advisor = req.body.advisor;
                     courseFields.advisor2 = req.body.advisor2;
                     courseFields.advisor3 = req.body.advisor3;
-                    courseFields.status = req.body.status;
+                    courseFields.status = req.body.status
+                      ? req.body.status
+                      : "Preparation";
                     if (isEmpty(courseFields.admin)) {
                       courseFields.admin = null;
                     }
