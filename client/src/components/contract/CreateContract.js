@@ -123,6 +123,24 @@ class CreateContract extends Component {
   render() {
     const { errors, displayContractsplitting, profile } = this.state;
 
+    //back Button
+    var backButton = (
+      <Link to={"/course-overview"} className={"btn btn-light"}>
+        back
+      </Link>
+    );
+
+    if (this.props.application.application) {
+      backButton = (
+        <Link
+          to={`/course-applications/${this.props.application.application.course._id}`}
+          className={"btn btn-light"}
+        >
+          back
+        </Link>
+      );
+    }
+
     //Get User ID
     if (this.props.application.application) {
       this.state.user = this.props.application.application.user._id;
@@ -520,9 +538,7 @@ class CreateContract extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link to={"/course-overview"} className={"btn btn-light"}>
-                back
-              </Link>
+              {backButton}
               <h1 className="display-4 text-center">
                 Vertrag von <br /> {contractname}
               </h1>
