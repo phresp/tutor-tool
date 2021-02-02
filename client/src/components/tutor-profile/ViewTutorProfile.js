@@ -296,7 +296,7 @@ class ViewTutorProfile extends Component {
 
                 {aufenthaltLabel}
                 {aufenthaltInput}
-
+                <label htmlFor="stipendium">Stipendium Ende:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Stipendium Ende"
@@ -308,6 +308,8 @@ class ViewTutorProfile extends Component {
                   error={errors.stipendiumend}
                   disabled={this.state.processable ? "disabled" : ""}
                 />
+                <label htmlFor="matrikelnummer">Matrikelnummer:</label>
+
                 <TextFieldGroup
                   placeholder="* Matrikelnummer"
                   onChange={this.onChange}
