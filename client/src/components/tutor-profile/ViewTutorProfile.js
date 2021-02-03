@@ -7,7 +7,7 @@ import SelectListGroup from "../common/SelectListGroup";
 import moment from "moment";
 import verfassungsPruefung from "../common/VerfassungschutzCountries";
 
-import { createProfile, getProfile } from "../../actions/profileActions";
+import { updateProfileOfId, getProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
 import countryList from "react-select-country-list";
 import aufenthaltfreieCountries from "../common/AufenthaltCountries";
@@ -29,7 +29,7 @@ class ViewTutorProfile extends Component {
       stipendiumend: "",
       degree: "",
       currentfieldofstudy: "",
-      processable: "True",
+      disabled: true,
       errors: {},
     };
 
@@ -120,7 +120,11 @@ class ViewTutorProfile extends Component {
       stipendiumend: this.state.stipendiumend,
       aufenthaltend: this.state.aufenthaltend,
     };
-    this.props.createProfile(profileData, this.props.history);
+    this.props.updateProfileOfId(
+      profileData,
+      this.props.match.params.id,
+      this.props.history
+    );
   }
 
   onChange(e) {
@@ -133,10 +137,10 @@ class ViewTutorProfile extends Component {
     var countryOptions = countryList().getData();
     //Select options for status
     const statusOptions = [
-      { label: "Select your gender", value: "" },
-      { label: "male", value: "male" },
-      { label: "female", value: "female" },
-      { label: "divers", value: "divers" },
+      { label: "Geschlecht auswählen", value: "" },
+      { label: "Männlich", value: "male" },
+      { label: "Weiblich", value: "female" },
+      { label: "Divers", value: "divers" },
     ];
 
     //Select options for degree
@@ -163,7 +167,7 @@ class ViewTutorProfile extends Component {
           value={moment.utc(this.state.aufenthaltend).format("YYYY-MM-DD")}
           name="aufenthaltend"
           error={errors.aufenthaltend}
-          disabled={this.state.processable ? "disabled" : ""}
+          disabled={this.state.disabled ? "disabled" : ""}
         />
       );
     }
@@ -196,6 +200,17 @@ class ViewTutorProfile extends Component {
       verfassungsPruefungTooltipNationality2 = <div></div>;
     }
 
+    var submitButton;
+    if (!this.state.disabled) {
+      submitButton = (
+        <input
+          type="submit"
+          value="Bestätigen"
+          className="btn btn-info btn-block mt-4"
+        />
+      );
+    }
+
     return (
       <div className={"create-profile"}>
         <div className="container">
@@ -214,23 +229,37 @@ class ViewTutorProfile extends Component {
               >
                 Change Account Type
               </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  this.setState((prevState) => ({
+                    disabled: !prevState.disabled,
+                  }));
+                }}
+                className="btn btn-dark"
+              >
+                Bearbeiten an/aus
+              </button>
               <form onSubmit={this.onSubmit}>
+                <label htmlFor="firstname">Vorname:</label>
                 <TextFieldGroup
                   placeholder="Vorname"
                   onChange={this.onChange}
                   value={this.state.firstname}
                   name="firstname"
                   error={errors.firstname}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
+                <label htmlFor="lastname">Nachname:</label>
                 <TextFieldGroup
                   placeholder="Nachname"
                   onChange={this.onChange}
                   value={this.state.lastname}
                   name="lastname"
                   error={errors.lastname}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
+                <label htmlFor="Geschlecht">Geschlecht:</label>
                 <SelectListGroup
                   placeholder="Geschlecht"
                   onChange={this.onChange}
@@ -238,7 +267,7 @@ class ViewTutorProfile extends Component {
                   name="gender"
                   error={errors.gender}
                   options={statusOptions}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
                 <label htmlFor="birthday">Geburtstag:</label>
                 <TextFieldGroup
@@ -248,7 +277,7 @@ class ViewTutorProfile extends Component {
                   value={moment.utc(this.state.birthday).format("YYYY-MM-DD")}
                   name="birthday"
                   error={errors.birthday}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
                 <label htmlFor="birthplace">* Birthplace:</label>
                 <TextFieldGroup
@@ -257,7 +286,7 @@ class ViewTutorProfile extends Component {
                   value={this.state.birthplace}
                   name="birthplace"
                   error={errors.birthplace}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
                 <label htmlFor="countryofbirth">Geburtsland:</label>
                 {verfassungsPruefungTooltipCountryofbirth}
@@ -268,7 +297,7 @@ class ViewTutorProfile extends Component {
                   name="countryofbirth"
                   error={errors.countryofbirth}
                   options={countryOptions}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
                 <label htmlFor="nationality">Nationaliät:</label>
                 {verfassungsPruefungTooltipNationality}
@@ -279,7 +308,7 @@ class ViewTutorProfile extends Component {
                   name="nationality"
                   error={errors.nationality}
                   options={countryOptions}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
                 <label htmlFor="nationality2">Zweite Nationalität:</label>
                 {verfassungsPruefungTooltipNationality2}
@@ -291,7 +320,7 @@ class ViewTutorProfile extends Component {
                   error={errors.nationality2}
                   options={countryOptions}
                   info="Please provide your second nationality if you have one"
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
 
                 {aufenthaltLabel}
@@ -306,7 +335,7 @@ class ViewTutorProfile extends Component {
                     .format("YYYY-MM-DD")}
                   name="stipendiumend"
                   error={errors.stipendiumend}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
                 <label htmlFor="matrikelnummer">Matrikelnummer:</label>
 
@@ -316,7 +345,7 @@ class ViewTutorProfile extends Component {
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"
                   error={errors.matrikelnummer}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
 
                 <label htmlFor="CurrentFieldofStudy">Studiengang:</label>
@@ -326,7 +355,7 @@ class ViewTutorProfile extends Component {
                   value={this.state.currentfieldofstudy}
                   name="currentfieldofstudy"
                   error={errors.currentfieldofstudy}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
                 <label htmlFor="degree">Abschluss:</label>
                 <SelectListGroup
@@ -336,8 +365,9 @@ class ViewTutorProfile extends Component {
                   name="degree"
                   error={errors.degree}
                   options={degreeOptions}
-                  disabled={this.state.processable ? "disabled" : ""}
+                  disabled={this.state.disabled ? "disabled" : ""}
                 />
+                {submitButton}
               </form>
             </div>
           </div>
@@ -357,6 +387,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createProfile, getProfile })(
+export default connect(mapStateToProps, { updateProfileOfId, getProfile })(
   withRouter(ViewTutorProfile)
 );

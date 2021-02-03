@@ -273,6 +273,49 @@ router.post(
   }
 );
 
+// @route   POST /api/profile/update/:id
+// @desc    Update User Profile of ID
+// @access  Private
+router.post(
+  "/update/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Validate Input fields
+    const { errors, isValid } = validateProfileInput(req.body);
+    if (!isValid) {
+      //Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    //Get Body Fields
+    const profileFields = {};
+    profileFields.user = req.user.id;
+    profileFields.lastname = req.body.lastname;
+    profileFields.firstname = req.body.firstname;
+    profileFields.gender = req.body.gender;
+    profileFields.matrikelnummer = req.body.matrikelnummer;
+    profileFields.fieldofstudy = req.body.fieldofstudy;
+    profileFields.birthday = req.body.birthday;
+    profileFields.nationality = req.body.nationality;
+    profileFields.nationality2 = req.body.nationality2;
+    profileFields.birthplace = req.body.birthplace;
+    profileFields.countryofbirth = req.body.countryofbirth;
+    profileFields.aufenthaltend = req.body.aufenthaltend;
+    profileFields.stipendiumend = req.body.stipendiumend;
+    profileFields.vita = req.body.vita;
+    profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
+    profileFields.degree = req.body.degree;
+
+    Profile.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: profileFields },
+      { new: true }
+    )
+      .then((profile) => res.send(profile))
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
 // @route   POST api/profile/experience
 // @desc    Add experience to profile
 // @access  Private

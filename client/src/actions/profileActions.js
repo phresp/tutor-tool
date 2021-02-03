@@ -112,7 +112,20 @@ export const createProfile = (profileData, history) => (dispatch) => {
     );
 };
 
-//CreateProfile
+//Update Profile of ID
+export const updateProfileOfId = (profileData, id, history) => (dispatch) => {
+  axios
+    .post(`/api/profile/update/${id}`, profileData)
+    .then((res) => history.push("/tutor-overview"))
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+//Update Account Type
 export const updateAccount = (accountData, history) => (dispatch) => {
   if (window.confirm("Account Typ wirklich verändern?")) {
     axios
