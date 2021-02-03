@@ -388,7 +388,7 @@ class CreateContract extends Component {
     if (this.state.contractend && this.state.contractstart2) {
       var end = new Date(this.state.contractend);
       var start2 = new Date(this.state.contractstart2);
-      if (end.setDate(end.getDate() + 1) != start2.setDate(start2.getDate())) {
+      if (end.setDate(end.getDate() + 1) !== start2.setDate(start2.getDate())) {
         this.setState({ contractstart2: moment.utc(end).format("YYYY-MM-DD") });
       }
     }
@@ -539,6 +539,14 @@ class CreateContract extends Component {
           weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
           if (this.state.newcontract === "True") {
             this.setState({ newcontract: "False" });
+          }
+          if (
+            (element.abschlusszeugnis === "Liegt vor" ||
+              element.abschlusszeugnis === "Liegt bei") &&
+            this.state.abschlusszeugnis !== "Liegt bei" &&
+            this.state.abschlusszeugnis !== "Kein Bedarf"
+          ) {
+            this.setState({ abschlusszeugnis: "Liegt bei" });
           }
         }
       });

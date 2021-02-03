@@ -19,7 +19,15 @@ const ContractSelectListGroup = ({
   ));
 
   var col = (obj) => {
-    return obj != "Fehlt" ? "bg-success" : "bg-danger";
+    if (obj === "Fehlt") {
+      return "bg-danger";
+    } else if (obj === "Liegt vor") {
+      return "bg-success";
+    } else if (obj === "Liegt bei") {
+      return "bg-info";
+    } else {
+      return "bg-light";
+    }
   };
   return (
     <div className="form-group">

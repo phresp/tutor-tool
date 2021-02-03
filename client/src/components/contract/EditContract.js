@@ -761,6 +761,14 @@ class EditContract extends Component {
           ) {
             this.setState({ newcontract: "False" });
           }
+          if (
+            (element.abschlusszeugnis === "Liegt vor" ||
+              element.abschlusszeugnis === "Liegt bei") &&
+            this.state.abschlusszeugnis !== "Liegt bei" &&
+            this.state.abschlusszeugnis !== "Kein Bedarf"
+          ) {
+            this.setState({ abschlusszeugnis: "Liegt bei" });
+          }
         }
       });
     }
