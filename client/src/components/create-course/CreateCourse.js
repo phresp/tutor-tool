@@ -137,9 +137,10 @@ class CreateCourse extends Component {
 
     //Select options for Status
     const statusOptions = [
-      { label: "Preparation", value: "Preparation" },
-      { label: "Open", value: "Open" },
-      { label: "Closed", value: "Closed" },
+      { label: "Vorbereitung", value: "Preparation" },
+      { label: "Offen", value: "Open" },
+      { label: "Geschlossen", value: "Closed" },
+      { label: "Archiv", value: "Archive" },
     ];
 
     var tutorialmin = Math.min(2, this.state.tutorialhours);

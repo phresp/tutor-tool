@@ -31,6 +31,13 @@ class AdminApplicationView extends Component {
     const { applications } = this.props.application;
     let applicationTable;
 
+    const defaultSorted = [
+      {
+        dataField: "grade",
+        order: "asc",
+      },
+    ];
+
     var coursename;
     var coursesem;
     if (this.props.course) {
@@ -81,22 +88,22 @@ class AdminApplicationView extends Component {
         },
         {
           dataField: "grade",
-          text: "Grade",
+          text: "Note",
           sort: true,
         },
         {
           dataField: "status",
-          text: "Status",
+          text: "Bewerbungsstatus",
           sort: true,
         },
         {
-          text: "View Profile",
+          text: "Bewerbung ansehen",
           header: "Edit",
           id: "links",
           formatter: betrachtenButton,
         },
         {
-          text: "View Profile",
+          text: "Vertrag erstellen",
           header: "Edit",
           id: "links",
           formatter: contractButton,
@@ -117,7 +124,9 @@ class AdminApplicationView extends Component {
               <hr />
               <BootstrapTable
                 {...props.baseProps}
+                striped
                 pagination={paginationFactory()}
+                defaultSorted={defaultSorted}
               />
             </div>
           )}
@@ -133,7 +142,7 @@ class AdminApplicationView extends Component {
               back
             </Link>
             <h1 className="display-4 text-center">
-              Applications for {coursename} in {coursesem}
+              Bewerbungen für {coursename} in {coursesem}
             </h1>
 
             {applicationTable}

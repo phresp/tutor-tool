@@ -34,21 +34,25 @@ class Dashboard extends Component {
     var aufenthaltToolTipp;
     var stipendiumToolTipp;
     if (profile) {
-      if (new Date(profile.aufenthaltend) < Date.now()) {
-        aufenthaltToolTipp = (
-          <h3 className="text-danger">Aufenthaltstitel expired!</h3>
-        );
+      if (profile.aufenthaltend) {
+        if (new Date(profile.aufenthaltend) < Date.now()) {
+          aufenthaltToolTipp = (
+            <h3 className="text-danger">Aufenthaltstitel abgelaufen!</h3>
+          );
+        }
       }
     }
 
     if (profile) {
-      if (
-        new Date(profile.stipendiumend) < Date.now() &&
-        profile.stipendiumend
-      ) {
-        stipendiumToolTipp = (
-          <h3 className="text-danger">Stipendium expired!</h3>
-        );
+      if (profile.stipendiumend) {
+        if (
+          new Date(profile.stipendiumend) < Date.now() &&
+          profile.stipendiumend
+        ) {
+          stipendiumToolTipp = (
+            <h3 className="text-danger">Stipendium abgelaufen!</h3>
+          );
+        }
       }
     }
 
@@ -82,7 +86,7 @@ class Dashboard extends Component {
         } else if (user.role === "Admin") {
           dashboardContent = (
             <div>
-              <p className="lead text-muted">Welcome {profile.firstname}</p>
+              <p className="lead text-muted">Willkommen {profile.firstname}</p>
               <AdminProfileActions />
             </div>
           );

@@ -37,11 +37,19 @@ class CourseOverview extends Component {
     const { courses } = this.props.course;
     const entries = courses ? courses : [];
 
+    const defaultSorted = [
+      {
+        dataField: "status",
+        order: "desc",
+      },
+    ];
+
     var courseArray = entries.filter((el) => {
-      if (this.state.fil === "0") return el;
+      if (this.state.fil === "0") return el.status !== "Archive";
       if (this.state.fil === "Open") return el.status === "Open";
       if (this.state.fil === "Closed") return el.status === "Closed";
       if (this.state.fil === "Preparation") return el.status === "Preparation";
+      if (this.state.fil === "Archive") return el.status === "Archive";
     });
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {
@@ -54,7 +62,10 @@ class CourseOverview extends Component {
 
     function applicationsButton(cell, row, rowIndex, formatExtraData) {
       return (
-        <Link to={`/course-applications/${row._id}`} className="btn btn-info">
+        <Link
+          to={`/course-applications/${row._id}`}
+          className="btn btn-primary"
+        >
           Bewerbungen
         </Link>
       );
@@ -79,6 +90,20 @@ class CourseOverview extends Component {
     const numberVertrag = (cell, row, rowIndex, formatExtraData) => {
       if (row.applications) {
         return row.applications.filter((x) => x.status == "Contract").length;
+      }
+    };
+
+    const statusFormatter = (value, cell, row, rowIndex, formatExtraData) => {
+      if (value === "Open") {
+        return "Offen";
+      } else if (value === "Closed") {
+        return "Geschlossen";
+      } else if (value === "Preparation") {
+        return "Vorbereitung";
+      } else if (value === "Closed") {
+        return "Geschlossen";
+      } else if (value === "Archive") {
+        return "Archiv";
       }
     };
 
@@ -122,6 +147,7 @@ class CourseOverview extends Component {
         dataField: "status",
         text: "Status",
         sort: true,
+        formatter: statusFormatter,
       },
       {
         text: "Edit",
@@ -182,7 +208,7 @@ class CourseOverview extends Component {
                 }}
               >
                 {" "}
-                Open
+                Offen
               </button>
 
               <button
@@ -198,7 +224,7 @@ class CourseOverview extends Component {
                 }}
               >
                 {" "}
-                Preparation
+                Vorbereitung
               </button>
 
               <button
@@ -214,11 +240,30 @@ class CourseOverview extends Component {
                 }}
               >
                 {" "}
-                Closed
+                Geschlossen
+              </button>
+              <button
+                className={
+                  this.state.fil === "Archive"
+                    ? "btn btn-primary"
+                    : "btn btn-light"
+                }
+                onClick={() => {
+                  this.setState({
+                    fil: "Archive",
+                  });
+                }}
+              >
+                {" "}
+                Archiv
               </button>
               <SearchBar {...props.searchProps} />
               <hr />
-              <BootstrapTable {...props.baseProps} />
+              <BootstrapTable
+                {...props.baseProps}
+                striped
+                defaultSorted={defaultSorted}
+              />
             </div>
           )}
         </ToolkitProvider>

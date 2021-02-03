@@ -117,7 +117,7 @@ class Profiles extends Component {
           >
             {(props) => (
               <div>
-                <h6>Role Filter:</h6>
+                <h6>Rollen Filter:</h6>
 
                 <button
                   className={
@@ -220,7 +220,7 @@ class Profiles extends Component {
               <Link to={"/dashboard"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Tutor Profiles</h1>
+              <h1 className="display-4 text-center">Benutzer Übersicht</h1>
 
               {profileTable}
             </div>

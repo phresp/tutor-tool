@@ -268,9 +268,10 @@ class EditCourse extends Component {
     adminOptions.unshift({ label: "Betreuer auswählen", value: "" });
 
     const statusOptions = [
-      { label: "Preparation", value: "Preparation" },
-      { label: "Open", value: "Open" },
-      { label: "Closed", value: "Closed" },
+      { label: "Vorbereitung", value: "Preparation" },
+      { label: "Offen", value: "Open" },
+      { label: "Geschlossen", value: "Closed" },
+      { label: "Archiv", value: "Archive" },
     ];
 
     return (

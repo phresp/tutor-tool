@@ -396,21 +396,25 @@ class CreateContract extends Component {
     var aufenthaltToolTipp;
     var stipendiumToolTipp;
     if (profile) {
-      if (new Date(profile.aufenthaltend) < Date.now()) {
-        aufenthaltToolTipp = (
-          <h3 className="text-danger">Aufenthaltstitel abgelaufen!</h3>
-        );
+      if (profile.aufenthaltend) {
+        if (new Date(profile.aufenthaltend) < Date.now()) {
+          aufenthaltToolTipp = (
+            <h3 className="text-danger">Aufenthaltstitel abgelaufen!</h3>
+          );
+        }
       }
     }
 
     if (profile) {
-      if (
-        new Date(profile.stipendiumend) < Date.now() &&
-        profile.stipendiumend
-      ) {
-        stipendiumToolTipp = (
-          <h3 className="text-danger">Stipendium abgelaufen!</h3>
-        );
+      if (profile.stipendiumend) {
+        if (
+          new Date(profile.stipendiumend) < Date.now() &&
+          profile.stipendiumend
+        ) {
+          stipendiumToolTipp = (
+            <h3 className="text-danger">Stipendium abgelaufen!</h3>
+          );
+        }
       }
     }
 
