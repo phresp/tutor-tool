@@ -41,8 +41,8 @@ class ContractOverview extends Component {
   render() {
     const defaultSorted = [
       {
-        dataField: "contractend",
-        order: "desc",
+        dataField: "status",
+        order: "asc",
       },
     ];
 
@@ -57,12 +57,13 @@ class ContractOverview extends Component {
     const entries = contracts ? contracts : [];
 
     var newArray = entries.filter((el) => {
-      if (this.state.fil === "0") return el;
+      if (this.state.fil === "0") return el.status !== "Completed";
       if (this.state.fil === "Created") return el.status === "Created";
       if (this.state.fil === "Signable") return el.status === "Signable";
       if (this.state.fil === "Incomplete") return el.status === "Incomplete";
       if (this.state.fil === "In Process") return el.status === "In Process";
       if (this.state.fil === "Completed") return el.status === "Completed";
+      if (this.state.fil === "All") return el;
     });
 
     const betrachtenButton = (cell, row, rowIndex, formatExtraData) => {
@@ -71,6 +72,68 @@ class ContractOverview extends Component {
           Edit
         </Link>
       );
+    };
+
+    const contractstarts = (value, cell, row, rowIndex, formatExtraData) => {
+      var start1 = "";
+      var start2 = "";
+      if (cell.contractstart) {
+        start1 = moment(cell.contractstart).format("DD/MM/YYYY");
+      }
+      if (cell.contractstart2) {
+        start2 = moment(cell.contractstart2).format("DD/MM/YYYY");
+      }
+      return (
+        <div>
+          {start1} <br /> {start2}
+        </div>
+      );
+    };
+
+    const contractends = (value, cell, row, rowIndex, formatExtraData) => {
+      var end1 = "";
+      var end2 = "";
+      if (cell.contractend) {
+        end1 = moment(cell.contractend).format("DD/MM/YYYY");
+      }
+      if (cell.contractend2) {
+        end2 = moment(cell.contractend2).format("DD/MM/YYYY");
+      }
+      return (
+        <div>
+          {end1} <br /> {end2}
+        </div>
+      );
+    };
+
+    const contracthours = (value, cell, row, rowIndex, formatExtraData) => {
+      var hours1 = "";
+      var hours2 = "";
+      if (cell.hours) {
+        hours1 = cell.hours;
+      }
+      if (cell.hours2) {
+        hours2 = cell.hours2;
+      }
+      return (
+        <div>
+          {hours1} <br /> {hours2}
+        </div>
+      );
+    };
+
+    const statusFormatter = (value, cell, row, rowIndex, formatExtraData) => {
+      if (value === "Created") {
+        return "Erstellt";
+      } else if (value === "Signable") {
+        return "Unterschriftsbereit";
+      } else if (value === "In Process") {
+        return "In Bearbeitung";
+      } else if (value === "Completed") {
+        return "Abgeschlossen";
+      } else if (value === "Incomplete") {
+        return "Unvollständig";
+      }
     };
 
     const dateFormat = (value, row, index) => {
@@ -98,60 +161,28 @@ class ContractOverview extends Component {
             sort: true,
           },
           {
-            dataField: "contractstart",
             text: "Vertrag Start",
-            formatter: dateFormat,
+            dataField: "contractstart",
+            formatter: contractstarts,
             sort: true,
           },
           {
             dataField: "contractend",
             text: "Vertrag Ende",
-            formatter: dateFormat,
+            formatter: contractends,
             sort: true,
           },
           {
             dataField: "hours",
             text: "W-Stunden",
-            sort: true,
-          },
-          {
-            dataField: "contractstart2",
-            text: "Vertrag Start 2",
-            formatter: dateFormat,
-            sort: true,
-          },
-          {
-            dataField: "contractend2",
-            text: "Vertrag Ende 2",
-            formatter: dateFormat,
-            sort: true,
-          },
-          {
-            dataField: "hours2",
-            text: "W-Stunden 2",
-            sort: true,
-          },
-          {
-            dataField: "contractstart3",
-            text: "Vertrag Start 3",
-            formatter: dateFormat,
-            sort: true,
-          },
-          {
-            dataField: "contractend3",
-            text: "Vertrag Ende 3",
-            formatter: dateFormat,
-            sort: true,
-          },
-          {
-            dataField: "hours3",
-            text: "W-Stunden 3",
+            formatter: contracthours,
             sort: true,
           },
           {
             dataField: "status",
             text: "Status",
             sort: true,
+            formatter: statusFormatter,
           },
           {
             text: "Vertrag bearbeiten",
@@ -184,7 +215,7 @@ class ContractOverview extends Component {
                   }}
                 >
                   {" "}
-                  Alle
+                  Offen
                 </button>
                 <button
                   className={
@@ -199,7 +230,7 @@ class ContractOverview extends Component {
                   }}
                 >
                   {" "}
-                  Created
+                  Erstellt
                 </button>
 
                 <button
@@ -215,7 +246,7 @@ class ContractOverview extends Component {
                   }}
                 >
                   {" "}
-                  Incomplete
+                  Unvollständig
                 </button>
 
                 <button
@@ -231,7 +262,7 @@ class ContractOverview extends Component {
                   }}
                 >
                   {" "}
-                  In Process
+                  In Bearbeitung
                 </button>
 
                 <button
@@ -247,7 +278,7 @@ class ContractOverview extends Component {
                   }}
                 >
                   {" "}
-                  Signable
+                  Unterschriftsbereit
                 </button>
 
                 <button
@@ -263,7 +294,23 @@ class ContractOverview extends Component {
                   }}
                 >
                   {" "}
-                  Completed
+                  Abgeschlossen
+                </button>
+
+                <button
+                  className={
+                    this.state.fil === "All"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "All",
+                    });
+                  }}
+                >
+                  {" "}
+                  Alle
                 </button>
                 <SearchBar {...props.searchProps} />
                 <hr />
@@ -281,7 +328,7 @@ class ContractOverview extends Component {
     }
     return (
       <div className="container-fluid">
-        <div className="container-fluid">
+        <div className="container">
           <Link to={"/dashboard"} className={"btn btn-light"}>
             back
           </Link>
