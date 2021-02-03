@@ -23,19 +23,15 @@ const ProfileSchema = new Schema({
   },
   birthday: {
     type: Date,
-    required: true,
   },
   birthplace: {
     type: String,
-    required: true,
   },
   countryofbirth: {
     type: String,
-    required: true,
   },
   nationality: {
     type: String,
-    required: true,
   },
   nationality2: {
     type: String,

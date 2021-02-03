@@ -36,9 +36,6 @@ class CreateContract extends Component {
       contractstart2: "",
       contractend2: "",
       hours2: "",
-      contractstart3: "",
-      contractend3: "",
-      hours3: "",
       degree: "",
       newcontract: "True",
       merkblatt: "Fehlt",
@@ -92,9 +89,6 @@ class CreateContract extends Component {
       contractstart2: this.state.contractstart2,
       contractend2: this.state.contractend2,
       hours2: this.state.hours2,
-      contractstart3: this.state.contractstart3,
-      contractend3: this.state.contractend3,
-      hours3: this.state.hours3,
       degree: this.state.degree,
       newcontract: this.state.newcontract,
       merkblatt: this.state.merkblatt,
@@ -334,22 +328,6 @@ class CreateContract extends Component {
           hoursum = hoursum * 1 + element.hours2;
         }
       });
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend),
-            new Date(element.contractend3),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart),
-              new Date(element.contractstart3),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum = hoursum * 1 + element.hours3;
-        }
-      });
 
       if (hoursum > 20) {
         hoursummessage = (
@@ -396,86 +374,11 @@ class CreateContract extends Component {
           hoursum2 = hoursum2 * 1 + element.hours2;
         }
       });
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend2),
-            new Date(element.contractend3),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart2),
-              new Date(element.contractstart3),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum2 = hoursum2 * 1 + element.hours3;
-        }
-      });
+
       if (hoursum2 > 20) {
         hoursum2message = (
           <h3 className="text-danger">
             Achtung Wochenstunden zu hoch! ({hoursum2})
-          </h3>
-        );
-      }
-    }
-    //20 Hour Max Calculations Date 3
-    var hoursum3 = this.state.hours3;
-    var hoursum3message = <div></div>;
-    if (contracts) {
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend3),
-            new Date(element.contractend),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart3),
-              new Date(element.contractstart),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum3 = hoursum3 * 1 + element.hours;
-        }
-      });
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend3),
-            new Date(element.contractend2),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart3),
-              new Date(element.contractstart2),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum3 = hoursum3 * 1 + element.hours2;
-        }
-      });
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend3),
-            new Date(element.contractend3),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart3),
-              new Date(element.contractstart3),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum3 = hoursum3 * 1 + element.hours3;
-        }
-      });
-      if (hoursum3 > 20) {
-        hoursum3message = (
-          <h3 className="text-danger">
-            Achtung Wochenstunden zu hoch! ({hoursum3})
           </h3>
         );
       }
@@ -587,76 +490,6 @@ class CreateContract extends Component {
             name="hours2"
             error={errors.hours2}
           />
-          <div className="container">
-            <div className="row">
-              <div className="col-md-9">
-                <label htmlFor="contractstart">Vertrag Start 3:</label>
-              </div>
-              <div className={"col-md-3"}>
-                <button
-                  className={"btn btn-light"}
-                  type="button"
-                  onClick={() => {
-                    this.setState({
-                      contractstart3: "",
-                    });
-                  }}
-                >
-                  {" "}
-                  Datum löschen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <TextFieldGroup
-            type={"date"}
-            placeholder="Contract Start"
-            onChange={this.onChange}
-            value={this.state.contractstart3}
-            name="contractstart3"
-            error={errors.contractstart3}
-          />
-          <div className="container">
-            <div className="row">
-              <div className="col-md-9">
-                <label htmlFor="contractend">Vertrag Ende 3:</label>
-              </div>
-              <div className={"col-md-3"}>
-                <button
-                  className={"btn btn-light"}
-                  type="button"
-                  onClick={() => {
-                    this.setState({
-                      contractend3: "",
-                    });
-                  }}
-                >
-                  {" "}
-                  Datum löschen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <TextFieldGroup
-            type={"date"}
-            placeholder="Contract End 3"
-            onChange={this.onChange}
-            value={this.state.contractend3}
-            name="contractend3"
-            error={errors.contractend3}
-          />
-          {hoursum3message}
-          <label htmlFor="hours">Wochenstunden 3:</label>
-          <TextFieldGroup
-            placeholder="Wochenstunden 3"
-            onChange={this.onChange}
-            value={this.state.hours3}
-            name="hours3"
-            error={errors.hours3}
-          />
-          <hr />
         </div>
       );
     }
@@ -671,9 +504,7 @@ class CreateContract extends Component {
           new Date(application.course.semester.to) <
             new Date(this.state.contractend) ||
           new Date(application.course.semester.to) <
-            new Date(this.state.contractend2) ||
-          new Date(application.course.semester.to) <
-            new Date(this.state.contractend3)
+            new Date(this.state.contractend2)
         ) {
           immatrikulationNextSemLabel = (
             <label htmlFor="newContract">
@@ -703,8 +534,7 @@ class CreateContract extends Component {
       contracts.forEach((element) => {
         if (
           new Date(element.contractend) > oneYearAgo ||
-          new Date(element.contractend2) > oneYearAgo ||
-          new Date(element.contractend3) > oneYearAgo
+          new Date(element.contractend2) > oneYearAgo
         ) {
           weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
           if (this.state.newcontract === "True") {

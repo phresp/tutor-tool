@@ -40,9 +40,6 @@ class EditContract extends Component {
       contractstart2: "",
       contractend2: "",
       hours2: "",
-      contractstart3: "",
-      contractend3: "",
-      hours3: "",
       degree: "None",
       profiledegree: "",
       newcontract: "True",
@@ -103,14 +100,6 @@ class EditContract extends Component {
         ? contract.contractend2
         : "";
       contract.hours2 = !isEmpty(contract.hours2) ? contract.hours2 : "";
-
-      contract.contractstart3 = !isEmpty(contract.contractstart3)
-        ? contract.contractstart3
-        : "";
-      contract.contractend3 = !isEmpty(contract.contractend3)
-        ? contract.contractend3
-        : "";
-      contract.hours3 = !isEmpty(contract.hours3) ? contract.hours3 : "";
 
       contract.degree = !isEmpty(contract.degree) ? contract.degree : "None";
       contract.newcontract = !isEmpty(contract.newcontract)
@@ -182,14 +171,7 @@ class EditContract extends Component {
           ? contract.profile.degree
           : "Fehlt";
       }
-      if (
-        contract.contractstart2 ||
-        contract.contractstart3 ||
-        contract.contractend2 ||
-        contract.contractend3 ||
-        contract.hours2 ||
-        contract.hours3
-      ) {
+      if (contract.contractstart2 || contract.contractend2 || contract.hours2) {
         display = true;
       }
       //set component State Field
@@ -204,9 +186,6 @@ class EditContract extends Component {
         contractstart2: contract.contractstart2,
         contractend2: contract.contractend2,
         hours2: contract.hours2,
-        contractstart3: contract.contractstart3,
-        contractend3: contract.contractend3,
-        hours3: contract.hours3,
         degree: contract.degree,
         profiledegree: contract.profiledegree,
         newcontract: contract.newcontract,
@@ -288,9 +267,6 @@ class EditContract extends Component {
       contractstart2: this.state.contractstart2,
       contractend2: this.state.contractend2,
       hours2: this.state.hours2,
-      contractstart3: this.state.contractstart3,
-      contractend3: this.state.contractend3,
-      hours3: this.state.hours3,
       degree: this.state.degree,
       newcontract: this.state.newcontract,
       merkblatt: this.state.merkblatt,
@@ -362,12 +338,9 @@ class EditContract extends Component {
       contractend: this.state.contractend,
       contractstart2: this.state.contractstart2,
       contractend2: this.state.contractend2,
-      contractstart3: this.state.contractstart3,
-      contractend3: this.state.contractend3,
       degree: this.state.degree,
       hours: this.state.hours,
       hours2: this.state.hours2,
-      hours3: this.state.hours3,
       courseabb: this.props.contract.contract.course.metacourse.abbreviation,
       module: this.props.contract.contract.course.metacourse.module,
       scheme: this.props.contract.contract.course.metacourse.scheme,
@@ -573,22 +546,6 @@ class EditContract extends Component {
           hoursum = hoursum * 1 + element.hours2;
         }
       });
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend),
-            new Date(element.contractend3),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart),
-              new Date(element.contractstart3),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum = hoursum * 1 + element.hours3;
-        }
-      });
 
       if (hoursum > 20) {
         hoursummessage = (
@@ -635,87 +592,10 @@ class EditContract extends Component {
           hoursum2 = hoursum2 * 1 + element.hours2;
         }
       });
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend2),
-            new Date(element.contractend3),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart2),
-              new Date(element.contractstart3),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum2 = hoursum2 * 1 + element.hours3;
-        }
-      });
       if (hoursum2 > 20) {
         hoursum2message = (
           <h3 className="text-danger">
             Achtung Wochenstunden zu hoch! ({hoursum2})
-          </h3>
-        );
-      }
-    }
-
-    //20 Hour Max Calculations Date 3
-    var hoursum3 = this.state.hours3;
-    var hoursum3message = <div></div>;
-    if (contracts) {
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend3),
-            new Date(element.contractend),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart3),
-              new Date(element.contractstart),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum3 = hoursum3 * 1 + element.hours;
-        }
-      });
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend3),
-            new Date(element.contractend2),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart3),
-              new Date(element.contractstart2),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum3 = hoursum3 * 1 + element.hours2;
-        }
-      });
-      contracts.forEach((element) => {
-        const overlap = Math.max(
-          0,
-          Math.min.apply(null, [
-            new Date(this.state.contractend3),
-            new Date(element.contractend3),
-          ]) -
-            Math.max.apply(null, [
-              new Date(this.state.contractstart3),
-              new Date(element.contractstart3),
-            ])
-        );
-        if (overlap > 0) {
-          hoursum3 = hoursum3 * 1 + element.hours3;
-        }
-      });
-      if (hoursum3 > 20) {
-        hoursum3message = (
-          <h3 className="text-danger">
-            Achtung Wochenstunden zu hoch! ({hoursum3})
           </h3>
         );
       }
@@ -804,76 +684,6 @@ class EditContract extends Component {
             name="hours2"
             error={errors.hours2}
           />
-
-          <div className="container">
-            <div className="row">
-              <div className="col-md-9">
-                <label htmlFor="contractstart">Vertrag Start 3:</label>
-              </div>
-              <div className={"col-md-3"}>
-                <button
-                  className={"btn btn-light"}
-                  type="button"
-                  onClick={() => {
-                    this.setState({
-                      contractstart3: "",
-                    });
-                  }}
-                >
-                  {" "}
-                  Datum löschen
-                </button>
-              </div>
-            </div>
-          </div>
-          <TextFieldGroup
-            type={"date"}
-            placeholder="Contract Start"
-            onChange={this.onChange}
-            value={moment.utc(this.state.contractstart3).format("YYYY-MM-DD")}
-            name="contractstart3"
-            error={errors.contractstart3}
-          />
-          <div className="container">
-            <div className="row">
-              <div className="col-md-9">
-                <label htmlFor="contractend">Vertrag Ende 3:</label>
-              </div>
-              <div className={"col-md-3"}>
-                <button
-                  className={"btn btn-light"}
-                  type="button"
-                  onClick={() => {
-                    this.setState({
-                      contractend3: "",
-                    });
-                  }}
-                >
-                  {" "}
-                  Datum löschen
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <TextFieldGroup
-            type={"date"}
-            placeholder="Contract End 3"
-            onChange={this.onChange}
-            value={moment.utc(this.state.contractend3).format("YYYY-MM-DD")}
-            name="contractend3"
-            error={errors.contractend3}
-          />
-          {hoursum3message}
-          <label htmlFor="hours">Wochenstunden 3:</label>
-          <TextFieldGroup
-            placeholder="Wochenstunden 3"
-            onChange={this.onChange}
-            value={this.state.hours3}
-            name="hours3"
-            error={errors.hours3}
-          />
-          <hr />
         </div>
       );
     }
@@ -910,9 +720,7 @@ class EditContract extends Component {
           new Date(contract.course.semester.to) <
             new Date(this.state.contractend) ||
           new Date(contract.course.semester.to) <
-            new Date(this.state.contractend2) ||
-          new Date(contract.course.semester.to) <
-            new Date(this.state.contractend3)
+            new Date(this.state.contractend2)
         ) {
           immatrikulationNextSemLabel = (
             <label htmlFor="newContract">
@@ -943,8 +751,7 @@ class EditContract extends Component {
       contracts.forEach((element) => {
         if (
           new Date(element.contractend) > oneYearAgo ||
-          new Date(element.contractend2) > oneYearAgo ||
-          new Date(element.contractend3) > oneYearAgo
+          new Date(element.contractend2) > oneYearAgo
         ) {
           weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
 

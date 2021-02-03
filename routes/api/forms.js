@@ -279,23 +279,6 @@ router.post(
         moment.utc(req.body.contractend2).format("DD.MM.YYYY");
     }
 
-    if (
-      req.body.contractstart3 &&
-      req.body.contractend3 &&
-      (contractdate1 || contractdate2)
-    ) {
-      contractdate3 =
-        " // " +
-        moment.utc(req.body.contractstart3).format("DD.MM.YYYY") +
-        " - " +
-        moment.utc(req.body.contractend3).format("DD.MM.YYYY");
-    } else if (req.body.contractstart3 && req.body.contractend3) {
-      contractdate3 =
-        moment.utc(req.body.contractstart3).format("DD.MM.YYYY") +
-        " - " +
-        moment.utc(req.body.contractend3).format("DD.MM.YYYY");
-    }
-
     var staatsangehörigkeit;
     if (req.body.nationality2) {
       staatsangehörigkeit =
@@ -304,11 +287,10 @@ router.post(
       staatsangehörigkeit = req.body.nationality;
     }
 
-    var zeitraum = contractdate1 + contractdate2 + contractdate3;
+    var zeitraum = contractdate1 + contractdate2;
 
     var hours1 = "";
     var hours2 = "";
-    var hours3 = "";
 
     if (req.body.hours) {
       hours1 = req.body.hours;
@@ -318,11 +300,7 @@ router.post(
       hours2 = " // " + req.body.hours2;
     }
 
-    if (req.body.hours3) {
-      hours3 = " // " + req.body.hours3;
-    }
-
-    var hourstogether = hours1 + hours2 + hours3;
+    var hourstogether = hours1 + hours2;
     var ausweis;
     if (aufenthaltfreieCountriesNoEmpty.includes(req.body.natforausweis)) {
       ausweis = "Yes";
