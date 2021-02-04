@@ -364,6 +364,7 @@ class EditContract extends Component {
       personalbogenstudierende: this.state.personalbogenstudierende,
       sozialversicherungsausweis: this.state.sozialversicherungsausweis,
       steuerId: this.state.steuerId,
+      abschlusszeugnis: this.state.abschlusszeugnis,
     };
     this.props.downloadEV(evData);
   }

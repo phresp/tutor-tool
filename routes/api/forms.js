@@ -248,6 +248,14 @@ router.post(
       liegtvor5 = "Yes";
     }
 
+    //Abschlusszeugnis
+    var anbeiAbschlusszeugnis, liegtvorAbschlusszeugnis;
+    if (req.body.abschlusszeugnis === "Liegt bei") {
+      anbeiAbschlusszeugnis = "Yes";
+    } else if (req.body.abschlusszeugnis === "Liegt vor") {
+      liegtvorAbschlusszeugnis = "Yes";
+    }
+
     //Stipendium
     var anbeiStipendium, liegtvorStipendium;
     if (req.body.stipendium === "Liegt bei") {
@@ -257,7 +265,6 @@ router.post(
     }
     var contractdate1 = "";
     var contractdate2 = "";
-    var contractdate3 = "";
 
     if (req.body.contractstart && req.body.contractend) {
       contractdate1 =
@@ -335,6 +342,7 @@ router.post(
       anbei6: anbei6,
       anbei2: anbei2,
       anbei5: anbei5,
+      anbei14: anbeiAbschlusszeugnis,
       anbeiStipendium: anbeiStipendium,
       liegtvor8: liegtvor8,
       liegtvor15: liegtvor15,
@@ -346,6 +354,7 @@ router.post(
       liegtvor6: liegtvor6,
       liegtvor2: liegtvor2,
       liegtvor5: liegtvor5,
+      liegtvor14: liegtvorAbschlusszeugnis,
       liegtvorStipendium: liegtvorStipendium,
       "Muenchen den": moment.utc(Date.now()).format("DD.MM.YYYY"),
     };
