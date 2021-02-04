@@ -433,9 +433,7 @@ class CreateContract extends Component {
 
     //Aufenthaltprüfung länger als Vertrag
     if (profile) {
-      console.log(profile.aufenthaltend);
       if (profile.aufenthaltend && this.state.contractend) {
-        console.log("Yes");
         if (
           new Date(profile.aufenthaltend) < new Date(this.state.contractend)
         ) {
