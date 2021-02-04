@@ -17,7 +17,9 @@ import { downloadEV } from "../../actions/formsActions";
 import { getAdvisors, getAdmins } from "../../actions/profileActions";
 
 import isEmpty from "../../validation/is-empty";
+
 import verfassungsPruefung from "../common/VerfassungschutzCountries";
+import aufenthaltfreieCountries from "../common/AufenthaltCountries";
 
 class EditContract extends Component {
   componentDidMount() {
@@ -439,6 +441,7 @@ class EditContract extends Component {
         this.state.verfassungstreue !== "Liegt vor" ||
         this.state.krankenkassenbescheinigung !== "Liegt vor" ||
         this.state.personalbogenstudierende !== "Liegt vor" ||
+        this.state.personalbogenbezuegestelle !== "Liegt vor" ||
         this.state.steuerId !== "Liegt vor")
     ) {
       this.setState({
@@ -446,18 +449,30 @@ class EditContract extends Component {
         verfassungstreue: "Liegt vor",
         krankenkassenbescheinigung: "Liegt vor",
         personalbogenstudierende: "Liegt vor",
+        personalbogenbezuegestelle: "Liegt vor",
         steuerId: "Liegt vor",
       });
     }
 
-    if (this.props.application.application) {
-      if (this.props.application.application.profile) {
+    if (this.props.contract.contract) {
+      if (this.props.contract.contract.profile) {
         if (
-          this.props.application.application.profile.nationality === "DE" ||
-          this.props.application.application.profile.nationality2 === "DE"
+          aufenthaltfreieCountries.indexOf(
+            this.props.contract.contract.profile.nationality
+          ) !== -1 ||
+          aufenthaltfreieCountries.indexOf(
+            this.props.contract.contract.profile.nationality2
+          ) !== -1
         ) {
-          this.state.reisepass = "Kein Bedarf";
-          this.state.aufenthaltstitel = "Kein Bedarf";
+          if (
+            this.state.reisepass !== "Kein Bedarf" ||
+            this.state.aufenthaltstitel !== "Kein Bedarf"
+          ) {
+            this.setState({
+              reisepass: "Kein Bedarf",
+              aufenthaltstitel: "Kein Bedarf",
+            });
+          }
         }
       }
     }

@@ -14,6 +14,7 @@ import {
 import { getApplicationOfId } from "../../actions/applicationActions";
 
 import verfassungsPruefung from "../common/VerfassungschutzCountries";
+import aufenthaltfreieCountries from "../common/AufenthaltCountries";
 
 import { isEmpty } from "../../validation/is-empty";
 
@@ -227,6 +228,7 @@ class CreateContract extends Component {
         this.state.verfassungstreue !== "Liegt vor" ||
         this.state.krankenkassenbescheinigung !== "Liegt vor" ||
         this.state.personalbogenstudierende !== "Liegt vor" ||
+        this.state.personalbogenbezuegestelle !== "Liegt vor" ||
         this.state.steuerId !== "Liegt vor")
     ) {
       this.setState({
@@ -234,16 +236,21 @@ class CreateContract extends Component {
         verfassungstreue: "Liegt vor",
         krankenkassenbescheinigung: "Liegt vor",
         personalbogenstudierende: "Liegt vor",
+        personalbogenbezuegestelle: "Liegt vor",
         steuerId: "Liegt vor",
       });
     }
 
-    //Query for Reisepass
+    //Query for Reisepass and aufenthaltstitel
     if (this.props.application.application) {
       if (this.props.application.application.profile) {
         if (
-          this.props.application.application.profile.nationality === "DE" ||
-          this.props.application.application.profile.nationality2 === "DE"
+          aufenthaltfreieCountries.indexOf(
+            this.props.application.application.profile.nationality
+          ) !== -1 ||
+          aufenthaltfreieCountries.indexOf(
+            this.props.application.application.profile.nationality2
+          ) !== -1
         ) {
           this.state.reisepass = "Kein Bedarf";
           this.state.aufenthaltstitel = "Kein Bedarf";
