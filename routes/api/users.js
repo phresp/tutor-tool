@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
+const crypto = require("crypto");
 
 //Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -11,6 +12,9 @@ const validateLoginInput = require("../../validation/login");
 
 //Load User model
 const User = require("../../models/User");
+
+//Load Invitation model
+const Invitaion = require("../../models/Invitation");
 
 // @route   GET /api/users/test
 // @desc    Tess users route
@@ -124,6 +128,34 @@ router.post(
     )
       .then((user) => res.send(user))
       .catch((err) => res.status(404).json(err));
+  }
+);
+
+// @route   GET api/users/createinvitationkey
+// @desc    Update the account type of the user
+// @access  Private
+router.get(
+  "/createinvitationkey",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    crypto.randomBytes(10, function (err, buffer) {
+      var invitekey = buffer.toString("base64");
+      Invitaion.findOne({ invitationkey: invitekey }).then((key) => {
+        if (key) {
+          errors.key = "Key already exists";
+          return res.status(400).json(errors);
+        } else {
+          const newKey = new Invitaion({
+            invitationkey: invitekey,
+            usage: "Invitationkey",
+          });
+          newKey
+            .save()
+            .then((key) => res.send(key.invitationkey))
+            .catch((err) => res.status(404).json(err));
+        }
+      });
+    });
   }
 );
 

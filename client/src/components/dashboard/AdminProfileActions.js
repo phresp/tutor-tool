@@ -36,7 +36,11 @@ const AdminProfileActions = () => {
           <i className="fas fa-file-pdf text-primary"></i> Formulare
         </Link>
         <Link to="/contracts" className="btn btn-light">
-          <i className="fab fa-accessible-icon text-primary"></i> Test
+          <i className="far fa-envelope text-primary"></i> Mail
+        </Link>
+        <Link to="/advisorinvite" className="btn btn-light">
+          <i className="fas fa-chalkboard-teacher text-primary"></i>
+          Übungsleiter
         </Link>
       </div>
     </div>

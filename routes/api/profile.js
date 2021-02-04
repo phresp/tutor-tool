@@ -11,6 +11,7 @@ const User = require("../../models/User");
 
 //Load Validation
 const validateProfileInput = require("../../validation/profile");
+const validateAdvisorProfileInput = require("../../validation/advisorprofile");
 const validateExperienceInput = require("../../validation/experience");
 const validateEducationInput = require("../../validation/education");
 
@@ -313,6 +314,48 @@ router.post(
     )
       .then((profile) => res.send(profile))
       .catch((err) => res.status(404).json(err));
+  }
+);
+
+// @route   POST /api/profile/advisorprofile
+// @desc    Create or Update Advisor Profile
+// @access  Private
+router.post(
+  "/advisorprofile",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Validate Input fields
+    const { errors, isValid } = validateAdvisorProfileInput(req.body);
+    if (!isValid) {
+      //Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    //Get Body Fields
+    const profileFields = {};
+    profileFields.user = req.user.id;
+    profileFields.lastname = req.body.lastname;
+    profileFields.firstname = req.body.firstname;
+    profileFields.gender = req.body.gender;
+
+    Profile.findOne({ user: req.user.id }).then((profile) => {
+      if (profile) {
+        //Update Profile
+        Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        )
+          .then((profile) => res.send(profile))
+          .catch((err) => res.status(404).json(err));
+      } else {
+        //Create Profile
+        new Profile(profileFields)
+          .save()
+          .then((profile) => res.send(profile))
+          .catch((err) => res.status(400).json(err));
+      }
+    });
   }
 );
 

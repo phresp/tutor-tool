@@ -51,6 +51,7 @@ import FormsAdminOverview from "./components/forms/FormsAdminOverview";
 import FormsUpload from "./components/forms/FormsUpload";
 import ChangeAccountType from "./components/administration/ChangeAccountType";
 import CreateSeparateContract from "./components/contract/CreateSeparateContract";
+import AdvisorInvite from "./components/Invitation/AdvisorInvite";
 
 import "./App.css";
 
@@ -304,6 +305,13 @@ class App extends Component {
               exact
               path="/createseparatecontract/"
               component={CreateSeparateContract}
+            />
+          </Switch>
+          <Switch>
+            <PrivateAdminRoute
+              exact
+              path="/advisorinvite/"
+              component={AdvisorInvite}
             />
           </Switch>
           <Footer />

@@ -11,6 +11,7 @@ import {
   GET_ADVISORS,
   GET_ADMINS,
   GET_TUTORS,
+  GET_INVITATION_KEY,
 } from "./types";
 
 //Get current profile
@@ -103,6 +104,19 @@ export const getAdmins = () => (dispatch) => {
 export const createProfile = (profileData, history) => (dispatch) => {
   axios
     .post("api/profile", profileData)
+    .then((res) => history.push("/dashboard"))
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+//CreateAdvisorProfile
+export const createAdvisorProfile = (profileData, history) => (dispatch) => {
+  axios
+    .post("api/profile/advisorprofile", profileData)
     .then((res) => history.push("/dashboard"))
     .catch((err) =>
       dispatch({

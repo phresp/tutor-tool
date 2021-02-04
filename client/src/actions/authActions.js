@@ -2,7 +2,7 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERRORS, GET_INVITATION_KEY, SET_CURRENT_USER } from "./types";
 
 //Register User
 export const registerUser = (userData, history) => (dispatch) => {
@@ -52,6 +52,24 @@ export const setCurrentUser = (decoded) => {
     type: SET_CURRENT_USER,
     payload: decoded,
   };
+};
+
+//Get invitation Key
+export const getInvitationKey = () => (dispatch) => {
+  axios
+    .get("/api/users/createinvitationkey")
+    .then((res) => {
+      dispatch({
+        type: GET_INVITATION_KEY,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
+    });
 };
 
 //Log user out
