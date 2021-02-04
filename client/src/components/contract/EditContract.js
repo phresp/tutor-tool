@@ -610,6 +610,69 @@ class EditContract extends Component {
       }
     }
 
+    //TODO: Abgelaufene Daten Tooltipp
+    var aufenthaltToolTipp;
+    var stipendiumToolTipp;
+    if (profile) {
+      if (profile.aufenthaltend) {
+        if (new Date(profile.aufenthaltend) < Date.now()) {
+          aufenthaltToolTipp = (
+            <h3 className="text-danger">Aufenthaltstitel abgelaufen!</h3>
+          );
+        }
+      }
+    }
+
+    if (profile) {
+      if (profile.stipendiumend) {
+        if (
+          new Date(profile.stipendiumend) < Date.now() &&
+          profile.stipendiumend
+        ) {
+          stipendiumToolTipp = (
+            <h3 className="text-danger">Stipendium abgelaufen!</h3>
+          );
+        }
+      }
+    }
+
+    var aufenthaltende1;
+    var aufenthaltende2;
+
+    //Aufenthaltprüfung länger als Vertrag
+    if (profile) {
+      console.log(profile.aufenthaltend);
+      if (profile.aufenthaltend && this.state.contractend) {
+        console.log("Yes");
+        if (
+          new Date(profile.aufenthaltend) < new Date(this.state.contractend)
+        ) {
+          aufenthaltende1 = (
+            <h3 className="text-danger">
+              Aufenthaltstitel endet am{" "}
+              {moment.utc(profile.aufenthaltend).format("DD-MM-YYYY")}
+            </h3>
+          );
+        }
+      }
+    }
+
+    //Aufenthaltprüfung länger als Vertrag
+    if (profile) {
+      if (profile.aufenthaltend && this.state.contractend2) {
+        if (
+          new Date(profile.aufenthaltend) < new Date(this.state.contractend2)
+        ) {
+          aufenthaltende2 = (
+            <h3 className="text-danger">
+              Aufenthaltstitel endet am{" "}
+              {moment.utc(profile.aufenthaltend).format("DD-MM-YYYY")}
+            </h3>
+          );
+        }
+      }
+    }
+
     var vertragSplitting;
 
     if (this.state.displayContractsplitting) {
@@ -646,6 +709,8 @@ class EditContract extends Component {
             name="contractstart2"
             error={errors.contractstart2}
           />
+
+          {aufenthaltende2}
           <div className="container">
             <div className="row">
               <div className="col-md-9">
@@ -686,32 +751,6 @@ class EditContract extends Component {
           />
         </div>
       );
-    }
-
-    //TODO: Abgelaufene Daten Tooltipp
-    var aufenthaltToolTipp;
-    var stipendiumToolTipp;
-    if (profile) {
-      if (profile.aufenthaltend) {
-        if (new Date(profile.aufenthaltend) < Date.now()) {
-          aufenthaltToolTipp = (
-            <h3 className="text-danger">Aufenthaltstitel abgelaufen!</h3>
-          );
-        }
-      }
-    }
-
-    if (profile) {
-      if (profile.stipendiumend) {
-        if (
-          new Date(profile.stipendiumend) < Date.now() &&
-          profile.stipendiumend
-        ) {
-          stipendiumToolTipp = (
-            <h3 className="text-danger">Stipendium abgelaufen!</h3>
-          );
-        }
-      }
     }
 
     //Immatrikulation Folgesemester
@@ -838,6 +877,7 @@ class EditContract extends Component {
                   name="contractstart"
                   error={errors.contractstart}
                 />
+                {aufenthaltende1}
                 <div className="container">
                   <div className="row">
                     <div className="col-md-9">

@@ -53,7 +53,7 @@ class CreateContract extends Component {
       reisepass: "Fehlt",
       stipendium: "Fehlt",
       abschlusszeugnis: "Fehlt",
-      status: "Created",
+      status: "Incomplete",
       displayContractsplitting: false,
       errors: {},
     };
@@ -120,7 +120,7 @@ class CreateContract extends Component {
   }
 
   render() {
-    const { errors, displayContractsplitting, profile } = this.state;
+    const { errors, displayContractsplitting } = this.state;
 
     //back Button
     var backButton = (
@@ -157,6 +157,12 @@ class CreateContract extends Component {
     //Get application ID
     if (this.props.application.application) {
       this.state.applicationID = this.props.application.application._id;
+    }
+
+    //Get profile ID
+    var profile;
+    if (this.props.application.application) {
+      profile = this.props.application.application.profile;
     }
 
     //Name and course
@@ -422,6 +428,43 @@ class CreateContract extends Component {
       }
     }
 
+    var aufenthaltende1;
+    var aufenthaltende2;
+
+    //Aufenthaltprüfung länger als Vertrag
+    if (profile) {
+      console.log(profile.aufenthaltend);
+      if (profile.aufenthaltend && this.state.contractend) {
+        console.log("Yes");
+        if (
+          new Date(profile.aufenthaltend) < new Date(this.state.contractend)
+        ) {
+          aufenthaltende1 = (
+            <h3 className="text-danger">
+              Aufenthaltstitel endet am{" "}
+              {moment.utc(profile.aufenthaltend).format("DD-MM-YYYY")}
+            </h3>
+          );
+        }
+      }
+    }
+
+    //Aufenthaltprüfung länger als Vertrag
+    if (profile) {
+      if (profile.aufenthaltend && this.state.contractend2) {
+        if (
+          new Date(profile.aufenthaltend) < new Date(this.state.contractend2)
+        ) {
+          aufenthaltende2 = (
+            <h3 className="text-danger">
+              Aufenthaltstitel endet am{" "}
+              {moment.utc(profile.aufenthaltend).format("DD-MM-YYYY")}
+            </h3>
+          );
+        }
+      }
+    }
+
     var vertragSplitting;
 
     if (displayContractsplitting) {
@@ -459,6 +502,7 @@ class CreateContract extends Component {
             name="contractstart2"
             error={errors.contractstart2}
           />
+          {aufenthaltende2}
           <div className="container">
             <div className="row">
               <div className="col-md-9">
@@ -551,6 +595,7 @@ class CreateContract extends Component {
           if (
             (element.abschlusszeugnis === "Liegt vor" ||
               element.abschlusszeugnis === "Liegt bei") &&
+            this.state.degree !== "" &&
             this.state.abschlusszeugnis !== "Liegt bei" &&
             this.state.abschlusszeugnis !== "Kein Bedarf"
           ) {
@@ -610,6 +655,7 @@ class CreateContract extends Component {
                   name="contractstart"
                   error={errors.contractstart}
                 />
+                {aufenthaltende1}
                 <div className="container">
                   <div className="row">
                     <div className="col-md-9">

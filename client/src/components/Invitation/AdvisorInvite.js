@@ -33,7 +33,7 @@ class AdvisorInvite extends Component {
     if (this.state.key) {
       link = (
         <h5 className={"text-center"}>
-          tutor-tool.herokuapp.com/advisorregistration/{this.state.key}
+          https://tutor-tool.herokuapp.com/advisorregistration/{this.state.key}
         </h5>
       );
     }
