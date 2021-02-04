@@ -55,6 +55,57 @@ router.post("/register", (req, res) => {
   });
 });
 
+// @route   POST /api/users/advisorregistration/:id
+// @desc    Register a User
+// @access  Public
+router.post("/advisorregistration/:id", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  //Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  Invitation.findOne({ invitationkey: req.params.id }).then((key) => {
+    var twodays = 2 * 24 * 60 * 60 * 1000; /* ms */
+    if (new Date(Date.now()) - key.date < twodays) {
+      User.findOne({ email: req.body.email.toLowerCase() }).then((user) => {
+        if (user) {
+          errors.email = "Email already exists";
+          return res.status(400).json(errors);
+        } else {
+          const newUser = new User({
+            password: req.body.password,
+            email: req.body.email.toLowerCase(),
+            role: "Advisor",
+          });
+
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              if (err) throw err;
+              newUser.password = hash;
+              newUser
+                .save()
+                .then((user) => {
+                  Invitation.findOneAndDelete({ invitationkey: req.params.id })
+                    .then(res.json(user))
+                    .catch((err) => res.json(err));
+                })
+                .catch((err) => res.json(err));
+            });
+          });
+        }
+      });
+    } else {
+      Invitation.findOneAndDelete({ invitationkey: req.params.id })
+        .then(() => {
+          errors.email = "Invitaionlink expired";
+          res.status(400).json(errors);
+        })
+        .catch((err) => res.json(err));
+    }
+  });
+});
+
 // @route   POST /api/users/login
 // @desc    Login User / Return Token
 // @access  Public
@@ -138,23 +189,21 @@ router.get(
   "/createinvitationkey",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    crypto.randomBytes(10, function (err, buffer) {
-      var invitekey = buffer.toString("base64");
-      Invitaion.findOne({ invitationkey: invitekey }).then((key) => {
-        if (key) {
-          errors.key = "Key already exists";
-          return res.status(400).json(errors);
-        } else {
-          const newKey = new Invitaion({
-            invitationkey: invitekey,
-            usage: "Invitationkey",
-          });
-          newKey
-            .save()
-            .then((key) => res.send(key.invitationkey))
-            .catch((err) => res.status(404).json(err));
-        }
-      });
+    var invitekey = Math.random().toString(36).slice(-10);
+    Invitaion.findOne({ invitationkey: invitekey }).then((key) => {
+      if (key) {
+        errors.key = "Key already exists";
+        return res.status(400).json(errors);
+      } else {
+        const newKey = new Invitaion({
+          invitationkey: invitekey,
+          usage: "Invitationkey",
+        });
+        newKey
+          .save()
+          .then((key) => res.send(key.invitationkey))
+          .catch((err) => res.status(404).json(err));
+      }
     });
   }
 );

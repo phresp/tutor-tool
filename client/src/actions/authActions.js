@@ -17,6 +17,19 @@ export const registerUser = (userData, history) => (dispatch) => {
     );
 };
 
+//Register Advisor
+export const registerAdvisor = (userData, id, history) => (dispatch) => {
+  axios
+    .post(`/api/users/advisorregistration/${id}`, userData)
+    .then((res) => history.push("/login"))
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
 //Login - Get User Token
 export const loginUser = (userData) => (dispatch) => {
   axios

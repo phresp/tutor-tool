@@ -100,14 +100,25 @@ class Dashboard extends Component {
         }
       } else {
         // User is logged in but hast no profile
-        dashboardContent = (
-          <div>
-            <p>You have not yet setup a profile, please add some info</p>
-            <Link to="/create-profile" className="btn btn-lg btn-info">
-              Create Profile
-            </Link>
-          </div>
-        );
+        if (user.role === "Student") {
+          dashboardContent = (
+            <div>
+              <p>You have not yet setup a profile, please add some info</p>
+              <Link to="/create-profile" className="btn btn-lg btn-info">
+                Create Profile
+              </Link>
+            </div>
+          );
+        } else {
+          dashboardContent = (
+            <div>
+              <p>You have not yet setup a profile, please add some info</p>
+              <Link to="/create-advisorprofile" className="btn btn-lg btn-info">
+                Create Profile
+              </Link>
+            </div>
+          );
+        }
       }
     }
 

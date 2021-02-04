@@ -27,15 +27,15 @@ class AdvisorInvite extends Component {
     this.setState({ disabled: true });
     this.props.getInvitationKey();
   }
-
+  //TODO: CHANGE LINK
   render() {
     const { key } = this.state;
     var link;
     if (this.state.key) {
       link = (
-        <h4 className={"text-center"}>
-          tutor-tool.herokuapp.com/{this.state.key}
-        </h4>
+        <h5 className={"text-center"}>
+          localhost:8000/advisorregistration/{this.state.key}
+        </h5>
       );
     }
     return (

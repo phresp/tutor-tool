@@ -52,6 +52,7 @@ import FormsUpload from "./components/forms/FormsUpload";
 import ChangeAccountType from "./components/administration/ChangeAccountType";
 import CreateSeparateContract from "./components/contract/CreateSeparateContract";
 import AdvisorInvite from "./components/Invitation/AdvisorInvite";
+import AdvisorRegister from "./components/auth/AdvisorRegister";
 
 import "./App.css";
 
@@ -82,6 +83,11 @@ class App extends Component {
           <Route exact path="/" component={Landing} />
 
           <Route exact path="/register" component={Register} />
+          <Route
+            exact
+            path="/advisorregistration/:id"
+            component={AdvisorRegister}
+          />
           <Route exact path="/login" component={Login} />
           <Route
             exact
