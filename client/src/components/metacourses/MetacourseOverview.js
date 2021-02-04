@@ -39,12 +39,12 @@ class MetacourseOverview extends Component {
     const columns = [
       {
         dataField: "name",
-        text: "Metakurs",
+        text: "Metaveranstaltung",
         sort: true,
       },
       {
         dataField: "scheme",
-        text: "Schema",
+        text: "Maßnahme",
         sort: true,
       },
       {
@@ -83,7 +83,8 @@ class MetacourseOverview extends Component {
           </Link>
           <h1 className={"display-4"}>Metaveranstaltung Übersicht</h1>
           <Link to="/create-metacourse" className="btn btn-info">
-            <i className="fas fa-user-circle text-primary"></i> Neuer Metakurs
+            <i className="fas fa-user-circle text-primary"></i> Neuer
+            Metaveranstaltung
           </Link>
           <h6></h6>
           <ToolkitProvider

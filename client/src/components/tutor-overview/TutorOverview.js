@@ -161,7 +161,7 @@ class Profiles extends Component {
                   }}
                 >
                   {" "}
-                  Übungsleiter
+                  ÜbungsleiterInnen
                 </button>
 
                 <button
@@ -177,7 +177,7 @@ class Profiles extends Component {
                   }}
                 >
                   {" "}
-                  Student
+                  Studierende
                 </button>
 
                 <button

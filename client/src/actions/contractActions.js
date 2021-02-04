@@ -100,11 +100,13 @@ export const getContractsForContract = (id) => (dispatch) => {
 };
 
 //Create Contract
-export const createContract = (contractData, history) => (dispatch) => {
+export const createContract = (contractData, courseID, history) => (
+  dispatch
+) => {
   axios
     .post("/api/contract", contractData)
     .then((res) => {
-      history.push("/dashboard");
+      history.push(`/course-applications/${courseID}`);
     })
     .catch((err) =>
       dispatch({

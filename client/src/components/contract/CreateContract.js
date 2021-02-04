@@ -108,7 +108,11 @@ class CreateContract extends Component {
       status: this.state.status,
     };
 
-    this.props.createContract(contractData, this.props.history);
+    this.props.createContract(
+      contractData,
+      this.props.application.application.course._id,
+      this.props.history
+    );
   }
 
   onChange(e) {

@@ -90,18 +90,18 @@ class ChangeAccountType extends Component {
                 back
               </Link>
               <h1 className="display-4 text-center">
-                Change Account Type for <br />
+                Rolle ändern für <br />
                 {this.state.firstname} {this.state.lastname}{" "}
               </h1>
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="accounttype">Account Type:</label>
+                <label htmlFor="accounttype">Rolle:</label>
                 <SelectListGroup
                   placeholder="Account Type"
                   onChange={this.onChange}
                   value={this.state.role}
                   name="role"
                   options={accountTypeOptions}
-                  info="Account Type auswählen"
+                  info="Rolle auswählen"
                 />
                 <input
                   type="submit"

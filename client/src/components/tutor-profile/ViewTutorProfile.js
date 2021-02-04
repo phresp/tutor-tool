@@ -227,7 +227,7 @@ class ViewTutorProfile extends Component {
                 to={`/changeAccountType/${this.props.match.params.id}`}
                 className={"btn btn-primary"}
               >
-                Change Account Type
+                Rolle ändern
               </Link>
               <button
                 type="button"
@@ -279,7 +279,7 @@ class ViewTutorProfile extends Component {
                   error={errors.birthday}
                   disabled={this.state.disabled ? "disabled" : ""}
                 />
-                <label htmlFor="birthplace">* Birthplace:</label>
+                <label htmlFor="birthplace">* Geburtsort:</label>
                 <TextFieldGroup
                   placeholder="Geburtsort"
                   onChange={this.onChange}
@@ -319,13 +319,32 @@ class ViewTutorProfile extends Component {
                   name="nationality2"
                   error={errors.nationality2}
                   options={countryOptions}
-                  info="Please provide your second nationality if you have one"
                   disabled={this.state.disabled ? "disabled" : ""}
                 />
 
                 {aufenthaltLabel}
                 {aufenthaltInput}
-                <label htmlFor="stipendium">Stipendium Ende:</label>
+                <div className="container">
+                  <div className="row">
+                    <label htmlFor="Stipendium">Stipendium Ende:</label>
+                    <div className={"col-md-5"}></div>
+                    <div className={"col-md-3"}>
+                      <button
+                        className={"btn btn-light"}
+                        type="button"
+                        disabled={this.state.disabled ? "disabled" : ""}
+                        onClick={() => {
+                          this.setState({
+                            stipendiumend: "",
+                          });
+                        }}
+                      >
+                        {" "}
+                        Datum löschen
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Stipendium Ende"

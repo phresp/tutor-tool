@@ -152,7 +152,9 @@ class CreateProfile extends Component {
       aufenthaltfreieCountries.indexOf(this.state.nationality) == -1 ||
       aufenthaltfreieCountries.indexOf(this.state.nationality2) == -1
     ) {
-      aufenthaltLabel = <label htmlFor="Aufenthalt">Aufenthalt Ende:</label>;
+      aufenthaltLabel = (
+        <label htmlFor="Aufenthalt">Expiration date of residents permit:</label>
+      );
       aufenthaltInput = (
         <TextFieldGroup
           type={"date"}
@@ -251,11 +253,10 @@ class CreateProfile extends Component {
 
                 <div className="container">
                   <div className="row">
-                    <div className={"col-md-9"}>
-                      <label htmlFor="Stipendium">
-                        End of scholarship (if applicable):
-                      </label>
-                    </div>
+                    <label htmlFor="Stipendium">
+                      End of scholarship (if applicable):
+                    </label>
+                    <div className={"col-md-5"}></div>
                     <div className={"col-md-3"}>
                       <button
                         className={"btn btn-light"}
@@ -284,9 +285,9 @@ class CreateProfile extends Component {
                   error={errors.stipendiumend}
                 />
 
-                <label htmlFor="Matrikelnummer">Matrikelnummer:</label>
+                <label htmlFor="Matrikelnummer">Immatrikulation number:</label>
                 <TextFieldGroup
-                  placeholder="Matrikelnummer"
+                  placeholder="Immatrikulation number"
                   onChange={this.onChange}
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"

@@ -98,7 +98,9 @@ class CreateProfile extends Component {
       aufenthaltfreieCountries.indexOf(this.state.nationality) == -1 ||
       aufenthaltfreieCountries.indexOf(this.state.nationality2) == -1
     ) {
-      aufenthaltLabel = <label htmlFor="Aufenthalt">Aufenthalt Ende:</label>;
+      aufenthaltLabel = (
+        <label htmlFor="Aufenthalt">Expiration date of residents permit:</label>
+      );
       aufenthaltInput = (
         <TextFieldGroup
           type={"date"}
@@ -119,6 +121,7 @@ class CreateProfile extends Component {
               <h1 className="display-4 text-center">Create Your Profile</h1>
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
+                <label htmlFor="firstname">* Firstname:</label>
                 <TextFieldGroup
                   placeholder="* Firstname"
                   onChange={this.onChange}
@@ -126,6 +129,7 @@ class CreateProfile extends Component {
                   name="firstname"
                   error={errors.firstname}
                 />
+                <label htmlFor="lastname">* Lastname:</label>
                 <TextFieldGroup
                   placeholder="* Lastname"
                   onChange={this.onChange}
@@ -133,7 +137,7 @@ class CreateProfile extends Component {
                   name="lastname"
                   error={errors.lastname}
                 />
-                <label htmlFor="countryofbirth">* Gender:</label>
+                <label htmlFor="gender">* Gender:</label>
                 <SelectListGroup
                   placeholder="* Gender"
                   onChange={this.onChange}
@@ -142,7 +146,7 @@ class CreateProfile extends Component {
                   error={errors.gender}
                   options={statusOptions}
                 />
-                <label htmlFor="countryofbirth">* Birthday:</label>
+                <label htmlFor="birthday">* Birthday:</label>
                 <TextFieldGroup
                   type={"date"}
                   placeholder="* Birthday"
@@ -223,9 +227,9 @@ class CreateProfile extends Component {
                   name="stipendiumend"
                   error={errors.stipendiumend}
                 />
-                <label htmlFor="Matrikelnummer">Matrikelnummer:</label>
+                <label htmlFor="Matrikelnummer">Immatrikulation number:</label>
                 <TextFieldGroup
-                  placeholder="Matrikelnummer"
+                  placeholder="Immatrikulation number"
                   onChange={this.onChange}
                   value={this.state.matrikelnummer}
                   name="matrikelnummer"

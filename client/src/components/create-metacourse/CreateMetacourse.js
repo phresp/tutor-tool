@@ -51,8 +51,8 @@ class CreateMetacourse extends Component {
   render() {
     const { errors } = this.state;
 
-    const SchemaOptions = [
-      { label: "* Schema", value: "" },
+    const MaßnahmeOptions = [
+      { label: "* Maßnahme", value: "" },
       { label: "Tutorien", value: "Tutorien" },
       { label: "Vorkurse", value: "Vorkurse" },
       { label: "Repetitorien", value: "Repetitorien" },
@@ -67,26 +67,28 @@ class CreateMetacourse extends Component {
               <Link to={"/metacourse-overview"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Metakurs Erstellen</h1>
+              <h1 className="display-4 text-center">
+                Metaveranstaltung Erstellen
+              </h1>
               <small className="d-block pb-3">* = benötigte Felder</small>
 
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Bezeichnung Metakurs"
+                  placeholder="* Bezeichnung Metaveranstaltung"
                   onChange={this.onChange}
                   value={this.state.name}
                   name="name"
                   error={errors.name}
-                  info="* Bezeichnung Metakurs"
+                  info="* Bezeichnung Metaveranstaltung"
                 />
                 <SelectListGroup
-                  placeholder="* Schema"
+                  placeholder="* Maßnahme"
                   onChange={this.onChange}
                   value={this.state.scheme}
                   name="scheme"
                   error={errors.scheme}
-                  options={SchemaOptions}
-                  info="* Schema"
+                  options={MaßnahmeOptions}
+                  info="* Maßnahme"
                 />
                 <TextFieldGroup
                   placeholder="* Fondsnummer"
