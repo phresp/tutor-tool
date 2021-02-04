@@ -53,6 +53,7 @@ import ChangeAccountType from "./components/administration/ChangeAccountType";
 import CreateSeparateContract from "./components/contract/CreateSeparateContract";
 import AdvisorInvite from "./components/Invitation/AdvisorInvite";
 import AdvisorRegister from "./components/auth/AdvisorRegister";
+import CreateAdvisorProfile from "./components/create-profile/CreateAdvisorProfile";
 
 import "./App.css";
 
@@ -127,6 +128,13 @@ class App extends Component {
               exact
               path="/tutor-overview"
               component={TutorOverview}
+            />
+          </Switch>
+          <Switch>
+            <PrivateAdvisorRoute
+              exact
+              path="/create-advisorprofile"
+              component={CreateAdvisorProfile}
             />
           </Switch>
           <Switch>
