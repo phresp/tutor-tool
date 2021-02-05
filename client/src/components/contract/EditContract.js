@@ -103,7 +103,14 @@ class EditContract extends Component {
         : "";
       contract.hours2 = !isEmpty(contract.hours2) ? contract.hours2 : "";
 
-      contract.degree = !isEmpty(contract.degree) ? contract.degree : "None";
+      contract.degree = !isEmpty(contract.degree) ? contract.degree : "";
+      if (contract.degree === "") {
+        if (contract.profile) {
+          if (contract.profile.degree !== "") {
+            contract.degree = contract.profile.degree;
+          }
+        }
+      }
       contract.newcontract = !isEmpty(contract.newcontract)
         ? contract.newcontract
         : "True";
@@ -822,7 +829,7 @@ class EditContract extends Component {
             (element.abschlusszeugnis === "Liegt vor" ||
               element.abschlusszeugnis === "Liegt bei") &&
             this.state.abschlusszeugnis !== "Liegt bei" &&
-            this.state.abschlusszeugnis !== "Kein Bedarf"
+            this.state.degree !== ""
           ) {
             this.setState({ abschlusszeugnis: "Liegt bei" });
           }
@@ -859,6 +866,9 @@ class EditContract extends Component {
               >
                 EV exportieren
               </button>
+              <Link to="/createseparatecontract" className="btn btn-info">
+                Weiteren Vertrag anlegen
+              </Link>
               <form onSubmit={this.onSubmit}>
                 <div className="container">
                   <div className="row">

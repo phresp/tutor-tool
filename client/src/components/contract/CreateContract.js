@@ -16,8 +16,6 @@ import { getApplicationOfId } from "../../actions/applicationActions";
 import verfassungsPruefung from "../common/VerfassungschutzCountries";
 import aufenthaltfreieCountries from "../common/AufenthaltCountries";
 
-import { isEmpty } from "../../validation/is-empty";
-
 class CreateContract extends Component {
   componentDidMount() {
     this.props.getApplicationOfId(this.props.match.params.id);
@@ -143,21 +141,25 @@ class CreateContract extends Component {
 
     //Get User ID
     if (this.props.application.application) {
-      this.state.user = this.props.application.application.user._id;
+      this.setState({ user: this.props.application.application.user._id });
     }
     // Get profile ID
     if (this.props.application.application) {
-      this.state.profile = this.props.application.application.profile._id;
+      this.setState({
+        profile: this.props.application.application.profile._id,
+      });
     }
 
     //Get Profile ID
     if (this.props.application.application) {
-      this.state.course = this.props.application.application.course._id;
+      this.setState({ course: this.props.application.application.course._id });
     }
 
     //Get application ID
     if (this.props.application.application) {
-      this.state.applicationID = this.props.application.application._id;
+      this.setState({
+        applicationID: this.props.application.application.application._id,
+      });
     }
 
     //Get profile ID
@@ -252,8 +254,10 @@ class CreateContract extends Component {
             this.props.application.application.profile.nationality2
           ) !== -1
         ) {
-          this.state.reisepass = "Kein Bedarf";
-          this.state.aufenthaltstitel = "Kein Bedarf";
+          this.setState({
+            reisepass: "Kein Bedarf",
+            aufenthaltstitel: "Kein Bedarf",
+          });
         }
       }
     }
@@ -263,17 +267,19 @@ class CreateContract extends Component {
       this.state.degree === "" &&
       this.state.abschlusszeugnis !== "Kein Bedarf"
     ) {
-      this.state.abschlusszeugnis = "Kein Bedarf";
+      this.setState({ abschlusszeugnis: "Kein Bedarf" });
     }
 
+    //Query for Stipendium
     if (this.props.application.application) {
       if (this.props.application.application.profile) {
         if (!this.props.application.application.profile.stipendiumend) {
-          this.state.stipendium = "Kein Bedarf";
+          this.setState({ stipendium: "Kein Bedarf" });
         }
       }
     }
 
+    //Verfassungsschutz Tooltip if necessary
     var verfassungsPruefungTooltip = <div></div>;
 
     if (this.props.application.application) {

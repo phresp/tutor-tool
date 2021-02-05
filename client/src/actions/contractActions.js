@@ -121,7 +121,7 @@ export const createSeparateContract = (contractData, history) => (dispatch) => {
   axios
     .post("/api/contract/separatecontract", contractData)
     .then((res) => {
-      history.push("/contracts");
+      history.push(`/edit-contract/${res.data}`);
     })
     .catch((err) =>
       dispatch({

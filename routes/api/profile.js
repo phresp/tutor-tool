@@ -290,7 +290,6 @@ router.post(
 
     //Get Body Fields
     const profileFields = {};
-    profileFields.user = req.user.id;
     profileFields.lastname = req.body.lastname;
     profileFields.firstname = req.body.firstname;
     profileFields.gender = req.body.gender;

@@ -377,7 +377,7 @@ router.post(
     //Create Contract
     new Contract(contractFields)
       .save()
-      .then((contract) => res.json(contract))
+      .then((contract) => res.json(contract._id))
       .catch((err) =>
         res.status(400).json({ contractnotfound: "Contract not found" })
       );
