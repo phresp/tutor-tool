@@ -12,6 +12,7 @@ import {
   getContractOfID,
   updateContract,
   getContractsForContract,
+  deleteContract,
 } from "../../actions/contractActions";
 import { downloadEV } from "../../actions/formsActions";
 import { getAdvisors, getAdmins } from "../../actions/profileActions";
@@ -374,6 +375,10 @@ class EditContract extends Component {
       abschlusszeugnis: this.state.abschlusszeugnis,
     };
     this.props.downloadEV(evData);
+  }
+
+  onDeleteClick(e) {
+    this.props.deleteContract(this.props.match.params.id, this.props.history);
   }
 
   onChange(e) {
@@ -869,6 +874,13 @@ class EditContract extends Component {
               <Link to="/createseparatecontract" className="btn btn-info">
                 Weiteren Vertrag anlegen
               </Link>
+              <button
+                type="button"
+                onClick={this.onDeleteClick.bind(this)}
+                className="btn btn-danger"
+              >
+                Vertrag löschen
+              </button>
               <form onSubmit={this.onSubmit}>
                 <div className="container">
                   <div className="row">
@@ -1187,4 +1199,5 @@ export default connect(mapStateToProps, {
   getAdvisors,
   getAdmins,
   getContractsForContract,
+  deleteContract,
 })(withRouter(EditContract));

@@ -445,4 +445,27 @@ router.post(
   }
 );
 
+//TODO: actually Delete Stuff
+
+// @route   DELETE api/contract/deletecontract/:id
+// @desc    Delete contract
+// @access  Private
+router.delete(
+  "/deletecontract/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log(req.params.id);
+    Contract.findOne({
+      _id: req.params.id,
+    })
+      .then((contract) => {
+        console.log(contract);
+        res.status(200).json("success");
+      })
+      .catch((err) => {
+        res.status(404).json(err);
+      });
+  }
+);
+
 module.exports = router;

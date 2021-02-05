@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const MailTemplateSchema = new Schema({
+  name: {
+    type: String,
+  },
   text: {
     type: String,
   },

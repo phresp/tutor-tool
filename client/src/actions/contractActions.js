@@ -146,6 +146,21 @@ export const updateContract = (id, contractData, history) => (dispatch) => {
     );
 };
 
+//Update Contract
+export const deleteContract = (id, history) => (dispatch) => {
+  axios
+    .delete(`/api/contract/deletecontract/${id}`)
+    .then((res) => {
+      history.push("/contracts");
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: { err },
+      })
+    );
+};
+
 // Contract Loading
 export const setContractLoading = () => {
   return {
