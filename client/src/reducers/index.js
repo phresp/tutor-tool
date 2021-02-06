@@ -8,6 +8,7 @@ import courseReducer from "./courseReducer";
 import applicationReducer from "./applicationReducer";
 import contractReducer from "./contractReducer";
 import formsReducer from "./formsReducer";
+import mailReducer from "./mailReducer";
 
 export default combineReducers({
   application: applicationReducer,
@@ -16,6 +17,7 @@ export default combineReducers({
   course: courseReducer,
   errors: errorsReducer,
   forms: formsReducer,
+  mail: mailReducer,
   metacourse: metacourseReducer,
   profile: profileReducer,
   semester: semesterReducer,

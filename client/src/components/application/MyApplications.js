@@ -29,11 +29,13 @@ class MyApplications extends Component {
     const entries = applications ? applications : [];
 
     function betrachtenButton(cell, row, course, rowIndex, formatExtraData) {
-      return (
-        <Link to={`/updateapplication/${row._id}`} className="btn btn-info">
-          Betrachten
-        </Link>
-      );
+      if (row.status === "Applied") {
+        return (
+          <Link to={`/updateapplication/${row._id}`} className="btn btn-info">
+            Edit
+          </Link>
+        );
+      }
     }
 
     if (applications && applications.length > 0) {

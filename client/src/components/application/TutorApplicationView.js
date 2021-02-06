@@ -9,7 +9,6 @@ import { getAdvisors } from "../../actions/profileActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import isEmpty from "validator/es/lib/isEmpty";
 import Spinner from "../common/Spinner";
 
 const { SearchBar } = Search;
@@ -54,7 +53,7 @@ class TutorApplicationView extends Component {
 
       function statusFormatter(value, row, rowIndex, formatExtraData) {
         var result = applications.filter((obj) => {
-          return obj.course._id === value;
+          if (obj.course) return obj.course._id === value;
         });
         if (result[0]) {
           return result[0].status;

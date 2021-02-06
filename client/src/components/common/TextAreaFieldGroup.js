@@ -8,6 +8,7 @@ const TextAreaFieldGroup = ({
   value,
   error,
   info,
+  rows,
   onChange,
   disabled,
 }) => {
@@ -20,6 +21,7 @@ const TextAreaFieldGroup = ({
         placeholder={placeholder}
         name={name}
         value={value}
+        rows={rows}
         onChange={onChange}
         disabled={disabled}
       />

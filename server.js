@@ -12,7 +12,7 @@ const course = require("./routes/api/course");
 const application = require("./routes/api/application");
 const contract = require("./routes/api/contract");
 const forms = require("./routes/api/forms");
-const message = require("./routes/api/message");
+const mail = require("./routes/api/mail");
 
 const app = express();
 
@@ -48,7 +48,7 @@ app.use("/api/course", course);
 app.use("/api/application", application);
 app.use("/api/contract", contract);
 app.use("/api/forms", forms);
-app.use("/api/message", message);
+app.use("/api/mail", mail);
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {

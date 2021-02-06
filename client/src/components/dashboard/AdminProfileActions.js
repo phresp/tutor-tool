@@ -35,12 +35,16 @@ const AdminProfileActions = () => {
         <Link to="/forms-administration" className="btn btn-light">
           <i className="fas fa-file-pdf text-primary"></i> Formulare
         </Link>
-        <Link to="/contracts" className="btn btn-light">
-          <i className="far fa-envelope text-primary"></i> Mail
-        </Link>
         <Link to="/advisorinvite" className="btn btn-light">
           <i className="fas fa-chalkboard-teacher text-primary"></i>
           Übungsleiter
+        </Link>
+        <h6>Mail:</h6>
+        <Link to="/send-mail" className="btn btn-light">
+          <i className="far fa-envelope text-primary"></i> Mail versenden
+        </Link>
+        <Link to="/mail-overview" className="btn btn-light">
+          <i className="far fa-address-book text-primary"></i> Mail Vorlagen
         </Link>
       </div>
     </div>
