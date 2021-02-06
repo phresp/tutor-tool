@@ -454,13 +454,34 @@ router.delete(
   "/deletecontract/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log(req.params.id);
     Contract.findOne({
       _id: req.params.id,
     })
       .then((contract) => {
-        console.log(contract);
-        res.status(200).json("success");
+        if (contract.application) {
+          var applicationFields = {};
+          applicationFields.status = "Applied";
+          //Update Application
+          Application.findOneAndUpdate(
+            { _id: contract.application },
+            { $set: applicationFields },
+            { new: true }
+          )
+            .then(() => {
+              Contract.findOneAndDelete({
+                _id: req.params.id,
+              })
+                .then(res.json("success"))
+                .catch((err) => res.json(err));
+            })
+            .catch((err) => res.status(404).json(err));
+        } else {
+          Contract.findOneAndDelete({
+            _id: req.params.id,
+          })
+            .then(res.json("success"))
+            .catch((err) => res.json(err));
+        }
       })
       .catch((err) => {
         res.status(404).json(err);

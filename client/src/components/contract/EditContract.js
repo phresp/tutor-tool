@@ -43,7 +43,7 @@ class EditContract extends Component {
       contractstart2: "",
       contractend2: "",
       hours2: "",
-      degree: "None",
+      degree: "",
       profiledegree: "",
       newcontract: "True",
       merkblatt: "",
@@ -176,10 +176,11 @@ class EditContract extends Component {
         ? contract.reisepass
         : "Fehlt";
       contract.status = !isEmpty(contract.status) ? contract.status : "";
+      contract.profiledegree = "";
       if (contract.profile.degree) {
         contract.profiledegree = !isEmpty(contract.profile.degree)
           ? contract.profile.degree
-          : "Fehlt";
+          : "";
       }
       if (contract.contractstart2 || contract.contractend2 || contract.hours2) {
         display = true;
@@ -526,10 +527,7 @@ class EditContract extends Component {
 
     var degreeTooltipp = <div></div>;
 
-    if (
-      this.state.profiledegree &&
-      this.state.profiledegree !== this.state.degree
-    ) {
+    if (this.state.profiledegree !== this.state.degree) {
       degreeTooltipp = (
         <h3 className="text-danger">
           Abschluss anders als von Tutor angegeben!
