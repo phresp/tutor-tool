@@ -66,9 +66,68 @@ class AdminApplicationView extends Component {
       if (row.status === "Accepted") {
         return (
           <Link to={`/create-contract/${row._id}`} className="btn btn-primary">
-            Create Contract
+            Vertrag erstellen
           </Link>
         );
+      }
+    }
+
+    function acceptButton(cell, row, rowIndex, formatExtraData) {
+      if (row) {
+        if (row.status) {
+          if (row.status === "Applied") {
+            return (
+              <button
+                onClick={() => {
+                  axios
+                    .post(`/api/application/accept/${row._id}`)
+                    .then((res) => {
+                      window.location.reload();
+                    });
+                }}
+                className="btn btn-primary"
+              >
+                Annehmen
+              </button>
+            );
+          } else if (row.status === "Accepted" || row.status === "Declined") {
+            return (
+              <button
+                onClick={() => {
+                  axios
+                    .post(`/api/application/applied/${row._id}`)
+                    .then((res) => {
+                      window.location.reload();
+                    });
+                }}
+                className="btn btn-secondary"
+              >
+                Zurücksetzen
+              </button>
+            );
+          }
+        }
+      }
+    }
+
+    function declineButton(cell, row, rowIndex, formatExtraData) {
+      if (row.status) {
+        if (row.status === "Applied") {
+          return (
+            <button
+              onClick={() => {
+                axios
+                  .post(`/api/application/decline/${row._id}`)
+                  .then((res) => {
+                    window.location.reload();
+                  });
+              }}
+              className="btn btn-danger"
+            >
+              Ablehnen
+            </button>
+          );
+        }
       }
     }
 
@@ -101,6 +160,18 @@ class AdminApplicationView extends Component {
           header: "Edit",
           id: "links",
           formatter: betrachtenButton,
+        },
+        {
+          text: "Annehmen",
+          header: "Edit",
+          id: "links",
+          formatter: acceptButton,
+        },
+        {
+          text: "Ablehnen",
+          header: "Edit",
+          id: "links",
+          formatter: declineButton,
         },
         {
           text: "Vertrag erstellen",
