@@ -12,6 +12,8 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
 import axios from "axios";
+import isEmpty from "validator/es/lib/isEmpty";
+import Spinner from "../common/Spinner";
 
 const { SearchBar } = Search;
 
@@ -28,7 +30,7 @@ class AdminApplicationView extends Component {
   }
 
   render() {
-    const { applications } = this.props.application;
+    let { applications, applicationloading } = this.props.application;
     let applicationTable;
 
     const defaultSorted = [
@@ -38,6 +40,7 @@ class AdminApplicationView extends Component {
       },
     ];
 
+    //Coursename and Semester
     var coursename;
     var coursesem;
     if (this.props.course) {
@@ -181,28 +184,47 @@ class AdminApplicationView extends Component {
         },
       ];
 
-      applicationTable = (
-        <ToolkitProvider
-          bootstrap4
-          keyField="id"
-          data={entries}
-          columns={columns}
-          search
-        >
-          {(props) => (
-            <div>
-              <SearchBar {...props.searchProps} />
-              <hr />
-              <BootstrapTable
-                {...props.baseProps}
-                striped
-                pagination={paginationFactory()}
-                defaultSorted={defaultSorted}
-              />
-            </div>
-          )}
-        </ToolkitProvider>
+      if (applicationloading) {
+        applicationTable = <Spinner />;
+      } else {
+        applicationTable = (
+          <ToolkitProvider
+            bootstrap4
+            keyField="id"
+            data={entries}
+            columns={columns}
+            search
+          >
+            {(props) => (
+              <div>
+                <Link
+                  to={`/budget-control/${this.props.match.params.id}`}
+                  className={"btn btn-primary"}
+                >
+                  Budgetübersicht
+                </Link>
+                <SearchBar {...props.searchProps} />
+                <hr />
+                <BootstrapTable
+                  {...props.baseProps}
+                  striped
+                  pagination={paginationFactory()}
+                  defaultSorted={defaultSorted}
+                />
+              </div>
+            )}
+          </ToolkitProvider>
+        );
+      }
+    }
+
+    var courseApplicationView;
+    if (!entries[0] && !applicationloading) {
+      courseApplicationView = (
+        <h3 className={"text-center"}>Noch keine Bewerbungen</h3>
       );
+    } else {
+      courseApplicationView = applicationTable;
     }
 
     return (
@@ -216,7 +238,7 @@ class AdminApplicationView extends Component {
               Bewerbungen für {coursename} in {coursesem}
             </h1>
 
-            {applicationTable}
+            {courseApplicationView}
           </div>
         </div>
       </div>

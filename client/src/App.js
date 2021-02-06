@@ -54,6 +54,7 @@ import CreateSeparateContract from "./components/contract/CreateSeparateContract
 import AdvisorInvite from "./components/Invitation/AdvisorInvite";
 import AdvisorRegister from "./components/auth/AdvisorRegister";
 import CreateAdvisorProfile from "./components/create-profile/CreateAdvisorProfile";
+import BudgetControl from "./components/budgetcontrol/BudgetControl";
 
 import "./App.css";
 
@@ -326,6 +327,13 @@ class App extends Component {
               exact
               path="/advisorinvite/"
               component={AdvisorInvite}
+            />
+          </Switch>
+          <Switch>
+            <PrivateAdminRoute
+              exact
+              path="/budget-control/:id"
+              component={BudgetControl}
             />
           </Switch>
           <Footer />

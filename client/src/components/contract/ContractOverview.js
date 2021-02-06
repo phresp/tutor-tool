@@ -39,10 +39,15 @@ class ContractOverview extends Component {
   }
 
   render() {
+    //Multisort not yet implemented in package but is planned
     const defaultSorted = [
       {
         dataField: "status",
         order: "asc",
+      },
+      {
+        dataField: "contractend",
+        order: "desc",
       },
     ];
 

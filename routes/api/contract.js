@@ -206,6 +206,26 @@ router.get(
   }
 );
 
+// @route   GET /api/contract/course/:id
+// @desc    Get contracts for user of applicationID
+// @access  Private
+router.get(
+  "/course/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const errors = {};
+    Contract.find({ course: req.params.id })
+      .then((contracts) => {
+        if (!contracts) {
+          errors.nocontract = "There are no contracts yet";
+          return res.status(404).json(errors);
+        }
+        res.send(contracts);
+      })
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
 // @route   GET api/contract/contractofid/:id
 // @desc    Get contracts for user of applicationID
 // @access  Private
@@ -444,8 +464,6 @@ router.post(
       .catch((err) => res.status(404).json(err));
   }
 );
-
-//TODO: actually Delete Stuff
 
 // @route   DELETE api/contract/deletecontract/:id
 // @desc    Delete contract

@@ -83,6 +83,20 @@ export const getContractsForApplication = (id) => (dispatch) => {
     );
 };
 
+//Get Contracts of user for application ID
+export const getContractsForCourse = (id) => (dispatch) => {
+  dispatch(setContractLoading());
+  axios
+    .get(`/api/contract/course/${id}`)
+    .then((res) => dispatch({ type: GET_CONTRACTS, payload: res.data }))
+    .catch((err) =>
+      dispatch({
+        type: GET_CONTRACTS,
+        payload: {},
+      })
+    );
+};
+
 //Get Contracts of user for Contract ID
 //This will be stored in applications due to design constrains in this application
 //This is an exception until i come up with a solution
