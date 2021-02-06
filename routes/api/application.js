@@ -29,13 +29,17 @@ router.get(
     Application.find({ user: req.user.id })
       .populate({
         path: "course",
-        select: { semester: 1, metacourse: 2 },
-        populate: {
-          path: "semester",
-        },
+        select: { metacourse: 1 },
         populate: {
           path: "metacourse",
           select: { name: 1, abbreviation: 2, module: 3 },
+        },
+      })
+      .populate({
+        path: "course",
+        select: { semester: 2 },
+        populate: {
+          path: "semester",
         },
       })
       .then((application) => {

@@ -23,7 +23,6 @@ class MailOverview extends Component {
 
   render() {
     const { templates } = this.props.mail;
-    console.log(templates);
     const templateArray = templates ? templates : [];
 
     function betrachtenButton(cell, row, rowIndex, formatExtraData) {

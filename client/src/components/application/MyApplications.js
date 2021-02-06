@@ -10,8 +10,6 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 
 const { SearchBar } = Search;
 
-//TODO: Status of Application
-
 class MyApplications extends Component {
   componentDidMount() {
     this.props.getTutorApplications();
@@ -27,6 +25,16 @@ class MyApplications extends Component {
 
     //Data for Table
     const entries = applications ? applications : [];
+
+    var newArray = entries.filter((el) => {
+      if (el.course) {
+        if (el.course.semester) {
+          if (el.course.semester.courseto) {
+            return new Date(Date.now()) < new Date(el.course.semester.to);
+          }
+        }
+      }
+    });
 
     function betrachtenButton(cell, row, course, rowIndex, formatExtraData) {
       if (row.status === "Applied") {
@@ -72,7 +80,7 @@ class MyApplications extends Component {
         <ToolkitProvider
           bootstrap4
           keyField="id"
-          data={entries}
+          data={newArray}
           columns={columns}
           search
         >

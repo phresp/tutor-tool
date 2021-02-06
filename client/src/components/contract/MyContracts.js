@@ -51,6 +51,54 @@ class MyContracts extends Component {
       );
     }
 
+    const contractstarts = (value, cell, row, rowIndex, formatExtraData) => {
+      var start1 = "";
+      var start2 = "";
+      if (cell.contractstart) {
+        start1 = moment(cell.contractstart).format("DD/MM/YYYY");
+      }
+      if (cell.contractstart2) {
+        start2 = moment(cell.contractstart2).format("DD/MM/YYYY");
+      }
+      return (
+        <div>
+          {start1} <br /> {start2}
+        </div>
+      );
+    };
+
+    const contractends = (value, cell, row, rowIndex, formatExtraData) => {
+      var end1 = "";
+      var end2 = "";
+      if (cell.contractend) {
+        end1 = moment(cell.contractend).format("DD/MM/YYYY");
+      }
+      if (cell.contractend2) {
+        end2 = moment(cell.contractend2).format("DD/MM/YYYY");
+      }
+      return (
+        <div>
+          {end1} <br /> {end2}
+        </div>
+      );
+    };
+
+    const contracthours = (value, cell, row, rowIndex, formatExtraData) => {
+      var hours1 = "";
+      var hours2 = "";
+      if (cell.hours) {
+        hours1 = cell.hours;
+      }
+      if (cell.hours2) {
+        hours2 = cell.hours2;
+      }
+      return (
+        <div>
+          {hours1} <br /> {hours2}
+        </div>
+      );
+    };
+
     const dateFormat = (value, row, index) => {
       if (value) return moment(value).format("DD/MM/YYYY");
     };
@@ -66,20 +114,27 @@ class MyContracts extends Component {
             sort: true,
           },
           {
-            dataField: "hours",
-            text: "Nachname",
+            dataField: "course.semester.name",
+            text: "Semester",
             sort: true,
           },
+
           {
+            text: "Contractstart",
             dataField: "contractstart",
-            text: "From",
-            formatter: dateFormat,
+            formatter: contractstarts,
             sort: true,
           },
           {
             dataField: "contractend",
-            text: "Till",
-            formatter: dateFormat,
+            text: "Contractend",
+            formatter: contractends,
+            sort: true,
+          },
+          {
+            dataField: "hours",
+            text: "weekly Hours",
+            formatter: contracthours,
             sort: true,
           },
           {

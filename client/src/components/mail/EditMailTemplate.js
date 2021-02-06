@@ -33,7 +33,6 @@ class EditMailTemplate extends Component {
 
     if (nextProps.mail.template) {
       const template = nextProps.mail.template;
-      console.log(template);
       //If template field does not exist make empty string
       template.name = !isEmpty(template.name) ? template.name : "";
       template.subject = !isEmpty(template.subject) ? template.subject : "";

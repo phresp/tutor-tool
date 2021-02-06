@@ -101,16 +101,16 @@ class ViewContract extends Component {
                   <th scope="row">Einstellungsvorschlag</th>
                   <td>{contractdata.einstellungsvorschlag}</td>
                   <td>
-                    <button
-                      type="button"
-                      onClick={this.onDownloadClick.bind(
-                        this,
-                        "Einstellungsvorschlag"
-                      )}
-                      className="btn btn-info"
-                    >
-                      Download
-                    </button>
+                    {/*<button*/}
+                    {/*  type="button"*/}
+                    {/*  onClick={this.onDownloadClick.bind(*/}
+                    {/*    this,*/}
+                    {/*    "Einstellungsvorschlag"*/}
+                    {/*  )}*/}
+                    {/*  className="btn btn-info"*/}
+                    {/*>*/}
+                    {/*  Download*/}
+                    {/*</button>*/}
                   </td>
                 </tr>
                 <tr
