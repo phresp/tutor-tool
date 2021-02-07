@@ -341,6 +341,9 @@ class ContractOverview extends Component {
           <Link to="/createseparatecontract" className="btn btn-info">
             Leeren Vertrag anlegen
           </Link>
+          <Link to="/contractstats" className="btn btn-primary">
+            Vertragsstatistiken
+          </Link>
           {contractTable}
         </div>
       </div>

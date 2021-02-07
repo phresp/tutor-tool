@@ -58,6 +58,7 @@ import BudgetControl from "./components/budgetcontrol/BudgetControl";
 import MailOverview from "./components/mail/MailOverview";
 import CreateMailTemplate from "./components/mail/CreateMailTemplate";
 import EditMailTemplate from "./components/mail/EditMailTemplate";
+import ContractStats from "./components/contract/ContractStats";
 
 import "./App.css";
 
@@ -358,6 +359,13 @@ class App extends Component {
               exact
               path="/edit-template/:id"
               component={EditMailTemplate}
+            />
+          </Switch>
+          <Switch>
+            <PrivateAdminRoute
+              exact
+              path="/contractstats"
+              component={ContractStats}
             />
           </Switch>
           <Footer />
