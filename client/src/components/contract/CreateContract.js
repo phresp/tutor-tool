@@ -128,38 +128,37 @@ class CreateContract extends Component {
       </Link>
     );
 
-    if (this.props.application.application) {
-      backButton = (
-        <Link
-          to={`/course-applications/${this.props.application.application.course._id}`}
-          className={"btn btn-light"}
-        >
-          back
-        </Link>
-      );
-    }
+    // if (this.props.application.application) {
+    //   backButton = (
+    //     <Link
+    //       to={`/course-applications/${this.props.application.application.course._id}`}
+    //       className={"btn btn-light"}
+    //     >
+    //       back
+    //     </Link>
+    //   );
+    // }
 
     //Get User ID
     if (this.props.application.application) {
-      this.setState({ user: this.props.application.application.user._id });
+      if (this.props.application.application.user)
+        this.state.user = this.props.application.application.user._id;
     }
     // Get profile ID
     if (this.props.application.application) {
-      this.setState({
-        profile: this.props.application.application.profile._id,
-      });
+      if (this.props.application.application.profile)
+        this.state.profile = this.props.application.application.profile._id;
     }
 
-    //Get Profile ID
+    //Get Course ID
     if (this.props.application.application) {
-      this.setState({ course: this.props.application.application.course._id });
+      if (this.props.application.application.course)
+        this.state.course = this.props.application.application.course._id;
     }
 
     //Get application ID
     if (this.props.application.application) {
-      this.setState({
-        applicationID: this.props.application.application.application._id,
-      });
+      this.state.applicationID = this.props.application.application._id;
     }
 
     //Get profile ID
@@ -169,12 +168,14 @@ class CreateContract extends Component {
     }
 
     //Name and course
-    var contractname;
+    var contractname = "";
     if (this.props.application.application) {
-      contractname =
-        this.props.application.application.profile.firstname +
-        " " +
-        this.props.application.application.profile.lastname;
+      if (this.props.application.application.profile) {
+        contractname =
+          this.props.application.application.profile.firstname +
+          " " +
+          this.props.application.application.profile.lastname;
+      }
     }
 
     //Select options for Forms
@@ -254,10 +255,8 @@ class CreateContract extends Component {
             this.props.application.application.profile.nationality2
           ) !== -1
         ) {
-          this.setState({
-            reisepass: "Kein Bedarf",
-            aufenthaltstitel: "Kein Bedarf",
-          });
+          this.state.reisepass = "Kein Bedarf";
+          this.state.aufenthaltstitel = "Kein Bedarf";
         }
       }
     }
@@ -267,14 +266,14 @@ class CreateContract extends Component {
       this.state.degree === "" &&
       this.state.abschlusszeugnis !== "Kein Bedarf"
     ) {
-      this.setState({ abschlusszeugnis: "Kein Bedarf" });
+      this.state.abschlusszeugnis = "Kein Bedarf";
     }
 
     //Query for Stipendium
     if (this.props.application.application) {
       if (this.props.application.application.profile) {
         if (!this.props.application.application.profile.stipendiumend) {
-          this.setState({ stipendium: "Kein Bedarf" });
+          this.state.stipendium = "Kein Bedarf";
         }
       }
     }
@@ -315,10 +314,13 @@ class CreateContract extends Component {
     }
 
     //20 Hour Max Calculations Date 1
-    const contracts = this.props.contract.contracts;
+    var contracts = [];
+    if (this.props.contract.contracts) {
+      contracts = this.props.contract.contracts;
+    }
     var hoursum = this.state.hours;
     var hoursummessage = <div></div>;
-    if (contracts) {
+    if (contracts !== []) {
       contracts.forEach((element) => {
         const overlap = Math.max(
           0,
@@ -560,30 +562,35 @@ class CreateContract extends Component {
     //Immatrikulation Folgesemester
     var immatrikulationNextSem;
     var immatrikulationNextSemLabel;
-    var { application } = this.props.application;
+    var application;
+    if (this.props.application.application) {
+      application = this.props.application.application;
+    }
     if (application) {
-      if (application.course.semester) {
-        if (
-          new Date(application.course.semester.to) <
-            new Date(this.state.contractend) ||
-          new Date(application.course.semester.to) <
-            new Date(this.state.contractend2)
-        ) {
-          immatrikulationNextSemLabel = (
-            <label htmlFor="newContract">
-              Immatrikulationsbescheinigung Folgesemester:
-            </label>
-          );
-          immatrikulationNextSem = (
-            <SelectListGroup
-              placeholder="immatrikulationsbescheinigung Folgesemester"
-              onChange={this.onChange}
-              value={this.state.immatrikulationsbescheinigung2}
-              name="immatrikulationsbescheinigung2"
-              error={errors.immatrikulationsbescheinigung2}
-              options={formsNotAlwaysNeededOptions}
-            />
-          );
+      if (application.course) {
+        if (application.course.semester) {
+          if (
+            new Date(application.course.semester.to) <
+              new Date(this.state.contractend) ||
+            new Date(application.course.semester.to) <
+              new Date(this.state.contractend2)
+          ) {
+            immatrikulationNextSemLabel = (
+              <label htmlFor="newContract">
+                Immatrikulationsbescheinigung Folgesemester:
+              </label>
+            );
+            immatrikulationNextSem = (
+              <SelectListGroup
+                placeholder="immatrikulationsbescheinigung Folgesemester"
+                onChange={this.onChange}
+                value={this.state.immatrikulationsbescheinigung2}
+                name="immatrikulationsbescheinigung2"
+                error={errors.immatrikulationsbescheinigung2}
+                options={formsNotAlwaysNeededOptions}
+              />
+            );
+          }
         }
       }
     }
