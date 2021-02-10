@@ -598,10 +598,9 @@ class CreateContract extends Component {
     //Weiterbeschäftigung possible
     var weiterbeschäftigungTooltipp;
     if (contracts) {
-      var contractstart = new Date(this.state.contractend);
-      var oneYearAgo = contractstart.setFullYear(
-        contractstart.getFullYear() - 1
-      );
+      var contractstart = new Date(this.state.contractstart);
+      var oneYearAgo = new Date(this.state.contractstart);
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
       contracts.forEach((element) => {
         if (
