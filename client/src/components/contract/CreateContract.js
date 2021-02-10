@@ -598,24 +598,33 @@ class CreateContract extends Component {
     //Weiterbeschäftigung possible
     var weiterbeschäftigungTooltipp;
     if (contracts) {
-      var oneYearAgo = new Date();
-      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      var contractstart = new Date(this.state.contractend);
+      var oneYearAgo = contractstart.setFullYear(
+        contractstart.getFullYear() - 1
+      );
 
       contracts.forEach((element) => {
         if (
-          new Date(element.contractend) > oneYearAgo ||
-          new Date(element.contractend2) > oneYearAgo
+          (new Date(element.contractend) > oneYearAgo ||
+            new Date(element.contractend2) > oneYearAgo) &&
+          ((new Date(element.contractstart) < contractstart &&
+            element.contractstart) ||
+            (new Date(element.contractstart2) < contractstart &&
+              element.contractstart2))
         ) {
           weiterbeschäftigungTooltipp = <h5>Weiterbeschäftigung möglich</h5>;
-          if (this.state.newcontract === "True") {
-            this.setState({ newcontract: "False" });
-          }
+
+          // if (
+          //   this.state.newcontract === "True" ||
+          //   this.state.newcontract === ""
+          // ) {
+          //   this.setState({ newcontract: "False" });
+          // }
           if (
             (element.abschlusszeugnis === "Liegt vor" ||
               element.abschlusszeugnis === "Liegt bei") &&
-            this.state.degree !== "" &&
             this.state.abschlusszeugnis !== "Liegt bei" &&
-            this.state.abschlusszeugnis !== "Kein Bedarf"
+            this.state.degree !== ""
           ) {
             this.setState({ abschlusszeugnis: "Liegt bei" });
           }
