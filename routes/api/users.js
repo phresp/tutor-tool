@@ -66,7 +66,8 @@ router.post("/advisorregistration/:id", (req, res) => {
     return res.status(400).json(errors);
   }
   Invitation.findOne({ invitationkey: req.params.id }).then((key) => {
-    var twodays = 2 * 24 * 60 * 60 * 1000; /* ms */
+    //TODO: Change Back to two days - This was changed for testing purposes
+    var twodays = 20 * 24 * 60 * 60 * 1000; /* ms */
     if (new Date(Date.now()) - key.date < twodays) {
       User.findOne({ email: req.body.email.toLowerCase() }).then((user) => {
         if (user) {
