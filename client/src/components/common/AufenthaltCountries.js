@@ -1,5 +1,4 @@
 const aufenthaltfreieCountries = [
-  "",
   "BE",
   "BG",
   "DK",

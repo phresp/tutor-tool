@@ -155,8 +155,9 @@ class ViewTutorProfile extends Component {
     var aufenthaltLabel;
 
     if (
-      aufenthaltfreieCountries.indexOf(this.state.nationality) == -1 ||
-      aufenthaltfreieCountries.indexOf(this.state.nationality2) == -1
+      aufenthaltfreieCountries.indexOf(this.state.nationality) === -1 &&
+      (aufenthaltfreieCountries.indexOf(this.state.nationality2) === -1 ||
+        this.state.nationality2 === "")
     ) {
       aufenthaltLabel = <label htmlFor="Aufenthalt">Aufenthalt Ende:</label>;
       aufenthaltInput = (

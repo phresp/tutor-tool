@@ -93,10 +93,10 @@ class CreateProfile extends Component {
 
     var aufenthaltInput;
     var aufenthaltLabel;
-
     if (
-      aufenthaltfreieCountries.indexOf(this.state.nationality) == -1 ||
-      aufenthaltfreieCountries.indexOf(this.state.nationality2) == -1
+      aufenthaltfreieCountries.indexOf(this.state.nationality) === -1 &&
+      (aufenthaltfreieCountries.indexOf(this.state.nationality2) === -1 ||
+        this.state.nationality2 === "")
     ) {
       aufenthaltLabel = (
         <label htmlFor="Aufenthalt">Expiration date of residents permit:</label>
