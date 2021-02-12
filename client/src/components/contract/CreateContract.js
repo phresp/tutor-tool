@@ -4,6 +4,7 @@ import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
+import ContractSelectListGroup from "../common/ContractSelectListGroup";
 import moment from "moment";
 
 import {
@@ -247,27 +248,34 @@ class CreateContract extends Component {
     //Query for Reisepass and aufenthaltstitel
     if (this.props.application.application) {
       if (this.props.application.application.profile) {
-        if (
-          aufenthaltfreieCountries.indexOf(
-            this.props.application.application.profile.nationality
-          ) === -1 &&
-          (aufenthaltfreieCountries.indexOf(
-            this.props.application.application.profile.nationality2
-          ) === -1 ||
-            this.props.application.application.profile.nationality2 === "")
-        ) {
-          this.state.reisepass = "Kein Bedarf";
-          this.state.aufenthaltstitel = "Kein Bedarf";
+        if (this.props.application.application.nationality) {
+          if (
+            aufenthaltfreieCountries.indexOf(
+              this.props.application.application.profile.nationality
+            ) === -1 &&
+            (aufenthaltfreieCountries.indexOf(
+              this.props.application.application.profile.nationality2
+            ) === -1 ||
+              this.props.application.application.profile.nationality2 === "")
+          ) {
+            this.state.reisepass = "Kein Bedarf";
+            this.state.aufenthaltstitel = "Kein Bedarf";
+          }
         }
       }
     }
-
+    console.log(this.state.degree);
     //Query for Abschlusszeugnis
     if (
       this.state.degree === "" &&
       this.state.abschlusszeugnis !== "Kein Bedarf"
     ) {
       this.state.abschlusszeugnis = "Kein Bedarf";
+    } else if (
+      this.state.degree !== "" &&
+      this.state.abschlusszeugnis === "Kein Bedarf"
+    ) {
+      this.state.abschlusszeugnis = "Fehlt";
     }
 
     //Query for Stipendium
@@ -582,13 +590,14 @@ class CreateContract extends Component {
               </label>
             );
             immatrikulationNextSem = (
-              <SelectListGroup
+              <ContractSelectListGroup
                 placeholder="immatrikulationsbescheinigung Folgesemester"
                 onChange={this.onChange}
                 value={this.state.immatrikulationsbescheinigung2}
                 name="immatrikulationsbescheinigung2"
                 error={errors.immatrikulationsbescheinigung2}
                 options={formsNotAlwaysNeededOptions}
+                color={this.state.immatrikulationsbescheinigung2}
               />
             );
           }
@@ -738,7 +747,7 @@ class CreateContract extends Component {
                 </div>
                 {vertragSplitting}
                 <label htmlFor="degree">Abschluss:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="Degree"
                   onChange={this.onChange}
                   value={this.state.degree}
@@ -748,7 +757,7 @@ class CreateContract extends Component {
                 />
                 <label htmlFor="newContract">neuer Vertrag:</label>
                 {weiterbeschäftigungTooltipp}
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="new Contract"
                   onChange={this.onChange}
                   value={this.state.newcontract}
@@ -758,146 +767,160 @@ class CreateContract extends Component {
                 />
                 <h6>Formulare:</h6>
                 <label htmlFor="merkblatt">Merkblatt:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="merkblatt"
                   onChange={this.onChange}
                   value={this.state.merkblatt}
                   name="merkblatt"
                   error={errors.merkblatt}
                   options={formsNotAlwaysNeededOptions}
+                  color={this.state.merkblatt}
                 />
                 <label htmlFor="einstellungsvorschlag">
                   Einstellungsvorschlag:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="einstellungsvorschlag"
                   onChange={this.onChange}
                   value={this.state.einstellungsvorschlag}
                   name="einstellungsvorschlag"
                   error={errors.einstellungsvorschlag}
                   options={formsOptions}
+                  color={this.state.einstellungsvorschlag}
                 />
                 <label htmlFor="versicherungspflicht">
                   Versicherungspflicht:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="versicherungspflicht"
                   onChange={this.onChange}
                   value={this.state.versicherungspflicht}
                   name="versicherungspflicht"
                   error={errors.versicherungspflicht}
                   options={formsNotAlwaysNeededOptions}
+                  color={this.state.versicherungspflicht}
                 />
                 <label htmlFor="scientology">Scientology:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="scientology"
                   onChange={this.onChange}
                   value={this.state.scientology}
                   name="scientology"
                   error={errors.scientology}
                   options={formsOptions}
+                  color={this.state.scientology}
                 />
                 <label htmlFor="verfassungstreue">Verfassungstreue:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="verfassungstreue"
                   onChange={this.onChange}
                   value={this.state.verfassungstreue}
                   name="verfassungstreue"
                   error={errors.verfassungstreue}
                   options={formsOptions}
+                  color={this.state.verfassungstreue}
                 />
                 <label htmlFor="immatrikulationsbescheinigung">
                   Immatrikulationsbescheinigung:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="immatrikulationsbescheinigung"
                   onChange={this.onChange}
                   value={this.state.immatrikulationsbescheinigung}
                   name="immatrikulationsbescheinigung"
                   error={errors.immatrikulationsbescheinigung}
                   options={formsNotAlwaysNeededOptions}
+                  color={this.state.immatrikulationsbescheinigung}
                 />
                 {immatrikulationNextSemLabel}
                 {immatrikulationNextSem}
                 <label htmlFor="krankenkassenbescheinigung">
                   Krankenkassenbescheinigung:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="krankenkassenbescheinigung"
                   onChange={this.onChange}
                   value={this.state.krankenkassenbescheinigung}
                   name="krankenkassenbescheinigung"
                   error={errors.krankenkassenbescheinigung}
                   options={formsOptions}
+                  color={this.state.krankenkassenbescheinigung}
                 />
                 <label htmlFor="personalbogenbezuegestelle">
                   Personalbogen Bezügestelle:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="personalbogenbezuegestelle"
                   onChange={this.onChange}
                   value={this.state.personalbogenbezuegestelle}
                   name="personalbogenbezuegestelle"
                   error={errors.personalbogenbezuegestelle}
                   options={formsOptions}
+                  color={this.state.personalbogenbezuegestelle}
                 />
                 <label htmlFor="personalbogenstudierende">
                   Personalbogen für Studierende:
                 </label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="personalbogenstudierende"
                   onChange={this.onChange}
                   value={this.state.personalbogenstudierende}
                   name="personalbogenstudierende"
                   error={errors.personalbogenstudierende}
                   options={formsOptions}
+                  color={this.state.personalbogenstudierende}
                 />
                 <label htmlFor="steuerId">SteuerId:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="steuerId"
                   onChange={this.onChange}
                   value={this.state.steuerId}
                   name="steuerId"
                   error={errors.steuerId}
                   options={formsOptions}
+                  color={this.state.steuerId}
                 />
                 <label htmlFor="reisepass">Reisepass:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="reisepass"
                   onChange={this.onChange}
                   value={this.state.reisepass}
                   name="reisepass"
                   error={errors.reisepass}
                   options={foreignerOptions}
+                  color={this.state.reisepass}
                 />
                 {aufenthaltToolTipp}
                 <label htmlFor="aufenthaltstitel">Aufenthaltstitel:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="aufenthaltstitel"
                   onChange={this.onChange}
                   value={this.state.aufenthaltstitel}
                   name="aufenthaltstitel"
                   error={errors.aufenthaltstitel}
                   options={foreignerOptions}
+                  color={this.state.aufenthaltstitel}
                 />
                 {stipendiumToolTipp}
                 <label htmlFor="stipendium">Stipendiumsbescheinigung:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="stipendium"
                   onChange={this.onChange}
                   value={this.state.stipendium}
                   name="stipendium"
                   error={errors.stipendium}
                   options={foreignerOptions}
+                  color={this.state.stipendium}
                 />
                 <label htmlFor="stipendium">Abschlusszeugnis:</label>
-                <SelectListGroup
+                <ContractSelectListGroup
                   placeholder="abschlusszeugnis"
                   onChange={this.onChange}
                   value={this.state.abschlusszeugnis}
                   name="abschlusszeugnis"
                   error={errors.abschlusszeugnis}
                   options={foreignerOptions}
+                  color={this.state.abschlusszeugnis}
                 />
                 <label htmlFor="status">Status:</label>
                 <SelectListGroup
