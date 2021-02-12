@@ -249,12 +249,12 @@ class CreateContract extends Component {
       if (this.props.application.application.profile) {
         if (
           aufenthaltfreieCountries.indexOf(
-            this.props.contract.contract.profile.nationality
+            this.props.application.application.profile.nationality
           ) === -1 &&
           (aufenthaltfreieCountries.indexOf(
-            this.props.contract.contract.profile.nationality2
+            this.props.application.application.profile.nationality2
           ) === -1 ||
-            this.props.contract.contract.profile.nationality2 === "")
+            this.props.application.application.profile.nationality2 === "")
         ) {
           this.state.reisepass = "Kein Bedarf";
           this.state.aufenthaltstitel = "Kein Bedarf";
