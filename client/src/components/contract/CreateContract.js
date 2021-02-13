@@ -129,16 +129,16 @@ class CreateContract extends Component {
       </Link>
     );
 
-    // if (this.props.application.application) {
-    //   backButton = (
-    //     <Link
-    //       to={`/course-applications/${this.props.application.application.course._id}`}
-    //       className={"btn btn-light"}
-    //     >
-    //       back
-    //     </Link>
-    //   );
-    // }
+    if (this.props.application.application) {
+      backButton = (
+        <Link
+          to={`/course-applications/${this.props.application.application.course._id}`}
+          className={"btn btn-light"}
+        >
+          back
+        </Link>
+      );
+    }
 
     //Get User ID
     if (this.props.application.application) {

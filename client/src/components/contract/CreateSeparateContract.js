@@ -81,9 +81,19 @@ class CreateSeparateContract extends Component {
     if (isEmpty(tutors)) {
       tutors = [];
     }
+    tutors.sort(function (a, b) {
+      if (a.lastname < b.lastname) {
+        return -1;
+      }
+      if (a.lastname > b.lastname) {
+        return 1;
+      }
+      return 0;
+    });
     const tutorOptions = tutors.map((el) => {
       return { label: el.firstname + " " + el.lastname, value: el._id };
     });
+
     tutorOptions.unshift({ label: "Student auswählen", value: "" });
 
     //Set User for selected Tutor
