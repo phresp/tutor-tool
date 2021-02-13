@@ -341,7 +341,7 @@ class AdvisorApplicationView extends Component {
               onClick={this.onDownloadClick.bind(this)}
               className="btn btn-primary"
             >
-              EV exportieren
+              Export Tutordata
             </button>
 
             {applicationTable}

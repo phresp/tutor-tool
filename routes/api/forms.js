@@ -402,12 +402,19 @@ router.post(
       .populate("user", ["email"])
       .populate({ path: "profile" })
       .then((contracts) => {
+        contracts.sort(function (a, b) {
+          if (a.profile.lastname < b.profile.lastname) {
+            return -1;
+          }
+          if (a.profile.lastname > b.profile.lastname) {
+            return 1;
+          }
+          return 0;
+        });
+
         var data = [];
         contracts.forEach((e) => {
           data.push(flatten(e.toJSON()));
-        });
-        data.forEach((e) => {
-          e.lastname = e["profile.lastname"];
         });
 
         let workbook = new excel.Workbook(); //creating workbook
