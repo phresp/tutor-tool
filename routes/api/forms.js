@@ -12,8 +12,14 @@ const pdftk = require("node-pdftk");
 const fs = require("fs");
 const path = require("path");
 
-//Load User model
+const excel = require("exceljs");
+const flatten = require("flat");
+
+//Load Forms model
 const Forms = require("../../models/Forms");
+
+//Load Contract model
+const Contract = require("../../models/Contract");
 
 // @route   GET /api/forms/test
 // @desc    Test forms route
@@ -380,6 +386,64 @@ router.post(
           });
       })
       .catch((err) => res.status(404).json({ profile: "There are no forms" }));
+  }
+);
+
+// @route   POST /api/forms/advisorexcel/:id
+// @desc    POST to download excel sheet of contracts
+// @access  Private
+router.post(
+  "/advisorexcel/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Contract.find({
+      course: req.params.id,
+    })
+      .populate("user", ["email"])
+      .populate({ path: "profile" })
+      .then((contracts) => {
+        var data = [];
+        contracts.forEach((e) => {
+          data.push(flatten(e.toJSON()));
+        });
+        data.forEach((e) => {
+          e.lastname = e["profile.lastname"];
+        });
+
+        let workbook = new excel.Workbook(); //creating workbook
+        let worksheet = workbook.addWorksheet("Customers"); //creating worksheet
+
+        //  WorkSheet Header
+        worksheet.columns = [
+          { header: "Lastname", key: ["profile.lastname"], width: 25 },
+          { header: "Firstname", key: ["profile.firstname"], width: 25 },
+          { header: "E-Mail", key: ["user.email"], width: 25 },
+          { header: "Contractstart", key: "contractstart", width: 15 },
+          { header: "Contractend", key: "contractend", width: 15 },
+          { header: "Weekly Hours", key: "hours", width: 15 },
+          { header: "Contractstart 2", key: "contractstart2", width: 15 },
+          { header: "Contractend 2", key: "contractend2", width: 15 },
+          { header: "Weekly Hours 2", key: "hours2", width: 15 },
+        ];
+
+        // Add Array Rows
+        worksheet.addRows(data);
+
+        // Write to File
+        workbook.xlsx;
+        workbook.xlsx
+          .writeBuffer()
+          .then((buf) => {
+            res.type("application/pdf");
+            res.send(buf);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        res.status(404).json(err);
+      });
   }
 );
 
