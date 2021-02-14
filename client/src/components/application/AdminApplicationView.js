@@ -10,6 +10,8 @@ import { getCourseById } from "../../actions/courseActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
+import { TutorDataExport } from "../../actions/formsActions";
+
 import paginationFactory from "react-bootstrap-table2-paginator";
 import axios from "axios";
 import isEmpty from "validator/es/lib/isEmpty";
@@ -27,6 +29,11 @@ class AdminApplicationView extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+  }
+
+  onDownloadClick(e) {
+    e.preventDefault();
+    this.props.TutorDataExport(this.props.match.params.id);
   }
 
   render() {
@@ -197,6 +204,13 @@ class AdminApplicationView extends Component {
           >
             {(props) => (
               <div>
+                <button
+                  type="button"
+                  onClick={this.onDownloadClick.bind(this)}
+                  className="btn btn-info"
+                >
+                  Vertragsdaten exportieren
+                </button>
                 <Link
                   to={`/budget-control/${this.props.match.params.id}`}
                   className={"btn btn-primary"}
@@ -263,4 +277,5 @@ export default connect(mapStateToProps, {
   getApplicationsOfCourse,
   acceptApplication,
   getCourseById,
+  TutorDataExport,
 })(AdminApplicationView);

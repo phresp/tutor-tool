@@ -7,7 +7,7 @@ import {
   acceptApplication,
 } from "../../actions/applicationActions";
 
-import { advisorTutorDataExport } from "../../actions/formsActions";
+import { TutorDataExport } from "../../actions/formsActions";
 
 import { getCurrentProfile } from "../../actions/profileActions";
 
@@ -45,9 +45,10 @@ class AdvisorApplicationView extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
+
   onDownloadClick(e) {
     e.preventDefault();
-    this.props.advisorTutorDataExport(this.props.match.params.id);
+    this.props.TutorDataExport(this.props.match.params.id);
   }
 
   render() {
@@ -338,6 +339,7 @@ class AdvisorApplicationView extends Component {
             </h1>
             <button
               type="button"
+              title="Export the data of tutors, that already have a contract to an excel file"
               onClick={this.onDownloadClick.bind(this)}
               className="btn btn-primary"
             >
@@ -370,5 +372,5 @@ export default connect(mapStateToProps, {
   acceptApplication,
   getCourseById,
   getCurrentProfile,
-  advisorTutorDataExport,
+  TutorDataExport,
 })(AdvisorApplicationView);

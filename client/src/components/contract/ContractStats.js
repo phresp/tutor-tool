@@ -7,6 +7,7 @@ import { getContracts } from "../../actions/contractActions";
 import { getSemesters } from "../../actions/semesterActions";
 import moment from "moment";
 import SelectListGroup from "../common/SelectListGroup";
+import { SemesterContractDataExport } from "../../actions/formsActions";
 
 class ContractStats extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class ContractStats extends Component {
     this.state = {
       semesters: "",
       semester: "",
+      semesterdata: "",
       errors: {},
     };
 
@@ -37,6 +39,12 @@ class ContractStats extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
+
+  onDownloadClick(e) {
+    e.preventDefault();
+    this.props.SemesterContractDataExport(this.state.semesterdata);
+  }
+
   render() {
     var { semesters } = this.state;
     //Select options for semester
@@ -48,6 +56,9 @@ class ContractStats extends Component {
     });
     semesterOptions.unshift({ label: "Semester", value: "" });
 
+    this.state.semesterdata = semesterOptions.filter(
+      (el) => el.value === this.state.semester
+    );
     //Get Contract Stats
     var contracts;
 
@@ -99,6 +110,13 @@ class ContractStats extends Component {
                 options={semesterOptions}
               />
             </div>
+            <button
+              type="button"
+              onClick={this.onDownloadClick.bind(this)}
+              className="btn btn-primary"
+            >
+              Export Contractdata of Semester
+            </button>
 
             <table className="table">
               <thead>
@@ -140,6 +158,8 @@ const mapStateToProps = (state) => ({
   contract: state.contract,
 });
 
-export default connect(mapStateToProps, { getContracts, getSemesters })(
-  ContractStats
-);
+export default connect(mapStateToProps, {
+  getContracts,
+  getSemesters,
+  SemesterContractDataExport,
+})(ContractStats);

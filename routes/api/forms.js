@@ -21,6 +21,9 @@ const Forms = require("../../models/Forms");
 //Load Contract model
 const Contract = require("../../models/Contract");
 
+//Load Course model
+const Course = require("../../models/Course");
+
 // @route   GET /api/forms/test
 // @desc    Test forms route
 // @access  Public
@@ -389,14 +392,14 @@ router.post(
   }
 );
 
-// @route   POST /api/forms/advisorexcel/:id
+// @route   POST /api/forms/cfaexcel/:id
 // @desc    POST to download excel sheet of contracts
 // @access  Private
 router.post(
-  "/advisorexcel/:id",
+  "/cfaexcel/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Contract.find({
+    Course.find({
       course: req.params.id,
     })
       .populate("user", ["email"])
@@ -451,6 +454,91 @@ router.post(
       .catch((err) => {
         res.status(404).json(err);
       });
+  }
+);
+
+// @route   POST /api/forms/cfaexcel/:id
+// @desc    POST to download excel sheet of contracts
+// @access  Private
+router.post(
+  "/scdexcel",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Course.find({
+      semester: req.body[0].value,
+    }).then((courses) => {
+      var courseIDs = [];
+      courses.forEach((e) => {
+        courseIDs.push(e._id);
+      });
+      Contract.find({
+        course: { $in: courseIDs },
+      })
+        .populate("user", ["email"])
+        .populate({ path: "profile" })
+        .populate({
+          path: "course",
+          select: { metacourse: 1 },
+          populate: {
+            path: "metacourse",
+            select: { name: 1, abbreviation: 2, module: 3 },
+          },
+        })
+        .then((contracts) => {
+          contracts.sort(function (a, b) {
+            if (a.profile.lastname < b.profile.lastname) {
+              return -1;
+            }
+            if (a.profile.lastname > b.profile.lastname) {
+              return 1;
+            }
+            return 0;
+          });
+
+          var data = [];
+          contracts.forEach((e) => {
+            data.push(flatten(e.toJSON()));
+          });
+          let workbook = new excel.Workbook(); //creating workbook
+          let worksheet = workbook.addWorksheet("Customers"); //creating worksheet
+
+          //  WorkSheet Header
+          worksheet.columns = [
+            { header: "Nachname", key: ["profile.lastname"], width: 25 },
+            { header: "Vorname", key: ["profile.firstname"], width: 25 },
+            { header: "E-Mail", key: ["user.email"], width: 25 },
+            {
+              header: "Veranstaltung",
+              key: ["course.metacourse.name"],
+              width: 40,
+            },
+            { header: "Vertragstart", key: "contractstart", width: 20 },
+            { header: "Vertragende", key: "contractend", width: 20 },
+            { header: "Wochenstunden", key: "hours", width: 20 },
+            { header: "Vertragstart 2", key: "contractstart2", width: 20 },
+            { header: "Vertragende 2", key: "contractend2", width: 20 },
+            { header: "Wochenstunden 2", key: "hours2", width: 20 },
+          ];
+
+          // Add Array Rows
+          worksheet.addRows(data);
+
+          // Write to File
+          workbook.xlsx;
+          workbook.xlsx
+            .writeBuffer()
+            .then((buf) => {
+              res.type("application/pdf");
+              res.send(buf);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          res.status(404).json(err);
+        });
+    });
   }
 );
 
