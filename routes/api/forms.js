@@ -399,7 +399,7 @@ router.post(
   "/cfaexcel/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Course.find({
+    Contract.find({
       course: req.params.id,
     })
       .populate("user", ["email"])
@@ -457,7 +457,7 @@ router.post(
   }
 );
 
-// @route   POST /api/forms/cfaexcel/:id
+// @route   POST /api/forms/scdexcel
 // @desc    POST to download excel sheet of contracts
 // @access  Private
 router.post(
