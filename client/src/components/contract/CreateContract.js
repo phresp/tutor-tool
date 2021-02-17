@@ -248,7 +248,7 @@ class CreateContract extends Component {
     //Query for Reisepass and aufenthaltstitel
     if (this.props.application.application) {
       if (this.props.application.application.profile) {
-        if (this.props.application.application.nationality) {
+        if (this.props.application.application.profile.nationality) {
           if (
             aufenthaltfreieCountries.indexOf(
               this.props.application.application.profile.nationality
@@ -264,7 +264,6 @@ class CreateContract extends Component {
         }
       }
     }
-    console.log(this.state.degree);
     //Query for Abschlusszeugnis
     if (
       this.state.degree === "" &&
