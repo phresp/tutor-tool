@@ -10,6 +10,18 @@ img {
   background-color: #333333;
 }
 
+.contract-red {
+  background-color: #ff8080;
+}
+
+.contract-green {
+  background-color: #99e699;
+}
+
+.contract-blue {
+  background-color: #80b3ff;
+}
+
 .landing {
   position: relative;
   background: url('./img/showcase.jpg') no-repeat;

@@ -20,11 +20,11 @@ const ContractSelectListGroup = ({
 
   var col = (obj) => {
     if (obj === "Fehlt") {
-      return "bg-danger";
+      return "contract-red";
     } else if (obj === "Liegt vor") {
-      return "bg-success";
+      return "contract-green";
     } else if (obj === "Liegt bei") {
-      return "bg-info";
+      return "contract-blue";
     } else {
       return "bg-light";
     }
