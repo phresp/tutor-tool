@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import TextFieldGroup from "../common/TextFieldGroup";
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
-import SelectListGroup from "../common/SelectListGroup";
 import { getApplicationOfId } from "../../actions/applicationActions";
 import { updateApplication } from "../../actions/applicationActions";
 import isEmpty from "../../validation/is-empty";
@@ -12,8 +9,8 @@ import moment from "moment";
 import Moment from "react-moment";
 import ExperienceOverview from "../common/ExperienceOverview";
 import EducationOverview from "../common/EducationOverview";
-import Experience from "../dashboard/Experience";
-import Education from "../dashboard/Education";
+
+import countryList from "react-select-country-list";
 
 class AdvisorCourseApplicationView extends Component {
   componentDidMount() {
@@ -67,6 +64,11 @@ class AdvisorCourseApplicationView extends Component {
       )
         ? application.profile.nationality
         : "";
+      application.profile.nationality2 = !isEmpty(
+        application.profile.nationality2
+      )
+        ? application.profile.nationality2
+        : "";
       application.profile.birthday = !isEmpty(application.profile.birthday)
         ? application.profile.birthday
         : "";
@@ -90,6 +92,7 @@ class AdvisorCourseApplicationView extends Component {
         matrikelnummer: application.profile.matrikelnummer,
         gender: application.profile.gender,
         nationality: application.profile.nationality,
+        nationality2: application.profile.nationality2,
         birthday: application.profile.birthday,
         experience: application.profile.experience,
         education: application.profile.education,
@@ -125,7 +128,20 @@ class AdvisorCourseApplicationView extends Component {
       linkto = `/check-applications/${this.state.courseid}`;
     }
 
-    //TODO:Buttons to accept and decline application
+    //Get Full Nationalities
+    var nat;
+    var nat2;
+
+    if (this.state.nationality) {
+      nat = countryList().getLabel(this.state.nationality);
+    }
+
+    var showNat2 = <div></div>;
+    if (this.state.nationality2) {
+      nat2 = countryList().getLabel(this.state.nationality2);
+      showNat2 = <p className="lead text-muted">Second Nationality: {nat2}</p>;
+    }
+
     var profile = { education: [], experience: [] };
     if (this.props.application.application)
       profile = this.props.application.application.profile;
@@ -155,9 +171,8 @@ class AdvisorCourseApplicationView extends Component {
                 </Moment>
               </p>
               <p className="lead text-muted">Gender: {this.state.gender}</p>
-              <p className="lead text-muted">
-                Nationality: {this.state.nationality}
-              </p>
+              <p className="lead text-muted">Nationality: {nat}</p>
+              {showNat2}
               <div>
                 <ExperienceOverview experience={profile.experience} />
                 <EducationOverview education={profile.education} />
