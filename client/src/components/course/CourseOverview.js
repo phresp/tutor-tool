@@ -7,6 +7,8 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import moment from "moment";
 
+import { TutorAdminDataExport } from "../../actions/formsActions";
+
 const { SearchBar } = Search;
 
 class CourseOverview extends Component {
@@ -93,6 +95,26 @@ class CourseOverview extends Component {
       }
     };
 
+    const exportButton = (cell, row, rowIndex, formatExtraData) => {
+      return (
+        <button
+          type="button"
+          onClick={TutorAdminDataExport(row._id)}
+          className="btn btn-info"
+        >
+          Daten Export
+        </button>
+      );
+    };
+
+    const budgetButton = (cell, row, rowIndex, formatExtraData) => {
+      return (
+        <Link to={`/budget-control/${row._id}`} className={"btn btn-primary"}>
+          Budgetübersicht
+        </Link>
+      );
+    };
+
     const statusFormatter = (value, cell, row, rowIndex, formatExtraData) => {
       if (value === "Open") {
         return "Offen";
@@ -120,7 +142,7 @@ class CourseOverview extends Component {
       },
       {
         dataField: "weeklyhourspertutor",
-        text: "Wochenstunden",
+        text: "W-Stunden",
         sort: true,
       },
       {
@@ -159,14 +181,22 @@ class CourseOverview extends Component {
         id: "links",
         formatter: applicationsButton,
       },
+      {
+        id: "links",
+        formatter: exportButton,
+      },
+      {
+        id: "links",
+        formatter: budgetButton,
+      },
     ];
 
     return (
-      <div className="container">
+      <div className="container-fluid">
         <Link to={"/dashboard"} className={"btn btn-light"}>
           back
         </Link>
-        <h1 className="display-4">Veranstaltungsübersicht</h1>
+        <h1 className="display-4 center">Veranstaltungsübersicht</h1>
         <Link to="/create-course" className="btn btn-info">
           <i className="fas fa-user-circle text-primary"></i> Neue Veranstaltung
         </Link>
@@ -283,6 +313,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCourses })(
+export default connect(mapStateToProps, { getCourses, TutorAdminDataExport })(
   withRouter(CourseOverview)
 );

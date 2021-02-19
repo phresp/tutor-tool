@@ -67,10 +67,26 @@ export const downloadEV = (evData) => (dispatch) => {
   });
 };
 
-//download advisor tutor data export
+//download advisor tutor data export for course
 export const TutorDataExport = (id) => (dispatch) => {
   axios({
     url: `/api/forms/cfaexcel/${id}`,
+    method: "POST",
+    responseType: "blob",
+  }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `Tutordata.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+  });
+};
+
+//download admin tutor data export for course
+export const TutorAdminDataExport = (id) => (dispatch) => {
+  axios({
+    url: `/api/forms/cfaadminexcel/${id}`,
     method: "POST",
     responseType: "blob",
   }).then((response) => {

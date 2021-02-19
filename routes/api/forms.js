@@ -393,7 +393,7 @@ router.post(
 );
 
 // @route   POST /api/forms/cfaexcel/:id
-// @desc    POST to download excel sheet of contracts
+// @desc    POST to download excel sheet of contracts for veranstaltung
 // @access  Private
 router.post(
   "/cfaexcel/:id",
@@ -457,8 +457,74 @@ router.post(
   }
 );
 
+// @route   POST /api/forms/cfaadminexcel/:id
+// @desc    POST to download excel sheet of contracts for veranstaltung
+// @access  Private
+router.post(
+  "/cfaadminexcel/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Contract.find({
+      course: req.params.id,
+    })
+      .populate("user", ["email"])
+      .populate({ path: "profile" })
+      .then((contracts) => {
+        contracts.sort(function (a, b) {
+          if (a.profile.lastname < b.profile.lastname) {
+            return -1;
+          }
+          if (a.profile.lastname > b.profile.lastname) {
+            return 1;
+          }
+          return 0;
+        });
+
+        var data = [];
+        contracts.forEach((e) => {
+          data.push(flatten(e.toJSON()));
+        });
+
+        let workbook = new excel.Workbook(); //creating workbook
+        let worksheet = workbook.addWorksheet("Customers"); //creating worksheet
+
+        //  WorkSheet Header
+        worksheet.columns = [
+          { header: "Lastname", key: ["profile.lastname"], width: 25 },
+          { header: "Firstname", key: ["profile.firstname"], width: 25 },
+          { header: "E-Mail", key: ["user.email"], width: 25 },
+          { header: "Status", key: ["status"], width: 25 },
+          { header: "Contractstart", key: "contractstart", width: 15 },
+          { header: "Contractend", key: "contractend", width: 15 },
+          { header: "Weekly Hours", key: "hours", width: 15 },
+          { header: "Contractstart 2", key: "contractstart2", width: 15 },
+          { header: "Contractend 2", key: "contractend2", width: 15 },
+          { header: "Weekly Hours 2", key: "hours2", width: 15 },
+        ];
+
+        // Add Array Rows
+        worksheet.addRows(data);
+
+        // Write to File
+        workbook.xlsx;
+        workbook.xlsx
+          .writeBuffer()
+          .then((buf) => {
+            res.type("application/pdf");
+            res.send(buf);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        res.status(404).json(err);
+      });
+  }
+);
+
 // @route   POST /api/forms/scdexcel
-// @desc    POST to download excel sheet of contracts
+// @desc    POST to download excel sheet of contracts for semester
 // @access  Private
 router.post(
   "/scdexcel",
@@ -512,6 +578,7 @@ router.post(
               key: ["course.metacourse.name"],
               width: 40,
             },
+            { header: "Status", key: ["status"], width: 25 },
             { header: "Vertragstart", key: "contractstart", width: 20 },
             { header: "Vertragende", key: "contractend", width: 20 },
             { header: "Wochenstunden", key: "hours", width: 20 },

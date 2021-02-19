@@ -10,7 +10,7 @@ import { getCourseById } from "../../actions/courseActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
-import { TutorDataExport } from "../../actions/formsActions";
+import { TutorAdminDataExport } from "../../actions/formsActions";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
 import axios from "axios";
@@ -33,7 +33,7 @@ class AdminApplicationView extends Component {
 
   onDownloadClick(e) {
     e.preventDefault();
-    this.props.TutorDataExport(this.props.match.params.id);
+    this.props.TutorAdminDataExport(this.props.match.params.id);
   }
 
   render() {
@@ -277,5 +277,5 @@ export default connect(mapStateToProps, {
   getApplicationsOfCourse,
   acceptApplication,
   getCourseById,
-  TutorDataExport,
+  TutorAdminDataExport,
 })(AdminApplicationView);

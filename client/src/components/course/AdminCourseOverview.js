@@ -40,6 +40,25 @@ class AdminCourseOverview extends Component {
       );
     }
 
+    function exportButton(cell, row, rowIndex, formatExtraData) {
+      return (
+        <Link to={`/course-applications/${row._id}`} className="btn btn-info">
+          Check Applications
+        </Link>
+      );
+    }
+
+    function budgetButton(cell, row, rowIndex, formatExtraData) {
+      return (
+        <Link
+          to={`/budget-control/${this.props.match.params.id}`}
+          className={"btn btn-primary"}
+        >
+          Budgetübersicht
+        </Link>
+      );
+    }
+
     const columns = [
       {
         dataField: "metacourse.name",
@@ -74,6 +93,14 @@ class AdminCourseOverview extends Component {
       {
         id: "links",
         formatter: betrachtenButton,
+      },
+      {
+        id: "links",
+        formatter: applicationsButton,
+      },
+      {
+        id: "links",
+        formatter: budgetButton,
       },
       {
         id: "links",
