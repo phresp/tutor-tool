@@ -491,6 +491,28 @@ class EditContract extends Component {
       }
     }
 
+    //Query for Stipendium
+    if (this.props.contract.contract) {
+      if (this.props.contract.contract.profile) {
+        if (!this.props.contract.contract.profile.stipendiumend) {
+          this.state.stipendium = "Kein Bedarf";
+        }
+      }
+    }
+
+    //Query for Abschlusszeugnis
+    if (
+      this.state.profiledegree === "" &&
+      this.state.abschlusszeugnis !== "Kein Bedarf"
+    ) {
+      this.state.abschlusszeugnis = "Kein Bedarf";
+    } else if (
+      this.state.profiledegree !== "" &&
+      this.state.abschlusszeugnis === "Kein Bedarf"
+    ) {
+      this.state.abschlusszeugnis = "Fehlt";
+    }
+
     var verfassungsPruefungTooltip = <div></div>;
 
     if (this.props.contract.contract) {
