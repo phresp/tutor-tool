@@ -179,6 +179,12 @@ class CreateContract extends Component {
       }
     }
 
+    var contractcourse;
+    if (this.props.application.application) {
+      contractcourse = this.props.application.application.course.metacourse
+        .name;
+    }
+
     //Select options for Forms
     const formsOptions = [
       { label: "Fehlt", value: "Fehlt" },
@@ -656,7 +662,7 @@ class CreateContract extends Component {
             <div className="col-md-8 m-auto">
               {backButton}
               <h1 className="display-4 text-center">
-                Vertrag von <br /> {contractname}
+                Vertrag von <br /> {contractname} für {contractcourse}
               </h1>
               {verfassungsPruefungTooltip}
               <form onSubmit={this.onSubmit}>
