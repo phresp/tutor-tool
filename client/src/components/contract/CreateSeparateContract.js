@@ -91,10 +91,10 @@ class CreateSeparateContract extends Component {
       return 0;
     });
     const tutorOptions = tutors.map((el) => {
-      return { label: el.firstname + " " + el.lastname, value: el._id };
+      return { label: el.lastname + " " + el.firstname, value: el._id };
     });
 
-    tutorOptions.unshift({ label: "Student auswählen", value: "" });
+    tutorOptions.unshift({ label: "Student:in auswählen", value: "" });
 
     //Set User for selected Tutor
     if (this.state.profile) {
@@ -108,6 +108,15 @@ class CreateSeparateContract extends Component {
     if (isEmpty(courses)) {
       courses = [];
     }
+    courses.sort(function (a, b) {
+      if (a.metacourse[0].name < b.metacourse[0].name) {
+        return -1;
+      }
+      if (a.metacourse[0].name > b.metacourse[0].name) {
+        return 1;
+      }
+      return 0;
+    });
     const courseOptions = courses.map((el) => {
       return {
         label: el.metacourse[0].name + ", " + el.semester[0].name,
@@ -115,7 +124,7 @@ class CreateSeparateContract extends Component {
       };
     });
 
-    courseOptions.unshift({ label: "Kurs auswählen", value: "" });
+    courseOptions.unshift({ label: "Veranstaltung auswählen", value: "" });
 
     //Select options for status of contract
     const statusOptions = [
@@ -138,7 +147,7 @@ class CreateSeparateContract extends Component {
                 Leeren Vertrag Erstellen
               </h1>
               <form onSubmit={this.onSubmit}>
-                <label htmlFor="inputStudent">Student</label>
+                <label htmlFor="inputStudent">Student:in</label>
                 <SelectListGroup
                   placeholder="Student"
                   onChange={this.onChange}
@@ -147,16 +156,16 @@ class CreateSeparateContract extends Component {
                   error={errors.profile}
                   options={tutorOptions}
                 />
-                <label htmlFor="inputourse">Kurs</label>
+                <label htmlFor="inputourse">Veransaltung</label>
                 <SelectListGroup
-                  placeholder="Kurs"
+                  placeholder="Veransaltung"
                   onChange={this.onChange}
                   value={this.state.course}
                   name="course"
                   error={errors.course}
                   options={courseOptions}
                 />
-                <label htmlFor="status">Status:</label>
+                <label htmlFor="status">Status</label>
                 <SelectListGroup
                   placeholder="status"
                   onChange={this.onChange}
