@@ -775,18 +775,7 @@ class CreateContract extends Component {
                   options={formsNotAlwaysNeededOptions}
                   color={this.state.merkblatt}
                 />
-                <label htmlFor="einstellungsvorschlag">
-                  Einstellungsvorschlag:
-                </label>
-                <ContractSelectListGroup
-                  placeholder="einstellungsvorschlag"
-                  onChange={this.onChange}
-                  value={this.state.einstellungsvorschlag}
-                  name="einstellungsvorschlag"
-                  error={errors.einstellungsvorschlag}
-                  options={formsOptions}
-                  color={this.state.einstellungsvorschlag}
-                />
+
                 <label htmlFor="versicherungspflicht">
                   Versicherungspflicht:
                 </label>
@@ -920,6 +909,18 @@ class CreateContract extends Component {
                   error={errors.abschlusszeugnis}
                   options={foreignerOptions}
                   color={this.state.abschlusszeugnis}
+                />
+                <label htmlFor="einstellungsvorschlag">
+                  Einstellungsvorschlag:
+                </label>
+                <ContractSelectListGroup
+                  placeholder="einstellungsvorschlag"
+                  onChange={this.onChange}
+                  value={this.state.einstellungsvorschlag}
+                  name="einstellungsvorschlag"
+                  error={errors.einstellungsvorschlag}
+                  options={formsOptions}
+                  color={this.state.einstellungsvorschlag}
                 />
                 <label htmlFor="status">Status:</label>
                 <SelectListGroup

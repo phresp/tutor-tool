@@ -1006,18 +1006,7 @@ class EditContract extends Component {
                   options={formsNotAlwaysNeededOptions}
                   color={this.state.merkblatt}
                 />
-                <label htmlFor="einstellungsvorschlag">
-                  Einstellungsvorschlag:
-                </label>
-                <ContractSelectListGroup
-                  placeholder="einstellungsvorschlag"
-                  onChange={this.onChange}
-                  value={this.state.einstellungsvorschlag}
-                  name="einstellungsvorschlag"
-                  error={errors.einstellungsvorschlag}
-                  options={formsOptions}
-                  color={this.state.einstellungsvorschlag}
-                />
+
                 <label htmlFor="versicherungspflicht">
                   Versicherungspflicht:
                 </label>
@@ -1152,6 +1141,32 @@ class EditContract extends Component {
                   error={errors.abschlusszeugnis}
                   options={foreignerOptions}
                   color={this.state.abschlusszeugnis}
+                />
+
+                <div className="row">
+                  <div className="col-md-9">
+                    <label htmlFor="einstellungsvorschlag">
+                      Einstellungsvorschlag:
+                    </label>
+                  </div>
+                  <div className="col-md-3">
+                    <button
+                      type="button"
+                      onClick={this.onDownloadClick.bind(this)}
+                      className="btn btn-primary"
+                    >
+                      EV exportieren
+                    </button>
+                  </div>
+                </div>
+                <ContractSelectListGroup
+                  placeholder="einstellungsvorschlag"
+                  onChange={this.onChange}
+                  value={this.state.einstellungsvorschlag}
+                  name="einstellungsvorschlag"
+                  error={errors.einstellungsvorschlag}
+                  options={formsOptions}
+                  color={this.state.einstellungsvorschlag}
                 />
 
                 <label htmlFor="status">Status:</label>
