@@ -67,6 +67,9 @@ const ContractSchema = new Schema({
   verfassungstreue: {
     type: String,
   },
+  immatrikulationsbescheinigung0: {
+    type: String,
+  },
   immatrikulationsbescheinigung: {
     type: String,
   },

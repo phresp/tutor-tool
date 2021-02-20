@@ -51,6 +51,7 @@ class EditContract extends Component {
       versicherungspflicht: "",
       scientology: "",
       verfassungstreue: "",
+      immatrikulationsbescheinigung0: "",
       immatrikulationsbescheinigung: "",
       immatrikulationsbescheinigung2: "",
       aufenthaltstitel: "",
@@ -130,6 +131,11 @@ class EditContract extends Component {
       contract.verfassungstreue = !isEmpty(contract.verfassungstreue)
         ? contract.verfassungstreue
         : "Fehlt";
+      contract.immatrikulationsbescheinigung0 = !isEmpty(
+        contract.immatrikulationsbescheinigung0
+      )
+        ? contract.immatrikulationsbescheinigung0
+        : "";
       contract.immatrikulationsbescheinigung = !isEmpty(
         contract.immatrikulationsbescheinigung
       )
@@ -139,7 +145,7 @@ class EditContract extends Component {
         contract.immatrikulationsbescheinigung2
       )
         ? contract.immatrikulationsbescheinigung2
-        : "Fehlt";
+        : "";
       contract.aufenthaltstitel = !isEmpty(contract.aufenthaltstitel)
         ? contract.aufenthaltstitel
         : "Fehlt";
@@ -205,6 +211,7 @@ class EditContract extends Component {
         versicherungspflicht: contract.versicherungspflicht,
         scientology: contract.scientology,
         verfassungstreue: contract.verfassungstreue,
+        immatrikulationsbescheinigung0: contract.immatrikulationsbescheinigung0,
         immatrikulationsbescheinigung: contract.immatrikulationsbescheinigung,
         immatrikulationsbescheinigung2: contract.immatrikulationsbescheinigung2,
         aufenthaltstitel: contract.aufenthaltstitel,
@@ -285,6 +292,7 @@ class EditContract extends Component {
       versicherungspflicht: this.state.versicherungspflicht,
       scientology: this.state.scientology,
       verfassungstreue: this.state.verfassungstreue,
+      immatrikulationsbescheinigung0: this.state.immatrikulationsbescheinigung0,
       immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
       immatrikulationsbescheinigung2: this.state.immatrikulationsbescheinigung2,
       aufenthaltstitel: this.state.aufenthaltstitel,
@@ -363,6 +371,7 @@ class EditContract extends Component {
       scientology: this.state.scientology,
       verfassungstreue: this.state.verfassungstreue,
       immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
+      immatrikulationsbescheinigung0: this.state.immatrikulationsbescheinigung0,
       immatrikulationsbescheinigung2: this.state.immatrikulationsbescheinigung2,
       aufenthaltstitel: this.state.aufenthaltstitel,
       reisepass: this.state.reisepass,
@@ -827,6 +836,46 @@ class EditContract extends Component {
               color={this.state.immatrikulationsbescheinigung2}
             />
           );
+        } else {
+          if (this.state.immatrikulationsbescheinigung2 !== "") {
+            this.state.immatrikulationsbescheinigung2 = "";
+          }
+        }
+      }
+    }
+
+    //Immatrikulation vorheriges Semester
+    var immatrikulationPrevSem;
+    var immatrikulationPrevSemLabel;
+    var { contract } = this.props.contract;
+    if (contract) {
+      if (contract.course.semester) {
+        if (
+          new Date(contract.course.semester.from) >
+            new Date(this.state.contractstart) ||
+          new Date(contract.course.semester.from) >
+            new Date(this.state.contractstart2)
+        ) {
+          immatrikulationPrevSemLabel = (
+            <label htmlFor="newContract">
+              Immatrikulationsbescheinigung vorheriges Semester:
+            </label>
+          );
+          immatrikulationPrevSem = (
+            <ContractSelectListGroup
+              placeholder="immatrikulationsbescheinigung vorheriges Semester"
+              onChange={this.onChange}
+              value={this.state.immatrikulationsbescheinigung0}
+              name="immatrikulationsbescheinigung0"
+              error={errors.immatrikulationsbescheinigung0}
+              options={formsNotAlwaysNeededOptions}
+              color={this.state.immatrikulationsbescheinigung0}
+            />
+          );
+        } else {
+          if (this.state.immatrikulationsbescheinigung0 !== "") {
+            this.state.immatrikulationsbescheinigung0 = "";
+          }
         }
       }
     }
@@ -1061,6 +1110,8 @@ class EditContract extends Component {
                   options={formsOptions}
                   color={this.state.verfassungstreue}
                 />
+                {immatrikulationPrevSemLabel}
+                {immatrikulationPrevSem}
                 <label htmlFor="immatrikulationsbescheinigung">
                   Immatrikulationsbescheinigung:
                 </label>

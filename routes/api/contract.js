@@ -305,6 +305,10 @@ router.post(
     contractFields.verfassungstreue = req.body.verfassungstreue
       ? req.body.verfassungstreue
       : "Fehlt";
+    contractFields.immatrikulationsbescheinigung0 = req.body
+      .immatrikulationsbescheinigung0
+      ? req.body.immatrikulationsbescheinigung0
+      : "";
     contractFields.immatrikulationsbescheinigung = req.body
       .immatrikulationsbescheinigung
       ? req.body.immatrikulationsbescheinigung
@@ -437,6 +441,8 @@ router.post(
     contractFields.versicherungspflicht = req.body.versicherungspflicht;
     contractFields.scientology = req.body.scientology;
     contractFields.verfassungstreue = req.body.verfassungstreue;
+    contractFields.immatrikulationsbescheinigung0 =
+      req.body.immatrikulationsbescheinigung0;
     contractFields.immatrikulationsbescheinigung =
       req.body.immatrikulationsbescheinigung;
     contractFields.immatrikulationsbescheinigung2 =

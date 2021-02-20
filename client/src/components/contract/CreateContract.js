@@ -43,6 +43,7 @@ class CreateContract extends Component {
       versicherungspflicht: "Fehlt",
       scientology: "Fehlt",
       verfassungstreue: "Fehlt",
+      immatrikulationsbescheinigung0: "",
       immatrikulationsbescheinigung: "Fehlt",
       immatrikulationsbescheinigung2: "",
       aufenthaltstitel: "Fehlt",
@@ -96,6 +97,7 @@ class CreateContract extends Component {
       versicherungspflicht: this.state.versicherungspflicht,
       scientology: this.state.scientology,
       verfassungstreue: this.state.verfassungstreue,
+      immatrikulationsbescheinigung0: this.state.immatrikulationsbescheinigung0,
       immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
       immatrikulationsbescheinigung2: this.state.immatrikulationsbescheinigung2,
       aufenthaltstitel: this.state.aufenthaltstitel,
@@ -605,6 +607,51 @@ class CreateContract extends Component {
                 color={this.state.immatrikulationsbescheinigung2}
               />
             );
+          } else {
+            if (this.state.immatrikulationsbescheinigung2 !== "") {
+              this.state.immatrikulationsbescheinigung2 = "";
+            }
+          }
+        }
+      }
+    }
+
+    //Immatrikulation vorheriges Semester
+    var immatrikulationPrevSem;
+    var immatrikulationPrevSemLabel;
+    var application;
+    if (this.props.application.application) {
+      application = this.props.application.application;
+    }
+    if (application) {
+      if (application.course) {
+        if (application.course.semester) {
+          if (
+            new Date(application.course.semester.from) >
+              new Date(this.state.contractstart) ||
+            new Date(application.course.semester.from) >
+              new Date(this.state.contractstart)
+          ) {
+            immatrikulationPrevSemLabel = (
+              <label htmlFor="newContract">
+                Immatrikulationsbescheinigung vorheriges Semester:
+              </label>
+            );
+            immatrikulationPrevSem = (
+              <ContractSelectListGroup
+                placeholder="immatrikulationsbescheinigung vorheriges Semester"
+                onChange={this.onChange}
+                value={this.state.immatrikulationsbescheinigung0}
+                name="immatrikulationsbescheinigung0"
+                error={errors.immatrikulationsbescheinigung0}
+                options={formsNotAlwaysNeededOptions}
+                color={this.state.immatrikulationsbescheinigung0}
+              />
+            );
+          } else {
+            if (this.state.immatrikulationsbescheinigung0 !== "") {
+              this.state.immatrikulationsbescheinigung0 = "";
+            }
           }
         }
       }
@@ -814,6 +861,8 @@ class CreateContract extends Component {
                   options={formsOptions}
                   color={this.state.verfassungstreue}
                 />
+                {immatrikulationPrevSemLabel}
+                {immatrikulationPrevSem}
                 <label htmlFor="immatrikulationsbescheinigung">
                   Immatrikulationsbescheinigung:
                 </label>

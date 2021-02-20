@@ -48,6 +48,28 @@ class ViewContract extends Component {
       }
     }
 
+    var immatrikulation0row;
+    if (this.props.contract.contract) {
+      coursename = this.props.contract.contract.course.metacourse.name;
+      coursesem = this.props.contract.contract.course.semester.name;
+
+      if (this.props.contract.contract.immatrikulationsbescheinigung0) {
+        immatrikulation0row = (
+          <tr
+            className={`${
+              contractdata.immatrikulationsbescheinigung0 === "Fehlt"
+                ? "table-danger"
+                : "table-success"
+            }`}
+          >
+            <th scope="row">Immatrikulationsbescheinigung previous semester</th>
+            <td>{contractdata.immatrikulationsbescheinigung0}</td>
+            <td></td>
+          </tr>
+        );
+      }
+    }
+
     return (
       <div className="container">
         <div className="row">
@@ -176,6 +198,7 @@ class ViewContract extends Component {
                     </button>
                   </td>
                 </tr>
+                {immatrikulation0row}
                 <tr
                   className={`${
                     contractdata.immatrikulationsbescheinigung === "Fehlt"
