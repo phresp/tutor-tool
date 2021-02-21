@@ -8,6 +8,7 @@ import SelectListGroup from "../common/SelectListGroup";
 import moment from "moment";
 import countryList from "react-select-country-list";
 
+import { getCurrentProfile } from "../../actions/profileActions";
 import {
   getContractOfID,
   updateContract,
@@ -28,6 +29,7 @@ class EditContract extends Component {
     this.props.getContractsForContract(this.props.match.params.id);
     this.props.getAdvisors();
     this.props.getAdmins();
+    this.props.getCurrentProfile();
   }
 
   constructor(props) {
@@ -304,6 +306,7 @@ class EditContract extends Component {
       personalbogenstudierende: this.state.personalbogenstudierende,
       sozialversicherungsausweis: this.state.sozialversicherungsausweis,
       steuerId: this.state.steuerId,
+      lasthandle: this.props.profile.profile.handle,
       status: this.state.status,
     };
 
@@ -1291,4 +1294,5 @@ export default connect(mapStateToProps, {
   getAdmins,
   getContractsForContract,
   deleteContract,
+  getCurrentProfile,
 })(withRouter(EditContract));

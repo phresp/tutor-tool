@@ -15,6 +15,7 @@ class CreateAdvisorProfile extends Component {
       lastname: "",
       firstname: "",
       gender: "",
+      handle: "",
       errors: {},
     };
 
@@ -36,6 +37,7 @@ class CreateAdvisorProfile extends Component {
       lastname: this.state.lastname,
       firstname: this.state.firstname,
       gender: this.state.gender,
+      handle: this.state.handle,
     };
     this.props.createAdvisorProfile(profileData, this.props.history);
   }
@@ -87,6 +89,15 @@ class CreateAdvisorProfile extends Component {
                   name="gender"
                   error={errors.gender}
                   options={statusOptions}
+                />
+                <label htmlFor="handle">* Handle:</label>
+                <TextFieldGroup
+                  placeholder="* Handle"
+                  onChange={this.onChange}
+                  value={this.state.handle}
+                  name="handle"
+                  error={errors.handle}
+                  info={"Select a unique 2 to 3 character handle"}
                 />
                 <input
                   type="submit"

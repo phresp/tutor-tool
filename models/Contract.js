@@ -100,6 +100,12 @@ const ContractSchema = new Schema({
   abschlusszeugnis: {
     type: String,
   },
+  lastchangeddate: {
+    type: Date,
+  },
+  lasthandle: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,

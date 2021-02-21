@@ -7,6 +7,7 @@ import SelectListGroup from "../common/SelectListGroup";
 import ContractSelectListGroup from "../common/ContractSelectListGroup";
 import moment from "moment";
 
+import { getCurrentProfile } from "../../actions/profileActions";
 import {
   createContract,
   getContractsForApplication,
@@ -21,6 +22,7 @@ class CreateContract extends Component {
   componentDidMount() {
     this.props.getApplicationOfId(this.props.match.params.id);
     this.props.getContractsForApplication(this.props.match.params.id);
+    this.props.getCurrentProfile();
   }
 
   constructor(props) {
@@ -107,6 +109,7 @@ class CreateContract extends Component {
       steuerId: this.state.steuerId,
       reisepass: this.state.reisepass,
       stipendium: this.state.stipendium,
+      lasthandle: this.props.profile.profile.handle,
       status: this.state.status,
     };
 
@@ -1010,6 +1013,7 @@ CreateContract.propTypes = (state) => ({
 
 const mapStateToProps = (state) => ({
   application: state.application,
+  profile: state.profile,
   contract: state.contract,
   errors: state.errors,
   auth: state.auth,
@@ -1019,4 +1023,5 @@ export default connect(mapStateToProps, {
   createContract,
   getApplicationOfId,
   getContractsForApplication,
+  getCurrentProfile,
 })(withRouter(CreateContract));

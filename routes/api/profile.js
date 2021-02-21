@@ -11,7 +11,6 @@ const User = require("../../models/User");
 
 //Load Validation
 const validateProfileInput = require("../../validation/profile");
-const validateAdvisorProfileInput = require("../../validation/advisorprofile");
 const validateExperienceInput = require("../../validation/experience");
 const validateEducationInput = require("../../validation/education");
 
@@ -252,6 +251,7 @@ router.post(
     profileFields.vita = req.body.vita;
     profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
     profileFields.degree = req.body.degree;
+    profileFields.handle = req.body.handle.toUpperCase();
 
     Profile.findOne({ user: req.user.id }).then((profile) => {
       if (profile) {
@@ -305,6 +305,7 @@ router.post(
     profileFields.vita = req.body.vita;
     profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
     profileFields.degree = req.body.degree;
+    profileFields.handle = req.body.handle.toUpperCase();
 
     Profile.findOneAndUpdate(
       { _id: req.params.id },
@@ -324,7 +325,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Validate Input fields
-    const { errors, isValid } = validateAdvisorProfileInput(req.body);
+    const { errors, isValid } = validateProfileInput(req.body);
     if (!isValid) {
       //Return any errors with 400 status
       return res.status(400).json(errors);
@@ -336,6 +337,7 @@ router.post(
     profileFields.lastname = req.body.lastname;
     profileFields.firstname = req.body.firstname;
     profileFields.gender = req.body.gender;
+    profileFields.handle = req.body.handle.toUpperCase();
 
     Profile.findOne({ user: req.user.id }).then((profile) => {
       if (profile) {

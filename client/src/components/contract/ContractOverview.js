@@ -190,6 +190,17 @@ class ContractOverview extends Component {
             formatter: statusFormatter,
           },
           {
+            dataField: "lasthandle",
+            text: "Kürzel",
+            sort: true,
+          },
+          {
+            dataField: "lastchangeddate",
+            text: "Letzte Änderung",
+            sort: true,
+            formatter: dateFormat,
+          },
+          {
             text: "Vertrag bearbeiten",
             header: "Edit",
             id: "links",

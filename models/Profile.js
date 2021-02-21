@@ -51,6 +51,9 @@ const ProfileSchema = new Schema({
   degree: {
     type: String,
   },
+  handle: {
+    type: String,
+  },
 
   experience: [
     {

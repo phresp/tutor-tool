@@ -13,12 +13,15 @@ import { getCourses } from "../../actions/courseActions";
 
 import { getTutors } from "../../actions/profileActions";
 
+import { getCurrentProfile } from "../../actions/profileActions";
+
 import isEmpty from "../common/is-empty";
 
 class CreateSeparateContract extends Component {
   componentDidMount() {
     this.props.getTutors();
     this.props.getCourses();
+    this.props.getCurrentProfile();
   }
 
   constructor(props) {
@@ -44,6 +47,7 @@ class CreateSeparateContract extends Component {
       profile: this.state.profile,
       course: this.state.course,
       status: this.state.status,
+      lasthandle: this.props.profile.profile.handle,
     };
 
     this.props.createSeparateContract(contractData, this.props.history);
@@ -209,4 +213,5 @@ export default connect(mapStateToProps, {
   getTutors,
   getUserContracts,
   getCourses,
+  getCurrentProfile,
 })(withRouter(CreateSeparateContract));

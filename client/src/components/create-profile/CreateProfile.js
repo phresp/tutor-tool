@@ -62,6 +62,7 @@ class CreateProfile extends Component {
       stipendiumend: this.state.stipendiumend,
       currentfieldofstudy: this.state.currentfieldofstudy,
       degree: this.state.degree,
+      role: this.props.auth.user.role,
     };
     this.props.createProfile(profileData, this.props.history);
   }
@@ -275,6 +276,7 @@ CreateProfile.propTypes = {
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  auth: state.auth,
   errors: state.errors,
 });
 

@@ -342,6 +342,8 @@ router.post(
       ? req.body.abschlusszeugnis
       : "Fehlt";
 
+    contractFields.lastchangeddate = Date.now();
+    contractFields.lasthandle = req.body.lasthandle;
     contractFields.status = req.body.status ? req.body.status : "created";
 
     //Create Contract
@@ -397,6 +399,9 @@ router.post(
     contractFields.abschlusszeugnis = "Fehlt";
 
     contractFields.status = req.body.status ? req.body.status : "created";
+
+    contractFields.lastchangeddate = Date.now();
+    contractFields.lasthandle = req.body.lasthandle;
 
     //Create Contract
     new Contract(contractFields)
@@ -460,6 +465,9 @@ router.post(
     contractFields.status = req.body.status;
     contractFields.abschlusszeugnis = req.body.abschlusszeugnis;
 
+    contractFields.lastchangeddate = Date.now();
+    contractFields.lasthandle = req.body.lasthandle;
+
     //Update Contract
     Contract.findOneAndUpdate(
       { _id: req.params.id },
@@ -484,7 +492,7 @@ router.delete(
       .then((contract) => {
         if (contract.application) {
           var applicationFields = {};
-          applicationFields.status = "Applied";
+          applicationFields.status = "Contract revoked";
           //Update Application
           Application.findOneAndUpdate(
             { _id: contract.application },
