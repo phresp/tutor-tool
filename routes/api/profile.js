@@ -251,7 +251,7 @@ router.post(
     profileFields.vita = req.body.vita;
     profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
     profileFields.degree = req.body.degree;
-    if (profileFields.handle) {
+    if (req.body.handle) {
       profileFields.handle = req.body.handle.toUpperCase();
     }
 
@@ -289,7 +289,6 @@ router.post(
       //Return any errors with 400 status
       return res.status(400).json(errors);
     }
-
     //Get Body Fields
     const profileFields = {};
     profileFields.lastname = req.body.lastname;

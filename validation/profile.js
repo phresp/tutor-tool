@@ -45,9 +45,11 @@ module.exports = function validateProfileInput(data) {
     // }
   } else {
     data.handle = !isEmpty(data.handle) ? data.handle : "";
+
     if (Validator.isEmpty(data.handle)) {
       errors.handle = "Your Handle is required";
     }
+
     if (!Validator.isAlpha(data.handle)) {
       errors.handle = "Handle must only contain of letters";
     }
