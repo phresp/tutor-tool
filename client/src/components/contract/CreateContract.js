@@ -11,6 +11,7 @@ import { getCurrentProfile } from "../../actions/profileActions";
 import {
   createContract,
   getContractsForApplication,
+  createContractWithAdditional,
 } from "../../actions/contractActions";
 
 import { getApplicationOfId } from "../../actions/applicationActions";
@@ -115,6 +116,56 @@ class CreateContract extends Component {
 
     this.props.createContract(
       contractData,
+      this.props.application.application.course._id,
+      this.props.history
+    );
+  }
+
+  onSeparateSubmit(e) {
+    e.preventDefault();
+    const contractData = {
+      user: this.state.user,
+      profile: this.state.profile,
+      course: this.state.course,
+      applicationID: this.state.applicationID,
+      contractstart: this.state.contractstart,
+      contractend: this.state.contractend,
+      hours: this.state.hours,
+      contractstart2: this.state.contractstart2,
+      contractend2: this.state.contractend2,
+      hours2: this.state.hours2,
+      degree: this.state.degree,
+      newcontract: this.state.newcontract,
+      merkblatt: this.state.merkblatt,
+      einstellungsvorschlag: this.state.einstellungsvorschlag,
+      versicherungspflicht: this.state.versicherungspflicht,
+      scientology: this.state.scientology,
+      verfassungstreue: this.state.verfassungstreue,
+      immatrikulationsbescheinigung0: this.state.immatrikulationsbescheinigung0,
+      immatrikulationsbescheinigung: this.state.immatrikulationsbescheinigung,
+      immatrikulationsbescheinigung2: this.state.immatrikulationsbescheinigung2,
+      aufenthaltstitel: this.state.aufenthaltstitel,
+      krankenkassenbescheinigung: this.state.krankenkassenbescheinigung,
+      personalbogenbezuegestelle: this.state.personalbogenbezuegestelle,
+      personalbogenstudierende: this.state.personalbogenstudierende,
+      steuerId: this.state.steuerId,
+      reisepass: this.state.reisepass,
+      stipendium: this.state.stipendium,
+      lasthandle: this.props.profile.profile.handle,
+      status: this.state.status,
+    };
+
+    const separateData = {
+      user: this.state.user,
+      profile: this.state.profile,
+      course: this.state.course,
+      status: "Created",
+      lasthandle: this.props.profile.profile.handle,
+    };
+
+    this.props.createContractWithAdditional(
+      contractData,
+      separateData,
       this.props.application.application.course._id,
       this.props.history
     );
@@ -989,6 +1040,12 @@ class CreateContract extends Component {
                   error={errors.status}
                   options={statusOptions}
                 />
+                <button
+                  onClick={this.onSeparateSubmit.bind(this)}
+                  className="btn btn-secondary"
+                >
+                  Submit und weiteren Vertrag anlegen
+                </button>
                 <input
                   type="submit"
                   value="Submit"
@@ -1024,4 +1081,5 @@ export default connect(mapStateToProps, {
   getApplicationOfId,
   getContractsForApplication,
   getCurrentProfile,
+  createContractWithAdditional,
 })(withRouter(CreateContract));

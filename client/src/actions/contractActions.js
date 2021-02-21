@@ -131,6 +131,36 @@ export const createContract = (contractData, courseID, history) => (
 };
 
 //Create Contract
+export const createContractWithAdditional = (
+  contractData,
+  separateData,
+  courseID,
+  history
+) => (dispatch) => {
+  axios
+    .post("/api/contract", contractData)
+    .then((res) => {
+      axios
+        .post("/api/contract/separatecontract", separateData)
+        .then((res) => {
+          history.push(`/edit-contract/${res.data}`);
+        })
+        .catch((err) =>
+          dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data,
+          })
+        );
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+//Create Separate Contract
 export const createSeparateContract = (contractData, history) => (dispatch) => {
   axios
     .post("/api/contract/separatecontract", contractData)
