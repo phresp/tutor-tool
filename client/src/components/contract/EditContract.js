@@ -14,6 +14,7 @@ import {
   updateContract,
   getContractsForContract,
   deleteContract,
+  createSeparateContract,
 } from "../../actions/contractActions";
 import { downloadEV } from "../../actions/formsActions";
 import { getAdvisors, getAdmins } from "../../actions/profileActions";
@@ -73,9 +74,14 @@ class EditContract extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onSeparateContractClick = this.onSeparateContractClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      window.location.reload();
+    }
+
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
@@ -272,6 +278,19 @@ class EditContract extends Component {
         });
       }
     }
+  }
+
+  onSeparateContractClick(e) {
+    e.preventDefault();
+    const contractData = {
+      user: this.state.user,
+      profile: this.state.profile,
+      course: this.state.course,
+      status: "Created",
+      lasthandle: this.props.profile.profile.handle,
+    };
+
+    this.props.createSeparateContract(contractData, this.props.history);
   }
 
   onSubmit(e) {
@@ -514,12 +533,12 @@ class EditContract extends Component {
 
     //Query for Abschlusszeugnis
     if (
-      this.state.profiledegree === "" &&
+      this.state.degree === "" &&
       this.state.abschlusszeugnis !== "Kein Bedarf"
     ) {
       this.state.abschlusszeugnis = "Kein Bedarf";
     } else if (
-      this.state.profiledegree !== "" &&
+      this.state.degree !== "" &&
       this.state.abschlusszeugnis === "Kein Bedarf"
     ) {
       this.state.abschlusszeugnis = "Fehlt";
@@ -948,9 +967,13 @@ class EditContract extends Component {
               >
                 EV exportieren
               </button>
-              <Link to="/createseparatecontract" className="btn btn-info">
+
+              <button
+                onClick={this.onSeparateContractClick.bind(this)}
+                className="btn btn-secondary"
+              >
                 Weiteren Vertrag anlegen
-              </Link>
+              </button>
               <button
                 type="button"
                 onClick={this.onDeleteClick.bind(this)}
@@ -1295,4 +1318,5 @@ export default connect(mapStateToProps, {
   getContractsForContract,
   deleteContract,
   getCurrentProfile,
+  createSeparateContract,
 })(withRouter(EditContract));
