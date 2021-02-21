@@ -241,9 +241,15 @@ router.delete(
     })
       .then((application) => {
         //Delete
-        application
-          .remove()
-          .then(() => res.status(200).json({ success: true }));
+        if (application.status === "Applied") {
+          application
+            .remove()
+            .then(() => res.status(200).json({ success: true }));
+        } else {
+          res
+            .status(400)
+            .json({ wrongapplicationstatus: "Wrong Application Status" });
+        }
       })
       .catch((err) => {
         res.status(404).json({ applicationnotfound: "Application not found" });

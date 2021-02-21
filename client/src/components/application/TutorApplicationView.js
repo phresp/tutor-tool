@@ -99,20 +99,24 @@ class TutorApplicationView extends Component {
           if (obj.course) return obj.course._id === value;
         });
         if (result[0]) {
-          return (
-            <button
-              onClick={() => {
-                axios
-                  .delete(`/api/application/${result[0]._id}`)
-                  .then((res) => {
-                    window.location.reload();
-                  });
-              }}
-              className="btn btn-danger"
-            >
-              Delete Application
-            </button>
-          );
+          if (result[0].status === "Applied") {
+            return (
+              <button
+                onClick={() => {
+                  axios
+                    .delete(`/api/application/${result[0]._id}`)
+                    .then((res) => {
+                      window.location.reload();
+                    });
+                }}
+                className="btn btn-danger"
+              >
+                Delete Application
+              </button>
+            );
+          } else {
+            return "";
+          }
         } else {
           return "";
         }
