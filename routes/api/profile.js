@@ -251,7 +251,9 @@ router.post(
     profileFields.vita = req.body.vita;
     profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
     profileFields.degree = req.body.degree;
-    profileFields.handle = req.body.handle.toUpperCase();
+    if (profileFields.handle) {
+      profileFields.handle = req.body.handle.toUpperCase();
+    }
 
     Profile.findOne({ user: req.user.id }).then((profile) => {
       if (profile) {
@@ -305,7 +307,9 @@ router.post(
     profileFields.vita = req.body.vita;
     profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
     profileFields.degree = req.body.degree;
-    profileFields.handle = req.body.handle.toUpperCase();
+    if (profileFields.handle) {
+      profileFields.handle = req.body.handle.toUpperCase();
+    }
 
     Profile.findOneAndUpdate(
       { _id: req.params.id },
@@ -337,7 +341,9 @@ router.post(
     profileFields.lastname = req.body.lastname;
     profileFields.firstname = req.body.firstname;
     profileFields.gender = req.body.gender;
-    profileFields.handle = req.body.handle.toUpperCase();
+    if (profileFields.handle) {
+      profileFields.handle = req.body.handle.toUpperCase();
+    }
 
     Profile.findOne({ user: req.user.id }).then((profile) => {
       if (profile) {

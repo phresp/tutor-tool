@@ -237,8 +237,7 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Application.findOne({
-      user: req.user.id,
-      course: req.params.id,
+      _id: req.params.id,
     })
       .then((application) => {
         //Delete

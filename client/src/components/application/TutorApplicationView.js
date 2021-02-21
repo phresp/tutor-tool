@@ -10,10 +10,18 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import Spinner from "../common/Spinner";
+import axios from "axios";
 
 const { SearchBar } = Search;
 
 class TutorApplicationView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      disabled: false,
+    };
+  }
+
   componentDidMount() {
     this.props.getTutorApplications();
     this.props.getCoursesForApplication();
@@ -30,6 +38,26 @@ class TutorApplicationView extends Component {
     let { advisors, loading } = this.props.profile;
     let applicationTable;
 
+    applications = applications ? applications : [];
+    let applicationsCounter = 0;
+    applications.forEach((e) => {
+      if (e.status === "Applied") {
+        applicationsCounter += 1;
+      }
+    });
+
+    var applicationTooltip;
+    if (applicationsCounter >= 3) {
+      applicationTooltip = (
+        <h3 className="text-danger text-center">
+          Maximum Number of Applications reached!
+        </h3>
+      );
+      if (!this.state.disabled) {
+        this.setState({ disabled: true });
+      }
+    }
+
     if (
       applications === null ||
       courses === null ||
@@ -43,15 +71,54 @@ class TutorApplicationView extends Component {
       //Data for Table
       const entries = courses ? courses : [];
 
-      function applyButton(cell, row, rowIndex, formatExtraData) {
-        return (
-          <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
-            Apply
-          </Link>
-        );
-      }
+      const applyButton = (cell, row, rowIndex, formatExtraData) => {
+        if (!this.state.disabled) {
+          return (
+            <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
+              Apply
+            </Link>
+          );
+        } else if (this.state.disabled) {
+          return (
+            <button
+              className="btn btn-info"
+              type="button"
+              disabled={this.state.disabled}
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Tooltip on top"
+            >
+              Apply
+            </button>
+          );
+        }
+      };
 
-      function statusFormatter(value, row, rowIndex, formatExtraData) {
+      const deleteButton = (value, row, rowIndex, formatExtraData) => {
+        var result = applications.filter((obj) => {
+          if (obj.course) return obj.course._id === value;
+        });
+        if (result[0]) {
+          return (
+            <button
+              onClick={() => {
+                axios
+                  .delete(`/api/application/${result[0]._id}`)
+                  .then((res) => {
+                    window.location.reload();
+                  });
+              }}
+              className="btn btn-danger"
+            >
+              Delete Application
+            </button>
+          );
+        } else {
+          return "";
+        }
+      };
+
+      const statusFormatter = (value, row, rowIndex, formatExtraData) => {
         var result = applications.filter((obj) => {
           if (obj.course) return obj.course._id === value;
         });
@@ -60,9 +127,9 @@ class TutorApplicationView extends Component {
         } else {
           return "";
         }
-      }
+      };
 
-      function advisorFormatter(value, row, rowIndex, formatExtraData) {
+      const advisorFormatter = (value, row, rowIndex, formatExtraData) => {
         var result = advisors.filter((obj) => {
           return obj.user._id === value;
         });
@@ -71,7 +138,7 @@ class TutorApplicationView extends Component {
         } else {
           return "";
         }
-      }
+      };
 
       if (courses && courses.length > 0) {
         const columns = [
@@ -102,6 +169,11 @@ class TutorApplicationView extends Component {
             header: "Apply",
             id: "links",
             formatter: applyButton,
+          },
+          {
+            dataField: "_id",
+            text: "Delete",
+            formatter: deleteButton,
           },
         ];
 
@@ -136,7 +208,7 @@ class TutorApplicationView extends Component {
               back
             </Link>
             <h1 className="display-4 text-center">Courses to Apply</h1>
-
+            {applicationTooltip}
             {applicationTable}
           </div>
         </div>
