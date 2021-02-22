@@ -59,6 +59,9 @@ const CourseSchema = new Schema({
   requirement: {
     type: String,
   },
+  details: {
+    type: String,
+  },
   admin: {
     type: Schema.Types.ObjectID,
     ref: "user",

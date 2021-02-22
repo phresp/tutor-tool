@@ -69,8 +69,28 @@ class AdvisorApplicationView extends Component {
       }
     }
 
-    //Data for Table
+    //Array for Table
     const entries = applications ? applications : [];
+
+    //Stats Calculations
+    var maxNumberTutors;
+    if (this.props.course.course) {
+      maxNumberTutors = this.props.course.course.maxtutornumber;
+    }
+
+    var currentTutorsNumber = 0;
+    entries.forEach((e) => {
+      if (e.status === "Accepted" || e.status === "Contract") {
+        currentTutorsNumber += 1;
+      }
+    });
+
+    var fontStats;
+    if (currentTutorsNumber > maxNumberTutors) {
+      fontStats = "text-center text-danger";
+    } else {
+      fontStats = "text-center";
+    }
 
     //Dash Button Filter
     var newArray = entries.filter((el) => {
@@ -237,7 +257,7 @@ class AdvisorApplicationView extends Component {
         >
           {(props) => (
             <div>
-              <h6>Role Filter:</h6>
+              <h6>Filter:</h6>
 
               <button
                 className={
@@ -332,6 +352,9 @@ class AdvisorApplicationView extends Component {
                 New since last Login
               </button>
               <SearchBar {...props.searchProps} />
+              <h3 className={fontStats}>
+                Accepted Postions: {currentTutorsNumber} / {maxNumberTutors}
+              </h3>
               <hr />
               <BootstrapTable
                 {...props.baseProps}
@@ -361,6 +384,12 @@ class AdvisorApplicationView extends Component {
             >
               Export Tutordata
             </button>
+            <Link
+              to={`/advisor-edit-course/${this.props.match.params.id}`}
+              className={"btn btn-secondary"}
+            >
+              Edit Details
+            </Link>
 
             {applicationTable}
           </div>

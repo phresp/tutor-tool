@@ -90,6 +90,21 @@ export const editCourse = (id, courseData, history) => (dispatch) => {
     );
 };
 
+//Edit Course
+export const editCourseDetails = (id, courseData, history) => (dispatch) => {
+  axios
+    .post(`/api/course/advisoredit/${id}`, courseData)
+    .then((res) => {
+      history.push(`/check-applications/${id}`);
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
 // Application Loading
 export const setCourseLoading = () => {
   return {

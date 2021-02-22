@@ -374,6 +374,43 @@ router.post(
   }
 );
 
+// @route   POST api/course/advisoredit/:id
+// @desc    Edit Course
+// @access  Private
+router.post(
+  "/advisoredit/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Validate Input fields
+    var errors = {};
+
+    Course.findOne({
+      _id: req.params.id,
+    }).then((course) => {
+      //Check if Course is already there
+      if (!course) {
+        res.status(404).json({ coursenotfound: "Course not found" });
+      }
+      //Get Body Fields
+      const courseFields = {};
+
+      courseFields.requirement = req.body.requirement;
+      courseFields.details = req.body.details;
+
+      //Update
+      Course.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: courseFields },
+        { new: true }
+      )
+        .then((course) => res.json(course))
+        .catch((err) =>
+          res.status(400).json({ nocoursefound: "Course not found" })
+        );
+    });
+  }
+);
+
 // TODO: FURTHER REMOVES THAT COME WITH REMOVED COURSE
 // @route   DELETE /api/course/:id
 // @desc    DELETE Course
