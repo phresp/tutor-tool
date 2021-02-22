@@ -180,6 +180,7 @@ router.post(
         profile: profile.id,
         course: req.params.id,
         grade: req.body.grade,
+        priority: req.body.priority,
         details: req.body.details,
       };
       Application.findOne({
@@ -217,6 +218,7 @@ router.post(
     var errors;
     const updateApp = {
       grade: req.body.grade,
+      priority: req.body.priority,
       details: req.body.details,
     };
     Application.findOneAndUpdate(

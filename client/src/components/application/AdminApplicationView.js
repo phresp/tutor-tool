@@ -141,6 +141,16 @@ class AdminApplicationView extends Component {
       }
     }
 
+    const prioFormatter = (value, cell, row, rowIndex, formatExtraData) => {
+      if (value === "3") {
+        return "Hoch";
+      } else if (value === "2") {
+        return "Mittel";
+      } else if (value === "1") {
+        return "Niedrig";
+      }
+    };
+
     //TODO: Filter nach Applied, Accepted, Declined, New
 
     if (!applications || applications.length > 0) {
@@ -159,6 +169,12 @@ class AdminApplicationView extends Component {
           dataField: "grade",
           text: "Note",
           sort: true,
+        },
+        {
+          dataField: "priority",
+          text: "Prio",
+          sort: true,
+          formatter: prioFormatter,
         },
         {
           dataField: "status",

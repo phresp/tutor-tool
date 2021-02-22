@@ -46,6 +46,16 @@ class MyApplications extends Component {
       }
     }
 
+    const prioFormatter = (value, cell, row, rowIndex, formatExtraData) => {
+      if (value === "3") {
+        return "Low";
+      } else if (value === "2") {
+        return "Medium";
+      } else if (value === "1") {
+        return "High";
+      }
+    };
+
     if (applications && applications.length > 0) {
       const columns = [
         {
@@ -62,6 +72,12 @@ class MyApplications extends Component {
           dataField: "grade",
           text: "My Grade",
           sort: true,
+        },
+        {
+          dataField: "priority",
+          text: "Priority",
+          sort: true,
+          formatter: prioFormatter,
         },
         {
           dataField: "status",

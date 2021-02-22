@@ -21,6 +21,9 @@ const ApplicationSchema = new Schema({
   details: {
     type: String,
   },
+  priority: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,

@@ -71,26 +71,59 @@ class TutorApplicationView extends Component {
       //Data for Table
       const entries = courses ? courses : [];
 
-      const applyButton = (cell, row, rowIndex, formatExtraData) => {
-        if (!this.state.disabled) {
-          return (
-            <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
-              Apply
-            </Link>
-          );
-        } else if (this.state.disabled) {
-          return (
-            <button
-              className="btn btn-info"
-              type="button"
-              disabled={this.state.disabled}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Tooltip on top"
-            >
-              Apply
-            </button>
-          );
+      const applyButton = (value, row, rowIndex, formatExtraData) => {
+        var result = applications.filter((obj) => {
+          if (obj.course) return obj.course._id === value;
+        });
+        if (result[0]) {
+          if (
+            result[0].status !== "Contract" &&
+            result[0].status !== "Declined"
+          ) {
+            if (!this.state.disabled) {
+              return (
+                <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
+                  Edit
+                </Link>
+              );
+            } else if (this.state.disabled) {
+              return (
+                <button
+                  className="btn btn-info"
+                  type="button"
+                  disabled={this.state.disabled}
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Tooltip on top"
+                >
+                  Edit
+                </button>
+              );
+            }
+          } else {
+            return "";
+          }
+        } else {
+          if (!this.state.disabled) {
+            return (
+              <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
+                Apply
+              </Link>
+            );
+          } else if (this.state.disabled) {
+            return (
+              <button
+                className="btn btn-info"
+                type="button"
+                disabled={this.state.disabled}
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Tooltip on top"
+              >
+                Apply
+              </button>
+            );
+          }
         }
       };
 
@@ -169,6 +202,7 @@ class TutorApplicationView extends Component {
             formatter: statusFormatter,
           },
           {
+            dataField: "_id",
             text: "Apply",
             header: "Apply",
             id: "links",

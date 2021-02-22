@@ -86,6 +86,7 @@ class AdvisorCourseApplicationView extends Component {
       this.setState({
         grade: application.grade,
         details: application.details,
+        priority: application.priority,
         courseid: application.course._id,
         lastname: application.profile.lastname,
         firstname: application.profile.firstname,

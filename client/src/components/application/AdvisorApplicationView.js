@@ -162,6 +162,16 @@ class AdvisorApplicationView extends Component {
       );
     }
 
+    const prioFormatter = (value, cell, row, rowIndex, formatExtraData) => {
+      if (value === "3") {
+        return "Low";
+      } else if (value === "2") {
+        return "Medium";
+      } else if (value === "1") {
+        return "High";
+      }
+    };
+
     //TODO: Filter nach Applied, Accepted, Declined, New
 
     if (!applications || applications.length > 0) {
@@ -185,6 +195,12 @@ class AdvisorApplicationView extends Component {
           dataField: "grade",
           text: "Grade",
           sort: true,
+        },
+        {
+          dataField: "priority",
+          text: "Priority",
+          sort: true,
+          formatter: prioFormatter,
         },
         {
           dataField: "status",

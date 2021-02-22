@@ -18,6 +18,7 @@ class TutorUpdateApply extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      priority: "",
       grade: "",
       details: "",
       errors: {},
@@ -36,6 +37,9 @@ class TutorUpdateApply extends Component {
       const application = nextProps.application.application;
 
       //If application field doesn't exist, make empty string
+      application.priority = !isEmpty(application.priority)
+        ? application.priority
+        : "";
       application.grade = !isEmpty(application.grade) ? application.grade : "";
       application.details = !isEmpty(application.details)
         ? application.details
@@ -43,6 +47,7 @@ class TutorUpdateApply extends Component {
 
       //Set component fields state
       this.setState({
+        priority: application.priority,
         grade: application.grade,
         details: application.details,
       });
@@ -53,6 +58,7 @@ class TutorUpdateApply extends Component {
     e.preventDefault();
 
     const applicationData = {
+      priority: this.state.priority,
       grade: this.state.grade,
       details: this.state.details,
     };
@@ -83,6 +89,13 @@ class TutorUpdateApply extends Component {
       { label: "4.0", value: "4.0" },
     ];
 
+    const prioOptions = [
+      { label: "No selection", value: "No priority" },
+      { label: "Low", value: "1" },
+      { label: "Medium", value: "2" },
+      { label: "High", value: "3" },
+    ];
+
     return (
       <div className={"Tutorapply"}>
         <div className="container">
@@ -102,6 +115,15 @@ class TutorUpdateApply extends Component {
                   name="grade"
                   error={errors.grade}
                   options={gradeOptions}
+                />
+                <label htmlFor="inputprio">Application Priority</label>
+                <SelectListGroup
+                  placeholder="Priority"
+                  onChange={this.onChange}
+                  value={this.state.priority}
+                  name="priority"
+                  error={errors.priority}
+                  options={prioOptions}
                 />
                 <label htmlFor="inputDetails">
                   Additional Details for your Application
