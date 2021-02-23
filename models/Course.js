@@ -62,6 +62,12 @@ const CourseSchema = new Schema({
   details: {
     type: String,
   },
+  detailschange: {
+    type: Date,
+  },
+  detailsrole: {
+    type: String,
+  },
   admin: {
     type: Schema.Types.ObjectID,
     ref: "user",

@@ -396,6 +396,8 @@ router.post(
 
       courseFields.requirement = req.body.requirement;
       courseFields.details = req.body.details;
+      courseFields.detailsrole = req.body.role;
+      courseFields.detailschange = Date.now();
 
       //Update
       Course.findOneAndUpdate(

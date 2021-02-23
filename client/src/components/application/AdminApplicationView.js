@@ -6,6 +6,7 @@ import {
   getApplicationsOfCourse,
   acceptApplication,
 } from "../../actions/applicationActions";
+import { getCurrentProfile } from "../../actions/profileActions";
 import { getCourseById } from "../../actions/courseActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -23,6 +24,7 @@ class AdminApplicationView extends Component {
   componentDidMount() {
     this.props.getApplicationsOfCourse(this.props.match.params.id);
     this.props.getCourseById(this.props.match.params.id);
+    this.props.getCurrentProfile();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -151,6 +153,17 @@ class AdminApplicationView extends Component {
       }
     };
 
+    var badge;
+    if (this.props.course.course && this.props.profile.profile) {
+      if (
+        this.props.course.course.detailschange >
+          this.props.profile.profile.user.lastlogin &&
+        this.props.auth.user.role != this.props.course.course.detailsrole
+      ) {
+        badge = <span className="badge badge-danger">!</span>;
+      }
+    }
+
     //TODO: Filter nach Applied, Accepted, Declined, New
 
     if (!applications || applications.length > 0) {
@@ -237,7 +250,7 @@ class AdminApplicationView extends Component {
                   to={`/advisor-edit-course/${this.props.match.params.id}`}
                   className={"btn btn-secondary"}
                 >
-                  Details
+                  Details {badge}
                 </Link>
                 <SearchBar {...props.searchProps} />
                 <hr />
@@ -293,6 +306,8 @@ AdminApplicationView.propTypes = {
 const mapStateToProps = (state) => ({
   application: state.application,
   course: state.course,
+  profile: state.profile,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
@@ -300,4 +315,5 @@ export default connect(mapStateToProps, {
   acceptApplication,
   getCourseById,
   TutorAdminDataExport,
+  getCurrentProfile,
 })(AdminApplicationView);
