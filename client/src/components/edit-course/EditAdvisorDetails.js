@@ -54,6 +54,7 @@ class EditAdvisorDetails extends Component {
     const courseData = {
       requirement: this.state.requirement,
       details: this.state.details,
+      role: this.props.auth.user.role,
     };
 
     this.props.editCourseDetails(
@@ -70,17 +71,32 @@ class EditAdvisorDetails extends Component {
   render() {
     const { errors } = this.state;
 
+    var backButton;
+    if (this.props.auth.user.role === "Advisor") {
+      backButton = (
+        <Link
+          to={`/check-applications/${this.props.match.params.id}`}
+          className={"btn btn-light"}
+        >
+          back
+        </Link>
+      );
+    } else if (this.props.auth.user.role === "Admin") {
+      backButton = (
+        <Link
+          to={`/course-applications/${this.props.match.params.id}`}
+          className={"btn btn-light"}
+        >
+          back
+        </Link>
+      );
+    }
     return (
       <div className="editCourseDetails">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link
-                to={`/check-applications/${this.props.match.params.id}`}
-                className={"btn btn-light"}
-              >
-                back
-              </Link>
+              {backButton}
               <h1 className="display-4 text-center">Edit Details</h1>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="inputRequirements">Requirements</label>
@@ -98,6 +114,9 @@ class EditAdvisorDetails extends Component {
                   value={this.state.details}
                   name="details"
                   error={errors.details}
+                  info={
+                    "This field can be used to communicate with the Tutoroffice"
+                  }
                 />
                 <input
                   type="submit"

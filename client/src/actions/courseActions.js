@@ -95,7 +95,11 @@ export const editCourseDetails = (id, courseData, history) => (dispatch) => {
   axios
     .post(`/api/course/advisoredit/${id}`, courseData)
     .then((res) => {
-      history.push(`/check-applications/${id}`);
+      if (courseData.role === "Advisor") {
+        history.push(`/check-applications/${id}`);
+      } else if (courseData.role === "Admin") {
+        history.push(`/course-applications/${id}`);
+      }
     })
     .catch((err) =>
       dispatch({

@@ -233,6 +233,12 @@ class AdminApplicationView extends Component {
                 >
                   Budgetübersicht
                 </Link>
+                <Link
+                  to={`/advisor-edit-course/${this.props.match.params.id}`}
+                  className={"btn btn-secondary"}
+                >
+                  Details
+                </Link>
                 <SearchBar {...props.searchProps} />
                 <hr />
                 <BootstrapTable
