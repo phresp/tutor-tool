@@ -19,7 +19,7 @@ class FormsUpload extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.onChangeHandler = this.onChangeHandler.bind(this);
+    //this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
   onSubmit(e) {
@@ -34,15 +34,22 @@ class FormsUpload extends Component {
     this.props.uploadFile(fileData, this.props.history);
   }
 
-  onChangeHandler = (e) => {
-    this.setState({
-      selectedFile: e.target.files[0],
-      loaded: 0,
-    });
-  };
+  // onChangeHandler = (e) => {
+  //   this.setState({
+  //     selectedFile: e.target.files[0],
+  //     loaded: 0,
+  //   });
+  // };
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    if (e.target.name === "selectedFile") {
+      this.setState({
+        selectedFile: e.target.files[0],
+        loaded: 0,
+      });
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   }
 
   render() {
@@ -104,8 +111,8 @@ class FormsUpload extends Component {
                 />
                 <input
                   type="file"
-                  name="file"
-                  onChange={this.onChangeHandler}
+                  name="selectedFile"
+                  onChange={this.onChange}
                 />
                 <input
                   type="submit"
