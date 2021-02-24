@@ -17,6 +17,7 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import axios from "axios";
 import isEmpty from "validator/es/lib/isEmpty";
 import Spinner from "../common/Spinner";
+import moment from "moment";
 
 const { SearchBar } = Search;
 
@@ -164,6 +165,25 @@ class AdminApplicationView extends Component {
       }
     }
 
+    const commentFormatter = (value, row, rowIndex, formatExtraData) => {
+      var commentbadge;
+      if (this.props.profile.profile) {
+        // console.log(this.props.profile.profile.user.lastlogin);
+        // console.log(moment.utc(row.commentdate).unix());
+        if (
+          row.commentdate >
+          moment.utc(this.props.profile.profile.user.lastlogin).unix()
+        ) {
+          commentbadge = <span className="badge badge-danger">!</span>;
+        }
+      }
+      return (
+        <Link to={`/comment/${row._id}`} className="btn btn-info">
+          Kommentar {commentbadge}
+        </Link>
+      );
+    };
+
     //TODO: Filter nach Applied, Accepted, Declined, New
 
     if (!applications || applications.length > 0) {
@@ -191,7 +211,7 @@ class AdminApplicationView extends Component {
         },
         {
           dataField: "status",
-          text: "Bewerbungsstatus",
+          text: "Status",
           sort: true,
         },
         {
@@ -218,6 +238,12 @@ class AdminApplicationView extends Component {
           id: "links",
           formatter: contractButton,
         },
+        {
+          text: "Comment",
+          header: "Comment",
+          id: "links",
+          formatter: commentFormatter,
+        },
       ];
 
       if (applicationloading) {
@@ -233,25 +259,28 @@ class AdminApplicationView extends Component {
           >
             {(props) => (
               <div>
-                <button
-                  type="button"
-                  onClick={this.onDownloadClick.bind(this)}
-                  className="btn btn-info"
-                >
-                  Vertragsdaten exportieren
-                </button>
-                <Link
-                  to={`/budget-control/${this.props.match.params.id}`}
-                  className={"btn btn-primary"}
-                >
-                  Budgetübersicht
-                </Link>
-                <Link
-                  to={`/advisor-edit-course/${this.props.match.params.id}`}
-                  className={"btn btn-secondary"}
-                >
-                  Details {badge}
-                </Link>
+                <div className="btn-group">
+                  <button
+                    type="button"
+                    onClick={this.onDownloadClick.bind(this)}
+                    className="btn btn-info"
+                  >
+                    Vertragsdaten exportieren
+                  </button>
+                  <Link
+                    to={`/budget-control/${this.props.match.params.id}`}
+                    className={"btn btn-primary"}
+                  >
+                    Budgetübersicht
+                  </Link>
+                  <Link
+                    to={`/advisor-edit-course/${this.props.match.params.id}`}
+                    className={"btn btn-secondary"}
+                  >
+                    Details {badge}
+                  </Link>
+                </div>
+
                 <SearchBar {...props.searchProps} />
                 <hr />
                 <BootstrapTable

@@ -60,6 +60,7 @@ import CreateMailTemplate from "./components/mail/CreateMailTemplate";
 import EditMailTemplate from "./components/mail/EditMailTemplate";
 import ContractStats from "./components/contract/ContractStats";
 import EditAdvisorDetails from "./components/edit-course/EditAdvisorDetails";
+import AddComment from "./components/application/AddComment";
 
 import "./App.css";
 
@@ -242,6 +243,13 @@ class App extends Component {
               exact
               path="/check-applications/:id"
               component={AdvisorApplicationView}
+            />
+          </Switch>
+          <Switch>
+            <PrivateAdvisorRoute
+              exact
+              path="/comment/:id"
+              component={AddComment}
             />
           </Switch>
           <Switch>

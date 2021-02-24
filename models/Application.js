@@ -24,6 +24,12 @@ const ApplicationSchema = new Schema({
   priority: {
     type: String,
   },
+  comment: {
+    type: String,
+  },
+  commentdate: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,

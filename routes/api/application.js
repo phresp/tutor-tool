@@ -209,7 +209,7 @@ router.post(
 );
 
 // @route   POST /api/application/update/:id
-// @desc    POST Applicationupdate for course
+// @desc    POST Applicationupdate for application
 // @access  Private
 router.post(
   "/update/:id",
@@ -224,6 +224,28 @@ router.post(
     Application.findOneAndUpdate(
       { _id: req.params.id },
       { $set: updateApp },
+      { new: true }
+    )
+      .then((application) => res.send(application))
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
+// @route   POST /api/application/comment/:id
+// @desc    POST Comment for application
+// @access  Private
+router.post(
+  "/comment/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    var errors;
+    const commentApp = {
+      comment: req.body.comment,
+      commentdate: Date.now(),
+    };
+    Application.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: commentApp },
       { new: true }
     )
       .then((application) => res.send(application))

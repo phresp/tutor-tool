@@ -109,6 +109,27 @@ export const updateApplication = (id, applicationData, history) => (
     );
 };
 
+//UpdateApplication
+export const commentApplication = (id, applicationData, history) => (
+  dispatch
+) => {
+  axios
+    .post(`/api/application/comment/${id}`, applicationData)
+    .then((res) => {
+      if (applicationData.role === "Advisor") {
+        history.push(`/check-applications/${applicationData.courseID}`);
+      } else if (applicationData.role === "Admin") {
+        history.push(`/course-applications/${applicationData.courseID}`);
+      }
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: { err },
+      })
+    );
+};
+
 //AcceptApplication
 export const acceptApplication = (id, course) => (dispatch) => {
   axios

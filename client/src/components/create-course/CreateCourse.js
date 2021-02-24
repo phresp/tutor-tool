@@ -264,7 +264,7 @@ class CreateCourse extends Component {
                 </div>
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputGroupsize">Gruppensärke</label>
+                    <label htmlFor="inputGroupsize">Gruppenstärke</label>
                     <TextFieldGroup
                       placeholder="Groupsize"
                       onChange={this.onChange}

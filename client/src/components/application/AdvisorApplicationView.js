@@ -190,7 +190,7 @@ class AdvisorApplicationView extends Component {
       );
     }
 
-    const prioFormatter = (value, cell, row, rowIndex, formatExtraData) => {
+    const prioFormatter = (value, row, rowIndex, formatExtraData) => {
       if (value === "3") {
         return "Low";
       } else if (value === "2") {
@@ -198,6 +198,14 @@ class AdvisorApplicationView extends Component {
       } else if (value === "1") {
         return "High";
       }
+    };
+
+    const commentFormatter = (value, row, rowIndex, formatExtraData) => {
+      return (
+        <Link to={`/comment/${row._id}`} className="btn btn-info">
+          Comment
+        </Link>
+      );
     };
 
     //TODO: Filter nach Applied, Accepted, Declined, New
@@ -252,6 +260,12 @@ class AdvisorApplicationView extends Component {
           header: "Edit",
           id: "links",
           formatter: declineButton,
+        },
+        {
+          text: "Comment",
+          header: "Comment",
+          id: "links",
+          formatter: commentFormatter,
         },
       ];
 
