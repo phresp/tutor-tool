@@ -1,0 +1,11 @@
+Lastname,Firstname,user.email,Contractstart,Contractend,Weekly Hours,Contractstart 2,Contractend 2,Weekly Hours 2
+Neuer,Manuel,tutor@test.de,Fri Jan 15 2021 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit),Thu Jan 21 2021 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit),2,Thu Jan 21 2021 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit),Sun Jan 31 2021 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit),
+Neuer,Manuel,tutor@test.de,Thu Jan 07 2021 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit),Wed Oct 22 2025 02:00:00 GMT+0200 (Mitteleuropäische Sommerzeit),123,,,
+Neuer,Manuel,tutor@test.de,,,,,,
+Neuer,Manuel,tutor@test.de,,,,,,
+alf,alf,oalf@alf.de,,Thu Jun 10 2021 02:00:00 GMT+0200 (Mitteleuropäische Sommerzeit),,,,
+asdddddd,asdddddd,tutor@tutor.tutor,,,,,,
+koschinski,kalle,kalle@test.de,,,,,,
+koschinski,kalle,kalle@test.de,,,,,Sun Feb 21 2021 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit),
+pendium,sti,stipendium@test.de,,,,,,
+tutor,new,newtutor@web.de,,Sun Jan 31 2021 01:00:00 GMT+0100 (Mitteleuropäische Normalzeit),,,,

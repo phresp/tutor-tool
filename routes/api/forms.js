@@ -15,6 +15,8 @@ const path = require("path");
 const excel = require("exceljs");
 const flatten = require("flat");
 
+const createCsvWriter = require("csv-writer").createObjectCsvWriter;
+
 //Load Forms model
 const Forms = require("../../models/Forms");
 
@@ -440,7 +442,6 @@ router.post(
         worksheet.addRows(data);
 
         // Write to File
-        workbook.xlsx;
         workbook.xlsx
           .writeBuffer()
           .then((buf) => {
@@ -453,6 +454,69 @@ router.post(
       })
       .catch((err) => {
         res.status(404).json(err);
+      });
+  }
+);
+
+// @route   POST /api/forms/cfacsv/:id
+// @desc    POST to download csv of contracts for Veranstaltung
+// @access  Private
+router.post(
+  "/cfacsv/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Contract.find({
+      course: req.params.id,
+    })
+      .populate("user", ["email"])
+      .populate({ path: "profile" })
+      .then((contracts) => {
+        //Sanitise Data
+        contracts.sort(function (a, b) {
+          if (a.profile.lastname < b.profile.lastname) {
+            return -1;
+          }
+          if (a.profile.lastname > b.profile.lastname) {
+            return 1;
+          }
+          return 0;
+        });
+
+        var data = [];
+        contracts.forEach((e) => {
+          data.push(flatten(e.toJSON()));
+        });
+        var rand = Math.random().toString(36).slice(-10);
+        const output =
+          __dirname + "../../../files/out/" + "out" + rand + ".csv";
+        const csvWriter = createCsvWriter({
+          path: output,
+          header: [
+            { id: ["profile.lastname"], title: "Lastname" },
+            { id: ["profile.firstname"], title: "Firstname" },
+            { id: ["user.email"], title: ["user.email"] },
+            { id: "contractstart", title: "Contractstart" },
+            { id: "contractend", title: "Contractend" },
+            { id: "hours", title: "Weekly Hours" },
+            { id: "contractstart2", title: "Contractstart 2" },
+            { id: "contractend2", title: "Contractend 2" },
+            { id: "hours2", title: "Weekly Hours 2" },
+          ],
+        });
+
+        csvWriter.writeRecords(data).then((buf) => {
+          fs.readFile(output, { encoding: "utf-8" }, (err, data) => {
+            if (!err) {
+              res.type("application/pdf");
+              res.send(data);
+              fs.unlink(output, (err) => {
+                if (err) {
+                  console.error(err);
+                }
+              });
+            }
+          });
+        });
       });
   }
 );

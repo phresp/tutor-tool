@@ -8,6 +8,10 @@ const MyComponent = () => {
         Impressum
       </a>
       {" - "}
+      <a href="https://www.in.tum.de/datenschutz/" className={"text-white"}>
+        Datenschutz
+      </a>
+      {" - "}
       <a href="https://www.in.tum.de/impressum/" className={"text-white"}>
         FAQ
       </a>
