@@ -15,7 +15,7 @@ const path = require("path");
 const excel = require("exceljs");
 const flatten = require("flat");
 
-const createCsvWriter = require("csv-writer").createObjectCsvWriter;
+const createCsvStringifier = require("csv-writer").createObjectCsvStringifier;
 
 //Load Forms model
 const Forms = require("../../models/Forms");
@@ -486,11 +486,7 @@ router.post(
         contracts.forEach((e) => {
           data.push(flatten(e.toJSON()));
         });
-        var rand = Math.random().toString(36).slice(-10);
-        const output =
-          __dirname + "../../../files/forms/" + "out" + rand + ".csv";
-        const csvWriter = createCsvWriter({
-          path: output,
+        const csvStringifier = createCsvStringifier({
           header: [
             { id: ["profile.lastname"], title: "Lastname" },
             { id: ["profile.firstname"], title: "Firstname" },
@@ -503,20 +499,7 @@ router.post(
             { id: "hours2", title: "Weekly Hours 2" },
           ],
         });
-
-        csvWriter.writeRecords(data).then((buf) => {
-          fs.readFile(output, { encoding: "utf-8" }, (err, data) => {
-            if (!err) {
-              res.type("application/pdf");
-              res.send(data);
-              fs.unlink(output, (err) => {
-                if (err) {
-                  console.error(err);
-                }
-              });
-            }
-          });
-        });
+        res.send(csvStringifier.stringifyRecords(data));
       });
   }
 );
