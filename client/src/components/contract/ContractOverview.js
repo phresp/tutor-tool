@@ -219,115 +219,118 @@ class ContractOverview extends Component {
             {(props) => (
               <div>
                 <h6>Status Filter:</h6>
+                <div className="btn-group">
+                  <button
+                    className={
+                      this.state.fil === "0"
+                        ? "btn btn-primary"
+                        : "btn btn-light"
+                    }
+                    onClick={() => {
+                      this.setState({
+                        fil: "0",
+                      });
+                    }}
+                  >
+                    {" "}
+                    Offen
+                  </button>
+                  <button
+                    className={
+                      this.state.fil === "Created"
+                        ? "btn btn-primary"
+                        : "btn btn-light"
+                    }
+                    onClick={() => {
+                      this.setState({
+                        fil: "Created",
+                      });
+                    }}
+                  >
+                    {" "}
+                    Erstellt
+                  </button>
 
-                <button
-                  className={
-                    this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
-                  }
-                  onClick={() => {
-                    this.setState({
-                      fil: "0",
-                    });
-                  }}
-                >
-                  {" "}
-                  Offen
-                </button>
-                <button
-                  className={
-                    this.state.fil === "Created"
-                      ? "btn btn-primary"
-                      : "btn btn-light"
-                  }
-                  onClick={() => {
-                    this.setState({
-                      fil: "Created",
-                    });
-                  }}
-                >
-                  {" "}
-                  Erstellt
-                </button>
+                  <button
+                    className={
+                      this.state.fil === "Incomplete"
+                        ? "btn btn-primary"
+                        : "btn btn-light"
+                    }
+                    onClick={() => {
+                      this.setState({
+                        fil: "Incomplete",
+                      });
+                    }}
+                  >
+                    {" "}
+                    Unvollständig
+                  </button>
 
-                <button
-                  className={
-                    this.state.fil === "Incomplete"
-                      ? "btn btn-primary"
-                      : "btn btn-light"
-                  }
-                  onClick={() => {
-                    this.setState({
-                      fil: "Incomplete",
-                    });
-                  }}
-                >
-                  {" "}
-                  Unvollständig
-                </button>
+                  <button
+                    className={
+                      this.state.fil === "In Process"
+                        ? "btn btn-primary"
+                        : "btn btn-light"
+                    }
+                    onClick={() => {
+                      this.setState({
+                        fil: "In Process",
+                      });
+                    }}
+                  >
+                    {" "}
+                    In Bearbeitung
+                  </button>
 
-                <button
-                  className={
-                    this.state.fil === "In Process"
-                      ? "btn btn-primary"
-                      : "btn btn-light"
-                  }
-                  onClick={() => {
-                    this.setState({
-                      fil: "In Process",
-                    });
-                  }}
-                >
-                  {" "}
-                  In Bearbeitung
-                </button>
+                  <button
+                    className={
+                      this.state.fil === "Signable"
+                        ? "btn btn-primary"
+                        : "btn btn-light"
+                    }
+                    onClick={() => {
+                      this.setState({
+                        fil: "Signable",
+                      });
+                    }}
+                  >
+                    {" "}
+                    Unterschriftsbereit
+                  </button>
 
-                <button
-                  className={
-                    this.state.fil === "Signable"
-                      ? "btn btn-primary"
-                      : "btn btn-light"
-                  }
-                  onClick={() => {
-                    this.setState({
-                      fil: "Signable",
-                    });
-                  }}
-                >
-                  {" "}
-                  Unterschriftsbereit
-                </button>
+                  <button
+                    className={
+                      this.state.fil === "Completed"
+                        ? "btn btn-primary"
+                        : "btn btn-light"
+                    }
+                    onClick={() => {
+                      this.setState({
+                        fil: "Completed",
+                      });
+                    }}
+                  >
+                    {" "}
+                    Abgeschlossen
+                  </button>
 
-                <button
-                  className={
-                    this.state.fil === "Completed"
-                      ? "btn btn-primary"
-                      : "btn btn-light"
-                  }
-                  onClick={() => {
-                    this.setState({
-                      fil: "Completed",
-                    });
-                  }}
-                >
-                  {" "}
-                  Abgeschlossen
-                </button>
-
-                <button
-                  className={
-                    this.state.fil === "All"
-                      ? "btn btn-primary"
-                      : "btn btn-light"
-                  }
-                  onClick={() => {
-                    this.setState({
-                      fil: "All",
-                    });
-                  }}
-                >
-                  {" "}
-                  Alle
-                </button>
+                  <button
+                    className={
+                      this.state.fil === "All"
+                        ? "btn btn-primary"
+                        : "btn btn-light"
+                    }
+                    onClick={() => {
+                      this.setState({
+                        fil: "All",
+                      });
+                    }}
+                  >
+                    {" "}
+                    Alle
+                  </button>
+                </div>
                 <SearchBar {...props.searchProps} />
                 <hr />
                 <BootstrapTable
@@ -349,12 +352,15 @@ class ContractOverview extends Component {
             back
           </Link>
           <h1 className="display-4 text-center">Verträge</h1>
-          <Link to="/createseparatecontract" className="btn btn-info">
-            Leeren Vertrag anlegen
-          </Link>
-          <Link to="/contractstats" className="btn btn-primary">
-            Vertragsstatistiken
-          </Link>
+          <div className="btn-group">
+            <Link to="/createseparatecontract" className="btn btn-info">
+              Leeren Vertrag anlegen
+            </Link>
+            <Link to="/contractstats" className="btn btn-primary">
+              Vertragsstatistiken
+            </Link>
+          </div>
+
           {contractTable}
         </div>
       </div>

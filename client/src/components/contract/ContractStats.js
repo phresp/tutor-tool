@@ -68,6 +68,7 @@ class ContractStats extends Component {
 
     //Data for Table
     const entries = contracts ? contracts : [];
+    var created = 0;
     var signable = 0;
     var incomplete = 0;
     var inProcess = 0;
@@ -87,10 +88,12 @@ class ContractStats extends Component {
         return (inProcess += 1);
       } else if (el.status === "Completed") {
         return (completed += 1);
+      } else if (el.status === "Created") {
+        return (created += 1);
       }
     });
 
-    overall = signable + incomplete + inProcess + completed;
+    overall = signable + incomplete + inProcess + completed + created;
 
     return (
       <div className="container">
@@ -122,6 +125,7 @@ class ContractStats extends Component {
               <thead>
                 <tr>
                   <th scope="col">Datum</th>
+                  <th scope="col">Erstellt</th>
                   <th scope="col">Unvollständig</th>
                   <th scope="col">In Bearbeitung</th>
                   <th scope="col">Unterschriftsbereit</th>
@@ -133,6 +137,7 @@ class ContractStats extends Component {
                 <tr>
                   <td>{moment.utc(Date.now()).format("DD.MM.YYYY")}</td>
 
+                  <td>{created}</td>
                   <td>{incomplete}</td>
                   <td>{inProcess}</td>
                   <td>{signable}</td>

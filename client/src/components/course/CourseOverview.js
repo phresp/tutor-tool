@@ -68,7 +68,7 @@ class CourseOverview extends Component {
           to={`/course-applications/${row._id}`}
           className="btn btn-primary"
         >
-          Bewerbungen
+          View
         </Link>
       );
     }
@@ -102,7 +102,7 @@ class CourseOverview extends Component {
           onClick={TutorAdminDataExport(row._id)}
           className="btn btn-info"
         >
-          Daten Export
+          Export
         </button>
       );
     };
@@ -110,7 +110,7 @@ class CourseOverview extends Component {
     const budgetButton = (cell, row, rowIndex, formatExtraData) => {
       return (
         <Link to={`/budget-control/${row._id}`} className={"btn btn-primary"}>
-          Budgetübersicht
+          Budget
         </Link>
       );
     };
@@ -129,11 +129,20 @@ class CourseOverview extends Component {
       }
     };
 
+    const courseFormatter = (value, row, rowIndex, formatExtraData) => {
+      return (
+        <Link to={`/course-applications/${row._id}`} className={"text"}>
+          {value}
+        </Link>
+      );
+    };
+
     const columns = [
       {
         dataField: "metacourse[0].name",
-        text: "Kurs",
+        text: "Veranstaltung",
         sort: true,
+        formatter: courseFormatter,
       },
       {
         dataField: "semester[0].name",
@@ -142,27 +151,27 @@ class CourseOverview extends Component {
       },
       {
         dataField: "weeklyhourspertutor",
-        text: "W-Stunden",
+        text: "WS",
         sort: true,
       },
       {
-        text: "Bewerbungen",
+        text: "Bew",
         formatter: numberApplications,
         sort: true,
       },
       {
-        text: "Angenommen",
+        text: "Ang",
         formatter: numberAccepted,
         sort: true,
       },
       {
-        text: "Vertrag",
+        text: "Ver",
         formatter: numberVertrag,
         sort: true,
       },
       {
         dataField: "maxtutornumber",
-        text: "Max Tutoren",
+        text: "MaxT",
         sort: true,
       },
       {
@@ -192,11 +201,11 @@ class CourseOverview extends Component {
     ];
 
     return (
-      <div className="container-fluid">
+      <div className="container">
         <Link to={"/dashboard"} className={"btn btn-light"}>
           back
         </Link>
-        <h1 className="display-4 center">Veranstaltungsübersicht</h1>
+        <h1 className="display-4 text-center">Veranstaltungsübersicht</h1>
         <Link to="/create-course" className="btn btn-info">
           <i className="fas fa-user-circle text-primary"></i> Neue Veranstaltung
         </Link>
@@ -211,82 +220,84 @@ class CourseOverview extends Component {
           {(props) => (
             <div>
               <h6>Status Filter:</h6>
+              <div className="btn-group">
+                <button
+                  className={
+                    this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "0",
+                    });
+                  }}
+                >
+                  {" "}
+                  Alle
+                </button>
+                <button
+                  className={
+                    this.state.fil === "Open"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Open",
+                    });
+                  }}
+                >
+                  {" "}
+                  Offen
+                </button>
 
-              <button
-                className={
-                  this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "0",
-                  });
-                }}
-              >
-                {" "}
-                Alle
-              </button>
-              <button
-                className={
-                  this.state.fil === "Open"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "Open",
-                  });
-                }}
-              >
-                {" "}
-                Offen
-              </button>
+                <button
+                  className={
+                    this.state.fil === "Preparation"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Preparation",
+                    });
+                  }}
+                >
+                  {" "}
+                  Vorbereitung
+                </button>
 
-              <button
-                className={
-                  this.state.fil === "Preparation"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "Preparation",
-                  });
-                }}
-              >
-                {" "}
-                Vorbereitung
-              </button>
+                <button
+                  className={
+                    this.state.fil === "Closed"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Closed",
+                    });
+                  }}
+                >
+                  {" "}
+                  Geschlossen
+                </button>
+                <button
+                  className={
+                    this.state.fil === "Archive"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Archive",
+                    });
+                  }}
+                >
+                  {" "}
+                  Archiv
+                </button>
+              </div>
 
-              <button
-                className={
-                  this.state.fil === "Closed"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "Closed",
-                  });
-                }}
-              >
-                {" "}
-                Geschlossen
-              </button>
-              <button
-                className={
-                  this.state.fil === "Archive"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "Archive",
-                  });
-                }}
-              >
-                {" "}
-                Archiv
-              </button>
               <SearchBar {...props.searchProps} />
               <hr />
               <BootstrapTable

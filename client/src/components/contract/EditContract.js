@@ -854,7 +854,7 @@ class EditContract extends Component {
               value={this.state.immatrikulationsbescheinigung2}
               name="immatrikulationsbescheinigung2"
               error={errors.immatrikulationsbescheinigung2}
-              options={formsNotAlwaysNeededOptions}
+              options={formsOptions}
               color={this.state.immatrikulationsbescheinigung2}
             />
           );
@@ -890,7 +890,7 @@ class EditContract extends Component {
               value={this.state.immatrikulationsbescheinigung0}
               name="immatrikulationsbescheinigung0"
               error={errors.immatrikulationsbescheinigung0}
-              options={formsNotAlwaysNeededOptions}
+              options={formsOptions}
               color={this.state.immatrikulationsbescheinigung0}
             />
           );
@@ -932,7 +932,7 @@ class EditContract extends Component {
             this.state.abschlusszeugnis !== "Liegt bei" &&
             this.state.degree !== ""
           ) {
-            this.setState({ abschlusszeugnis: "Liegt bei" });
+            this.setState({ abschlusszeugnis: "Liegt vor" });
           }
         }
       });
@@ -959,29 +959,44 @@ class EditContract extends Component {
                 Vertrag von <br /> {contractname} <br /> für {contractcourse}
                 {verfassungsPruefungTooltip}
               </h1>
-
-              <button
-                type="button"
-                onClick={this.onDownloadClick.bind(this)}
-                className="btn btn-primary"
-              >
-                EV exportieren
-              </button>
-
-              <button
-                onClick={this.onSeparateContractClick.bind(this)}
-                className="btn btn-secondary"
-              >
-                Weiteren Vertrag anlegen
-              </button>
-              <button
-                type="button"
-                onClick={this.onDeleteClick.bind(this)}
-                className="btn btn-danger"
-              >
-                Vertrag löschen
-              </button>
               <form onSubmit={this.onSubmit}>
+                <div className="btn-group">
+                  <button
+                    type="button"
+                    onClick={this.onDownloadClick.bind(this)}
+                    className="btn btn-secondary"
+                  >
+                    EV exportieren
+                  </button>
+
+                  <button
+                    onClick={this.onSeparateContractClick.bind(this)}
+                    className="btn btn-dark"
+                  >
+                    Weiteren Vertrag anlegen
+                  </button>
+                  <button
+                    type="button"
+                    onClick={this.onDeleteClick.bind(this)}
+                    className="btn btn-danger"
+                  >
+                    Vertrag löschen
+                  </button>
+                  <button onClick="Submit" className="btn btn-primary">
+                    Bestätigen
+                  </button>
+                </div>
+                <p></p>
+                <label htmlFor="status">Status:</label>
+                <SelectListGroup
+                  placeholder="status"
+                  onChange={this.onChange}
+                  value={this.state.status}
+                  name="status"
+                  error={errors.status}
+                  options={statusOptions}
+                />
+
                 <div className="container">
                   <div className="row">
                     <div className="col-md-9">
@@ -1003,6 +1018,7 @@ class EditContract extends Component {
                     </div>
                   </div>
                 </div>
+
                 <TextFieldGroup
                   type={"date"}
                   placeholder="Contract Start"
@@ -1100,7 +1116,7 @@ class EditContract extends Component {
                   value={this.state.merkblatt}
                   name="merkblatt"
                   error={errors.merkblatt}
-                  options={formsNotAlwaysNeededOptions}
+                  options={formsOptions}
                   color={this.state.merkblatt}
                 />
 
@@ -1113,7 +1129,7 @@ class EditContract extends Component {
                   value={this.state.versicherungspflicht}
                   name="versicherungspflicht"
                   error={errors.versicherungspflicht}
-                  options={formsNotAlwaysNeededOptions}
+                  options={formsOptions}
                   color={this.state.versicherungspflicht}
                 />
                 <label htmlFor="scientology">Scientology:</label>
@@ -1147,7 +1163,7 @@ class EditContract extends Component {
                   value={this.state.immatrikulationsbescheinigung}
                   name="immatrikulationsbescheinigung"
                   error={errors.immatrikulationsbescheinigung}
-                  options={formsNotAlwaysNeededOptions}
+                  options={formsOptions}
                   color={this.state.immatrikulationsbescheinigung}
                 />
                 {immatrikulationNextSemLabel}
@@ -1266,16 +1282,6 @@ class EditContract extends Component {
                   error={errors.einstellungsvorschlag}
                   options={formsOptions}
                   color={this.state.einstellungsvorschlag}
-                />
-
-                <label htmlFor="status">Status:</label>
-                <SelectListGroup
-                  placeholder="status"
-                  onChange={this.onChange}
-                  value={this.state.status}
-                  name="status"
-                  error={errors.status}
-                  options={statusOptions}
                 />
 
                 <input

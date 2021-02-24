@@ -327,7 +327,7 @@ router.post(
       Betreuer: req.body.adminlastname + ", " + req.body.adminfirstname,
       BetreuerTelefon: "+49 (0)89 289 17182",
       BetreuerEMail: "tutorbetrieb@in.tum.de",
-      Postkuerzel: "Tutor-In",
+      Postkuerzel: "SB-T-IN",
       "Name 2": req.body.lastname + ", " + req.body.firstname,
       Optionsfeld1: optionsfeld1,
       Staatsangehoerigkeit: staatsangehörigkeit,

@@ -657,7 +657,7 @@ class CreateContract extends Component {
                 value={this.state.immatrikulationsbescheinigung2}
                 name="immatrikulationsbescheinigung2"
                 error={errors.immatrikulationsbescheinigung2}
-                options={formsNotAlwaysNeededOptions}
+                options={formsOptions}
                 color={this.state.immatrikulationsbescheinigung2}
               />
             );
@@ -698,7 +698,7 @@ class CreateContract extends Component {
                 value={this.state.immatrikulationsbescheinigung0}
                 name="immatrikulationsbescheinigung0"
                 error={errors.immatrikulationsbescheinigung0}
-                options={formsNotAlwaysNeededOptions}
+                options={formsOptions}
                 color={this.state.immatrikulationsbescheinigung0}
               />
             );
@@ -741,7 +741,7 @@ class CreateContract extends Component {
             this.state.abschlusszeugnis !== "Liegt bei" &&
             this.state.degree !== ""
           ) {
-            this.setState({ abschlusszeugnis: "Liegt bei" });
+            this.setState({ abschlusszeugnis: "Liegt vor" });
           }
         }
       });
@@ -879,7 +879,7 @@ class CreateContract extends Component {
                   value={this.state.merkblatt}
                   name="merkblatt"
                   error={errors.merkblatt}
-                  options={formsNotAlwaysNeededOptions}
+                  options={formsOptions}
                   color={this.state.merkblatt}
                 />
 
@@ -892,7 +892,7 @@ class CreateContract extends Component {
                   value={this.state.versicherungspflicht}
                   name="versicherungspflicht"
                   error={errors.versicherungspflicht}
-                  options={formsNotAlwaysNeededOptions}
+                  options={formsOptions}
                   color={this.state.versicherungspflicht}
                 />
                 <label htmlFor="scientology">Scientology:</label>
@@ -926,7 +926,7 @@ class CreateContract extends Component {
                   value={this.state.immatrikulationsbescheinigung}
                   name="immatrikulationsbescheinigung"
                   error={errors.immatrikulationsbescheinigung}
-                  options={formsNotAlwaysNeededOptions}
+                  options={formsOptions}
                   color={this.state.immatrikulationsbescheinigung}
                 />
                 {immatrikulationNextSemLabel}
