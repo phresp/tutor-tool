@@ -192,11 +192,11 @@ class AdvisorApplicationView extends Component {
 
     const prioFormatter = (value, row, rowIndex, formatExtraData) => {
       if (value === "3") {
-        return "Low";
+        return "High";
       } else if (value === "2") {
         return "Medium";
       } else if (value === "1") {
-        return "High";
+        return "Low";
       }
     };
 

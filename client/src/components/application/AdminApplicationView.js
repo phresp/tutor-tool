@@ -168,8 +168,6 @@ class AdminApplicationView extends Component {
     const commentFormatter = (value, row, rowIndex, formatExtraData) => {
       var commentbadge;
       if (this.props.profile.profile) {
-        // console.log(this.props.profile.profile.user.lastlogin);
-        // console.log(moment.utc(row.commentdate).unix());
         if (
           row.commentdate >
           moment.utc(this.props.profile.profile.user.lastlogin).unix()
