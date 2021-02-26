@@ -151,27 +151,72 @@ class CourseOverview extends Component {
       },
       {
         dataField: "weeklyhourspertutor",
-        text: "WS",
+        text: (
+          <span
+            display="inline"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Wochenstunden"
+          >
+            WS
+          </span>
+        ),
         sort: true,
       },
       {
-        text: "Bew",
+        text: (
+          <span
+            display="inline"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Bewerbungen"
+          >
+            Bew
+          </span>
+        ),
         formatter: numberApplications,
         sort: true,
       },
       {
-        text: "Ang",
+        text: (
+          <span
+            display="inline"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Angenommen"
+          >
+            Ang
+          </span>
+        ),
         formatter: numberAccepted,
         sort: true,
       },
       {
-        text: "Ver",
+        text: (
+          <span
+            display="inline"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Verträge"
+          >
+            Ver
+          </span>
+        ),
         formatter: numberVertrag,
         sort: true,
       },
       {
         dataField: "maxtutornumber",
-        text: "MaxT",
+        text: (
+          <span
+            display="inline"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Maximale Anzahl Tutoren"
+          >
+            MaxT
+          </span>
+        ),
         sort: true,
       },
       {
