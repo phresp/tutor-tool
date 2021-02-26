@@ -20,6 +20,7 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
 import axios from "axios";
+import moment from "moment";
 
 const { SearchBar } = Search;
 
@@ -190,6 +191,10 @@ class AdvisorApplicationView extends Component {
       );
     }
 
+    const dateFormatter = (value, row, index) => {
+      if (value) return moment(value).format("DD/MM/YYYY");
+    };
+
     const prioFormatter = (value, row, rowIndex, formatExtraData) => {
       if (value === "3") {
         return "High";
@@ -223,9 +228,10 @@ class AdvisorApplicationView extends Component {
           sort: true,
         },
         {
-          dataField: "profile.matrikelnummer",
-          text: "Matrikelnumber",
+          dataField: "date",
+          text: "Application Date",
           sort: true,
+          formatter: dateFormatter,
         },
         {
           dataField: "grade",
@@ -280,99 +286,101 @@ class AdvisorApplicationView extends Component {
           {(props) => (
             <div>
               <h6>Filter:</h6>
+              <div className="btn-group">
+                <button
+                  className={
+                    this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "0",
+                    });
+                  }}
+                >
+                  {" "}
+                  Alle
+                </button>
+                <button
+                  className={
+                    this.state.fil === "Applied"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Applied",
+                    });
+                  }}
+                >
+                  {" "}
+                  Applied
+                </button>
 
-              <button
-                className={
-                  this.state.fil === "0" ? "btn btn-primary" : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "0",
-                  });
-                }}
-              >
-                {" "}
-                Alle
-              </button>
-              <button
-                className={
-                  this.state.fil === "Applied"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "Applied",
-                  });
-                }}
-              >
-                {" "}
-                Applied
-              </button>
+                <button
+                  className={
+                    this.state.fil === "Accepted"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Accepted",
+                    });
+                  }}
+                >
+                  {" "}
+                  Accepted
+                </button>
 
-              <button
-                className={
-                  this.state.fil === "Accepted"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "Accepted",
-                  });
-                }}
-              >
-                {" "}
-                Accepted
-              </button>
+                <button
+                  className={
+                    this.state.fil === "Declined"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Declined",
+                    });
+                  }}
+                >
+                  {" "}
+                  Declined
+                </button>
 
-              <button
-                className={
-                  this.state.fil === "Declined"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "Declined",
-                  });
-                }}
-              >
-                {" "}
-                Declined
-              </button>
+                <button
+                  className={
+                    this.state.fil === "Contract"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "Contract",
+                    });
+                  }}
+                >
+                  {" "}
+                  Contract
+                </button>
 
-              <button
-                className={
-                  this.state.fil === "Contract"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "Contract",
-                  });
-                }}
-              >
-                {" "}
-                Contract
-              </button>
+                <button
+                  className={
+                    this.state.fil === "LastLogin"
+                      ? "btn btn-primary"
+                      : "btn btn-light"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      fil: "LastLogin",
+                    });
+                  }}
+                >
+                  {" "}
+                  New since last Login
+                </button>
+              </div>
 
-              <button
-                className={
-                  this.state.fil === "LastLogin"
-                    ? "btn btn-primary"
-                    : "btn btn-light"
-                }
-                onClick={() => {
-                  this.setState({
-                    fil: "LastLogin",
-                  });
-                }}
-              >
-                {" "}
-                New since last Login
-              </button>
               <SearchBar {...props.searchProps} />
               <h3 className={fontStats}>
                 Accepted Postions: {currentTutorsNumber} / {maxNumberTutors}
@@ -398,28 +406,30 @@ class AdvisorApplicationView extends Component {
             <h1 className="display-4 text-center">
               Applications for {coursename} in {coursesem}
             </h1>
-            <button
-              type="button"
-              title="Export the data of tutors, that already have a contract to an excel file"
-              onClick={this.onDownloadClick.bind(this)}
-              className="btn btn-primary"
-            >
-              Export Tutordata .xlsx
-            </button>
-            <button
-              type="button"
-              title="Export the data of tutors, that already have a contract to an csv file"
-              onClick={this.onCSVDownloadClick.bind(this)}
-              className="btn btn-info"
-            >
-              Export Tutordata .csv
-            </button>
-            <Link
-              to={`/advisor-edit-course/${this.props.match.params.id}`}
-              className={"btn btn-secondary"}
-            >
-              Edit Details
-            </Link>
+            <div className="btn-group">
+              <button
+                type="button"
+                title="Export the data of tutors, that already have a contract to an excel file"
+                onClick={this.onDownloadClick.bind(this)}
+                className="btn btn-primary"
+              >
+                Export Tutordata .xlsx
+              </button>
+              <button
+                type="button"
+                title="Export the data of tutors, that already have a contract to an csv file"
+                onClick={this.onCSVDownloadClick.bind(this)}
+                className="btn btn-info"
+              >
+                Export Tutordata .csv
+              </button>
+              <Link
+                to={`/advisor-edit-course/${this.props.match.params.id}`}
+                className={"btn btn-secondary"}
+              >
+                Edit Details
+              </Link>
+            </div>
 
             {applicationTable}
           </div>

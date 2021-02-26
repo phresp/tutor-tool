@@ -5,11 +5,64 @@ import PropTypes from "prop-types";
 import { getContractOfID } from "../../actions/contractActions";
 import { getCurrentProfile } from "../../actions/profileActions";
 import { downloadPdf } from "../../actions/formsActions";
+import isEmpty from "../../validation/is-empty";
+import moment from "moment";
 
 class ViewContract extends Component {
   componentDidMount() {
     this.props.getContractOfID(this.props.match.params.id);
     this.props.getCurrentProfile();
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      contractstart: "",
+      contractstart2: "",
+      contractend: "",
+      contractend2: "",
+      hours: "",
+      hours2: "",
+      errors: {},
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.contract.contract) {
+      console.log(nextProps.contract.contract);
+      const contract = nextProps.contract.contract;
+
+      //If contract field doesn't exist, make empty string
+
+      contract.contractstart = !isEmpty(contract.contractstart)
+        ? contract.contractstart
+        : "";
+      contract.contractstart2 = !isEmpty(contract.contractstart2)
+        ? contract.contractstart2
+        : "";
+      contract.contractend = !isEmpty(contract.contractend)
+        ? contract.contractend
+        : "";
+      contract.contractend2 = !isEmpty(contract.contractend2)
+        ? contract.contractend2
+        : "";
+      contract.hours = !isEmpty(contract.hours) ? contract.hours : "";
+      contract.hours2 = !isEmpty(contract.hours2) ? contract.hours2 : "";
+
+      //Set component fields state
+      this.setState({
+        contractstart: contract.contractstart,
+        contractstart2: contract.contractstart2,
+        contractend: contract.contractend,
+        contractend2: contract.contractend2,
+        hours: contract.hours,
+        hours2: contract.hours2,
+      });
+    }
   }
 
   onDownloadClick(name) {
@@ -24,6 +77,49 @@ class ViewContract extends Component {
     if (this.props.contract.contract) {
       contractdata = this.props.contract.contract;
     }
+
+    var contractdata1 = (
+      <div>
+        <h5>Main Contract</h5>
+        <p className="lead text-muted">
+          Contractstart: {moment(this.state.contractstart).format("DD/MM/YYYY")}
+        </p>
+        <p className="lead text-muted">
+          Contractend: {moment(this.state.contractend).format("DD/MM/YYYY")}
+        </p>
+        <p className="lead text-muted">Weekly Hours: {this.state.hours} </p>
+      </div>
+    );
+
+    var contractdata2;
+    if (this.state.contractstart2) {
+      var contractdata2 = (
+        <div>
+          <h5>Secondary Contract</h5>
+          <p className="lead text-muted">
+            Contractstart:{" "}
+            {moment(this.state.contractstart2).format("DD/MM/YYYY")}
+          </p>
+          <p className="lead text-muted">
+            Contractend: {moment(this.state.contractend2).format("DD/MM/YYYY")}
+          </p>
+          <p className="lead text-muted">Weekly Hours: {this.state.hours2} </p>
+        </div>
+      );
+    }
+
+    const englishFormatter = (ele) => {
+      if (ele === "Fehlt") {
+        return "Missing";
+      } else if (ele === "Liegt vor" || ele === "Liegt bei") {
+        return "Already filed";
+      } else if (ele === "Bereits Vorhanden") {
+        return "Already available";
+      } else {
+        return ele;
+      }
+    };
+
     var coursename = "";
     var coursesem = "";
     var immatrikulation2row;
@@ -41,7 +137,9 @@ class ViewContract extends Component {
             }`}
           >
             <th scope="row">Immatrikulationsbescheinigung next semester</th>
-            <td>{contractdata.immatrikulationsbescheinigung2}</td>
+            <td>
+              {englishFormatter(contractdata.immatrikulationsbescheinigung2)}
+            </td>
             <td></td>
           </tr>
         );
@@ -63,7 +161,9 @@ class ViewContract extends Component {
             }`}
           >
             <th scope="row">Immatrikulationsbescheinigung previous semester</th>
-            <td>{contractdata.immatrikulationsbescheinigung0}</td>
+            <td>
+              {englishFormatter(contractdata.immatrikulationsbescheinigung0)}
+            </td>
             <td></td>
           </tr>
         );
@@ -82,6 +182,9 @@ class ViewContract extends Component {
               Contract for {coursename}, {coursesem}
             </h1>
 
+            <h3 className="text-center">Contractdata</h3>
+            {contractdata1}
+            {contractdata2}
             <table className="table table-bordered">
               <thead>
                 <tr>
@@ -99,7 +202,7 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Merkblatt Tutorbetrieb</th>
-                  <td>{contractdata.merkblatt}</td>
+                  <td>{englishFormatter(contractdata.merkblatt)}</td>
                   <td>
                     <button
                       type="button"
@@ -115,35 +218,13 @@ class ViewContract extends Component {
                 </tr>
                 <tr
                   className={`${
-                    contractdata.einstellungsvorschlag === "Fehlt"
-                      ? "table-danger"
-                      : "table-success"
-                  }`}
-                >
-                  <th scope="row">Einstellungsvorschlag</th>
-                  <td>{contractdata.einstellungsvorschlag}</td>
-                  <td>
-                    {/*<button*/}
-                    {/*  type="button"*/}
-                    {/*  onClick={this.onDownloadClick.bind(*/}
-                    {/*    this,*/}
-                    {/*    "Einstellungsvorschlag"*/}
-                    {/*  )}*/}
-                    {/*  className="btn btn-info"*/}
-                    {/*>*/}
-                    {/*  Download*/}
-                    {/*</button>*/}
-                  </td>
-                </tr>
-                <tr
-                  className={`${
                     contractdata.versicherungspflicht === "Fehlt"
                       ? "table-danger"
                       : "table-success"
                   }`}
                 >
                   <th scope="row">Feststellung der Versicherungspflicht</th>
-                  <td>{contractdata.versicherungspflicht}</td>
+                  <td>{englishFormatter(contractdata.versicherungspflicht)}</td>
                   <td>
                     <button
                       type="button"
@@ -165,7 +246,7 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Fragebogen zu Scientology</th>
-                  <td>{contractdata.scientology}</td>
+                  <td>{englishFormatter(contractdata.scientology)}</td>
                   <td>
                     <button
                       type="button"
@@ -184,7 +265,7 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Fragebogen zur Verfassungstreue</th>
-                  <td>{contractdata.verfassungstreue}</td>
+                  <td>{englishFormatter(contractdata.verfassungstreue)}</td>
                   <td>
                     <button
                       type="button"
@@ -207,7 +288,11 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Immatrikulationsbescheinigung</th>
-                  <td>{contractdata.immatrikulationsbescheinigung}</td>
+                  <td>
+                    {englishFormatter(
+                      contractdata.immatrikulationsbescheinigung
+                    )}
+                  </td>
                   <td></td>
                 </tr>
                 {immatrikulation2row}
@@ -223,7 +308,18 @@ class ViewContract extends Component {
                     Kopie gültiger Aufenthaltstitel mit Erlaubnis zur
                     Arbeitsaufnahme
                   </th>
-                  <td>{contractdata.aufenthaltstitel}</td>
+                  <td>{englishFormatter(contractdata.aufenthaltstitel)}</td>
+                  <td></td>
+                </tr>
+                <tr
+                  className={`${
+                    contractdata.reisepass === "Fehlt"
+                      ? "table-danger"
+                      : "table-success"
+                  }`}
+                >
+                  <th scope="row">Reisepass</th>
+                  <td>{englishFormatter(contractdata.reisepass)}</td>
                   <td></td>
                 </tr>
                 <tr
@@ -234,7 +330,9 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Krankenkassenbescheinigung</th>
-                  <td>{contractdata.krankenkassenbescheinigung}</td>
+                  <td>
+                    {englishFormatter(contractdata.krankenkassenbescheinigung)}
+                  </td>
                   <td></td>
                 </tr>
                 <tr
@@ -245,7 +343,9 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Personalbogen Bezuegestelle</th>
-                  <td>{contractdata.personalbogenbezuegestelle}</td>
+                  <td>
+                    {englishFormatter(contractdata.personalbogenbezuegestelle)}
+                  </td>
                   <td>
                     <button
                       type="button"
@@ -267,7 +367,9 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Personalbogen Studierende</th>
-                  <td>{contractdata.personalbogenstudierende}</td>
+                  <td>
+                    {englishFormatter(contractdata.personalbogenstudierende)}
+                  </td>
                   <td>
                     <button
                       type="button"
@@ -291,18 +393,7 @@ class ViewContract extends Component {
                   <th scope="row">
                     Steuer-ID-Nummer: Kopie einer Bescheinigung vom Finanzamt
                   </th>
-                  <td>{contractdata.steuerId}</td>
-                  <td></td>
-                </tr>
-                <tr
-                  className={`${
-                    contractdata.reisepass === "Fehlt"
-                      ? "table-danger"
-                      : "table-success"
-                  }`}
-                >
-                  <th scope="row">Reisepass</th>
-                  <td>{contractdata.reisepass}</td>
+                  <td>{englishFormatter(contractdata.steuerId)}</td>
                   <td></td>
                 </tr>
 
@@ -314,7 +405,7 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Stipendiumsbescheinigung</th>
-                  <td>{contractdata.stipendium}</td>
+                  <td>{englishFormatter(contractdata.stipendium)}</td>
                   <td>
                     <button
                       type="button"
@@ -337,7 +428,7 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">Abschlusszeugnis</th>
-                  <td>{contractdata.abschlusszeugnis}</td>
+                  <td>{englishFormatter(contractdata.abschlusszeugnis)}</td>
                   <td></td>
                 </tr>
               </tbody>
