@@ -244,6 +244,15 @@ class EditCourse extends Component {
     if (!metacourses) {
       metacourses = [];
     }
+    metacourses.sort(function (a, b) {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
     const metacourseOptions = metacourses.map((el) => {
       return { label: el.name, value: el.name };
     });
@@ -253,6 +262,15 @@ class EditCourse extends Component {
     if (!advisors) {
       advisors = [];
     }
+    advisors.sort(function (a, b) {
+      if (a.lastname < b.lastname) {
+        return -1;
+      }
+      if (a.lastname > b.lastname) {
+        return 1;
+      }
+      return 0;
+    });
     const advisorOptions = advisors.map((el) => {
       return { label: el.firstname + " " + el.lastname, value: el.user._id };
     });
@@ -262,6 +280,15 @@ class EditCourse extends Component {
     if (isEmpty(admins)) {
       admins = [];
     }
+    admins.sort(function (a, b) {
+      if (a.lastname < b.lastname) {
+        return -1;
+      }
+      if (a.lastname > b.lastname) {
+        return 1;
+      }
+      return 0;
+    });
     const adminOptions = admins.map((el) => {
       return { label: el.firstname + " " + el.lastname, value: el.user._id };
     });

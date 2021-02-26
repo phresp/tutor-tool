@@ -197,8 +197,17 @@ class CreateCourse extends Component {
     if (isEmpty(advisors)) {
       advisors = [];
     }
+    advisors.sort(function (a, b) {
+      if (a.lastname < b.lastname) {
+        return -1;
+      }
+      if (a.lastname > b.lastname) {
+        return 1;
+      }
+      return 0;
+    });
     const advisorOptions = advisors.map((el) => {
-      return { label: el.firstname + " " + el.lastname, value: el.user._id };
+      return { label: el.lastname + " " + el.firstname, value: el.user._id };
     });
     advisorOptions.unshift({ label: "Übungsleiter auswählen", value: "" });
 
@@ -206,8 +215,17 @@ class CreateCourse extends Component {
     if (isEmpty(admins)) {
       admins = [];
     }
+    admins.sort(function (a, b) {
+      if (a.lastname < b.lastname) {
+        return -1;
+      }
+      if (a.lastname > b.lastname) {
+        return 1;
+      }
+      return 0;
+    });
     const adminOptions = admins.map((el) => {
-      return { label: el.firstname + " " + el.lastname, value: el.user._id };
+      return { label: el.lastname + " " + el.firstname, value: el.user._id };
     });
     adminOptions.unshift({ label: "Betreuer auswählen", value: "" });
 
