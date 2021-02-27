@@ -19,6 +19,7 @@ class ContractOverview extends Component {
     super(props);
     this.state = {
       fil: "0",
+      sort: "",
     };
 
     this.onChange = this.onChange.bind(this);
@@ -40,13 +41,9 @@ class ContractOverview extends Component {
 
   render() {
     //Multisort not yet implemented in package but is planned
-    const defaultSorted = [
+    var defaultSorted = [
       {
-        dataField: "status",
-        order: "asc",
-      },
-      {
-        dataField: "contractend",
+        dataField: "lastchangeddate",
         order: "desc",
       },
     ];
@@ -208,6 +205,22 @@ class ContractOverview extends Component {
           },
         ];
 
+        const nameSort = () => {
+          this.table.sortContext.handleSort(columns[0]);
+        };
+
+        const lastchangeSort = () => {
+          this.table.sortContext.handleSort(columns[8]);
+        };
+
+        if (this.state.fil !== "0" && this.state.sort !== "desc") {
+          nameSort();
+          this.setState({ sort: "desc" });
+        } else if (this.state.fil === "0" && this.state.sort === "desc") {
+          lastchangeSort();
+          this.setState({ sort: "" });
+        }
+
         contractTable = (
           <ToolkitProvider
             bootstrap4
@@ -334,6 +347,7 @@ class ContractOverview extends Component {
                 <SearchBar {...props.searchProps} />
                 <hr />
                 <BootstrapTable
+                  ref={(n) => (this.table = n)}
                   striped
                   {...props.baseProps}
                   pagination={paginationFactory()}
