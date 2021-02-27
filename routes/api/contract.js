@@ -342,6 +342,10 @@ router.post(
       ? req.body.abschlusszeugnis
       : "Fehlt";
 
+    contractFields.contractcomment = req.body.contractcomment
+      ? req.body.contractcomment
+      : "";
+
     contractFields.lastchangeddate = Date.now();
     contractFields.lasthandle = req.body.lasthandle;
     contractFields.status = req.body.status ? req.body.status : "created";
@@ -397,6 +401,7 @@ router.post(
     contractFields.stipendium = "Fehlt";
     contractFields.status = "Fehlt";
     contractFields.abschlusszeugnis = "Fehlt";
+    contractFields.contractcomment = "";
 
     contractFields.status = req.body.status ? req.body.status : "created";
 
@@ -464,6 +469,7 @@ router.post(
     contractFields.stipendium = req.body.stipendium;
     contractFields.status = req.body.status;
     contractFields.abschlusszeugnis = req.body.abschlusszeugnis;
+    contractFields.contractcomment = req.body.contractcomment;
 
     contractFields.lastchangeddate = Date.now();
     contractFields.lasthandle = req.body.lasthandle;

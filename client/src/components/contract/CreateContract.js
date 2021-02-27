@@ -18,6 +18,7 @@ import { getApplicationOfId } from "../../actions/applicationActions";
 
 import verfassungsPruefung from "../common/VerfassungschutzCountries";
 import aufenthaltfreieCountries from "../common/AufenthaltCountries";
+import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 
 class CreateContract extends Component {
   componentDidMount() {
@@ -110,6 +111,7 @@ class CreateContract extends Component {
       steuerId: this.state.steuerId,
       reisepass: this.state.reisepass,
       stipendium: this.state.stipendium,
+      contractcomment: this.state.contractcomment,
       lasthandle: this.props.profile.profile.handle,
       status: this.state.status,
     };
@@ -151,6 +153,7 @@ class CreateContract extends Component {
       steuerId: this.state.steuerId,
       reisepass: this.state.reisepass,
       stipendium: this.state.stipendium,
+      contractcomment: this.state.contractcomment,
       lasthandle: this.props.profile.profile.handle,
       status: this.state.status,
     };
@@ -767,6 +770,15 @@ class CreateContract extends Component {
               </h1>
               {verfassungsPruefungTooltip}
               <form onSubmit={this.onSubmit}>
+                <label htmlFor="degree">Kommentar:</label>
+                <TextAreaFieldGroup
+                  placeholder="Kommentar"
+                  onChange={this.onChange}
+                  value={this.state.contractcomment}
+                  name="contractcomment"
+                  error={errors.contractcomment}
+                />
+
                 <div className="container">
                   <div className="row">
                     <div className="col-md-9">

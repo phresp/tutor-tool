@@ -81,7 +81,10 @@ class BudgetControl extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            <Link to={"/course-overview"} className={"btn btn-light"}>
+            <Link
+              to={`/course-applications/${this.props.match.params.id}`}
+              className={"btn btn-light"}
+            >
               back
             </Link>
             <h1 className="display-4 text-center">

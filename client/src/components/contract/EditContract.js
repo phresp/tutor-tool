@@ -23,6 +23,7 @@ import isEmpty from "../../validation/is-empty";
 
 import verfassungsPruefung from "../common/VerfassungschutzCountries";
 import aufenthaltfreieCountries from "../common/AufenthaltCountries";
+import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 
 class EditContract extends Component {
   componentDidMount() {
@@ -68,6 +69,7 @@ class EditContract extends Component {
       status: "",
       admin: "",
       advisor: "",
+      contractcomment: "",
       displayContractsplitting: false,
       errors: {},
     };
@@ -189,6 +191,10 @@ class EditContract extends Component {
       contract.reisepass = !isEmpty(contract.reisepass)
         ? contract.reisepass
         : "Fehlt";
+      contract.contractcomment = !isEmpty(contract.contractcomment)
+        ? contract.contractcomment
+        : "";
+
       contract.status = !isEmpty(contract.status) ? contract.status : "";
       contract.profiledegree = "";
       if (contract.profile.degree) {
@@ -231,6 +237,7 @@ class EditContract extends Component {
         reisepass: contract.reisepass,
         stipendium: contract.stipendium,
         abschlusszeugnis: contract.abschlusszeugnis,
+        contractcomment: contract.contractcomment,
         status: contract.status,
         displayContractsplitting: display,
       });
@@ -325,6 +332,7 @@ class EditContract extends Component {
       personalbogenstudierende: this.state.personalbogenstudierende,
       sozialversicherungsausweis: this.state.sozialversicherungsausweis,
       steuerId: this.state.steuerId,
+      contractcomment: this.state.contractcomment,
       lasthandle: this.props.profile.profile.handle,
       status: this.state.status,
     };
@@ -995,6 +1003,15 @@ class EditContract extends Component {
                   name="status"
                   error={errors.status}
                   options={statusOptions}
+                />
+
+                <label htmlFor="degree">Kommentar:</label>
+                <TextAreaFieldGroup
+                  placeholder="Kommentar"
+                  onChange={this.onChange}
+                  value={this.state.contractcomment}
+                  name="contractcomment"
+                  error={errors.contractcomment}
                 />
 
                 <div className="container">
