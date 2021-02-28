@@ -47,7 +47,6 @@ class ContractOverview extends Component {
         order: "desc",
       },
     ];
-
     var contracts;
 
     if (this.props.contract) {
@@ -205,20 +204,14 @@ class ContractOverview extends Component {
           },
         ];
 
+        //Sort in Filterchange
         const nameSort = () => {
           this.table.sortContext.handleSort(columns[0]);
         };
 
-        const lastchangeSort = () => {
-          this.table.sortContext.handleSort(columns[8]);
-        };
-
-        if (this.state.fil !== "0" && this.state.sort !== "desc") {
+        if (this.state.fil !== "0" && this.state.sort !== "asc") {
           nameSort();
-          this.setState({ sort: "desc" });
-        } else if (this.state.fil === "0" && this.state.sort === "desc") {
-          lastchangeSort();
-          this.setState({ sort: "" });
+          this.setState({ sort: "asc" });
         }
 
         contractTable = (
@@ -352,6 +345,7 @@ class ContractOverview extends Component {
                   {...props.baseProps}
                   pagination={paginationFactory()}
                   defaultSorted={defaultSorted}
+                  defaultSortDirection="asc"
                 />
               </div>
             )}
