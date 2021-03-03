@@ -205,9 +205,9 @@ router.post(
 
     //Immatrikulationsbescheinigung
     var anbei3, liegtvor3;
-    if (req.body.verfassungstreue === "Liegt bei") {
+    if (req.body.immatrikulationsbescheinigung === "Liegt bei") {
       anbei3 = "Yes";
-    } else if (req.body.verfassungstreue === "Liegt vor") {
+    } else if (req.body.immatrikulationsbescheinigung === "Liegt vor") {
       liegtvor3 = "Yes";
     }
 
