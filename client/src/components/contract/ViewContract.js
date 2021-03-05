@@ -115,6 +115,8 @@ class ViewContract extends Component {
         return "Already filed";
       } else if (ele === "Bereits Vorhanden") {
         return "Already available";
+      } else if (ele === "Kein Bedarf") {
+        return "Not necessary";
       } else {
         return ele;
       }

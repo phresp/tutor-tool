@@ -80,26 +80,11 @@ class TutorApplicationView extends Component {
             result[0].status !== "Contract" &&
             result[0].status !== "Declined"
           ) {
-            if (!this.state.disabled) {
-              return (
-                <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
-                  Edit
-                </Link>
-              );
-            } else if (this.state.disabled) {
-              return (
-                <button
-                  className="btn btn-info"
-                  type="button"
-                  disabled={this.state.disabled}
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Tooltip on top"
-                >
-                  Edit
-                </button>
-              );
-            }
+            return (
+              <Link to={`/tutorapply/${row._id}`} className="btn btn-info">
+                Edit
+              </Link>
+            );
           } else {
             return "";
           }
@@ -198,7 +183,6 @@ class TutorApplicationView extends Component {
           {
             dataField: "_id",
             text: "Status",
-            sort: true,
             formatter: statusFormatter,
           },
           {

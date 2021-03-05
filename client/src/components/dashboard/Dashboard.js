@@ -62,6 +62,22 @@ class Dashboard extends Component {
       //Check if logged in user has profile data
       if (Object.keys(profile).length > 0) {
         if (user.role === "Student") {
+          var experience;
+          var education;
+          if (
+            profile.experience.length !== 0 ||
+            profile.education.length !== 0
+          ) {
+            experience = <Experience experience={profile.experience} />;
+            education = <Education education={profile.education} />;
+          } else {
+            experience = (
+              <h3>
+                If you add any experience or education it will show up here
+              </h3>
+            );
+          }
+
           dashboardContent = (
             <div>
               <p className="lead text-muted">Welcome {profile.firstname}</p>
@@ -70,8 +86,8 @@ class Dashboard extends Component {
               <StudentProfileActions />
               <hr />
               <div>
-                <Experience experience={profile.experience} />
-                <Education education={profile.education} />
+                {experience}
+                {education}
               </div>
               <div style={{ marginBottom: "60px" }} />
               <button

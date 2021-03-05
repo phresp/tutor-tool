@@ -27,13 +27,14 @@ class MyApplications extends Component {
     const entries = applications ? applications : [];
 
     var newArray = entries.filter((el) => {
-      if (el.course) {
-        if (el.course.semester) {
-          if (el.course.semester.courseto) {
-            return new Date(Date.now()) < new Date(el.course.semester.to);
-          }
-        }
-      }
+      // if (el.course) {
+      //   if (el.course.semester) {
+      //     if (el.course.semester.courseto) {
+      //       return new Date(Date.now()) < new Date(el.course.semester.to);
+      //     }
+      //   }
+      // }
+      return el;
     });
 
     function betrachtenButton(cell, row, course, rowIndex, formatExtraData) {
@@ -111,6 +112,15 @@ class MyApplications extends Component {
             </div>
           )}
         </ToolkitProvider>
+      );
+    } else {
+      applicationTable = (
+        <div>
+          <hr />
+          <h3 className="text-center">
+            You have not applied yet for an open position
+          </h3>
+        </div>
       );
     }
 

@@ -11,6 +11,7 @@ import moment from "moment";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
 import Spinner from "../common/Spinner";
+import { bindReporter } from "web-vitals/dist/lib/bindReporter";
 
 const { SearchBar } = Search;
 
@@ -151,25 +152,35 @@ class MyContracts extends Component {
         ];
 
         contractTable = (
-          <ToolkitProvider
-            bootstrap4
-            keyField="id"
-            data={entries}
-            columns={columns}
-            search
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                <hr />
-                <BootstrapTable
-                  {...props.baseProps}
-                  pagination={paginationFactory()}
-                  defaultSorted={defaultSorted}
-                />
-              </div>
-            )}
-          </ToolkitProvider>
+          <div>
+            <ToolkitProvider
+              bootstrap4
+              keyField="id"
+              data={entries}
+              columns={columns}
+              search
+            >
+              {(props) => (
+                <div>
+                  <SearchBar {...props.searchProps} />
+                  <hr />
+                  <BootstrapTable
+                    {...props.baseProps}
+                    pagination={paginationFactory()}
+                    defaultSorted={defaultSorted}
+                  />
+                </div>
+              )}
+            </ToolkitProvider>
+            <h6>Date format: DD/MM/YYYY</h6>
+          </div>
+        );
+      } else {
+        contractTable = (
+          <div>
+            <hr />
+            <h3 className="text-center">You have no contracts yet</h3>
+          </div>
         );
       }
     }
