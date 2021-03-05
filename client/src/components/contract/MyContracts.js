@@ -139,11 +139,6 @@ class MyContracts extends Component {
             sort: true,
           },
           {
-            dataField: "status",
-            text: "Status",
-            sort: true,
-          },
-          {
             text: "View Contract",
             header: "Edit",
             id: "links",

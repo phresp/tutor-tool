@@ -11,6 +11,13 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 const { SearchBar } = Search;
 
 class MyApplications extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      help: false,
+    };
+  }
+
   componentDidMount() {
     this.props.getTutorApplications();
   }
@@ -45,6 +52,21 @@ class MyApplications extends Component {
           </Link>
         );
       }
+    }
+
+    var help;
+    if (this.state.help === true) {
+      help = (
+        <div>
+          <h6>
+            Here you can see all your Applications: If the Status is "Accepted"
+            you have been accepted to be a tutor for this course. If the status
+            is "Contract" a contract has been created for you - Check "My
+            Contracts"
+          </h6>
+          <hr />
+        </div>
+      );
     }
 
     const prioFormatter = (value, cell, row, rowIndex, formatExtraData) => {
@@ -104,7 +126,19 @@ class MyApplications extends Component {
           {(props) => (
             <div>
               <SearchBar {...props.searchProps} />
+              <button
+                type="button"
+                onClick={() => {
+                  this.setState((prevState) => ({
+                    help: !prevState.help,
+                  }));
+                }}
+                className="btn btn-info float-right"
+              >
+                Help
+              </button>{" "}
               <hr />
+              {help}
               <BootstrapTable
                 {...props.baseProps}
                 pagination={paginationFactory()}

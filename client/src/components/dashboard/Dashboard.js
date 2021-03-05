@@ -11,7 +11,6 @@ import Education from "./Education";
 
 import {
   getCurrentProfile,
-  deleteAccount,
   clearForDashboard,
 } from "../../actions/profileActions";
 
@@ -19,10 +18,6 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
     this.props.clearForDashboard();
-  }
-
-  onDeleteClick(e) {
-    this.props.deleteAccount();
   }
 
   render() {
@@ -90,13 +85,6 @@ class Dashboard extends Component {
                 {education}
               </div>
               <div style={{ marginBottom: "60px" }} />
-              <button
-                onClick={this.onDeleteClick.bind(this)}
-                className="btn btn-danger"
-              >
-                {" "}
-                Delete My Account
-              </button>
             </div>
           );
         } else if (user.role === "Admin") {
@@ -168,6 +156,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getCurrentProfile,
-  deleteAccount,
   clearForDashboard,
 })(Dashboard);

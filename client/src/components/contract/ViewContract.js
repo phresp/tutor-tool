@@ -96,6 +96,10 @@ class ViewContract extends Component {
       var contractdata2 = (
         <div>
           <h5>Secondary Contract</h5>
+          <h6>
+            This is an additional (splitted) contract if there are changes
+            during the occupation
+          </h6>
           <p className="lead text-muted">
             Contractstart:{" "}
             {moment(this.state.contractstart2).format("DD/MM/YYYY")}
@@ -187,6 +191,9 @@ class ViewContract extends Component {
             <h3 className="text-center">Contractdata</h3>
             {contractdata1}
             {contractdata2}
+            <h4 className={"text-center"}>
+              Please hand in the following missing documents
+            </h4>
             <table className="table table-bordered">
               <thead>
                 <tr>

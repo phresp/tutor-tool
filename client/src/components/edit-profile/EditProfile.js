@@ -7,10 +7,15 @@ import SelectListGroup from "../common/SelectListGroup";
 import moment from "moment";
 import aufenthaltfreieCountries from "../common/AufenthaltCountries";
 
-import { createProfile, getCurrentProfile } from "../../actions/profileActions";
+import {
+  createProfile,
+  getCurrentProfile,
+  deleteAccount,
+} from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
 import countryList from "react-select-country-list";
 import Spinner from "../common/Spinner";
+import isDivisibleBy from "validator/es/lib/isDivisibleBy";
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -41,6 +46,10 @@ class CreateProfile extends Component {
       countryList().setEmpty("Select a Country").getLabel("");
     }
     this.props.getCurrentProfile();
+  }
+
+  onDeleteClick(e) {
+    this.props.deleteAccount();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -179,143 +188,153 @@ class CreateProfile extends Component {
 
     if (user.role === "Student") {
       content = (
-        <form onSubmit={this.onSubmit}>
-          <label htmlFor="firstname">* Firstname:</label>
-          <TextFieldGroup
-            placeholder="* Firstname"
-            onChange={this.onChange}
-            value={this.state.firstname}
-            name="firstname"
-            error={errors.firstname}
-          />
-          <label htmlFor="lastname">* Lastname:</label>
-          <TextFieldGroup
-            placeholder="* Lastname"
-            onChange={this.onChange}
-            value={this.state.lastname}
-            name="lastname"
-            error={errors.lastname}
-          />
-          <label htmlFor="birthplace">* Gender:</label>
-          <SelectListGroup
-            placeholder="* Gender"
-            onChange={this.onChange}
-            value={this.state.gender}
-            name="gender"
-            error={errors.gender}
-            options={statusOptions}
-          />
-          <label htmlFor="birthday">* Birthday:</label>
-          <TextFieldGroup
-            type={"date"}
-            placeholder="* Birthday"
-            onChange={this.onChange}
-            value={moment.utc(this.state.birthday).format("YYYY-MM-DD")}
-            name="birthday"
-            error={errors.birthday}
-          />
-          <label htmlFor="birthplace">* Birthplace:</label>
-          <TextFieldGroup
-            placeholder="* Birthplace"
-            onChange={this.onChange}
-            value={this.state.birthplace}
-            name="birthplace"
-            error={errors.birthplace}
-          />
-          <label htmlFor="countryofbirth">* Country of Birth:</label>
-          <SelectListGroup
-            placeholder="* Country of Birth"
-            onChange={this.onChange}
-            value={this.state.countryofbirth}
-            name="countryofbirth"
-            error={errors.countryofbirth}
-            options={countryOptions}
-          />
-          <label htmlFor="nationality">* Nationality:</label>
-          <SelectListGroup
-            placeholder="* Nationality"
-            onChange={this.onChange}
-            value={this.state.nationality}
-            name="nationality"
-            error={errors.nationality}
-            options={countryOptions}
-          />
-          <label htmlFor="nationality2">Second Nationality:</label>
-          <SelectListGroup
-            placeholder="Second Nationality"
-            onChange={this.onChange}
-            value={this.state.nationality2}
-            name="nationality2"
-            error={errors.nationality2}
-            options={countryOptions}
-            info="Please provide your second nationality if you have one"
-          />
-          {aufenthaltLabel}
-          {aufenthaltInput}
+        <div>
+          <form onSubmit={this.onSubmit}>
+            <label htmlFor="firstname">* Firstname:</label>
+            <TextFieldGroup
+              placeholder="* Firstname"
+              onChange={this.onChange}
+              value={this.state.firstname}
+              name="firstname"
+              error={errors.firstname}
+            />
+            <label htmlFor="lastname">* Lastname:</label>
+            <TextFieldGroup
+              placeholder="* Lastname"
+              onChange={this.onChange}
+              value={this.state.lastname}
+              name="lastname"
+              error={errors.lastname}
+            />
+            <label htmlFor="birthplace">* Gender:</label>
+            <SelectListGroup
+              placeholder="* Gender"
+              onChange={this.onChange}
+              value={this.state.gender}
+              name="gender"
+              error={errors.gender}
+              options={statusOptions}
+            />
+            <label htmlFor="birthday">* Birthday:</label>
+            <TextFieldGroup
+              type={"date"}
+              placeholder="* Birthday"
+              onChange={this.onChange}
+              value={moment.utc(this.state.birthday).format("YYYY-MM-DD")}
+              name="birthday"
+              error={errors.birthday}
+            />
+            <label htmlFor="birthplace">* Birthplace:</label>
+            <TextFieldGroup
+              placeholder="* Birthplace"
+              onChange={this.onChange}
+              value={this.state.birthplace}
+              name="birthplace"
+              error={errors.birthplace}
+            />
+            <label htmlFor="countryofbirth">* Country of Birth:</label>
+            <SelectListGroup
+              placeholder="* Country of Birth"
+              onChange={this.onChange}
+              value={this.state.countryofbirth}
+              name="countryofbirth"
+              error={errors.countryofbirth}
+              options={countryOptions}
+            />
+            <label htmlFor="nationality">* Nationality:</label>
+            <SelectListGroup
+              placeholder="* Nationality"
+              onChange={this.onChange}
+              value={this.state.nationality}
+              name="nationality"
+              error={errors.nationality}
+              options={countryOptions}
+            />
+            <label htmlFor="nationality2">Second Nationality:</label>
+            <SelectListGroup
+              placeholder="Second Nationality"
+              onChange={this.onChange}
+              value={this.state.nationality2}
+              name="nationality2"
+              error={errors.nationality2}
+              options={countryOptions}
+              info="Please provide your second nationality if you have one"
+            />
+            {aufenthaltLabel}
+            {aufenthaltInput}
 
-          <div className="container">
-            <div className="row">
-              <label htmlFor="Stipendium">
-                End of scholarship (if applicable):
-              </label>
-              <div className={"col-md-5"}></div>
-              <div className={"col-md-3"}>
-                <button
-                  className={"btn btn-light"}
-                  type="button"
-                  onClick={() => {
-                    this.setState({
-                      stipendiumend: "",
-                    });
-                  }}
-                >
-                  {" "}
-                  Empty Date
-                </button>
+            <div className="container">
+              <div className="row">
+                <label htmlFor="Stipendium">
+                  End of scholarship (if applicable):
+                </label>
+                <div className={"col-md-5"}></div>
+                <div className={"col-md-3"}>
+                  <button
+                    className={"btn btn-light"}
+                    type="button"
+                    onClick={() => {
+                      this.setState({
+                        stipendiumend: "",
+                      });
+                    }}
+                  >
+                    {" "}
+                    Empty Date
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <TextFieldGroup
-            type={"date"}
-            placeholder="Stipendium End"
-            onChange={this.onChange}
-            value={moment.utc(this.state.stipendiumend).format("YYYY-MM-DD")}
-            name="stipendiumend"
-            error={errors.stipendiumend}
-          />
+            <TextFieldGroup
+              type={"date"}
+              placeholder="Stipendium End"
+              onChange={this.onChange}
+              value={moment.utc(this.state.stipendiumend).format("YYYY-MM-DD")}
+              name="stipendiumend"
+              error={errors.stipendiumend}
+            />
 
-          <label htmlFor="Matrikelnummer">Immatrikulation number:</label>
-          <TextFieldGroup
-            placeholder="Immatrikulation number"
-            onChange={this.onChange}
-            value={this.state.matrikelnummer}
-            name="matrikelnummer"
-            error={errors.matrikelnummer}
-          />
-          <label htmlFor="CurrentFieldofStudy">Current Field of Study:</label>
-          <TextFieldGroup
-            placeholder="Current Field of Study"
-            onChange={this.onChange}
-            value={this.state.currentfieldofstudy}
-            name="currentfieldofstudy"
-            error={errors.currentfieldofstudy}
-          />
-          <label htmlFor="degree">Degree:</label>
-          <SelectListGroup
-            placeholder="Degree"
-            onChange={this.onChange}
-            value={this.state.degree}
-            name="degree"
-            error={errors.degree}
-            options={degreeOptions}
-          />
-          <input
-            type="submit"
-            value="Submit"
-            className="btn btn-info btn-block mt-4"
-          />
-        </form>
+            <label htmlFor="Matrikelnummer">Immatrikulation number:</label>
+            <TextFieldGroup
+              placeholder="Immatrikulation number"
+              onChange={this.onChange}
+              value={this.state.matrikelnummer}
+              name="matrikelnummer"
+              error={errors.matrikelnummer}
+            />
+            <label htmlFor="CurrentFieldofStudy">Current Field of Study:</label>
+            <TextFieldGroup
+              placeholder="Current Field of Study"
+              onChange={this.onChange}
+              value={this.state.currentfieldofstudy}
+              name="currentfieldofstudy"
+              error={errors.currentfieldofstudy}
+            />
+            <label htmlFor="degree">Degree:</label>
+            <SelectListGroup
+              placeholder="Degree"
+              onChange={this.onChange}
+              value={this.state.degree}
+              name="degree"
+              error={errors.degree}
+              options={degreeOptions}
+            />
+            <input
+              type="submit"
+              value="Submit"
+              className="btn btn-info btn-block mt-4"
+            />
+          </form>
+          <hr />
+          <button
+            onClick={this.onDeleteClick.bind(this)}
+            className="btn btn-danger"
+          >
+            {" "}
+            Delete My Account
+          </button>
+        </div>
       );
     } else {
       content = (
@@ -394,6 +413,8 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
-  withRouter(CreateProfile)
-);
+export default connect(mapStateToProps, {
+  createProfile,
+  getCurrentProfile,
+  deleteAccount,
+})(withRouter(CreateProfile));

@@ -19,6 +19,10 @@ const MyComponent = () => {
       <a href="mailto:tutorbetrieb@in.tum.de" className={"text-white"}>
         Contact
       </a>
+      {" - "}
+      <a href="mailto:tutorbetrieb@in.tum.de" className={"text-white"}>
+        Tutorial
+      </a>
     </footer>
   );
 };
