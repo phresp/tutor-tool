@@ -61,6 +61,7 @@ import EditMailTemplate from "./components/mail/EditMailTemplate";
 import ContractStats from "./components/contract/ContractStats";
 import EditAdvisorDetails from "./components/edit-course/EditAdvisorDetails";
 import AddComment from "./components/application/AddComment";
+import Help from "./components/help/Help";
 
 import "./App.css";
 
@@ -129,7 +130,9 @@ class App extends Component {
               component={AddEducation}
             />
           </Switch>
-
+          <Switch>
+            <PrivateRoute exact path="/help" component={Help} />
+          </Switch>
           <Switch>
             <PrivateAdvisorRoute
               exact
