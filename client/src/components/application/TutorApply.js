@@ -6,12 +6,14 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { getTutorApplicationForCourse } from "../../actions/applicationActions";
+import { getCourseById } from "../../actions/courseActions";
 import { postApplication } from "../../actions/applicationActions";
 import isEmpty from "../../validation/is-empty";
 
 class TutorApply extends Component {
   componentDidMount() {
     this.props.getTutorApplicationForCourse(this.props.match.params.id);
+    this.props.getCourseById(this.props.match.params.id);
   }
   //TODO: Add information about the course you apply for
   constructor(props) {
@@ -95,6 +97,13 @@ class TutorApply extends Component {
       { label: "High", value: "3" },
     ];
 
+    var coursename;
+    if (this.props.course.course) {
+      if (this.props.course.course.metacourse) {
+        coursename = this.props.course.course.metacourse.name;
+      }
+    }
+
     return (
       <div className={"Tutorapply"}>
         <div className="container">
@@ -103,7 +112,9 @@ class TutorApply extends Component {
               <Link to={"/tutorapplication"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Application</h1>
+              <h1 className="display-4 text-center">
+                Application for {coursename}
+              </h1>
 
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="inputGrade">Your Grade</label>
@@ -150,6 +161,7 @@ class TutorApply extends Component {
 
 TutorApply.propTypes = {
   application: PropTypes.object.isRequired,
+  course: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
 
@@ -161,4 +173,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getTutorApplicationForCourse,
   postApplication,
+  getCourseById,
 })(TutorApply);

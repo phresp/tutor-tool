@@ -96,6 +96,16 @@ class TutorUpdateApply extends Component {
       { label: "High", value: "3" },
     ];
 
+    var coursename;
+    if (this.props.application.application) {
+      if (this.props.application.application.course) {
+        if (this.props.application.application.course.metacourse) {
+          coursename = this.props.application.application.course.metacourse
+            .name;
+        }
+      }
+    }
+
     return (
       <div className={"Tutorapply"}>
         <div className="container">
@@ -104,7 +114,9 @@ class TutorUpdateApply extends Component {
               <Link to={"/myapplications"} className={"btn btn-light"}>
                 back
               </Link>
-              <h1 className="display-4 text-center">Update Application</h1>
+              <h1 className="display-4 text-center">
+                Update Application for {coursename}
+              </h1>
 
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="inputGrade">Your Grade</label>
