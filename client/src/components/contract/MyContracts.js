@@ -11,11 +11,17 @@ import moment from "moment";
 
 import paginationFactory from "react-bootstrap-table2-paginator";
 import Spinner from "../common/Spinner";
-import { bindReporter } from "web-vitals/dist/lib/bindReporter";
 
 const { SearchBar } = Search;
 
 class MyContracts extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      help: false,
+    };
+  }
+
   componentDidMount() {
     this.props.getMyContracts();
   }
@@ -28,6 +34,22 @@ class MyContracts extends Component {
 
   render() {
     var contracts;
+
+    var help;
+    if (this.state.help === true) {
+      help = (
+        <div>
+          <h6>
+            Here you can see all your Contracts: Please see details for the
+            documents you have to hand in. In some cases you might have a "split
+            contract", meaning there are two separate lines for each contract
+            duration. The respective weekly hours are indicated next to the
+            dates of each split contract line.
+          </h6>
+          <hr />
+        </div>
+      );
+    }
 
     const defaultSorted = [
       {
@@ -121,20 +143,20 @@ class MyContracts extends Component {
           },
 
           {
-            text: "Contractstart",
+            text: "Contract Start",
             dataField: "contractstart",
             formatter: contractstarts,
             sort: true,
           },
           {
             dataField: "contractend",
-            text: "Contractend",
+            text: "Contract End",
             formatter: contractends,
             sort: true,
           },
           {
             dataField: "hours",
-            text: "weekly Hours",
+            text: "Weekly Hours",
             formatter: contracthours,
             sort: true,
           },
@@ -158,7 +180,19 @@ class MyContracts extends Component {
               {(props) => (
                 <div>
                   <SearchBar {...props.searchProps} />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.setState((prevState) => ({
+                        help: !prevState.help,
+                      }));
+                    }}
+                    className="btn btn-info float-right"
+                  >
+                    Help
+                  </button>{" "}
                   <hr />
+                  {help}
                   <BootstrapTable
                     {...props.baseProps}
                     pagination={paginationFactory()}

@@ -37,7 +37,6 @@ class ViewContract extends Component {
       const contract = nextProps.contract.contract;
 
       //If contract field doesn't exist, make empty string
-
       contract.contractstart = !isEmpty(contract.contractstart)
         ? contract.contractstart
         : "";
@@ -187,13 +186,14 @@ class ViewContract extends Component {
             <h1 className="display-4 text-center">
               Contract for {coursename}, {coursesem}
             </h1>
-
-            <h3 className="text-center">Contractdata</h3>
             {contractdata1}
             {contractdata2}
             <h4 className={"text-center"}>
               Please hand in the following missing documents
             </h4>
+            <h6 className={"text-center"}>
+              * this document has to be sent in as original via postal services
+            </h6>
             <table className="table table-bordered">
               <thead>
                 <tr>
@@ -232,7 +232,7 @@ class ViewContract extends Component {
                       : "table-success"
                   }`}
                 >
-                  <th scope="row">Feststellung der Versicherungspflicht</th>
+                  <th scope="row">* Feststellung der Versicherungspflicht</th>
                   <td>{englishFormatter(contractdata.versicherungspflicht)}</td>
                   <td>
                     <button

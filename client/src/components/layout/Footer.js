@@ -16,12 +16,11 @@ const MyComponent = () => {
         FAQ
       </a>
       {" - "}
-      <a href="mailto:tutorbetrieb@in.tum.de" className={"text-white"}>
+      <a
+        href="https://www.in.tum.de/fuer-studierende/tutorbetrieb-der-fakultaet-fuer-informatik/"
+        className={"text-white"}
+      >
         Contact
-      </a>
-      {" - "}
-      <a href="mailto:tutorbetrieb@in.tum.de" className={"text-white"}>
-        Tutorial
       </a>
     </footer>
   );

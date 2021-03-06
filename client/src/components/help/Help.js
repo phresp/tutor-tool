@@ -19,69 +19,69 @@ class Help extends Component {
           </div>
           <div className="row">
             <div className="col-md-3">
-              <button className="btn btn-light">
+              <Link to="/edit-profile" className="btn btn-light">
                 <i className="fas fa-user-circle text-primary"></i> Edit Profile
-              </button>{" "}
+              </Link>
             </div>
 
-            <h5>Press this button to edit your profile information</h5>
+            <h5>Click here to edit your profile information</h5>
           </div>
           <div className="row">
             <div className="col-md-3">
-              <button className="btn btn-light">
+              <Link to="/add-experience" className="btn btn-light">
                 <i className="fab fa-black-tie text-primary"></i> Add Experience
-              </button>{" "}
+              </Link>
             </div>
 
-            <h5>Add work experience that will be shown in you application</h5>
+            <h5>Add work experience (will be shown in your applications)</h5>
           </div>
           <div className="row">
             <div className="col-md-3">
-              <button className="btn btn-light">
+              <Link to="/add-education" className="btn btn-light">
                 <i className="fas fa-graduation-cap text-primary"></i> Add
                 Education
-              </button>{" "}
+              </Link>
             </div>
 
-            <h5>Add your education that will be shon in your applications </h5>
+            <h5>Add your education (will be shown in your applications) </h5>
           </div>
           <div className="row">
             <div className="col-md-3">
-              <button className="btn btn-light">
+              <Link to="/tutorapplication" className="btn btn-light">
                 <i className="fas fa-university text-primary"></i> Tutor
                 Application
-              </button>{" "}
+              </Link>
             </div>
 
             <h5>
-              Check here to see and apply for courses with open tutor positions
+              Check here to see and apply for courses with vacant tutor
+              positions
             </h5>
           </div>
           <div className="row">
             <div className="col-md-3">
-              <button className="btn btn-light">
+              <Link to="/myapplications" className="btn btn-light">
                 <i className="fab fa-pied-piper-hat text-primary"></i> My
                 Applications
-              </button>{" "}
+              </Link>
             </div>
-            <h5>Click here to check the status of your application</h5>
+            <h5>Click here to check the status of your applications</h5>
           </div>
           <div className="row">
             <div className="col-md-3">
-              <button className="btn btn-light">
+              <Link to="/mycontracts" className="btn btn-light">
                 <i className="fas fa-scroll text-primary"></i> My Contracts
-              </button>{" "}
+              </Link>
             </div>
 
             <h5>
-              Here you can check your contracts and see what documents you have
-              to provide
+              Check your contracts and see which documents you have to provide
             </h5>
           </div>
           <hr />
           <h5 className="text-center">
-            For further information please see the provided FAQ-Page below or
-            contact the Tutor-Staff via E-Mail
+            For further information please see the FAQ page linked below or
+            contact the Tutorbetrieb via E-Mail
           </h5>
         </div>
       </div>
