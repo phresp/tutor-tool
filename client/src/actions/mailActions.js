@@ -65,6 +65,21 @@ export const editTemplate = (id, templateData, history) => (dispatch) => {
     );
 };
 
+//Send Testmail
+export const sendMail = (mailData, history) => (dispatch) => {
+  axios
+    .post(`/api/mail/sendmail`, mailData)
+    .then((res) => {
+      history.push("/dashboard");
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
 // Template Loading
 export const setTemplatesLoading = () => {
   return {

@@ -58,6 +58,7 @@ import BudgetControl from "./components/budgetcontrol/BudgetControl";
 import MailOverview from "./components/mail/MailOverview";
 import CreateMailTemplate from "./components/mail/CreateMailTemplate";
 import EditMailTemplate from "./components/mail/EditMailTemplate";
+import SendMail from "./components/mail/SendMail";
 import ContractStats from "./components/contract/ContractStats";
 import EditAdvisorDetails from "./components/edit-course/EditAdvisorDetails";
 import AddComment from "./components/application/AddComment";
@@ -372,6 +373,9 @@ class App extends Component {
               path="/create-template"
               component={CreateMailTemplate}
             />
+          </Switch>
+          <Switch>
+            <PrivateAdminRoute exact path="/send-mail" component={SendMail} />
           </Switch>
           <Switch>
             <PrivateAdminRoute
