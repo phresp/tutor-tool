@@ -25,13 +25,13 @@ class MailOverview extends Component {
     const { templates } = this.props.mail;
     const templateArray = templates ? templates : [];
 
-    function betrachtenButton(cell, row, rowIndex, formatExtraData) {
+    const betrachtenButton = (cell, row, rowIndex, formatExtraData) => {
       return (
         <Link to={`/edit-template/${row._id}`} className="btn btn-info">
           Edit
         </Link>
       );
-    }
+    };
 
     const columns = [
       {

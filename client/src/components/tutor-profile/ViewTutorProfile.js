@@ -224,23 +224,32 @@ class ViewTutorProfile extends Component {
                 Profile of <br />
                 {this.state.firstname} {this.state.lastname}{" "}
               </h1>
-              <Link
-                to={`/changeAccountType/${this.props.match.params.id}`}
-                className={"btn btn-primary"}
-              >
-                Rolle ändern
-              </Link>
-              <button
-                type="button"
-                onClick={() => {
-                  this.setState((prevState) => ({
-                    disabled: !prevState.disabled,
-                  }));
-                }}
-                className="btn btn-dark"
-              >
-                Bearbeiten an/aus
-              </button>
+              <div className="btn-group">
+                <Link
+                  to={`/changeAccountType/${this.props.match.params.id}`}
+                  className={"btn btn-primary"}
+                >
+                  Rolle ändern
+                </Link>
+                <Link
+                  to={`/send-mail-to-user/${this.props.match.params.id}`}
+                  className={"btn btn-info"}
+                >
+                  Mail senden
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.setState((prevState) => ({
+                      disabled: !prevState.disabled,
+                    }));
+                  }}
+                  className="btn btn-dark"
+                >
+                  Bearbeiten an/aus
+                </button>
+              </div>
+
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="firstname">Vorname:</label>
                 <TextFieldGroup

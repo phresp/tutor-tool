@@ -151,7 +151,7 @@ router.post(
     //Create Template
     new MailTemplate(templateFields)
       .save()
-      .then((tamplate) => res.send(tamplate))
+      .then((template) => res.send(template))
       .catch((err) => res.status(400).json(err));
   }
 );
