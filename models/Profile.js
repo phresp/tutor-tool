@@ -54,6 +54,10 @@ const ProfileSchema = new Schema({
   handle: {
     type: String,
   },
+  receivemails: {
+    type: Boolean,
+    default: true,
+  },
 
   experience: [
     {

@@ -35,6 +35,7 @@ class CreateProfile extends Component {
       currentfieldofstudy: "",
       degree: "",
       handle: "",
+      receivemails: "",
       errors: {},
     };
 
@@ -91,6 +92,9 @@ class CreateProfile extends Component {
         : "";
       profile.degree = !isEmpty(profile.degree) ? profile.degree : "";
       profile.handle = !isEmpty(profile.handle) ? profile.handle : "";
+      profile.receivemails = !isEmpty(profile.receivemails)
+        ? profile.receivemails
+        : false;
 
       //Set component fields state
       this.setState({
@@ -108,6 +112,7 @@ class CreateProfile extends Component {
         currentfieldofstudy: profile.currentfieldofstudy,
         degree: profile.degree,
         handle: profile.handle,
+        receivemails: profile.receivemails,
       });
     }
   }
@@ -130,6 +135,7 @@ class CreateProfile extends Component {
       currentfieldofstudy: this.state.currentfieldofstudy,
       degree: this.state.degree,
       handle: this.state.handle,
+      receivemails: this.state.receivemails,
       role: this.props.auth.user.role,
     };
     this.props.createProfile(profileData, this.props.history);
@@ -163,7 +169,6 @@ class CreateProfile extends Component {
 
     var aufenthaltInput;
     var aufenthaltLabel;
-
     if (
       aufenthaltfreieCountries.indexOf(this.state.nationality) === -1 &&
       (aufenthaltfreieCountries.indexOf(this.state.nationality2) === -1 ||
@@ -320,6 +325,24 @@ class CreateProfile extends Component {
               error={errors.degree}
               options={degreeOptions}
             />
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="receivemails"
+                onChange={() => {
+                  this.setState((prevState) => ({
+                    receivemails: !prevState.receivemails,
+                  }));
+                }}
+                checked={this.state.receivemails}
+                value={this.state.receivemails}
+              />
+              <label className="form-check-label" htmlFor="receivemails">
+                reveive emails directed to all students
+              </label>
+            </div>
+
             <input
               type="submit"
               value="Submit"

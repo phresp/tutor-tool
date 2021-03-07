@@ -251,6 +251,7 @@ router.post(
     profileFields.vita = req.body.vita;
     profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
     profileFields.degree = req.body.degree;
+    profileFields.receivemails = req.body.receivemails;
     if (req.body.handle) {
       profileFields.handle = req.body.handle.toUpperCase();
     }
@@ -306,6 +307,7 @@ router.post(
     profileFields.vita = req.body.vita;
     profileFields.currentfieldofstudy = req.body.currentfieldofstudy;
     profileFields.degree = req.body.degree;
+    profileFields.receivemails = req.body.receivemails;
     if (profileFields.handle) {
       profileFields.handle = req.body.handle.toUpperCase();
     }
