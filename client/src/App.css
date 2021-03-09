@@ -22,6 +22,24 @@ img {
   background-color: #80b3ff;
 }
 
+.footer {
+  position:absolute;
+  left:0;
+  bottom:0;
+  right:0;
+  height: 5rem;
+}
+
+.main-wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+
+.center-main-inner
+{
+  padding-bottom: 5rem;
+}
+
 .landing {
   position: relative;
   background: url('./img/tum-mi.JPG') no-repeat;
