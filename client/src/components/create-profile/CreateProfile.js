@@ -107,7 +107,7 @@ class CreateProfile extends Component {
           type={"date"}
           placeholder="Aufenthaltstitel Ende"
           onChange={this.onChange}
-          value={moment.utc(this.state.aufenthaltend).format("YYYY-MM-DD")}
+          value={this.state.aufenthaltend}
           name="aufenthaltend"
           error={errors.aufenthaltend}
         />
@@ -222,9 +222,7 @@ class CreateProfile extends Component {
                   type={"date"}
                   placeholder="Stipendium End"
                   onChange={this.onChange}
-                  value={moment
-                    .utc(this.state.stipendiumend)
-                    .format("YYYY-MM-DD")}
+                  value={this.state.stipendiumend}
                   name="stipendiumend"
                   error={errors.stipendiumend}
                 />
