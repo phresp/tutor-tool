@@ -76,6 +76,27 @@ class CreateProfile extends Component {
 
     const { errors } = this.state;
 
+    // Safari 3.0+ "[object HTMLElementConstructor]"
+    var isSafari =
+      /constructor/i.test(window.HTMLElement) ||
+      (function (p) {
+        return p.toString() === "[object SafariRemoteNotification]";
+      })(
+        !window["safari"] ||
+          (typeof safari !== "undefined" && window["safari"].pushNotification)
+      );
+
+    var safariTooltip;
+
+    if (isSafari) {
+      safariTooltip = (
+        <h3 className={"text-danger text-center"}>
+          If you experience Problems using Safari please use another Browser. It
+          is recommended to use Chrome or Firefox
+        </h3>
+      );
+    }
+
     //Select options for gender
     const statusOptions = [
       { label: "Select your gender", value: "" },
@@ -120,6 +141,7 @@ class CreateProfile extends Component {
           <div className="row">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Create Your Profile</h1>
+              {safariTooltip}
               <small className="d-block pb-3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <label htmlFor="firstname">* Firstname:</label>

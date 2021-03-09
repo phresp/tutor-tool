@@ -149,6 +149,27 @@ class CreateProfile extends Component {
     const { errors } = this.state;
     const { user } = this.props.auth;
 
+    // Safari 3.0+ "[object HTMLElementConstructor]"
+    var isSafari =
+      /constructor/i.test(window.HTMLElement) ||
+      (function (p) {
+        return p.toString() === "[object SafariRemoteNotification]";
+      })(
+        !window["safari"] ||
+          (typeof safari !== "undefined" && window["safari"].pushNotification)
+      );
+
+    var safariTooltip;
+
+    if (isSafari) {
+      safariTooltip = (
+        <h3 className={"text-danger text-center"}>
+          If you experience Problems using Safari please use another Browser. It
+          is recommended to use Chrome or Firefox
+        </h3>
+      );
+    }
+
     var countryOptions = countryList().getData();
 
     //Select options for status
@@ -414,7 +435,7 @@ class CreateProfile extends Component {
                 back
               </Link>
               <h1 className="display-4 text-center">Edit Your Profile</h1>
-
+              {safariTooltip}
               <small className="d-block pb-3">* = required fields</small>
               {content}
             </div>
