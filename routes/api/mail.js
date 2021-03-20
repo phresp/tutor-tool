@@ -6,8 +6,14 @@ const nodemailer = require("nodemailer");
 const mailsecret = require("../../config/keys").mailsecret;
 const mailuser = require("../../config/keys").mailuser;
 
-//Load User model
+//Load Mail model
 const MailTemplate = require("../../models/MailTemplate");
+
+//Load Profile model
+const Profile = require("../../models/Profile");
+
+//Load User model
+const User = require("../../models/User");
 
 //Load Validation
 const validateMailInput = require("../../validation/mail");
@@ -107,31 +113,72 @@ router.post(
 router.post(
   "/sendmail",
   passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+  (req, res) => {
     const { errors, isValid } = validateMailInput(req.body);
     if (!isValid) {
       //Return any errors with 400 status
       return res.status(500).json(errors);
     }
-    //create Transporter
-    const transporter = nodemailer.createTransport({
-      host: "mail.in.tum.de",
-      port: 465,
-      auth: {
-        user: mailuser,
-        pass: mailsecret,
-      },
-    });
-    //Get Body Values
-    const mailFields = {};
-    mailFields.from = "tutorbetrieb@in.tum.de";
-    mailFields.to = req.body.to;
-    mailFields.subject = req.body.subject;
-    mailFields.text = req.body.text;
-    // send email
-    await transporter.sendMail(mailFields);
+    if (req.body.to === "Alle Tutoren") {
+      Profile.find({ receivemails: true })
+        .populate("user", ["email", "role"])
+        .then((profiles) => {
+          var students = profiles.filter((el) => {
+            return el.user.role === "Student";
+          });
+          //create Transporter
+          const transporter = nodemailer.createTransport({
+            host: "mail.in.tum.de",
+            port: 465,
+            auth: {
+              user: mailuser,
+              pass: mailsecret,
+            },
+          });
+          students.forEach((el) => {
+            //Get Body Values
+            var mailFields = {};
+            mailFields.from = "tutorbetrieb@in.tum.de";
+            mailFields.subject = req.body.subject;
+            mailFields.text = req.body.text;
+            mailFields.bcc = el.user.email;
+            // send email
+            transporter.sendMail(mailFields);
+          });
 
-    return res.status(200).json("success");
+          //Get Body Values
+          var mailFields = {};
+          mailFields.from = "tutorbetrieb@in.tum.de";
+          mailFields.subject = req.body.subject;
+          mailFields.text = req.body.text;
+          mailFields.to = req.user.email;
+          // send email
+          transporter.sendMail(mailFields);
+        });
+
+      return res.status(200).json("success");
+    } else {
+      //create Transporter
+      const transporter = nodemailer.createTransport({
+        host: "mail.in.tum.de",
+        port: 465,
+        auth: {
+          user: mailuser,
+          pass: mailsecret,
+        },
+      });
+      //Get Body Values
+      const mailFields = {};
+      mailFields.from = "tutorbetrieb@in.tum.de";
+      mailFields.to = req.body.to;
+      mailFields.subject = req.body.subject;
+      mailFields.text = req.body.text;
+      //mailFields.bcc = req.user.email;
+      // send email
+      transporter.sendMail(mailFields);
+
+      return res.status(200).json("success");
+    }
   }
 );
 
