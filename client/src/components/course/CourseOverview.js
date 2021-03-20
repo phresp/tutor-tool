@@ -233,15 +233,7 @@ class CourseOverview extends Component {
       },
       {
         id: "links",
-        formatter: applicationsButton,
-      },
-      {
-        id: "links",
         formatter: exportButton,
-      },
-      {
-        id: "links",
-        formatter: budgetButton,
       },
     ];
 
