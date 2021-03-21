@@ -14,6 +14,7 @@ import PrivateAdvisorRoute from "./components/common/PrivateAdvisorRoute";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
+import Faq from "./components/layout/Faq";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -94,6 +95,7 @@ class App extends Component {
             <div className={"center-main-inner"}>
               <Navbar />
               <Route exact path="/" component={Landing} />
+              <Route exact path="/faq" component={Faq} />
               <Route exact path="/register" component={Register} />
               <Route
                 exact

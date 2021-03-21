@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const MyComponent = () => {
   return (
@@ -12,9 +13,9 @@ const MyComponent = () => {
         Datenschutz
       </a>
       {" - "}
-      <a href="https://www.in.tum.de/impressum/" className={"text-white"}>
+      <Link to="/faq" className="text-white">
         FAQ
-      </a>
+      </Link>
       {" - "}
       <a
         href="https://www.in.tum.de/fuer-studierende/tutorbetrieb-der-fakultaet-fuer-informatik/"
