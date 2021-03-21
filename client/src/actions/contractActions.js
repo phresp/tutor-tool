@@ -120,7 +120,8 @@ export const createContract = (contractData, courseID, history) => (
   axios
     .post("/api/contract", contractData)
     .then((res) => {
-      history.push(`/course-applications/${courseID}`);
+      console.log(res);
+      history.push(`/createcontractmail/${res.data._id}`);
     })
     .catch((err) =>
       dispatch({
@@ -176,11 +177,17 @@ export const createSeparateContract = (contractData, history) => (dispatch) => {
 };
 
 //Update Contract
-export const updateContract = (id, contractData, history) => (dispatch) => {
+export const updateContract = (id, contractData, status, history) => (
+  dispatch
+) => {
   axios
     .post(`/api/contract/update/${id}`, contractData)
     .then((res) => {
-      history.push("/contracts");
+      if (status === "Signable") {
+        history.push(`/signablemail/${id}`);
+      } else {
+        history.push("/contracts");
+      }
     })
     .catch((err) =>
       dispatch({

@@ -80,6 +80,38 @@ export const sendMail = (mailData, history) => (dispatch) => {
     );
 };
 
+//Send Testmail
+export const sendContractCreationMail = (mailData, courseID, history) => (
+  dispatch
+) => {
+  axios
+    .post(`/api/mail/sendmail`, mailData)
+    .then((res) => {
+      history.push(`/course-applications/${courseID}`);
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+//Send Testmail
+export const sendSignableMail = (mailData, history) => (dispatch) => {
+  axios
+    .post(`/api/mail/sendmail`, mailData)
+    .then((res) => {
+      history.push(`/course-overview`);
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
 // Template Loading
 export const setTemplatesLoading = () => {
   return {

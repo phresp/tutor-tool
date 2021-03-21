@@ -5,21 +5,29 @@ import PropTypes from "prop-types";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import isEmpty from "../../validation/is-empty";
 
-import { getTemplates, sendMail } from "../../actions/mailActions";
+import {
+  getTemplates,
+  sendContractCreationMail,
+} from "../../actions/mailActions";
+import { getProfile } from "../../actions/profileActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 
-class SendMail extends Component {
+import { getContractOfID } from "../../actions/contractActions";
+
+class CreateContractMail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       templates: "",
       template: "",
       prevstate: "",
+      firstname: "",
+      lastname: "",
+      gender: "",
       to: "",
       text: "",
       subject: "",
-      type: "single",
       errors: {},
     };
 
@@ -29,12 +37,23 @@ class SendMail extends Component {
   }
 
   componentDidMount() {
+    this.props.getContractOfID(this.props.match.params.id);
     this.props.getTemplates();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+    if (nextProps.contract.contract) {
+      if (nextProps.contract.contract.user) {
+        this.setState({ to: nextProps.contract.contract.user.email });
+      }
+      this.setState({
+        firstname: nextProps.contract.contract.profile.firstname,
+        lastname: nextProps.contract.contract.profile.lastname,
+        gender: nextProps.contract.contract.profile.gender,
+      });
     }
 
     if (nextProps.mail) {
@@ -52,7 +71,11 @@ class SendMail extends Component {
       subject: this.state.subject,
     };
 
-    this.props.sendMail(mailData, this.props.history);
+    this.props.sendContractCreationMail(
+      mailData,
+      this.props.contract.contract.course._id,
+      this.props.history
+    );
   }
 
   onChange(e) {
@@ -65,6 +88,24 @@ class SendMail extends Component {
 
   render() {
     var { errors, templates } = this.state;
+
+    //back Button
+    var backButton = (
+      <Link to={"/course-overview"} className={"btn btn-light"}>
+        back
+      </Link>
+    );
+
+    if (this.props.contract.contract) {
+      backButton = (
+        <Link
+          to={`/course-applications/${this.props.contract.contract.course._id}`}
+          className={"btn btn-light"}
+        >
+          back
+        </Link>
+      );
+    }
 
     //Select options for tutors
     if (isEmpty(templates)) {
@@ -82,7 +123,7 @@ class SendMail extends Component {
     var templateOptions = templates.map((el) => {
       return {
         label: el.name,
-        value: el._id,
+        value: el.name,
       };
     });
 
@@ -94,11 +135,11 @@ class SendMail extends Component {
     if (this.state.template !== this.state.prevstate) {
       if (this.state.template !== "") {
         this.state.templates.find((element) => {
-          if (element._id === this.state.template) {
+          if (element.name === this.state.template) {
             this.setState({
               subject: element.subject,
               text: element.text,
-              prevstate: element._id,
+              prevstate: element.name,
             });
           }
         });
@@ -111,42 +152,16 @@ class SendMail extends Component {
       }
     }
 
-    //Select options for Status
-    const typeOptions = [
-      { label: "Einzel E-Mail", value: "single" },
-      { label: "Alle Tutoren", value: "all" },
-      { label: "Alle aktiven Übungsleiter", value: "alladvisor" },
-    ];
-
-    if (this.state.type === "all" && this.state.to !== "Alle Tutoren") {
-      this.state.to = "Alle Tutoren";
-    }
-
-    if (
-      this.state.type === "alladvisor" &&
-      this.state.to !== "Alle aktiven Übungsleiter"
-    ) {
-      this.state.to = "Alle aktiven Übungsleiter";
-    }
-
     return (
-      <div className="SendMail">
+      <div className="CreateContractMail">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link to={"/dashboard"} className={"btn btn-light"}>
-                back
-              </Link>
-              <h1 className="display-4 text-center">Email versenden</h1>
-              <label htmlFor="inputStudent">Email Typ</label>
-              <SelectListGroup
-                placeholder="Mail Typ"
-                onChange={this.onTemplateChange}
-                value={this.state.type}
-                name="type"
-                error={errors.type}
-                options={typeOptions}
-              />
+              {backButton}
+              <hr />
+              <h1 className="display-4 text-center">
+                Email zur Vertragserstellung
+              </h1>
               <hr />
               <label htmlFor="inputStudent">Email Vorlage</label>
               <SelectListGroup
@@ -158,7 +173,6 @@ class SendMail extends Component {
                 options={templateOptions}
               />
               <hr />
-
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   placeholder="An"
@@ -168,6 +182,7 @@ class SendMail extends Component {
                   error={errors.to}
                   info="An"
                 />
+
                 <TextFieldGroup
                   placeholder="Betreff"
                   onChange={this.onChange}
@@ -198,18 +213,23 @@ class SendMail extends Component {
     );
   }
 }
-
-SendMail.propTypes = (state) => ({
+CreateContractMail.propTypes = (state) => ({
   mail: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  contract: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 });
 
 const mapStateToProps = (state) => ({
   mail: state.mail,
+  profile: state.profile,
+  contract: state.contract,
   errors: state.errors,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getTemplates, sendMail })(
-  withRouter(SendMail)
-);
+export default connect(mapStateToProps, {
+  getTemplates,
+  sendContractCreationMail,
+  getContractOfID,
+})(withRouter(CreateContractMail));

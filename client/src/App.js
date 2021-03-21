@@ -61,6 +61,8 @@ import CreateMailTemplate from "./components/mail/CreateMailTemplate";
 import EditMailTemplate from "./components/mail/EditMailTemplate";
 import SendMail from "./components/mail/SendMail";
 import SendMailToUser from "./components/mail/SendMailToUser";
+import CreateContractMail from "./components/mail/CreateContractMail";
+import SignableMail from "./components/mail/SignableMail";
 import ContractStats from "./components/contract/ContractStats";
 import EditAdvisorDetails from "./components/edit-course/EditAdvisorDetails";
 import AddComment from "./components/application/AddComment";
@@ -402,6 +404,20 @@ class App extends Component {
                   exact
                   path="/send-mail-to-user/:id"
                   component={SendMailToUser}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/createcontractmail/:id"
+                  component={CreateContractMail}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/signablemail/:id"
+                  component={SignableMail}
                 />
               </Switch>
               <Switch>

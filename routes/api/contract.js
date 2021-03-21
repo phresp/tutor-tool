@@ -358,7 +358,9 @@ router.post(
         { $set: { status: "Contract" } },
         { new: true }
       )
-        .then((contract) => res.json(contract))
+        .then((application) => {
+          res.json(contract);
+        })
         .catch((err) =>
           res.status(400).json({ contractnotfound: "Contract not found" })
         );

@@ -340,6 +340,7 @@ class EditContract extends Component {
     this.props.updateContract(
       this.props.match.params.id,
       contractData,
+      this.state.status,
       this.props.history
     );
   }
