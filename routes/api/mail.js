@@ -15,6 +15,9 @@ const Profile = require("../../models/Profile");
 //Load User model
 const User = require("../../models/User");
 
+//Load Course model
+const Course = require("../../models/Course");
+
 //Load Validation
 const validateMailInput = require("../../validation/mail");
 
@@ -156,6 +159,68 @@ router.post(
           transporter.sendMail(mailFields);
         });
 
+      return res.status(200).json("success");
+    } else if (req.body.to === "Alle aktiven Übungsleiter") {
+      Course.find({ status: { $ne: "Archive" } }).then((courses) => {
+        User.aggregate([
+          {
+            $match: {
+              role: "Advisor",
+            },
+          },
+          {
+            $lookup: {
+              from: "profiles",
+              localField: "_id",
+              foreignField: "user",
+              as: "profile",
+            },
+          },
+        ]).then((advisors) => {
+          var activeadvisors = [];
+
+          advisors.forEach((advisorele) => {
+            courses.some((courseele) => {
+              if (
+                advisorele._id.equals(courseele.advisor) ||
+                advisorele._id.equals(courseele.advisor2) ||
+                advisorele._id.equals(courseele.advisor3)
+              ) {
+                return activeadvisors.push(advisorele);
+              }
+            });
+          });
+
+          //create Transporter
+          const transporter = nodemailer.createTransport({
+            host: "mail.in.tum.de",
+            port: 465,
+            auth: {
+              user: mailuser,
+              pass: mailsecret,
+            },
+          });
+          activeadvisors.forEach((el) => {
+            //Get Body Values
+            var mailFields = {};
+            mailFields.from = "tutorbetrieb@in.tum.de";
+            mailFields.subject = req.body.subject;
+            mailFields.text = req.body.text;
+            mailFields.bcc = el.user.email;
+            // send email
+            transporter.sendMail(mailFields);
+          });
+
+          //Get Body Values
+          var mailFields = {};
+          mailFields.from = "tutorbetrieb@in.tum.de";
+          mailFields.subject = req.body.subject;
+          mailFields.text = req.body.text;
+          mailFields.to = req.user.email;
+          // send email
+          transporter.sendMail(mailFields);
+        });
+      });
       return res.status(200).json("success");
     } else {
       //create Transporter

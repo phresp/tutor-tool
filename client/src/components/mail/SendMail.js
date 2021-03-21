@@ -115,10 +115,15 @@ class SendMail extends Component {
     const typeOptions = [
       { label: "Einzel E-Mail", value: "single" },
       { label: "Alle Tutoren", value: "all" },
+      { label: "Alle aktiven Übungsleiter", value: "alladvisor" },
     ];
 
     if (this.state.type === "all" && this.state.to !== "all") {
       this.state.to = "Alle Tutoren";
+    }
+
+    if (this.state.type === "alladvisor" && this.state.to !== "alladvisor") {
+      this.state.to = "Alle aktiven Übungsleiter";
     }
 
     return (
