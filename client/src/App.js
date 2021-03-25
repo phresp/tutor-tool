@@ -56,6 +56,7 @@ import AdvisorInvite from "./components/Invitation/AdvisorInvite";
 import AdvisorRegister from "./components/auth/AdvisorRegister";
 import CreateAdvisorProfile from "./components/create-profile/CreateAdvisorProfile";
 import BudgetControl from "./components/budgetcontrol/BudgetControl";
+import BudgetOverview from "./components/budgetcontrol/BudgetOverview";
 import MailOverview from "./components/mail/MailOverview";
 import CreateMailTemplate from "./components/mail/CreateMailTemplate";
 import EditMailTemplate from "./components/mail/EditMailTemplate";
@@ -376,6 +377,13 @@ class App extends Component {
                   exact
                   path="/budget-control/:id"
                   component={BudgetControl}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/budget-overview"
+                  component={BudgetOverview}
                 />
               </Switch>
               <Switch>

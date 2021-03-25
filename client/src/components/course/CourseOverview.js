@@ -243,9 +243,16 @@ class CourseOverview extends Component {
           back
         </Link>
         <h1 className="display-4 text-center">Veranstaltungsübersicht</h1>
-        <Link to="/create-course" className="btn btn-info">
-          <i className="fas fa-user-circle text-primary"></i> Neue Veranstaltung
-        </Link>
+        <div className="btn-group">
+          <Link to="/create-course" className="btn btn-info">
+            <i className="fas fa-user-circle text-primary"></i> Neue
+            Veranstaltung
+          </Link>
+          <Link to="/budget-overview" className="btn btn-primary">
+            Budgetübersicht
+          </Link>
+        </div>
+
         <h6></h6>
         <ToolkitProvider
           bootstrap4
