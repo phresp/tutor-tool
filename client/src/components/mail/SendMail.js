@@ -116,6 +116,8 @@ class SendMail extends Component {
       { label: "Einzel E-Mail", value: "single" },
       { label: "Alle Tutoren", value: "all" },
       { label: "Alle aktiven Übungsleiter", value: "alladvisor" },
+      { label: "Alle Unvollständigen Verträge", value: "allincomplete" },
+      { label: "Alle mit Vertrag in Semester", value: "allcontractsem" },
     ];
 
     if (this.state.type === "all" && this.state.to !== "Alle Tutoren") {

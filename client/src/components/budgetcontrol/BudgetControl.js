@@ -34,6 +34,7 @@ class BudgetControl extends Component {
 
     var numberContracts = 0;
     var overallcontracthours = 0;
+    var overallcontractweeklyhours = 0;
     if (this.props.contract.contracts) {
       var { contracts } = this.props.contract;
       numberContracts = contracts.length;
@@ -59,6 +60,7 @@ class BudgetControl extends Component {
 
         var allhours = weeks1 * hours + weeks2 * hours2;
         overallcontracthours += allhours;
+        overallcontractweeklyhours += hours;
       });
     }
 
@@ -94,9 +96,11 @@ class BudgetControl extends Component {
             <table className={tableClassName}>
               <thead>
                 <tr>
-                  <th scope="col"># Verträge</th>
+                  <th scope="col">Anzahl Verträge</th>
                   <th scope="col">Verträge Gesamtstunden</th>
                   <th scope="col">Veranstaltung Gesamtstunden</th>
+                  <th scope="col">Verträge Gesamtwochenstunden</th>
+                  <th scope="col">Veranstaltung Gesamtwochenstunden</th>
                 </tr>
               </thead>
               <tbody>
@@ -104,6 +108,8 @@ class BudgetControl extends Component {
                   <td>{numberContracts}</td>
                   <td>{overallcontracthours}</td>
                   <td>{overallhours}</td>
+                  <td>{overallweeklyhours}</td>
+                  <td>{overallcontractweeklyhours}</td>
                 </tr>
               </tbody>
             </table>
