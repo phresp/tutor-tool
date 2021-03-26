@@ -656,4 +656,49 @@ router.post(
   }
 );
 
+// @route   POST /api/forms/dsgvocsv/:id
+// @desc    POST to download csv for dsgvo
+// @access  Private
+router.post(
+  "/dsgvocsv/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({
+      _id: req.params.id,
+    })
+      .populate("user")
+      .then((profile) => {
+        var data = [];
+        data.push(flatten(profile.toJSON()));
+        console.log(data);
+        const csvStringifier = createCsvStringifier({
+          header: [
+            { id: "lastname", title: "lastname" },
+            { id: "firstname", title: "Firstname" },
+            { id: ["user.email"], title: ["user.email"] },
+            { id: ["user.active"], title: ["user.active"] },
+            { id: ["user.date"], title: ["user.date"] },
+            { id: ["user.lastlogin"], title: ["user.lastlogin"] },
+            { id: ["user.creationdate"], title: ["user.creationdate"] },
+            { id: "gender", title: "Gender" },
+            { id: "matrikelnummer", title: "Matrikelnummer" },
+            { id: "birthday", title: "Birthday" },
+            { id: "nationality", title: "Nationality" },
+            { id: "nationality2", title: "Nationality2" },
+            { id: "experience", title: "Experience" },
+            { id: "education", title: "Education" },
+            { id: "date", title: "Date" },
+            { id: "aufenthaltend", title: "Aufenthaltend" },
+            { id: "birthplace", title: "Birthplace" },
+            { id: "countryofbirth", title: "Country of Birth" },
+            { id: "currentfieldofstudy", title: "Currentfieldofstudy" },
+            { id: "degree", title: "Degree" },
+            { id: "stipendiumend", title: "Stipendium" },
+          ],
+        });
+        res.send(csvStringifier.stringifyRecords(data));
+      });
+  }
+);
+
 module.exports = router;

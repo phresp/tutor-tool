@@ -9,7 +9,6 @@ import {
   getTemplates,
   sendContractCreationMail,
 } from "../../actions/mailActions";
-import { getProfile } from "../../actions/profileActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 

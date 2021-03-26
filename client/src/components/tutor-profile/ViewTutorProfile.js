@@ -6,7 +6,7 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import moment from "moment";
 import verfassungsPruefung from "../common/VerfassungschutzCountries";
-
+import { DSGVOExport } from "../../actions/formsActions";
 import { updateProfileOfId, getProfile } from "../../actions/profileActions";
 import isEmpty from "../../validation/is-empty";
 import countryList from "react-select-country-list";
@@ -35,6 +35,7 @@ class ViewTutorProfile extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onCSVDownloadClick = this.onCSVDownloadClick.bind(this);
   }
   componentDidMount() {
     this.props.getProfile(this.props.match.params.id);
@@ -125,6 +126,11 @@ class ViewTutorProfile extends Component {
       this.props.match.params.id,
       this.props.history
     );
+  }
+
+  onCSVDownloadClick(e) {
+    e.preventDefault();
+    this.props.DSGVOExport(this.props.match.params.id);
   }
 
   onChange(e) {
@@ -247,6 +253,13 @@ class ViewTutorProfile extends Component {
                   className="btn btn-dark"
                 >
                   Bearbeiten an/aus
+                </button>
+                <button
+                  type="button"
+                  onClick={this.onCSVDownloadClick.bind(this)}
+                  className="btn btn-secondary"
+                >
+                  DSGVO Export
                 </button>
               </div>
 
@@ -416,6 +429,8 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { updateProfileOfId, getProfile })(
-  withRouter(ViewTutorProfile)
-);
+export default connect(mapStateToProps, {
+  updateProfileOfId,
+  getProfile,
+  DSGVOExport,
+})(withRouter(ViewTutorProfile));

@@ -133,6 +133,22 @@ export const SemesterContractDataExport = (semData) => (dispatch) => {
   });
 };
 
+//download degvo data for tutor
+export const DSGVOExport = (id) => (dispatch) => {
+  axios({
+    url: `/api/forms/dsgvocsv/${id}`,
+    method: "POST",
+    responseType: { "Content-Type": "multipart/form-data" },
+  }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `DSGVOInfo.csv`);
+    document.body.appendChild(link);
+    link.click();
+  });
+};
+
 // Application Loading
 export const setFormsLoading = () => {
   return {
