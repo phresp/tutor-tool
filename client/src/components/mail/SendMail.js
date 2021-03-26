@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import isEmpty from "../../validation/is-empty";
 
+import { getSemesters } from "../../actions/semesterActions";
 import { getTemplates, sendMail } from "../../actions/mailActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
@@ -20,6 +21,8 @@ class SendMail extends Component {
       text: "",
       subject: "",
       type: "single",
+      semesters: "",
+      semester: "",
       errors: {},
     };
 
@@ -30,11 +33,19 @@ class SendMail extends Component {
 
   componentDidMount() {
     this.props.getTemplates();
+    this.props.getSemesters();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
+    }
+
+    if (nextProps.semester) {
+      const { semesters } = nextProps.semester;
+      this.setState({
+        semesters: semesters,
+      });
     }
 
     if (nextProps.mail) {
@@ -50,6 +61,7 @@ class SendMail extends Component {
       to: this.state.to,
       text: this.state.text,
       subject: this.state.subject,
+      semester: this.state.semester,
     };
 
     this.props.sendMail(mailData, this.props.history);
@@ -64,7 +76,7 @@ class SendMail extends Component {
   }
 
   render() {
-    var { errors, templates } = this.state;
+    var { errors, templates, semesters } = this.state;
 
     //Select options for tutors
     if (isEmpty(templates)) {
@@ -116,7 +128,7 @@ class SendMail extends Component {
       { label: "Einzel E-Mail", value: "single" },
       { label: "Alle Tutoren", value: "all" },
       { label: "Alle aktiven Übungsleiter", value: "alladvisor" },
-      { label: "Alle Unvollständigen Verträge", value: "allincomplete" },
+      { label: "Alle unvollständigen Verträge", value: "allincomplete" },
       { label: "Alle mit Vertrag in Semester", value: "allcontractsem" },
     ];
 
@@ -129,6 +141,42 @@ class SendMail extends Component {
       this.state.to !== "Alle aktiven Übungsleiter"
     ) {
       this.state.to = "Alle aktiven Übungsleiter";
+    } else if (
+      this.state.type === "allincomplete" &&
+      this.state.to !== "Alle unvollständigen Verträge"
+    ) {
+      this.state.to = "Alle unvollständigen Verträge";
+    } else if (
+      this.state.type === "allcontractsem" &&
+      this.state.to !== "Alle mit Vertrag in Semester"
+    ) {
+      this.state.to = "Alle mit Vertrag in Semester";
+    }
+    //Select options for semester
+    if (!semesters) {
+      semesters = [];
+    }
+    const semesterOptions = semesters.map((el) => {
+      return { label: el.name, value: el._id };
+    });
+    semesterOptions.unshift({ label: "Semester auswählen", value: "" });
+
+    //Semester Selection
+    var semesterSelection;
+    if (this.state.type === "allcontractsem") {
+      semesterSelection = (
+        <div>
+          <label htmlFor="inputStudent">Semester auswählen</label>
+          <SelectListGroup
+            placeholder="Semester"
+            onChange={this.onTemplateChange}
+            value={this.state.semester}
+            name="semester"
+            error={errors.semester}
+            options={semesterOptions}
+          />
+        </div>
+      );
     }
 
     return (
@@ -159,6 +207,7 @@ class SendMail extends Component {
                 error={errors.template}
                 options={templateOptions}
               />
+              {semesterSelection}
               <hr />
 
               <form onSubmit={this.onSubmit}>
@@ -203,15 +252,19 @@ class SendMail extends Component {
 
 SendMail.propTypes = (state) => ({
   mail: PropTypes.object.isRequired,
+  semester: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 });
 
 const mapStateToProps = (state) => ({
   mail: state.mail,
+  semester: state.semester,
   errors: state.errors,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getTemplates, sendMail })(
-  withRouter(SendMail)
-);
+export default connect(mapStateToProps, {
+  getTemplates,
+  sendMail,
+  getSemesters,
+})(withRouter(SendMail));
