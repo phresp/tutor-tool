@@ -108,8 +108,8 @@ class BudgetControl extends Component {
                   <td>{numberContracts}</td>
                   <td>{overallcontracthours}</td>
                   <td>{overallhours}</td>
-                  <td>{overallweeklyhours}</td>
                   <td>{overallcontractweeklyhours}</td>
+                  <td>{overallweeklyhours}</td>
                 </tr>
               </tbody>
             </table>

@@ -89,18 +89,6 @@ class BudgetOverview extends Component {
       return Math.abs(Math.round(diff));
     };
 
-    const numberApplications = (cell, row, rowIndex, formatExtraData) => {
-      if (row.applications) {
-        return row.applications.length;
-      }
-    };
-
-    const numberAccepted = (cell, row, rowIndex, formatExtraData) => {
-      if (row.applications) {
-        return row.applications.filter((x) => x.status == "Accepted").length;
-      }
-    };
-
     const numberVertrag = (cell, row, rowIndex, formatExtraData) => {
       var counter = 0;
       contracts.forEach((e) => {
@@ -119,6 +107,53 @@ class BudgetOverview extends Component {
       );
     };
 
+    const overallHoursVertrag = (cell, row, rowIndex, formatExtraData) => {
+      var overallcontracthours = 0;
+      contracts.forEach((e) => {
+        if (e.course._id === row._id) {
+          //Wochenlänge berechnen und das mal Stunden in den Wochen
+          var weeks1 = 0;
+          var weeks2 = 0;
+          if (e.contractstart && e.contractend) {
+            weeks1 = diff_weeks(
+              new Date(e.contractstart),
+              new Date(e.contractend)
+            );
+          }
+
+          if (e.contractstart2 && e.contractend2) {
+            weeks2 = diff_weeks(
+              new Date(e.contractstart2),
+              new Date(e.contractend2)
+            );
+          }
+          var hours = e.hours ? e.hours : 0;
+          var hours2 = e.hours2 ? e.hours : 0;
+
+          var allhours = weeks1 * hours + weeks2 * hours2;
+          overallcontracthours += allhours;
+        }
+      });
+      return overallcontracthours;
+    };
+
+    //Considers only the main contract hours
+    const overallWeeklyHoursVertrag = (
+      cell,
+      row,
+      rowIndex,
+      formatExtraData
+    ) => {
+      var overallcontractweeklyhours = 0;
+      contracts.forEach((e) => {
+        if (e.course._id === row._id) {
+          var hours = e.hours ? e.hours : 0;
+          overallcontractweeklyhours += hours;
+        }
+      });
+      return overallcontractweeklyhours;
+    };
+
     const columns = [
       {
         dataField: "metacourse[0].name",
@@ -130,6 +165,26 @@ class BudgetOverview extends Component {
         text: "Anzahl Verträge",
         sort: true,
         formatter: numberVertrag,
+      },
+      {
+        text: "Verträge Gesamtstunden",
+        sort: true,
+        formatter: overallHoursVertrag,
+      },
+      {
+        text: "Veranstaltung Gesamtstunden",
+        dataField: "overallhours",
+        sort: true,
+      },
+      {
+        text: "Verträge Gesamtwochenstunden",
+        sort: true,
+        formatter: overallWeeklyHoursVertrag,
+      },
+      {
+        text: "Veranstaltung Gesamtwochenstunden",
+        dataField: "overallweeklyhours",
+        sort: true,
       },
     ];
 
