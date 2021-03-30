@@ -101,6 +101,8 @@ class Dashboard extends Component {
               <AdvisorActions />
             </div>
           );
+        } else if (user.role === "RBG") {
+          this.props.history.push("/rentals-overview");
         }
       } else {
         // User is logged in but hast no profile
