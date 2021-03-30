@@ -107,6 +107,7 @@ router.post(
     if (req.body.rückgabe) rentalsFields.rückgabe = req.body.rückgabe;
     if (req.body.details) rentalsFields.details = req.body.details;
     if (req.body.status) rentalsFields.status = req.body.status;
+    if (req.body.handle) rentalsFields.lasthandle = req.body.handle;
 
     //Leihobjekt
     rentalsFields.leihobjekt = {};
@@ -116,8 +117,6 @@ router.post(
     if (req.body.wacom) rentalsFields.leihobjekt.wacom = req.body.wacom;
     if (req.body.webcam) rentalsFields.leihobjekt.webcam = req.body.webcam;
     if (req.body.stativ) rentalsFields.leihobjekt.stativ = req.body.stativ;
-
-    rentalsFields.lasthandle = req.body.handle;
 
     new Rentals(rentalsFields).save().then((rentals) => res.json(rentals));
   }
@@ -168,6 +167,8 @@ router.post(
     if (req.body.rückgabe) rentalsFields.rückgabe = req.body.rückgabe;
     if (req.body.details) rentalsFields.details = req.body.details;
     if (req.body.status) rentalsFields.status = req.body.status;
+    if (req.body.handle) rentalsFields.lasthandle = req.body.handle;
+    console.log(req.body.handle);
 
     //Leihobjekt
     rentalsFields.leihobjekt = {};
@@ -178,7 +179,6 @@ router.post(
     if (req.body.webcam) rentalsFields.leihobjekt.webcam = req.body.webcam;
     if (req.body.stativ) rentalsFields.leihobjekt.stativ = req.body.stativ;
     rentalsFields.date = Date.now();
-    rentalsFields.lasthandle = req.body.handle;
 
     //Update
     Rentals.findOneAndUpdate(

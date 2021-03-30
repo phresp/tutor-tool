@@ -278,6 +278,10 @@ class RentalOverview extends Component {
                     <i className="fas fa-user-circle text-primary"></i> Neue
                     Ausleihe
                   </Link>
+                  <Link to="/rentalapplications" className="btn btn-secondary">
+                    <i className="far fa-sticky-note text-primary"></i>
+                    Leihanfragen
+                  </Link>
                   <Link to="/rentalstats" className="btn btn-dark">
                     <i className="fas fa-chart-pie text-primary"></i>Statistik
                   </Link>

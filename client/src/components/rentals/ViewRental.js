@@ -12,9 +12,11 @@ import moment from "moment";
 import { updateRental } from "../../actions/rentalActions";
 import { downloadRentalform } from "../../actions/rentalActions";
 import { deleteRental } from "../../actions/rentalActions";
+import { getCurrentProfile } from "../../actions/profileActions";
 
 class ViewRental extends Component {
   componentDidMount() {
+    this.props.getCurrentProfile();
     this.props.getRentalOfId(this.props.match.params.id);
   }
 
@@ -220,6 +222,7 @@ class ViewRental extends Component {
       webcam: this.state.webcam,
       stativ: this.state.stativ,
       details: this.state.details,
+      handle: this.props.profile.profile.handle,
       status: this.state.status,
     };
     this.props.updateRental(this.state.id, rentalData, this.props.history);
@@ -570,12 +573,14 @@ ViewRental.propTypes = {
   getRentalOfId: PropTypes.func.isRequired,
   updateRental: PropTypes.func.isRequired,
   rentals: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   rentals: state.rentals,
   auth: state.auth,
+  profile: state.profile,
   errors: state.errors,
   deleteRental: PropTypes.func.isRequired,
 });
@@ -585,4 +590,5 @@ export default connect(mapStateToProps, {
   updateRental,
   downloadRentalform,
   deleteRental,
+  getCurrentProfile,
 })(withRouter(ViewRental));

@@ -6,6 +6,7 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { createRental } from "../../actions/rentalActions";
+import { getCurrentProfile } from "../../actions/profileActions";
 
 class CreateRental extends Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class CreateRental extends Component {
   }
 
   componentDidMount() {
+    this.props.getCurrentProfile();
     window.onbeforeunload = function (e) {
       var dialogText = "Vorgang wirklich abbrechen?";
       e.returnValue = dialogText;
@@ -82,6 +84,7 @@ class CreateRental extends Component {
       stativ: this.state.stativ,
       details: this.state.details,
       status: this.state.status,
+      handle: this.props.profile.profile.handle,
     };
 
     this.props.createRental(rentalData, this.props.history);
@@ -351,15 +354,19 @@ class CreateRental extends Component {
 }
 
 CreateRental.propTypes = {
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   rentals: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profile: state.profile,
   rentals: state.rentals,
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createRental })(
+export default connect(mapStateToProps, { createRental, getCurrentProfile })(
   withRouter(CreateRental)
 );
