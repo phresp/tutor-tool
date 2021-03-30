@@ -11,7 +11,7 @@ const AdminProfileActions = () => {
         </Link>
       </div>
       <h6>Tutor Management:</h6>
-      <div className="dash-buttons">
+      <div className="dash-buttons btn-group">
         <Link to="/tutor-overview" className="btn btn-light">
           <i className="far fa-address-book text-primary"></i> Tutor Übersicht
         </Link>
@@ -23,7 +23,7 @@ const AdminProfileActions = () => {
         </Link>
       </div>
       <h6>Setup:</h6>
-      <div className="dash-buttons">
+      <div className="dash-buttons btn-group">
         <Link to="/semester-overview" className="btn btn-light">
           <i className="fas fa-calendar-alt text-primary"></i> Semester
           Übersicht
@@ -39,12 +39,20 @@ const AdminProfileActions = () => {
           <i className="fas fa-chalkboard-teacher text-primary"></i>
           Übungsleiter
         </Link>
-        <h6>Mail:</h6>
+      </div>
+      <h6>Mail:</h6>
+      <div className="btn-group">
         <Link to="/send-mail" className="btn btn-light">
           <i className="far fa-envelope text-primary"></i> Mail versenden
         </Link>
         <Link to="/mail-overview" className="btn btn-light">
           <i className="far fa-address-book text-primary"></i> Mail Vorlagen
+        </Link>
+      </div>
+      <h6>Leihen:</h6>
+      <div className="btn-group">
+        <Link to="/rentals-overview" className="btn btn-light">
+          <i className="far fa-envelope text-primary"></i> Verleihübersicht
         </Link>
       </div>
     </div>

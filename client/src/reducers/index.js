@@ -9,6 +9,8 @@ import applicationReducer from "./applicationReducer";
 import contractReducer from "./contractReducer";
 import formsReducer from "./formsReducer";
 import mailReducer from "./mailReducer";
+import rentalReducer from "./rentalReducer";
+import rentalstatsReducer from "./rentalstatsReducer";
 
 export default combineReducers({
   application: applicationReducer,
@@ -20,5 +22,7 @@ export default combineReducers({
   mail: mailReducer,
   metacourse: metacourseReducer,
   profile: profileReducer,
+  rentals: rentalReducer,
+  rentalstats: rentalstatsReducer,
   semester: semesterReducer,
 });

@@ -10,6 +10,7 @@ import store from "./store";
 import PrivateRoute from "./components/common/PrivateRoute";
 import PrivateAdminRoute from "./components/common/PrivateAdminRoute";
 import PrivateAdvisorRoute from "./components/common/PrivateAdvisorRoute";
+import PrivateMitarbeiterRoute from "./components/common/PrivateMitarbeiterRoute";
 
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -69,6 +70,11 @@ import ContractStats from "./components/contract/ContractStats";
 import EditAdvisorDetails from "./components/edit-course/EditAdvisorDetails";
 import AddComment from "./components/application/AddComment";
 import Help from "./components/help/Help";
+import RentalOverview from "./components/rentals/RentalOverview";
+import CreateRental from "./components/rentals/CreateRental";
+import ViewRental from "./components/rentals/ViewRental";
+import Rentalstats from "./components/rentals/Rentalstats";
+import RentalstatsConfig from "./components/rentals/RentalstatsConfig";
 
 import "./App.css";
 
@@ -314,7 +320,6 @@ class App extends Component {
                   component={ContractOverview}
                 />
               </Switch>
-
               <Switch>
                 <PrivateAdminRoute
                   exact
@@ -322,7 +327,6 @@ class App extends Component {
                   component={EditContract}
                 />
               </Switch>
-
               <Switch>
                 <PrivateRoute
                   exact
@@ -337,7 +341,6 @@ class App extends Component {
                   component={ViewContract}
                 />
               </Switch>
-
               <Switch>
                 <PrivateAdminRoute
                   exact
@@ -448,6 +451,41 @@ class App extends Component {
                   exact
                   path="/contractstats"
                   component={ContractStats}
+                />
+              </Switch>{" "}
+              <Switch>
+                <PrivateMitarbeiterRoute
+                  exact
+                  path="/rentals-overview"
+                  component={RentalOverview}
+                />
+              </Switch>
+              <Switch>
+                <PrivateMitarbeiterRoute
+                  exact
+                  path="/new-rental"
+                  component={CreateRental}
+                />
+              </Switch>
+              <Switch>
+                <PrivateMitarbeiterRoute
+                  exact
+                  path="/rental/:id"
+                  component={ViewRental}
+                />
+              </Switch>
+              <Switch>
+                <PrivateMitarbeiterRoute
+                  exact
+                  path="/rentalstats"
+                  component={Rentalstats}
+                />
+              </Switch>
+              <Switch>
+                <PrivateMitarbeiterRoute
+                  exact
+                  path="/rentalstats-config"
+                  component={RentalstatsConfig}
                 />
               </Switch>
             </div>
