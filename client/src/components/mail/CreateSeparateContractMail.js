@@ -7,14 +7,14 @@ import isEmpty from "../../validation/is-empty";
 
 import {
   getTemplates,
-  sendContractCreationMail,
+  sendSeparateContractCreationMail,
 } from "../../actions/mailActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 
 import { getContractOfID } from "../../actions/contractActions";
 
-class CreateContractMail extends Component {
+class CreateSeparateContractMail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,9 +70,9 @@ class CreateContractMail extends Component {
       subject: this.state.subject,
     };
 
-    this.props.sendContractCreationMail(
+    this.props.sendSeparateContractCreationMail(
       mailData,
-      this.props.contract.contract.course._id,
+      this.props.match.params.id,
       this.props.history
     );
   }
@@ -88,44 +88,15 @@ class CreateContractMail extends Component {
   render() {
     var { errors, templates } = this.state;
 
-    //back Button
-    var backButton = (
-      <Link to={"/course-overview"} className={"btn btn-light"}>
-        back
-      </Link>
-    );
-
-    if (this.props.contract.contract) {
-      backButton = (
-        <Link
-          to={`/course-applications/${this.props.contract.contract.course._id}`}
-          className={"btn btn-light"}
-        >
-          back
-        </Link>
-      );
-    }
-
     //skip Button
     var skipButton = (
       <Link
-        to={"/course-overview"}
+        to={`/edit-contract/${this.props.match.params.id}`}
         className={"btn btn-secondary btn-block mt-4"}
       >
         Überspringen
       </Link>
     );
-
-    if (this.props.contract.contract) {
-      skipButton = (
-        <Link
-          to={`/course-applications/${this.props.contract.contract.course._id}`}
-          className={"btn btn-secondary btn-block mt-4"}
-        >
-          Überspringen
-        </Link>
-      );
-    }
 
     //Select options for tutors
     if (isEmpty(templates)) {
@@ -173,12 +144,10 @@ class CreateContractMail extends Component {
     }
 
     return (
-      <div className="CreateContractMail">
+      <div className="CreateSeparateContractMail">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              {backButton}
-              <hr />
               <h1 className="display-4 text-center">
                 Email zur Vertragserstellung
               </h1>
@@ -235,7 +204,7 @@ class CreateContractMail extends Component {
     );
   }
 }
-CreateContractMail.propTypes = (state) => ({
+CreateSeparateContractMail.propTypes = (state) => ({
   mail: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   contract: PropTypes.object.isRequired,
@@ -252,6 +221,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getTemplates,
-  sendContractCreationMail,
+  sendSeparateContractCreationMail,
   getContractOfID,
-})(withRouter(CreateContractMail));
+})(withRouter(CreateSeparateContractMail));

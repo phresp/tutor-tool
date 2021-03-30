@@ -59,6 +59,7 @@ import BudgetControl from "./components/budgetcontrol/BudgetControl";
 import BudgetOverview from "./components/budgetcontrol/BudgetOverview";
 import MailOverview from "./components/mail/MailOverview";
 import CreateMailTemplate from "./components/mail/CreateMailTemplate";
+import CreateSeparateContractMail from "./components/mail/CreateSeparateContractMail";
 import EditMailTemplate from "./components/mail/EditMailTemplate";
 import SendMail from "./components/mail/SendMail";
 import SendMailToUser from "./components/mail/SendMailToUser";
@@ -419,6 +420,13 @@ class App extends Component {
                   exact
                   path="/createcontractmail/:id"
                   component={CreateContractMail}
+                />
+              </Switch>
+              <Switch>
+                <PrivateAdminRoute
+                  exact
+                  path="/createseparatecontractmail/:id"
+                  component={CreateSeparateContractMail}
                 />
               </Switch>
               <Switch>

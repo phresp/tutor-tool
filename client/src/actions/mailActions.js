@@ -80,7 +80,7 @@ export const sendMail = (mailData, history) => (dispatch) => {
     );
 };
 
-//Send Testmail
+//Send Mail after Contract
 export const sendContractCreationMail = (mailData, courseID, history) => (
   dispatch
 ) => {
@@ -88,6 +88,25 @@ export const sendContractCreationMail = (mailData, courseID, history) => (
     .post(`/api/mail/sendmail`, mailData)
     .then((res) => {
       history.push(`/course-applications/${courseID}`);
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+//Send Mail after separate Contract
+export const sendSeparateContractCreationMail = (
+  mailData,
+  contractID,
+  history
+) => (dispatch) => {
+  axios
+    .post(`/api/mail/sendmail`, mailData)
+    .then((res) => {
+      history.push(`/edit-contract/${contractID}`);
     })
     .catch((err) =>
       dispatch({
