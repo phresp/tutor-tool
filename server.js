@@ -13,6 +13,8 @@ const application = require("./routes/api/application");
 const contract = require("./routes/api/contract");
 const forms = require("./routes/api/forms");
 const mail = require("./routes/api/mail");
+const rentals = require("./routes/api/rentals");
+const rentalstats = require("./routes/api/rentalstats");
 
 const app = express();
 
@@ -49,6 +51,8 @@ app.use("/api/application", application);
 app.use("/api/contract", contract);
 app.use("/api/forms", forms);
 app.use("/api/mail", mail);
+app.use("/api/rentals", rentals);
+app.use("/api/rentalstats", rentalstats);
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {
