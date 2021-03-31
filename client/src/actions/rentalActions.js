@@ -86,3 +86,18 @@ export const downloadRentalform = (rentalData) => (dispatch) => {
     link.click();
   });
 };
+
+//Get Rentalsapplications
+export const getRentalsapplications = () => (dispatch) => {
+  axios
+    .get("/api/rentals/applications")
+    .then((res) =>
+      dispatch({ type: GET_RENTALSAPPLICATIONS, payload: res.data })
+    )
+    .catch((err) =>
+      dispatch({
+        type: GET_RENTALSAPPLICATIONS,
+        payload: {},
+      })
+    );
+};

@@ -5,11 +5,6 @@ const pdftk = require("node-pdftk");
 const path = require("path");
 const moment = require("moment");
 
-//pdftk config TOTO: Make Environment Variable
-//pdftk.configure({
-//  bin: "H:\\PDFtk\\bin\\pdftk.exe",
-//});
-
 //Leihschein-Template-Path
 const pdfTemplatePath = path.resolve(
   __dirname + "../../../templates/Leihschein-Template.pdf"
@@ -22,10 +17,12 @@ const pdfTemplatePath = path.resolve(
 
 //Load input validation
 const validateRentalsInput = require("../../validation/rentals");
-// const validateLeihobjektInput = require("../../validation/leihobjekt");
 
 //Load Rentals model
 const Rentals = require("../../models/Rentals");
+
+//Load Rentals model
+const RentalsApplications = require("../../models/RentalsApplications");
 
 // @route   GET /api/users/test
 // @desc    Test users route
@@ -267,6 +264,89 @@ router.post(
       .catch((err) => {
         res.status(404).json("something wrong here" + { err });
       });
+  }
+);
+
+// @route   GET /api/rentals/applications
+// @desc    Get all Rentalsapplications
+// @access  Private
+router.get(
+  "/applications",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Rentalsapplications.find()
+      .sort({ date: -1 })
+      .then((rentalsapplications) => res.json(rentalsapplications))
+      .catch((err) =>
+        res.status(404).json({ norentalfound: "Keine Ausleihen gefunden" })
+      );
+  }
+);
+
+// @route   Post /api/rentals/application
+// @desc    Post new Rentalsapplication
+// @access  Private
+router.post(
+  "/application",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Get fields
+    const rentalsApplicationFields = {};
+    rentalsApplicationFields.profile = req.body.profile;
+
+    //Leihobjekt
+    rentalsApplicationFields.leihobjekt = {};
+    if (req.body.ipad) rentalsApplicationFields.leihobjekt.ipad = req.body.ipad;
+    if (req.body.mikrofon)
+      rentalsApplicationFields.leihobjekt.mikrofon = req.body.mikrofon;
+    if (req.body.wacom)
+      rentalsApplicationFields.leihobjekt.wacom = req.body.wacom;
+    if (req.body.webcam)
+      rentalsApplicationFields.leihobjekt.webcam = req.body.webcam;
+    if (req.body.stativ)
+      rentalsApplicationFields.leihobjekt.stativ = req.body.stativ;
+
+    new Rentalsapplications(rentalsApplicationFields)
+      .save()
+      .then((rentalsApplication) => res.json(rentalsApplication));
+  }
+);
+
+// @route   POST api/rentals/application/:id
+// @desc    Edit Rental
+// @access  Private
+router.post(
+  "/application/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Get fields
+    const rentalsApplicationFields = {};
+
+    //Leihobjekt
+    rentalsApplicationFields.leihobjekt = {};
+    if (req.body.ipad) rentalsApplicationFields.leihobjekt.ipad = req.body.ipad;
+    if (req.body.mikrofon)
+      rentalsApplicationFields.leihobjekt.mikrofon = req.body.mikrofon;
+    if (req.body.wacom)
+      rentalsApplicationFields.leihobjekt.wacom = req.body.wacom;
+    if (req.body.webcam)
+      rentalsApplicationFields.leihobjekt.webcam = req.body.webcam;
+    if (req.body.stativ)
+      rentalsApplicationFields.leihobjekt.stativ = req.body.stativ;
+
+    //Status
+    if (req.body.status) rentalsApplicationFields.status = req.body.status;
+
+    //Update
+    Rentalsapplications.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: rentalsApplicationFields },
+      { new: true }
+    )
+      .then((rentals) => res.json(rentals))
+      .catch((err) =>
+        res.status(404).json({ norentalfound: "Keine Ausleihen gefunden" })
+      );
   }
 );
 

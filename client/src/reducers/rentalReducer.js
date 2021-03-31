@@ -1,8 +1,16 @@
-import { GET_RENTALS, GET_RENTAL, DELETE_RENTAL } from "../actions/types";
+import {
+  GET_RENTALS,
+  GET_RENTAL,
+  GET_RENTALAPPLICATION,
+  GET_RENTALAPPLICATIONS,
+  DELETE_RENTAL,
+} from "../actions/types";
 
 const initialState = {
   rentals: null,
   rental: null,
+  rentalapplication: null,
+  rentalapplications: null,
   loading: false,
 };
 
@@ -20,6 +28,20 @@ export default function (state = initialState, action) {
         ...state,
         rentals: null,
         rental: action.payload,
+        loading: false,
+      };
+    case GET_RENTALAPPLICATION:
+      return {
+        ...state,
+        rentalapplications: null,
+        rentalapplication: action.payload,
+        loading: false,
+      };
+    case GET_RENTALAPPLICATIONS:
+      return {
+        ...state,
+        rentalapplication: null,
+        rentalapplications: action.payload,
         loading: false,
       };
     case DELETE_RENTAL:

@@ -118,6 +118,20 @@ const ProfileSchema = new Schema({
       },
     },
   ],
+  adresse: {
+    strasse: {
+      type: String,
+    },
+    ort: {
+      type: String,
+    },
+    plz: {
+      type: String,
+    },
+  },
+  telefonnummer: {
+    type: String,
+  },
 
   date: {
     type: Date,
