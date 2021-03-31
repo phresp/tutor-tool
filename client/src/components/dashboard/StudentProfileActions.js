@@ -35,6 +35,10 @@ const StudentProfileActions = () => {
             <i className="fas fa-scroll text-primary"></i> My Contracts
           </Link>
         </div>
+        <h6>Rental</h6>
+        <Link to="/createrentalapplication" className="btn btn-light">
+          <i className="fas fa-scroll text-primary"></i> Apply for Rental
+        </Link>
       </div>
     </div>
   );

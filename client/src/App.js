@@ -75,6 +75,9 @@ import CreateRental from "./components/rentals/CreateRental";
 import ViewRental from "./components/rentals/ViewRental";
 import Rentalstats from "./components/rentals/Rentalstats";
 import RentalstatsConfig from "./components/rentals/RentalstatsConfig";
+import CreateRentalApplication from "./components/rentals/CreateRentalApplication";
+import RentalApplicationOverview from "./components/rentals/RentalApplicationOverview";
+import CreateRentalFromApplication from "./components/rentals/CreateRentalFromApplication";
 
 import "./App.css";
 
@@ -486,6 +489,27 @@ class App extends Component {
                   exact
                   path="/rentalstats-config"
                   component={RentalstatsConfig}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/createrentalapplication"
+                  component={CreateRentalApplication}
+                />
+              </Switch>
+              <Switch>
+                <PrivateMitarbeiterRoute
+                  exact
+                  path="/rentalapplications"
+                  component={RentalApplicationOverview}
+                />
+              </Switch>
+              <Switch>
+                <PrivateMitarbeiterRoute
+                  exact
+                  path="/createrentalfromapplication/:id"
+                  component={CreateRentalFromApplication}
                 />
               </Switch>
             </div>

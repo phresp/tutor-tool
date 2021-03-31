@@ -11,6 +11,26 @@ const RentalsApplicationsSchema = new Schema({
     type: String,
     default: "Applied",
   },
+  tumid: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  adresse: {
+    strasse: {
+      type: String,
+    },
+    ort: {
+      type: String,
+    },
+    plz: {
+      type: String,
+    },
+  },
+  telefonnummer: {
+    type: String,
+  },
   leihobjekt: {
     ipad: {
       type: Boolean,

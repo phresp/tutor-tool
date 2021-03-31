@@ -165,7 +165,6 @@ router.post(
     if (req.body.details) rentalsFields.details = req.body.details;
     if (req.body.status) rentalsFields.status = req.body.status;
     if (req.body.handle) rentalsFields.lasthandle = req.body.handle;
-    console.log(req.body.handle);
 
     //Leihobjekt
     rentalsFields.leihobjekt = {};
@@ -267,32 +266,60 @@ router.post(
   }
 );
 
-// @route   GET /api/rentals/applications
+// @route   GET /api/rentals/applications/all
 // @desc    Get all Rentalsapplications
 // @access  Private
 router.get(
-  "/applications",
+  "/applications/all",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Rentalsapplications.find()
+    RentalsApplications.find()
+      .populate("profile")
       .sort({ date: -1 })
       .then((rentalsapplications) => res.json(rentalsapplications))
       .catch((err) =>
-        res.status(404).json({ norentalfound: "Keine Ausleihen gefunden" })
+        res.status(404).json({ norentalfound: "Keine Anfrage gefunden" })
       );
   }
 );
 
-// @route   Post /api/rentals/application
+// @route   GET /api/rentals/application/:id
+// @desc    Get Rental by id
+// @access  Private
+router.get("/application/:id", (req, res) => {
+  const errors = {};
+  RentalsApplications.findOne({ _id: req.params.id })
+    .populate("profile")
+    .then((rentalapplication) => {
+      res.json(rentalapplication);
+    })
+    .catch((err) =>
+      res.status(404).json({ rentalnotfound: "Keine Anfrage gefunden" })
+    );
+});
+
+// @route   Post /api/rentals/application/new
 // @desc    Post new Rentalsapplication
 // @access  Private
 router.post(
-  "/application",
+  "/application/new",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Get fields
     const rentalsApplicationFields = {};
     rentalsApplicationFields.profile = req.body.profile;
+    rentalsApplicationFields.email = req.body.email;
+    rentalsApplicationFields.tumid = req.body.tumid;
+
+    //Anschrift
+    rentalsApplicationFields.adresse = {};
+    if (req.body.strasse)
+      rentalsApplicationFields.adresse.strasse = req.body.strasse;
+    if (req.body.ort) rentalsApplicationFields.adresse.ort = req.body.ort;
+    if (req.body.plz) rentalsApplicationFields.adresse.plz = req.body.plz;
+
+    if (req.body.telefonnummer)
+      rentalsApplicationFields.telefonnummer = req.body.telefonnummer;
 
     //Leihobjekt
     rentalsApplicationFields.leihobjekt = {};
@@ -306,7 +333,7 @@ router.post(
     if (req.body.stativ)
       rentalsApplicationFields.leihobjekt.stativ = req.body.stativ;
 
-    new Rentalsapplications(rentalsApplicationFields)
+    new RentalsApplications(rentalsApplicationFields)
       .save()
       .then((rentalsApplication) => res.json(rentalsApplication));
   }
@@ -334,11 +361,21 @@ router.post(
     if (req.body.stativ)
       rentalsApplicationFields.leihobjekt.stativ = req.body.stativ;
 
+    //Anschrift
+    rentalsApplicationFields.adresse = {};
+    if (req.body.strasse)
+      rentalsApplicationFields.adresse.strasse = req.body.strasse;
+    if (req.body.ort) rentalsApplicationFields.adresse.ort = req.body.ort;
+    if (req.body.plz) rentalsApplicationFields.adresse.plz = req.body.plz;
+
+    if (req.body.telefonnummer)
+      rentalsApplicationFields.telefonnummer = req.body.telefonnummer;
+
     //Status
     if (req.body.status) rentalsApplicationFields.status = req.body.status;
 
     //Update
-    Rentalsapplications.findOneAndUpdate(
+    RentalsApplications.findOneAndUpdate(
       { _id: req.params.id },
       { $set: rentalsApplicationFields },
       { new: true }

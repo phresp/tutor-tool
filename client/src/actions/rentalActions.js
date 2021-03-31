@@ -1,6 +1,12 @@
 import axios from "axios";
 
-import { GET_RENTALS, GET_RENTAL, GET_ERRORS } from "./types";
+import {
+  GET_RENTALS,
+  GET_RENTAL,
+  GET_ERRORS,
+  GET_RENTALAPPLICATION,
+  GET_RENTALAPPLICATIONS,
+} from "./types";
 
 //Get Rentals
 export const getRentals = () => (dispatch) => {
@@ -32,7 +38,17 @@ export const getRentalOfId = (id) => (dispatch) => {
 export const createRental = (rentalData, history) => (dispatch) => {
   axios
     .post("/api/rentals", rentalData)
-    .then((res) => history.push("/rentals-overview"))
+    .then((res) => {
+      if (!rentalData.fromapp) {
+        history.push("/rentals-overview");
+      } else {
+        axios
+          .post(`/api/rentals/application/${rentalData.appid}`, {
+            status: "Done",
+          })
+          .then((res) => history.push("/rentals-overview"));
+      }
+    })
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,
@@ -90,14 +106,43 @@ export const downloadRentalform = (rentalData) => (dispatch) => {
 //Get Rentalsapplications
 export const getRentalsapplications = () => (dispatch) => {
   axios
-    .get("/api/rentals/applications")
+    .get("/api/rentals/applications/all")
     .then((res) =>
-      dispatch({ type: GET_RENTALSAPPLICATIONS, payload: res.data })
+      dispatch({ type: GET_RENTALAPPLICATIONS, payload: res.data })
     )
     .catch((err) =>
       dispatch({
-        type: GET_RENTALSAPPLICATIONS,
+        type: GET_RENTALAPPLICATIONS,
         payload: {},
+      })
+    );
+};
+
+//Get Rental with id
+export const getRentalsapplicationOfId = (id) => (dispatch) => {
+  axios
+    .get(`/api/rentals/application/${id}`)
+    .then((res) => dispatch({ type: GET_RENTALAPPLICATION, payload: res.data }))
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: GET_RENTALAPPLICATION,
+        payload: {},
+      });
+    });
+};
+
+//CreateRentalapplication
+export const createRentalApplication = (rentalapplicationData, history) => (
+  dispatch
+) => {
+  axios
+    .post("/api/rentals/application/new", rentalapplicationData)
+    .then((res) => history.push("/dashboard"))
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
       })
     );
 };

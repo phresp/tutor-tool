@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
-import { createRental } from "../../actions/rentalActions";
 import { getCurrentProfile } from "../../actions/profileActions";
+import { createRentalApplication } from "../../actions/rentalActions";
 
-class CreateRental extends Component {
+class CreateRentalApplication extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,25 +16,16 @@ class CreateRental extends Component {
       vorname: "",
       tumid: "",
       email: "",
+      profile: "",
       strasse: "",
       plz: "",
       ort: "",
       telefonnummer: "",
-      veranstaltung: "",
-      von: "",
-      bis: "",
-      betreuer: "",
-      angeschrieben: "",
-      rückmeldung: "",
-      leihscheinverschickt: "",
-      rückgabe: "",
       ipad: false,
       mikrofon: false,
       wacom: false,
       webcam: false,
       stativ: false,
-      details: "",
-      status: "",
       errors: {},
     };
 
@@ -46,23 +37,27 @@ class CreateRental extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+    if (nextProps.profile.profile) {
+      this.setState({
+        name: nextProps.profile.profile.lastname,
+        vorname: nextProps.profile.profile.firstname,
+        email: nextProps.profile.profile.user.email,
+        profile: nextProps.profile.profile._id,
+      });
+    }
   }
 
   componentDidMount() {
     this.props.getCurrentProfile();
-    window.onbeforeunload = function (e) {
-      var dialogText = "Vorgang wirklich abbrechen?";
-      e.returnValue = dialogText;
-      return dialogText;
-    };
   }
 
   onSubmit(e) {
     e.preventDefault();
 
-    const rentalData = {
-      name: this.state.name,
-      vorname: this.state.vorname,
+    const rentalapplicationData = {
+      profile: this.state.profile,
+      lastname: this.state.name,
+      firstname: this.state.vorname,
       tumid: this.state.tumid,
       email: this.state.email,
       strasse: this.state.strasse,
@@ -70,25 +65,17 @@ class CreateRental extends Component {
       ort: this.state.ort,
       telefonnummer: this.state.telefonnummer,
       veranstaltung: this.state.veranstaltung,
-      von: this.state.von,
-      bis: this.state.bis,
-      betreuer: this.state.betreuer,
-      angeschrieben: this.state.angeschrieben,
-      rückmeldung: this.state.rückmeldung,
-      leihscheinverschickt: this.state.leihscheinverschickt,
-      rückgabe: this.state.rückgabe,
       ipad: this.state.ipad,
       mikrofon: this.state.mikrofon,
       wacom: this.state.wacom,
       webcam: this.state.webcam,
       stativ: this.state.stativ,
-      details: this.state.details,
-      status: this.state.status,
-      handle: this.props.profile.profile.handle,
-      fromapp: false,
     };
 
-    this.props.createRental(rentalData, this.props.history);
+    this.props.createRentalApplication(
+      rentalapplicationData,
+      this.props.history
+    );
   }
 
   onChange(e) {
@@ -98,39 +85,31 @@ class CreateRental extends Component {
   render() {
     const errors = this.state.errors;
 
-    const statusOptions = [
-      { label: "Unvollständig", value: "Unvollständig" },
-      { label: "LS verschickt", value: "Vollständig" },
-      { label: "HW ausgegeben", value: "Aktiv" },
-      { label: "Abgeschlossen", value: "Abgeschlossen" },
-    ];
-
     return (
       <div className={"create-rental"}>
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <Link to={"/rentals-overview"} className={"btn btn-light"}>
-                zurück
+              <Link to={"/dashboard"} className={"btn btn-light"}>
+                back
               </Link>
-              <h1 className="display-4 text-center">Neue Ausleihe</h1>
-              <small className="d-block pb-3">* = Pflichtfelder</small>
+              <h1 className="display-4 text-center">New Rental Application</h1>
+              <small className="d-block pb-3">* = necessary fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Nachname"
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  name="name"
-                  error={errors.name}
-                />
-                <TextFieldGroup
-                  placeholder="* Vorname"
+                  placeholder="Firstname"
                   onChange={this.onChange}
                   value={this.state.vorname}
                   name="vorname"
                   error={errors.vorname}
                 />
-
+                <TextFieldGroup
+                  placeholder="Lastname"
+                  onChange={this.onChange}
+                  value={this.state.name}
+                  name="name"
+                  error={errors.name}
+                />
                 <TextFieldGroup
                   placeholder="Tum-ID"
                   onChange={this.onChange}
@@ -145,100 +124,36 @@ class CreateRental extends Component {
                   name="email"
                   error={errors.email}
                 />
-                <h6>Anschrift</h6>
+                <h6>Address</h6>
                 <TextFieldGroup
-                  placeholder="Straße"
+                  placeholder="Street"
                   onChange={this.onChange}
                   value={this.state.strasse}
                   name="strasse"
                   error={errors.strasse}
                 />
                 <TextFieldGroup
-                  placeholder="Postleitzahl"
+                  placeholder="City Code"
                   onChange={this.onChange}
                   value={this.state.plz}
                   name="plz"
                   error={errors.plz}
                 />
                 <TextFieldGroup
-                  placeholder="Ort"
+                  placeholder="City"
                   onChange={this.onChange}
                   value={this.state.ort}
                   name="ort"
                   error={errors.ort}
                 />
                 <TextFieldGroup
-                  placeholder="Telefonnummer"
+                  placeholder="Telefonenumber"
                   onChange={this.onChange}
                   value={this.state.telefonnummer}
                   name="telefonnummer"
                   error={errors.telefonnummer}
                 />
-                <TextFieldGroup
-                  placeholder="Veranstaltung"
-                  onChange={this.onChange}
-                  value={this.state.veranstaltung}
-                  name="veranstaltung"
-                  error={errors.veranstaltung}
-                />
-                <h6>Vertragslaufzeit von:</h6>
-                <TextFieldGroup
-                  type={"date"}
-                  onChange={this.onChange}
-                  value={this.state.von}
-                  name={"von"}
-                  error={errors.von}
-                />
-                <h6>bis:</h6>
-                <TextFieldGroup
-                  type={"date"}
-                  onChange={this.onChange}
-                  value={this.state.bis}
-                  name={"bis"}
-                  error={errors.bis}
-                />
-                <TextFieldGroup
-                  placeholder="Betreuer"
-                  onChange={this.onChange}
-                  value={this.state.betreuer}
-                  name="betreuer"
-                  error={errors.betreuer}
-                />
-                <h6>Angeschrieben am:</h6>
-                <TextFieldGroup
-                  type={"date"}
-                  onChange={this.onChange}
-                  value={this.state.angeschrieben}
-                  name={"angeschrieben"}
-                  error={errors.angeschrieben}
-                />
-                <h6>Rückmeldung erhalten am:</h6>
-                <TextFieldGroup
-                  type={"date"}
-                  onChange={this.onChange}
-                  value={this.state.rückmeldung}
-                  name={"rückmeldung"}
-                  error={errors.rückmeldung}
-                />
-
-                <h6>Leihschein verschickt am:</h6>
-                <TextFieldGroup
-                  type={"date"}
-                  onChange={this.onChange}
-                  value={this.state.leihscheinverschickt}
-                  name={"leihscheinverschickt"}
-                  error={errors.leihscheinverschickt}
-                />
-
-                <h6>Vorraussichtliche Rückgabe:</h6>
-                <TextFieldGroup
-                  type={"date"}
-                  onChange={this.onChange}
-                  value={this.state.rückgabe}
-                  name={"rückgabe"}
-                  error={errors.rückgabe}
-                />
-                <h6>Leihgeräte</h6>
+                <h6>Devices</h6>
                 <div>
                   <div className="form-check form-check-inline">
                     <input
@@ -321,28 +236,9 @@ class CreateRental extends Component {
                     </label>
                   </div>
                 </div>
-
-                <TextAreaFieldGroup
-                  placeholder="Bemerkungen"
-                  onChange={this.onChange}
-                  value={this.state.details}
-                  name="details"
-                  error={errors.details}
-                />
-
-                <SelectListGroup
-                  placeholder="* Status"
-                  onChange={this.onChange}
-                  value={this.state.status}
-                  name="status"
-                  error={errors.status}
-                  options={statusOptions}
-                  info={"Status der Leihe"}
-                />
-
                 <input
                   type="submit"
-                  value="Bestätigen"
+                  value="Submit"
                   className="btn btn-info btn-block mt-4"
                 />
               </form>
@@ -354,7 +250,7 @@ class CreateRental extends Component {
   }
 }
 
-CreateRental.propTypes = {
+CreateRentalApplication.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   rentals: PropTypes.object.isRequired,
@@ -368,6 +264,7 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createRental, getCurrentProfile })(
-  withRouter(CreateRental)
-);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  createRentalApplication,
+})(withRouter(CreateRentalApplication));

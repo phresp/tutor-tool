@@ -21,6 +21,8 @@ export default function (state = initialState, action) {
         ...state,
         rentals: action.payload,
         rental: null,
+        rentalapplications: null,
+        rentalapplication: null,
         loading: false,
       };
     case GET_RENTAL:
@@ -28,11 +30,15 @@ export default function (state = initialState, action) {
         ...state,
         rentals: null,
         rental: action.payload,
+        rentalapplications: null,
+        rentalapplication: null,
         loading: false,
       };
     case GET_RENTALAPPLICATION:
       return {
         ...state,
+        rentals: null,
+        rental: null,
         rentalapplications: null,
         rentalapplication: action.payload,
         loading: false,
@@ -40,6 +46,8 @@ export default function (state = initialState, action) {
     case GET_RENTALAPPLICATIONS:
       return {
         ...state,
+        rentals: null,
+        rental: null,
         rentalapplication: null,
         rentalapplications: action.payload,
         loading: false,
