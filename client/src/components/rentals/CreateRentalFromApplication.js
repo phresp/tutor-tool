@@ -195,7 +195,6 @@ class CreateRentalFromApplication extends Component {
   }
 
   render() {
-    console.log(this.state.mikrofon);
     const errors = this.state.errors;
 
     const statusOptions = [

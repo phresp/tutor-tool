@@ -6,6 +6,11 @@ const keys = require("../../config/keys");
 const passport = require("passport");
 const crypto = require("crypto");
 
+const nodemailer = require("nodemailer");
+
+const mailsecret = require("../../config/keys").mailsecret;
+const mailuser = require("../../config/keys").mailuser;
+
 //Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -47,7 +52,36 @@ router.post("/register", (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then((user) => res.json(user))
+            .then((user) => {
+              //create Transporter
+              const transporter = nodemailer.createTransport({
+                host: "mail.in.tum.de",
+                port: 465,
+                auth: {
+                  user: mailuser,
+                  pass: mailsecret,
+                },
+              });
+              var mailText = `Hello,
+        
+thank you for your registration!
+Please login to your account and create a new profile.
+        
+Sincerely,
+The Tutorteam.`;
+
+              //Get Body Values
+              const mailFields = {};
+              mailFields.from = "tutorbetrieb@in.tum.de";
+              mailFields.to = req.body.email.toLowerCase();
+              mailFields.subject = "New Tutortool Registration";
+              mailFields.text = mailText;
+              //mailFields.bcc = req.user.email;
+              // send email
+              transporter.sendMail(mailFields);
+
+              res.json(user);
+            })
             .catch((err) => res.json(err));
         });
       });

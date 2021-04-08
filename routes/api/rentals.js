@@ -5,6 +5,10 @@ const pdftk = require("node-pdftk");
 const path = require("path");
 const moment = require("moment");
 
+const nodemailer = require("nodemailer");
+const mailsecret = require("../../config/keys").mailsecret;
+const mailuser = require("../../config/keys").mailuser;
+
 //Leihschein-Template-Path
 const pdfTemplatePath = path.resolve(
   __dirname + "../../../templates/Leihschein-Template.pdf"
@@ -335,7 +339,34 @@ router.post(
 
     new RentalsApplications(rentalsApplicationFields)
       .save()
-      .then((rentalsApplication) => res.json(rentalsApplication));
+      .then((rentalsApplication) => {
+        //create Transporter
+        const transporter = nodemailer.createTransport({
+          host: "mail.in.tum.de",
+          port: 465,
+          auth: {
+            user: mailuser,
+            pass: mailsecret,
+          },
+        });
+        var mailText = `Dear ${req.body.firstname},
+        
+your application for a rental has been received!
+        
+The Tutorteam will contact you for further details.`;
+
+        //Get Body Values
+        const mailFields = {};
+        mailFields.from = "tutorbetrieb@in.tum.de";
+        mailFields.to = rentalsApplicationFields.email;
+        mailFields.subject = "New Rental Application";
+        mailFields.text = mailText;
+        //mailFields.bcc = req.user.email;
+        // send email
+        transporter.sendMail(mailFields);
+
+        res.json(rentalsApplication);
+      });
   }
 );
 
