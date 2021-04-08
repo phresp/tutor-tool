@@ -442,6 +442,10 @@ class ViewContract extends Component {
                 </tr>
               </tbody>
             </table>
+            <h6 className={"text-center"}>
+              Note: Please also hand in all employment references of previous
+              employments with the TUM - if applicable
+            </h6>
           </div>
         </div>
       </div>

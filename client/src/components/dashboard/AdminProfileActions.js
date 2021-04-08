@@ -4,7 +4,6 @@ import moment from "moment";
 
 const AdminProfileActions = (rentals) => {
   var rentalBadge;
-  console.log(rentals.rentals);
   if (rentals.rentals !== null) {
     rentals.rentals.some((e) => {
       if (e.status !== "Done") {

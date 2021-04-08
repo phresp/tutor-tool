@@ -196,7 +196,16 @@ class CreateProfile extends Component {
         this.state.nationality2 === "")
     ) {
       aufenthaltLabel = (
-        <label htmlFor="Aufenthalt">Expiration date of residents permit:</label>
+        <div>
+          {" "}
+          <label htmlFor="Aufenthalt">
+            Expiration date of residents permit:
+          </label>
+          <label htmlFor="Aufenthalt">
+            If you hold an unlimited residents permit please enter 2099 as
+            expiration date
+          </label>
+        </div>
       );
       aufenthaltInput = (
         <TextFieldGroup

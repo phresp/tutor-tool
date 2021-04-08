@@ -78,6 +78,16 @@ class Help extends Component {
               Check your contracts and see which documents you have to provide
             </h5>
           </div>
+
+          <div className="row">
+            <div className="col-md-3">
+              <Link to="/createrentalapplication" className="btn btn-light">
+                <i className="fas fa-scroll text-primary"></i> Apply for Rental
+              </Link>
+            </div>
+
+            <h5>Apply for free rental equipment for your tutorials </h5>
+          </div>
           <hr />
           <h5 className="text-center">
             For further information please see the FAQ page linked below or

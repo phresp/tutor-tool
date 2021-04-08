@@ -147,7 +147,7 @@ class CreateRentalApplication extends Component {
                   error={errors.ort}
                 />
                 <TextFieldGroup
-                  placeholder="Telefonenumber"
+                  placeholder="Telephone Number"
                   onChange={this.onChange}
                   value={this.state.telefonnummer}
                   name="telefonnummer"
