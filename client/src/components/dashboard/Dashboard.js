@@ -14,15 +14,24 @@ import {
   clearForDashboard,
 } from "../../actions/profileActions";
 
+import { getRentalsapplications } from "../../actions/rentalActions";
+
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
     this.props.clearForDashboard();
+    if (this.props.auth.user.role === "Admin") {
+      this.props.getRentalsapplications();
+    }
   }
 
   render() {
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
+    var rentalapplications;
+    if (this.props.auth.user.role === "Admin") {
+      rentalapplications = this.props.rentals.rentalapplications;
+    }
 
     let dashboardContent;
 
@@ -91,7 +100,7 @@ class Dashboard extends Component {
           dashboardContent = (
             <div>
               <p className="lead text-muted">Willkommen {profile.firstname}</p>
-              <AdminProfileActions />
+              <AdminProfileActions rentals={rentalapplications} />
             </div>
           );
         } else if (user.role === "Advisor") {
@@ -153,10 +162,12 @@ Dashboard.propTypes = {
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  rentals: state.rentals,
   auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getCurrentProfile,
   clearForDashboard,
+  getRentalsapplications,
 })(Dashboard);

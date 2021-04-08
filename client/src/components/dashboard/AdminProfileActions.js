@@ -1,7 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
-const AdminProfileActions = () => {
+const AdminProfileActions = (rentals) => {
+  var rentalBadge;
+  console.log(rentals.rentals);
+  if (rentals.rentals !== null) {
+    rentals.rentals.some((e) => {
+      if (e.status !== "Done") {
+        rentalBadge = <span className="badge badge-danger">!</span>;
+      }
+    });
+  }
+
   return (
     <div>
       <h6>Personal:</h6>
@@ -52,7 +63,8 @@ const AdminProfileActions = () => {
       <h6>Leihen:</h6>
       <div className="btn-group">
         <Link to="/rentals-overview" className="btn btn-light">
-          <i className="far fa-envelope text-primary"></i> Verleihübersicht
+          <i className="far fa-envelope text-primary"></i> Verleihübersicht{" "}
+          {rentalBadge}
         </Link>
       </div>
     </div>
