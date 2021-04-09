@@ -232,7 +232,7 @@ class ViewContract extends Component {
                       : "table-success"
                   }`}
                 >
-                  <th scope="row">* Feststellung der Versicherungspflicht</th>
+                  <th scope="row">Feststellung der Versicherungspflicht *</th>
                   <td>{englishFormatter(contractdata.versicherungspflicht)}</td>
                   <td>
                     <button
@@ -254,7 +254,7 @@ class ViewContract extends Component {
                       : "table-success"
                   }`}
                 >
-                  <th scope="row">Fragebogen zu Scientology</th>
+                  <th scope="row">Fragebogen zu Scientology *</th>
                   <td>{englishFormatter(contractdata.scientology)}</td>
                   <td>
                     <button
@@ -273,7 +273,7 @@ class ViewContract extends Component {
                       : "table-success"
                   }`}
                 >
-                  <th scope="row">Fragebogen zur Verfassungstreue</th>
+                  <th scope="row">Fragebogen zur Verfassungstreue *</th>
                   <td>{englishFormatter(contractdata.verfassungstreue)}</td>
                   <td>
                     <button
@@ -351,7 +351,7 @@ class ViewContract extends Component {
                       : "table-success"
                   }`}
                 >
-                  <th scope="row">Personalbogen Bezuegestelle</th>
+                  <th scope="row">Personalbogen Bezuegestelle *</th>
                   <td>
                     {englishFormatter(contractdata.personalbogenbezuegestelle)}
                   </td>
@@ -375,7 +375,11 @@ class ViewContract extends Component {
                       : "table-success"
                   }`}
                 >
-                  <th scope="row">Personalbogen Studierende</th>
+                  <th scope="row">
+                    Personalbogen Studierende * Note: Please also hand in all
+                    employment references of previous employments with the TUM -
+                    if applicable
+                  </th>
                   <td>
                     {englishFormatter(contractdata.personalbogenstudierende)}
                   </td>
@@ -413,7 +417,7 @@ class ViewContract extends Component {
                       : "table-success"
                   }`}
                 >
-                  <th scope="row">Stipendiumsbescheinigung</th>
+                  <th scope="row">Stipendiumsbescheinigung *</th>
                   <td>{englishFormatter(contractdata.stipendium)}</td>
                   <td>
                     <button
@@ -442,10 +446,6 @@ class ViewContract extends Component {
                 </tr>
               </tbody>
             </table>
-            <h6 className={"text-center"}>
-              Note: Please also hand in all employment references of previous
-              employments with the TUM - if applicable
-            </h6>
           </div>
         </div>
       </div>

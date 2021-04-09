@@ -369,7 +369,7 @@ class CreateProfile extends Component {
                 value={this.state.receivemails}
               />
               <label className="form-check-label" htmlFor="receivemails">
-                reveive emails directed to all students
+                receive emails directed to all students
               </label>
             </div>
 

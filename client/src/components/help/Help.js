@@ -82,7 +82,8 @@ class Help extends Component {
           <div className="row">
             <div className="col-md-3">
               <Link to="/createrentalapplication" className="btn btn-light">
-                <i className="fas fa-scroll text-primary"></i> Apply for Rental
+                <i className="fas fa-scroll text-primary"></i> Apply for rental
+                Hardware
               </Link>
             </div>
 

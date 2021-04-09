@@ -37,7 +37,8 @@ const StudentProfileActions = () => {
         </div>
         <h6>Rental</h6>
         <Link to="/createrentalapplication" className="btn btn-light">
-          <i className="fas fa-scroll text-primary"></i> Apply for Rental
+          <i className="fas fa-scroll text-primary"></i> Apply for rental
+          Hardware
         </Link>
       </div>
     </div>
