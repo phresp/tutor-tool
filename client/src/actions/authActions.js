@@ -54,11 +54,26 @@ export const loginUser = (userData) => (dispatch) => {
     );
 };
 
-//Login - Get User Token
+//reset Password
 export const resetPassword = (userData, history) => (dispatch) => {
   axios.post("/api/users/resetpassword", userData).then((res) => {
     history.push("/login");
   });
+};
+
+//change Password
+export const changePassword = (userData, history) => (dispatch) => {
+  axios
+    .post("/api/users/changepassword", userData)
+    .then((res) => {
+      history.push("/dashboard");
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
+    });
 };
 
 //Set logged in user

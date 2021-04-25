@@ -14,6 +14,7 @@ const mailuser = require("../../config/keys").mailuser;
 //Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
+const validateChangePW = require("../../validation/changepw");
 
 //Load User model
 const User = require("../../models/User");
@@ -303,5 +304,46 @@ router.post("/resetpassword", (req, res) => {
     }
   });
 });
+
+// @route   POST /api/users/changepassword
+// @desc    Change User Password
+// @access  Private
+router.post(
+  "/changepassword",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateChangePW(req.body);
+
+    //Check Validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    User.findOne({ _id: req.user.id }).then((user) => {
+      //Check Password
+      bcrypt.compare(req.body.passwordold, user.password).then((isMatch) => {
+        if (isMatch) {
+          //OldPW matched Matched
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(req.body.password, salt, (err, hash) => {
+              if (err) throw err;
+              const newPW = { password: hash };
+              User.findOneAndUpdate(
+                { _id: req.user.id },
+                { $set: newPW },
+                { new: true }
+              )
+                .then(() => res.status(200).json("Password changed"))
+                .catch((err) => res.status(400).json(err));
+            });
+          });
+        } else {
+          errors.passwordold = "Password incorrect";
+          res.status(400).json(errors);
+        }
+      });
+    });
+  }
+);
 
 module.exports = router;

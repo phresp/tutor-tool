@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
+import { changePassword } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 
 class ChangePassword extends Component {
@@ -38,13 +38,13 @@ class ChangePassword extends Component {
     this.setState((prevState) => ({
       processable: !prevState.processable,
     }));
-    const newUser = {
+    const newPW = {
       passwordold: this.state.passwordold,
       password: this.state.password,
       password2: this.state.password2,
     };
 
-    this.props.registerUser(newUser, this.props.history);
+    this.props.changePassword(newPW, this.props.history);
   }
 
   render() {
@@ -56,11 +56,14 @@ class ChangePassword extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
+              <Link to={"/edit-profile"} className={"btn btn-light"}>
+                back
+              </Link>
               <h1 className="display-4 text-center">Change your password</h1>
               <form noValidate onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   placeholder="Old Password"
-                  type="passwordold"
+                  type="password"
                   onChange={this.onChange}
                   value={this.state.passwordold}
                   name="passwordold"
@@ -83,7 +86,6 @@ class ChangePassword extends Component {
                   name="password2"
                   error={errors.password2}
                 />
-
                 <input
                   type="submit"
                   className="btn btn-info btn-block mt-4"
@@ -99,7 +101,7 @@ class ChangePassword extends Component {
 }
 
 ChangePassword.propTypes = {
-  registerUser: PropTypes.func.isRequired,
+  changePassword: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
@@ -109,6 +111,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { registerUser })(
+export default connect(mapStateToProps, { changePassword })(
   withRouter(ChangePassword)
 );
