@@ -243,4 +243,65 @@ router.get(
   }
 );
 
+// @route   POST /api/users/resetpassword
+// @desc    Reset User Password
+// @access  Public
+router.post("/resetpassword", (req, res) => {
+  User.findOne({ email: req.body.email.toLowerCase() }).then((user) => {
+    if (user) {
+      var randomPW = Math.random().toString(36).slice(-10);
+
+      const newPW = {
+        password: randomPW,
+      };
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPW.password, salt, (err, hash) => {
+          if (err) throw err;
+          newPW.password = hash;
+          User.findOneAndUpdate(
+            { email: req.body.email.toLowerCase() },
+            { $set: newPW },
+            { new: true }
+          )
+            .then((user) => {
+              //create Transporter
+              const transporter = nodemailer.createTransport({
+                host: "mail.in.tum.de",
+                port: 465,
+                auth: {
+                  user: mailuser,
+                  pass: mailsecret,
+                },
+              });
+              var mailText = `Hello,
+
+      your password has been reset!
+      Please login to your account and change it.
+      
+      Your new password is: ${randomPW}
+      
+      If this has not been you please contact the Tutorstaff
+
+      Sincerely,
+      The Tutorteam.`;
+
+              //Get Body Values
+              const mailFields = {};
+              mailFields.from = "tutorbetrieb@in.tum.de";
+              mailFields.to = req.body.email.toLowerCase();
+              mailFields.subject = "Password Reset";
+              mailFields.text = mailText;
+              // send email
+              transporter.sendMail(mailFields);
+
+              res.json(user);
+            })
+            .catch((err) => res.json(err));
+        });
+      });
+    }
+  });
+});
+
 module.exports = router;

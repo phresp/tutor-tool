@@ -18,6 +18,7 @@ import Landing from "./components/layout/Landing";
 import Faq from "./components/layout/Faq";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import ChangePassword from "./components/auth/ChangePassword";
 import Dashboard from "./components/dashboard/Dashboard";
 import PasswordForgotten from "./components/auth/PasswordForgotten";
 import CreateProfile from "./components/create-profile/CreateProfile";
@@ -129,6 +130,13 @@ class App extends Component {
                   exact
                   path="/create-profile"
                   component={CreateProfile}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/change-password"
+                  component={ChangePassword}
                 />
               </Switch>
               <Switch>

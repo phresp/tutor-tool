@@ -55,8 +55,10 @@ export const loginUser = (userData) => (dispatch) => {
 };
 
 //Login - Get User Token
-export const resetPassword = (userData) => (dispatch) => {
-  axios.post("/api/users/resetpassword", userData).then((res) => {});
+export const resetPassword = (userData, history) => (dispatch) => {
+  axios.post("/api/users/resetpassword", userData).then((res) => {
+    history.push("/login");
+  });
 };
 
 //Set logged in user

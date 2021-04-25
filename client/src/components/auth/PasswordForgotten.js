@@ -44,7 +44,7 @@ class PasswordForgotten extends Component {
       email: this.state.email,
     };
 
-    this.props.resetPassword(userData);
+    this.props.resetPassword(userData, this.props.history);
   }
 
   render() {
