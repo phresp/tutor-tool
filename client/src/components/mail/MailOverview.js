@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
-import moment from "moment";
 
-import { getTemplates } from "../../actions/mailActions";
+import { getTemplates, deleteTemplate } from "../../actions/mailActions";
+import axios from "axios";
 
 const { SearchBar } = Search;
 
@@ -33,6 +33,21 @@ class MailOverview extends Component {
       );
     };
 
+    const deleteButton = (cell, row, rowIndex, formatExtraData) => {
+      return (
+        <button
+          onClick={() => {
+            axios.delete(`/api/mail/deletetemplate/${row._id}`).then((res) => {
+              window.location.reload();
+            });
+          }}
+          className="btn btn-danger"
+        >
+          Vorlage löschen!
+        </button>
+      );
+    };
+
     const columns = [
       {
         dataField: "name",
@@ -44,6 +59,11 @@ class MailOverview extends Component {
         header: "Edit",
         id: "links",
         formatter: betrachtenButton,
+      },
+      {
+        text: "Delete",
+        header: "Delete",
+        formatter: deleteButton,
       },
     ];
 
@@ -90,6 +110,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getTemplates })(
+export default connect(mapStateToProps, { getTemplates, deleteTemplate })(
   withRouter(MailOverview)
 );

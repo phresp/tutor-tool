@@ -367,4 +367,18 @@ router.post(
   }
 );
 
+// @route   DELETE api/mail/deletetemplate/:id
+// @desc    Delete mail template
+// @access  Private
+router.delete(
+  "/deletetemplate/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //Update Template
+    MailTemplate.findOneAndDelete({ _id: req.params.id })
+      .then(() => res.json({ success: true }))
+      .catch((err) => res.status(404).json(err));
+  }
+);
+
 module.exports = router;

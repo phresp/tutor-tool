@@ -65,6 +65,21 @@ export const editTemplate = (id, templateData, history) => (dispatch) => {
     );
 };
 
+//Edit Template
+export const deleteTemplate = (id, history) => (dispatch) => {
+  axios
+    .post(`/api/mail/deletetemplate/${id}`)
+    .then((res) => {
+      history.push("/mail-overview");
+    })
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
 //Send Testmail
 export const sendMail = (mailData, history) => (dispatch) => {
   axios
