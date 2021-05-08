@@ -175,6 +175,11 @@ class TutorApplicationView extends Component {
             sort: true,
           },
           {
+            dataField: "weeklyhourspertutor",
+            text: "Weekly Hours",
+            sort: true,
+          },
+          {
             dataField: "advisor",
             text: "Advisor",
             sort: true,
@@ -230,6 +235,12 @@ class TutorApplicationView extends Component {
               back
             </Link>
             <h1 className="display-4 text-center">Courses to Apply</h1>
+            <h6 className="text-center">
+              Note: For most lectures, the contract will be split in lecture
+              period and lecture-free period. Weekly hours will vary in the two
+              periods.
+            </h6>
+            <hr />
             {applicationTooltip}
             {applicationTable}
           </div>
