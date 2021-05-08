@@ -309,6 +309,12 @@ router.post(
   "/application/new",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateRentalsInput(req.body);
+    //Check Validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
     //Get fields
     const rentalsApplicationFields = {};
     rentalsApplicationFields.profile = req.body.profile;
@@ -371,7 +377,7 @@ The Tutorteam will contact you for further details.`;
 );
 
 // @route   POST api/rentals/application/:id
-// @desc    Edit Rental
+// @desc    Edit Rentalapplication
 // @access  Private
 router.post(
   "/application/:id",

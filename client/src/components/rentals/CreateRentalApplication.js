@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
-import SelectListGroup from "../common/SelectListGroup";
+
 import { getCurrentProfile } from "../../actions/profileActions";
 import { createRentalApplication } from "../../actions/rentalActions";
 
@@ -84,6 +83,12 @@ class CreateRentalApplication extends Component {
 
   render() {
     const errors = this.state.errors;
+    var deviceserror = <div></div>;
+    if (errors.leihgeräte) {
+      deviceserror = (
+        <h6 className="text-danger text-center">{errors.leihgeräte}</h6>
+      );
+    }
 
     return (
       <div className={"create-rental"}>
@@ -97,28 +102,28 @@ class CreateRentalApplication extends Component {
               <small className="d-block pb-3">* = necessary fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="Firstname"
+                  placeholder="* Firstname"
                   onChange={this.onChange}
                   value={this.state.vorname}
                   name="vorname"
                   error={errors.vorname}
                 />
                 <TextFieldGroup
-                  placeholder="Lastname"
+                  placeholder="* Lastname"
                   onChange={this.onChange}
                   value={this.state.name}
                   name="name"
                   error={errors.name}
                 />
                 <TextFieldGroup
-                  placeholder="Tum-ID"
+                  placeholder="* TUM-ID (e.g. „go42tum“)"
                   onChange={this.onChange}
                   value={this.state.tumid}
                   name="tumid"
                   error={errors.tumid}
                 />
                 <TextFieldGroup
-                  placeholder="Email"
+                  placeholder="* Email"
                   onChange={this.onChange}
                   value={this.state.email}
                   name="email"
@@ -126,28 +131,28 @@ class CreateRentalApplication extends Component {
                 />
                 <h6>Address</h6>
                 <TextFieldGroup
-                  placeholder="Street"
+                  placeholder="* Street"
                   onChange={this.onChange}
                   value={this.state.strasse}
                   name="strasse"
                   error={errors.strasse}
                 />
                 <TextFieldGroup
-                  placeholder="City Code"
+                  placeholder="* City Code"
                   onChange={this.onChange}
                   value={this.state.plz}
                   name="plz"
                   error={errors.plz}
                 />
                 <TextFieldGroup
-                  placeholder="City"
+                  placeholder="* City"
                   onChange={this.onChange}
                   value={this.state.ort}
                   name="ort"
                   error={errors.ort}
                 />
                 <TextFieldGroup
-                  placeholder="Telephone Number"
+                  placeholder="* Telephone Number"
                   onChange={this.onChange}
                   value={this.state.telefonnummer}
                   name="telefonnummer"
@@ -184,7 +189,7 @@ class CreateRentalApplication extends Component {
                       value={this.state.mikrofon}
                     />
                     <label className="form-check-label" htmlFor="mikrofon">
-                      Mikrofon
+                      Microphone (including tripod desk stand)
                     </label>
                   </div>
                   <div className="form-check form-check-inline">
@@ -232,10 +237,11 @@ class CreateRentalApplication extends Component {
                       value={this.state.stativ}
                     />
                     <label className="form-check-label" htmlFor="stativ">
-                      Mikrofonstativ
+                      Additional Microphone Stand
                     </label>
                   </div>
                 </div>
+                {deviceserror}
                 <input
                   type="submit"
                   value="Submit"
