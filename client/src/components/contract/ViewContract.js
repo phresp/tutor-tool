@@ -79,7 +79,7 @@ class ViewContract extends Component {
 
     var contractdata1 = (
       <div>
-        <h5>Main Contract</h5>
+        <h5>Tutor-Contract</h5>
         <p className="lead text-muted">
           Contractstart: {moment(this.state.contractstart).format("DD/MM/YYYY")}
         </p>
@@ -94,11 +94,7 @@ class ViewContract extends Component {
     if (this.state.contractstart2) {
       var contractdata2 = (
         <div>
-          <h5>Secondary Contract</h5>
-          <h6>
-            This is an additional (splitted) contract if there are changes
-            during the occupation
-          </h6>
+          <hr />
           <p className="lead text-muted">
             Contractstart:{" "}
             {moment(this.state.contractstart2).format("DD/MM/YYYY")}
@@ -210,7 +206,7 @@ class ViewContract extends Component {
                       : "table-success"
                   }`}
                 >
-                  <th scope="row">Merkblatt Tutorbetrieb</th>
+                  <th scope="row">Merkblatt Tutorbetrieb *</th>
                   <td>{englishFormatter(contractdata.merkblatt)}</td>
                   <td>
                     <button
