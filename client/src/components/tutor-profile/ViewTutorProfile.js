@@ -185,7 +185,7 @@ class ViewTutorProfile extends Component {
 
     if (verfassungsPruefung.indexOf(this.state.nationality) !== -1) {
       verfassungsPruefungTooltipNationality = (
-        <h3 className="text-danger">Verfassungsprüfung Necessary!</h3>
+        <h3 className="text-danger">Verfassungsprüfung notwendig!</h3>
       );
     } else {
       verfassungsPruefungTooltipNationality = <div></div>;
@@ -193,7 +193,7 @@ class ViewTutorProfile extends Component {
 
     if (verfassungsPruefung.indexOf(this.state.countryofbirth) !== -1) {
       verfassungsPruefungTooltipCountryofbirth = (
-        <h3 className="text-danger">Verfassungsprüfung Necessary!</h3>
+        <h3 className="text-danger">Verfassungsprüfung notwendig!</h3>
       );
     } else {
       verfassungsPruefungTooltipCountryofbirth = <div></div>;
@@ -201,7 +201,7 @@ class ViewTutorProfile extends Component {
 
     if (verfassungsPruefung.indexOf(this.state.nationality2) !== -1) {
       verfassungsPruefungTooltipNationality2 = (
-        <h3 className="text-danger">Verfassungsprüfung Necessary!</h3>
+        <h3 className="text-danger">Verfassungsprüfung notwendig!</h3>
       );
     } else {
       verfassungsPruefungTooltipNationality2 = <div></div>;
