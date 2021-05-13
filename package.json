@@ -41,6 +41,7 @@
     "nodemailer": "^6.4.17",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "passport-saml": "^2.2.0",
     "prettier": "^2.1.2",
     "sendmail": "^1.6.1",
     "validator": "^13.1.17"
