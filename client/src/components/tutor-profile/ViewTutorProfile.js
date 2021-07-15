@@ -29,6 +29,7 @@ class ViewTutorProfile extends Component {
       stipendiumend: "",
       degree: "",
       currentfieldofstudy: "",
+      role: "",
       disabled: true,
       errors: {},
     };
@@ -83,6 +84,10 @@ class ViewTutorProfile extends Component {
       profile.aufenthaltend = !isEmpty(profile.aufenthaltend)
         ? profile.aufenthaltend
         : "";
+      profile.role = !isEmpty(profile.user.role)
+        ? profile.user.role
+        : "Student";
+      profile.handle = !isEmpty(profile.handle) ? profile.handle : "";
 
       //Set component fields state
       this.setState({
@@ -99,6 +104,8 @@ class ViewTutorProfile extends Component {
         degree: profile.degree,
         stipendiumend: profile.stipendiumend,
         aufenthaltend: profile.aufenthaltend,
+        role: profile.role,
+        handle: profile.handle,
       });
     }
   }
@@ -120,6 +127,8 @@ class ViewTutorProfile extends Component {
       degree: this.state.degree,
       stipendiumend: this.state.stipendiumend,
       aufenthaltend: this.state.aufenthaltend,
+      role: this.state.role,
+      handle: this.state.handle,
     };
     this.props.updateProfileOfId(
       profileData,
@@ -219,7 +228,7 @@ class ViewTutorProfile extends Component {
     }
 
     return (
-      <div className={"create-profile"}>
+      <div className={"view-profile"}>
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">

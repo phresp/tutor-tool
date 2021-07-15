@@ -311,7 +311,6 @@ router.post(
     if (profileFields.handle) {
       profileFields.handle = req.body.handle.toUpperCase();
     }
-
     Profile.findOneAndUpdate(
       { _id: req.params.id },
       { $set: profileFields },

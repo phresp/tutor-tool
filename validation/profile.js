@@ -19,9 +19,6 @@ module.exports = function validateProfileInput(data) {
     data.birthday = !isEmpty(data.birthday) ? data.birthday : "";
     data.gender = !isEmpty(data.gender) ? data.gender : "";
     data.nationality = !isEmpty(data.nationality) ? data.nationality : "";
-    // data.matrikelnummer = !isEmpty(data.matrikelnummer)
-    //   ? data.matrikelnummer
-    //   : "";
 
     if (Validator.isEmpty(data.birthday)) {
       errors.birthday = "Birthday field is required";
@@ -34,15 +31,6 @@ module.exports = function validateProfileInput(data) {
     if (Validator.isEmpty(data.nationality)) {
       errors.nationality = "Yout Nationality is required";
     }
-
-    // if (Validator.isEmpty(data.matrikelnummer)) {
-    //   errors.matrikelnummer = "Your Matrikelnummer is required";
-    // }
-    //
-    // if (!Validator.isLength(data.matrikelnummer, { min: 7, max: 8 })) {
-    //   errors.matrikelnummer =
-    //     "Your Matrikelnumber must be between 7 and 8 characters";
-    // }
   } else {
     data.handle = !isEmpty(data.handle) ? data.handle : "";
 
