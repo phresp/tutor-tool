@@ -38,10 +38,11 @@ router.get(
   (req, res) => {
     //Check authorization
     const errors = {};
-    // if (!(req.user.role === "Admin" || "Supervisor")) {
-    //   errors.profile = "Unzureichende Berechtigung";
-    //   res.status(401).json(errors.profile);
-    // }
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
 
     MailTemplate.find()
       .then((templates) => {
@@ -66,10 +67,11 @@ router.get(
   (req, res) => {
     //Check authorization
     const errors = {};
-    // if (!(req.user.role === "Admin" || "Supervisor")) {
-    //   errors.profile = "Unzureichende Berechtigung";
-    //   res.status(401).json(errors.profile);
-    // }
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     MailTemplate.findOne({ _id: req.params.id })
       .then((template) => {
         if (!template) {
@@ -84,34 +86,34 @@ router.get(
   }
 );
 
-// @route   POST api/mail/testmail
-// @desc    send Testmail
-// @access  Private
-router.post(
-  "/testmail",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    const transporter = nodemailer.createTransport({
-      host: "mail.in.tum.de",
-      port: 465,
-      auth: {
-        user: mailuser,
-        pass: mailsecret,
-      },
-    });
-
-    const mailFields = {};
-    mailFields.from = "spanner@in.tum.de";
-    mailFields.to = "philipp.spanner@googlemail.com";
-    mailFields.subject = "Object Test";
-    mailFields.text = "YoHiVo";
-    console.log(mailFields);
-    // send email
-    await transporter.sendMail(mailFields);
-
-    return res.status(200).json("success");
-  }
-);
+// // @route   POST api/mail/testmail
+// // @desc    send Testmail
+// // @access  Private
+// router.post(
+//   "/testmail",
+//   passport.authenticate("jwt", { session: false }),
+//   async (req, res) => {
+//     const transporter = nodemailer.createTransport({
+//       host: "mail.in.tum.de",
+//       port: 465,
+//       auth: {
+//         user: mailuser,
+//         pass: mailsecret,
+//       },
+//     });
+//
+//     const mailFields = {};
+//     mailFields.from = "xxx";
+//     mailFields.to = "xxx";
+//     mailFields.subject = "Object Test";
+//     mailFields.text = "YoHiVo";
+//     console.log(mailFields);
+//     // send email
+//     await transporter.sendMail(mailFields);
+//
+//     return res.status(200).json("success");
+//   }
+// );
 
 // @route   POST api/mail/sendmail
 // @desc    send Mail
@@ -125,6 +127,12 @@ router.post(
       //Return any errors with 400 status
       return res.status(500).json(errors);
     }
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
+
     if (req.body.to === "Alle Tutoren") {
       Profile.find({ receivemails: true })
         .populate("user", ["email", "role"])
@@ -329,6 +337,12 @@ router.post(
   "/template",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     //Get Body Fields
     const templateFields = {};
     templateFields.name = req.body.name;
@@ -374,6 +388,12 @@ router.delete(
   "/deletetemplate/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     //Update Template
     MailTemplate.findOneAndDelete({ _id: req.params.id })
       .then(() => res.json({ success: true }))

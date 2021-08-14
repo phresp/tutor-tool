@@ -18,6 +18,12 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === ("Admin" || "RBG"))) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     Rentalstats.find()
       .then((rentalstats) => res.json(rentalstats))
       .catch((err) =>
@@ -33,6 +39,12 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === ("Admin" || "RBG"))) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     //Get Body Fields
     const rentalstatsFields = {};
     rentalstatsFields.ipad = req.body.ipad;

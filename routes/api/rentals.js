@@ -40,6 +40,12 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === ("Admin" || "RBG"))) {
+      console.log("here");
+      errors.rentalerror = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.rentalerror);
+    }
     Rentals.find()
       .sort({ date: -1 })
       .then((rentals) => res.json(rentals))
@@ -54,6 +60,11 @@ router.get(
 // @access  Private
 router.get("/:id", (req, res) => {
   const errors = {};
+  if (!(req.user.role === ("Admin" || "Supervisor"))) {
+    console.log("here");
+    errors.rentals = "Unzureichende Berechtigung";
+    return res.status(401).json(errors.rentals);
+  }
   Rentals.findOne({ _id: req.params.id })
     .then((rental) => {
       res.json(rental);
@@ -136,6 +147,11 @@ router.post(
       //If not valid, send 400 with errors
       res.status(400).json(errors);
     }
+    if (!(req.user.role === ("Admin" || "RBG"))) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     //Get fields
     const rentalsFields = {};
     rentalsFields.name = req.body.name;
@@ -200,6 +216,12 @@ router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === ("Admin" || "RBG"))) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     Rentals.findById(req.params.id)
       .then((rental) => {
         // Delete
@@ -218,6 +240,12 @@ router.post(
   "/download/rentalform",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === ("Admin" || "RBG"))) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     const formdata = {
       name: req.body.name + ", " + req.body.vorname,
       tumid: req.body.tumid,

@@ -206,6 +206,12 @@ router.post(
   "/updateaccounttype",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     const accountFields = {};
     accountFields.role = req.body.role;
     User.findOneAndUpdate(
@@ -225,6 +231,13 @@ router.get(
   "/createinvitationkey",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
+
     var invitekey = Math.random().toString(36).slice(-10);
     Invitaion.findOne({ invitationkey: invitekey }).then((key) => {
       if (key) {

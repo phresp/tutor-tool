@@ -19,7 +19,6 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const errors = {};
     Semester.find()
       .then((semester) => {
         if (!semester) {
@@ -61,6 +60,11 @@ router.post(
       //Return any errors with 400 status
       return res.status(400).json(errors);
     }
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     //Check if Semester Name is already there
     Semester.findOne({ name: req.body.name.toUpperCase() }).then((semester) => {
       if (semester) {
@@ -97,6 +101,11 @@ router.post(
     if (!isValid) {
       //If not valid, send 400 with errors
       return res.status(400).json(errors);
+    }
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
     }
 
     Semester.findOne({ name: req.body.name.toUpperCase() }).then((semester) => {
@@ -135,6 +144,12 @@ router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     Semester.findById(req.params.id)
       .then((semester) => {
         // Delete

@@ -58,6 +58,12 @@ router.post(
   "/upload",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     var formFields = {};
     formFields.lastchange = req.user.id;
     formFields.date = Date.now();
@@ -135,6 +141,7 @@ router.post(
             res.send(buf);
           })
           .catch((err) => {
+            console.log(err);
             res.status(404).json("something wrong here" + err);
           });
       })

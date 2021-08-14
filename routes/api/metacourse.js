@@ -61,6 +61,11 @@ router.post(
       //Return any errors with 400 status
       return res.status(400).json(errors);
     }
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     //Check if Metacourse Name is already there
     Metacourse.findOne({ name: req.body.name.toUpperCase() }).then(
       (metacourse) => {
@@ -96,6 +101,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateMetacourseInput(req.body);
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     //Check validation
     if (!isValid) {
       //If not valid, send 400 with errors
@@ -139,6 +149,12 @@ router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     Metacourse.findById(req.params.id)
       .then((metacourse) => {
         // Delete
