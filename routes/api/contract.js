@@ -107,6 +107,11 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     Contract.find()
       .populate({
         path: "course",
@@ -382,6 +387,12 @@ router.post(
       return res.status(400).json(errors);
     }
 
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
+
     //Get Body Fields
     const contractFields = {};
     contractFields.user = req.body.user;
@@ -432,6 +443,12 @@ router.post(
     if (!isValid) {
       //Return any errors with 400 status
       return res.status(400).json(errors);
+    }
+
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
     }
 
     //Get Body Fields
@@ -494,6 +511,13 @@ router.delete(
   "/deletecontract/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
+
     Contract.findOne({
       _id: req.params.id,
     })

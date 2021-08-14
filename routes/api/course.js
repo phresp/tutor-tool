@@ -166,7 +166,13 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Validate Input fields
-    var errors = {};
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
+
     //Get Metacourse ID
     const semester = !isEmpty(req.body.semester) ? req.body.semester : "";
     const metacourse = !isEmpty(req.body.metacourse) ? req.body.metacourse : "";
@@ -273,7 +279,12 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Validate Input fields
-    var errors = {};
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     //Get Metacourse ID
     const semester = !isEmpty(req.body.semester) ? req.body.semester : "";
     const metacourse = !isEmpty(req.body.metacourse) ? req.body.metacourse : "";
@@ -382,7 +393,12 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     //Validate Input fields
-    var errors = {};
+    const errors = {};
+    if (!(req.user.role === "Supervisor")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
 
     Course.findOne({
       _id: req.params.id,
@@ -421,6 +437,12 @@ router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
+    if (!(req.user.role === "Admin")) {
+      console.log("here");
+      errors.profile = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.profile);
+    }
     Course.findById(req.params.id)
       .then((course) => {
         // Delete
