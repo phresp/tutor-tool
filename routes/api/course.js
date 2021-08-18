@@ -168,7 +168,6 @@ router.post(
     //Validate Input fields
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -281,7 +280,6 @@ router.post(
     //Validate Input fields
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -395,7 +393,6 @@ router.post(
     //Validate Input fields
     const errors = {};
     if (!(req.user.role === "Supervisor")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -429,7 +426,6 @@ router.post(
   }
 );
 
-// TODO: FURTHER REMOVES THAT COME WITH REMOVED COURSE
 // @route   DELETE /api/course/:id
 // @desc    DELETE Course
 // @access  Private
@@ -439,7 +435,6 @@ router.delete(
   (req, res) => {
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }

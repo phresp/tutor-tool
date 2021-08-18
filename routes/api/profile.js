@@ -93,7 +93,6 @@ router.get(
     //Check authorization
     const errors = {};
     if (!(req.user.role === ("Admin" || "Supervisor"))) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }

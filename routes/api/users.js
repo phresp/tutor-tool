@@ -208,7 +208,6 @@ router.post(
   (req, res) => {
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -233,7 +232,6 @@ router.get(
   (req, res) => {
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -268,7 +266,7 @@ router.post("/resetpassword", (req, res) => {
       const newPW = {
         password: randomPW,
       };
-
+      console.log(randomPW);
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newPW.password, salt, (err, hash) => {
           if (err) throw err;
@@ -309,7 +307,7 @@ router.post("/resetpassword", (req, res) => {
               // send email
               transporter.sendMail(mailFields);
 
-              res.json(user);
+              res.status(200).json({ user: "Password reset" });
             })
             .catch((err) => res.json(err));
         });

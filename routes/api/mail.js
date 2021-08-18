@@ -39,7 +39,6 @@ router.get(
     //Check authorization
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -68,7 +67,6 @@ router.get(
     //Check authorization
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -128,7 +126,6 @@ router.post(
       return res.status(500).json(errors);
     }
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -339,7 +336,6 @@ router.post(
   (req, res) => {
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }
@@ -390,7 +386,6 @@ router.delete(
   (req, res) => {
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }

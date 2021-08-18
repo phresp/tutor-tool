@@ -60,7 +60,6 @@ router.post(
   (req, res) => {
     const errors = {};
     if (!(req.user.role === "Admin")) {
-      console.log("here");
       errors.profile = "Unzureichende Berechtigung";
       return res.status(401).json(errors.profile);
     }

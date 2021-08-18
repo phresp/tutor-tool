@@ -120,7 +120,6 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
-
     Application.find()
       .populate("profile")
       .populate({
@@ -174,7 +173,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({ user: req.user.id }).then((profile) => {
-      var errors;
+      const errors = {};
       const newApp = {
         user: req.user.id,
         profile: profile.id,
@@ -215,7 +214,6 @@ router.post(
   "/update/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    var errors;
     const updateApp = {
       grade: req.body.grade,
       priority: req.body.priority,
@@ -238,7 +236,6 @@ router.post(
   "/comment/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    var errors;
     const commentApp = {
       comment: req.body.comment,
       commentdate: Date.now(),
@@ -281,8 +278,6 @@ router.delete(
   }
 );
 
-//TODO: only Admin and advisor
-
 // @route   POST /api/application/accept/:id
 // @desc    POST Applicationupdate for course
 // @access  Private
@@ -290,7 +285,11 @@ router.post(
   "/accept/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    var errors;
+    const errors = {};
+    if (!(req.user.role === ("Admin" || "Supervisor"))) {
+      errors.application = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.application);
+    }
     const updateApp = {
       status: "Accepted",
     };
@@ -311,7 +310,6 @@ router.post(
   "/decline/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    var errors;
     const updateApp = {
       status: "Declined",
     };
@@ -332,8 +330,11 @@ router.post(
   "/applied/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    var errors;
-
+    const errors = {};
+    if (!(req.user.role === ("Admin" || "Supervisor"))) {
+      errors.application = "Unzureichende Berechtigung";
+      return res.status(401).json(errors.application);
+    }
     const updateApp = {
       status: "Applied",
     };
