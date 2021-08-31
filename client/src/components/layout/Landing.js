@@ -19,12 +19,17 @@ class Landing extends Component {
               <div className="col-md-12 text-center">
                 <h1 className="display-3 mb-4">Tutor-Tool</h1>
                 <hr />
-                <Link to="/register" className="btn btn-lg btn-info mr-2">
-                  Registrieren
-                </Link>
-                <Link to="/login" className="btn btn-lg btn-light">
-                  Einloggen
-                </Link>
+                <h3>The Tutortool is currently under construction!</h3>
+                <h3>
+                  Please see the{" "}
+                  <a
+                    href="https://www.in.tum.de/fuer-studierende/tutorbetrieb-der-fakultaet-fuer-informatik/"
+                    className={"text-white"}
+                  >
+                    Tutorbetrieb Webpage
+                  </a>{" "}
+                  for open positions
+                </h3>
               </div>
             </div>
           </div>
