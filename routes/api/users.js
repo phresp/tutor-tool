@@ -22,6 +22,9 @@ const User = require("../../models/User");
 //Load Invitation model
 const Invitaion = require("../../models/Invitation");
 
+//Load Invitation model
+const Token = require("../../models/Token");
+
 // @route   GET /api/users/test
 // @desc    Tess users route
 // @access  Public
@@ -101,8 +104,7 @@ router.post("/advisorregistration/:id", (req, res) => {
     return res.status(400).json(errors);
   }
   Invitation.findOne({ invitationkey: req.params.id }).then((key) => {
-    //TODO: Change Back to two days - This was changed for testing purposes
-    var twodays = 20 * 24 * 60 * 60 * 1000; /* ms */
+    var twodays = 2 * 24 * 60 * 60 * 1000; /* ms */
     if (new Date(Date.now()) - key.date < twodays) {
       User.findOne({ email: req.body.email.toLowerCase() }).then((user) => {
         if (user) {
@@ -162,7 +164,6 @@ router.post("/login", (req, res) => {
       errors.email = "User not found";
       return res.status(404).json(errors);
     }
-
     //Check Password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -198,6 +199,10 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+// @route   GET /api/users/shibboleth
+// @desc    Login via shibboleth
+// @access  Public
 
 // @route   POST api/users/updateaccounttype
 // @desc    Update the account type of the user
@@ -255,61 +260,121 @@ router.get(
   }
 );
 
-// @route   POST /api/users/resetpassword
-// @desc    Reset User Password
+// @route   POST /api/users/createpasswordtoken
+// @desc    Create Token for Password Reset
 // @access  Public
-router.post("/resetpassword", (req, res) => {
+router.post("/createpasswordtoken", (req, res) => {
   User.findOne({ email: req.body.email.toLowerCase() }).then((user) => {
     if (user) {
-      var randomPW = Math.random().toString(36).slice(-10);
+      crypto.randomBytes(48, function (err, buffer) {
+        var newtoken = buffer.toString("hex");
+        Token.findOne({ token: newtoken }).then((token) => {
+          if (token) {
+            errors.token = "Token already exists";
+            return res.status(400).json(errors);
+          } else {
+            const newEntry = new Token({
+              token: newtoken,
+              usage: "PWReset",
+              user: user._id,
+            });
+            newEntry
+              .save()
+              .then((key) => {
+                //create Transporter
+                const transporter = nodemailer.createTransport({
+                  host: "mail.in.tum.de",
+                  port: 465,
+                  auth: {
+                    user: mailuser,
+                    pass: mailsecret,
+                  },
+                });
+                var mailText = `Hello,
 
-      const newPW = {
-        password: randomPW,
-      };
-      console.log(randomPW);
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newPW.password, salt, (err, hash) => {
-          if (err) throw err;
-          newPW.password = hash;
-          User.findOneAndUpdate(
-            { email: req.body.email.toLowerCase() },
-            { $set: newPW },
-            { new: true }
-          )
-            .then((user) => {
-              //create Transporter
-              const transporter = nodemailer.createTransport({
-                host: "mail.in.tum.de",
-                port: 465,
-                auth: {
-                  user: mailuser,
-                  pass: mailsecret,
-                },
-              });
-              var mailText = `Hello,
-
-      your password has been reset!
-      Please login to your account and change it.
+      a password reset Token has been created
+      Please click this Link to reset your password:
       
-      Your new password is: ${randomPW}
+      localhost:8000/resetpassword/${newtoken}
       
       If this has not been you please contact the Tutorstaff
 
       Sincerely,
       The Tutorteam.`;
 
-              //Get Body Values
-              const mailFields = {};
-              mailFields.from = "tutorbetrieb@in.tum.de";
-              mailFields.to = req.body.email.toLowerCase();
-              mailFields.subject = "Password Reset";
-              mailFields.text = mailText;
-              // send email
-              transporter.sendMail(mailFields);
+                //Get Body Values
+                const mailFields = {};
+                mailFields.from = "tutorbetrieb@in.tum.de";
+                mailFields.to = req.body.email.toLowerCase();
+                mailFields.subject = "Password Reset";
+                mailFields.text = mailText;
+                // send email
+                transporter.sendMail(mailFields);
+                res.status(200).json({ user: "Token created" });
+              })
+              .catch((err) => res.status(404).json(err));
+          }
+        });
+      });
+    }
+  });
+});
 
-              res.status(200).json({ user: "Password reset" });
-            })
-            .catch((err) => res.json(err));
+// @route   POST /api/users/resetpassword/:id
+// @desc    Reset User Password
+// @access  Public
+router.post("/resetpassword/:id", (req, res) => {
+  Token.findOne({ token: req.params.id }).then((found) => {
+    if (found) {
+      crypto.randomBytes(48, function (err, buffer) {
+        var token = buffer.toString("hex").slice(-10);
+        const newPW = {
+          password: token,
+        };
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newPW.password, salt, (err, hash) => {
+            if (err) throw err;
+            const newPW = { password: hash };
+            User.findOneAndUpdate(
+              { _id: found.user },
+              { $set: newPW },
+              { new: true }
+            )
+              .then((user) => {
+                //create Transporter
+                const transporter = nodemailer.createTransport({
+                  host: "mail.in.tum.de",
+                  port: 465,
+                  auth: {
+                    user: mailuser,
+                    pass: mailsecret,
+                  },
+                });
+                var mailText = `Hello,
+
+      your password has been reset!
+      Please login to your account and change it.
+      
+      Your new password is: ${token}
+      
+      If this has not been you please contact the Tutorstaff
+
+      Sincerely,
+      The Tutorteam.`;
+                //Get Body Values
+                const mailFields = {};
+                mailFields.from = "tutorbetrieb@in.tum.de";
+                mailFields.to = user.email.toLowerCase();
+                mailFields.subject = "New Password";
+                mailFields.text = mailText;
+                // send email
+                transporter.sendMail(mailFields);
+                Token.findOneAndDelete({ token: req.params.id }).then(() =>
+                  res.status(200).json({ user: "Password reset" })
+                );
+              })
+              .catch((err) => res.json(err));
+          });
         });
       });
     }

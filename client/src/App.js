@@ -79,6 +79,7 @@ import RentalstatsConfig from "./components/rentals/RentalstatsConfig";
 import CreateRentalApplication from "./components/rentals/CreateRentalApplication";
 import RentalApplicationOverview from "./components/rentals/RentalApplicationOverview";
 import CreateRentalFromApplication from "./components/rentals/CreateRentalFromApplication";
+import ResetPassword from "./components/auth/ResetPassword";
 
 import "./App.css";
 
@@ -121,6 +122,11 @@ class App extends Component {
                 exact
                 path="/password-forgotten"
                 component={PasswordForgotten}
+              />
+              <Route
+                exact
+                path="/resetpassword/:id"
+                component={ResetPassword}
               />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />

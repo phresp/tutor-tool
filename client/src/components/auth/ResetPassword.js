@@ -1,20 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { createpasswordtoken } from "../../actions/authActions";
+import { resetPassword } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 
-class PasswordForgotten extends Component {
+class ResetPassword extends Component {
   constructor() {
     super();
-    this.state = {
-      email: "",
-      errors: {},
-    };
-
-    this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -34,22 +27,12 @@ class PasswordForgotten extends Component {
     }
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
   onSubmit(e) {
     e.preventDefault();
-    const userData = {
-      email: this.state.email,
-    };
-
-    this.props.createpasswordtoken(userData, this.props.history);
+    this.props.resetPassword(this.props.match.params.id, this.props.history);
   }
 
   render() {
-    const { errors } = this.state;
-
     return (
       <div className="login">
         <div className="container">
@@ -58,15 +41,6 @@ class PasswordForgotten extends Component {
               <h1 className="display-4 text-center">Reset Your Password</h1>
 
               <form onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  placeholder="Email Address"
-                  type="email"
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  name="email"
-                  error={errors.email}
-                />
-
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
@@ -77,17 +51,13 @@ class PasswordForgotten extends Component {
   }
 }
 
-PasswordForgotten.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-};
+ResetPassword.propTypes = {};
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { createpasswordtoken })(
-  withRouter(PasswordForgotten)
+export default connect(mapStateToProps, { resetPassword })(
+  withRouter(ResetPassword)
 );
