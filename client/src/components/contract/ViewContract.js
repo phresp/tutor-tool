@@ -329,19 +329,6 @@ class ViewContract extends Component {
                 </tr>
                 <tr
                   className={`${
-                    contractdata.krankenkassenbescheinigung === "Fehlt"
-                      ? "table-danger"
-                      : "table-success"
-                  }`}
-                >
-                  <th scope="row">Krankenkassenbescheinigung</th>
-                  <td>
-                    {englishFormatter(contractdata.krankenkassenbescheinigung)}
-                  </td>
-                  <td></td>
-                </tr>
-                <tr
-                  className={`${
                     contractdata.personalbogenbezuegestelle === "Fehlt"
                       ? "table-danger"
                       : "table-success"
@@ -372,9 +359,10 @@ class ViewContract extends Component {
                   }`}
                 >
                   <th scope="row">
-                    Personalbogen Studierende * Note: Please also hand in all
-                    employment references of previous employments with the TUM -
-                    if applicable
+                    Personalbogen Studierende * Note: In case of prior
+                    employments at German Universities and/or German research
+                    institutes, a proof of employment (a certificate or contract
+                    copy) has to be submitted
                   </th>
                   <td>
                     {englishFormatter(contractdata.personalbogenstudierende)}

@@ -295,7 +295,7 @@ router.post("/createpasswordtoken", (req, res) => {
       a password reset Token has been created
       Please click this Link to reset your password:
       
-      localhost:8000/resetpassword/${newtoken}
+      https://tutorbetrieb.in.tum.de/resetpassword/${newtoken}
       
       If this has not been you please contact the Tutorstaff
 

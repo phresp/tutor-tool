@@ -1094,7 +1094,8 @@ class EditContract extends Component {
                     type="button"
                     onClick={() => {
                       this.setState((prevState) => ({
-                        displayContractsplitting: !prevState.displayContractsplitting,
+                        displayContractsplitting:
+                          !prevState.displayContractsplitting,
                       }));
                     }}
                     className={color}
@@ -1186,18 +1187,6 @@ class EditContract extends Component {
                 />
                 {immatrikulationNextSemLabel}
                 {immatrikulationNextSem}
-                <label htmlFor="krankenkassenbescheinigung">
-                  Krankenkassenbescheinigung:
-                </label>
-                <ContractSelectListGroup
-                  placeholder="krankenkassenbescheinigung"
-                  onChange={this.onChange}
-                  value={this.state.krankenkassenbescheinigung}
-                  name="krankenkassenbescheinigung"
-                  error={errors.krankenkassenbescheinigung}
-                  options={formsOptions}
-                  color={this.state.krankenkassenbescheinigung}
-                />
                 <label htmlFor="personalbogenbezuegestelle">
                   Personalbogen Bezügestelle:
                 </label>

@@ -240,8 +240,8 @@ class CreateContract extends Component {
 
     var contractcourse;
     if (this.props.application.application) {
-      contractcourse = this.props.application.application.course.metacourse
-        .name;
+      contractcourse =
+        this.props.application.application.course.metacourse.name;
     }
 
     //Select options for Forms
@@ -854,7 +854,8 @@ class CreateContract extends Component {
                     type="button"
                     onClick={() => {
                       this.setState((prevState) => ({
-                        displayContractsplitting: !prevState.displayContractsplitting,
+                        displayContractsplitting:
+                          !prevState.displayContractsplitting,
                       }));
                     }}
                     className={color}
@@ -943,18 +944,6 @@ class CreateContract extends Component {
                 />
                 {immatrikulationNextSemLabel}
                 {immatrikulationNextSem}
-                <label htmlFor="krankenkassenbescheinigung">
-                  Krankenkassenbescheinigung:
-                </label>
-                <ContractSelectListGroup
-                  placeholder="krankenkassenbescheinigung"
-                  onChange={this.onChange}
-                  value={this.state.krankenkassenbescheinigung}
-                  name="krankenkassenbescheinigung"
-                  error={errors.krankenkassenbescheinigung}
-                  options={formsOptions}
-                  color={this.state.krankenkassenbescheinigung}
-                />
                 <label htmlFor="personalbogenbezuegestelle">
                   Personalbogen Bezügestelle:
                 </label>
